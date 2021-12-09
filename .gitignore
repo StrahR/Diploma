@@ -1,3 +1,9 @@
+## User-defined ignores
+.vscode/
+__latexindent_temp.tex
+VzorecDela.*
+main.pdf
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
