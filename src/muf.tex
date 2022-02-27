@@ -1,13 +1,21 @@
-% Kodiranje in podpora slovenščini
-\usepackage[T1]{fontenc}        % kodiranje znakov v .pdf
-
-\usepackage[utf8]{luainputenc} % Please turn on and off
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{luainputenc}
 \usepackage{fontspec}
 \usepackage{lualatex-math}
 \usepackage{unicode-math}
-\usepackage[backend=biber,bibencoding=utf8]{biblatex}
+\usepackage[backend=biber,bibencoding=utf8,backref=true]{biblatex}
+\usepackage{hyperxmp}
+\usepackage[pdfa]{hyperref}
+\hypersetup{%
+    unicode,
+    pdfapart=1,
+    pdfaconformance=B,
+    pdfauthor={Strah},
+    pdfdate={\today},
+    pdftitle={Kvantni algebrajski učinki},
+}
 
-\usepackage[style=german]{csquotes}
 
 % \setmainfont{TeX Gyre Pagella}
 % \setmathfont{TeX Gyre Pagella Math}
@@ -27,11 +35,13 @@
 
 \usepackage{minted}
 
+\usepackage[style=german]{csquotes}
 \usepackage{stmaryrd}
 
-\usepackage{ulem}
+\usepackage[normalem]{ulem}
 \renewcommand{\ULdepth}{1.8pt}
 \newcommand{\ul}[1]{\uline{#1}}
+
 
 \newtheorem{theorem}{Izrek}
 \newtheorem{statement}{Trditev}
@@ -42,9 +52,25 @@
 \newtheorem{definition}{Definicija}
 
 \newtheorem*{example}{Primer}
+\newtheorem*{example*}{Primer}
+\newtheorem*{examples}{Primeri}
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Opomba}
+
+\newcounter{axiom}
+\setcounter{axiom}{0}
+\renewcommand\theaxiom{\Alph{axiom}}
+\newenvironment{axiom}[2][-1]{
+    \ifnum#1>0
+        \refsetcounter{axiom}{#1}
+    \fi
+    \refstepcounter{axiom}
+    \setlength\parindent{0pt}
+    \ifblank{#2}{}{\vskip.5em #2\par}
+    \textbf{Aksiom \theaxiom.}
+}{
+}
 
 % \topmargin=-0.45in
 % \evensidemargin=0in
@@ -53,9 +79,11 @@
 % \textheight=9.0in
 % \headsep=0.25in
 
-\RequirePackage{array}
-\renewcommand{\arraystretch}{2}
-\linespread{0.5}
+% \RequirePackage{array}
+% \renewcommand{\arraystretch}{1.4}
+% \renewcommand{\arraystretch}{2}
+% \linespread{0.5}
+% \linespread{1.111}
 
 \textwidth 15cm
 \textheight 24cm
@@ -83,7 +111,8 @@
 \newcommand{\eps}{\varepsilon}
 \renewcommand{\hat}{\widehat}
 \renewcommand{\tilde}{\widetilde}
-\renewcommand{\bar}{\overline}
+% \newcommand{\oldbar}{\bar}
+% \renewcommand{\bar}{\overline}
 \newcommand{\subs}{\subseteq}
 \newcommand{\nin}{\not\in}
 
@@ -96,6 +125,7 @@
 \newcommand{\mc}[1]{\mathcal{#1}}
 
 \newcommand{\had}{\mathtt{Had}}
+\newcommand{\swap}{\mathtt{swap}}
 \newcommand{\hh}[1][]{\mathbf{h}_{#1}}
 \newcommand{\B}[1][]{\mathbf{B}_{#1}}
 \renewcommand{\H}[1][]{\mathbf{H}_{#1}}
@@ -103,8 +133,9 @@
 \renewcommand{\L}[2][]{\mathcal{L}_{#1}{\p{#2}}}
 \newcommand{\g}[1]{\mathtt{#1}}
 \newcommand{\D}[1]{D{\p{\g{#1}}}}
+\newcommand{\U}[1][]{\mathbf{U}_{#1}}
 \newcommand{\ctl}[1]{\g{c#1}}
-\newcommand{\ctlo}[1]{\g{\bar{c}#1}}
+\newcommand{\ctlo}[1]{\g{\bar c} \g #1}
 
 \newcommand{\cmd}[1]{\text{\sffamily#1}}
 \newcommand{\eff}[1]{\text{\sffamily\ul{#1}}}
@@ -147,3 +178,6 @@
 \newcommand{\listintertext@@}[1]{% \listintertext{#1}
   \hspace{-\leftmargin}#1}
 \makeatother
+
+
+\input{pdfacode}
