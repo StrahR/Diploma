@@ -1,13 +1,13 @@
 \documentclass[a4paper,slovene]{article}
 \usepackage[slovene]{babel}
 
-\input{muf.tex}
-
 \title{Kvantni algebrajski učinki}
 % \title{Quantum Algebraic Effects}
-\author{Strah}
+\author{Strah,\quad mentor: doc.~dr.~Matija~Pretnar}
 % \mentor{doc.~dr.~Matija~Pretnar}
 \date{\today}
+
+\input{muf.tex}
 
 \addbibresource{draft.bib}
 
@@ -69,14 +69,14 @@ Skozi ta del bomo uporabljali naslednje oznake:
 \end{remark}
 
 \begin{definition}[Hilbertov prostor]\label{hilb-sp}
-    Elementom prostora \( \H[n] ≔ \C^{2ⁿ} \) pravimo kvantni vektorji, elementom \( \H ≔ \H[1] \) pa kubiti.  Prostoru \( \H[n] \) torej pravimo prostor kvantnih vektorjev reda \( n \), njegovo standardno bazo pa označimo z \( \{eⱼ\} \). Tu se izvajajo kvantni programi.
+    Elementom prostora \( \HH[n] ≔ \C^{2ⁿ} \) pravimo kvantni vektorji, elementom \( \HH ≔ \HH[1] \) pa kubiti.  Prostoru \( \HH[n] \) torej pravimo prostor kvantnih vektorjev reda \( n \), njegovo standardno bazo pa označimo z \( \{eⱼ\} \). Tu se izvajajo kvantni programi.
 \end{definition}
 
 \begin{definition}[Braket notacija]\label{braket}
     Naj bo \( j \in \{0, \dots, 2ⁿ-1\} \), ter \( \hat{\jmath} \in \B[n] \) pripadajoč vektor v binarnem zapisu. Potem je \( \ket j = \ket{\hat{\jmath}} ≔ eⱼ \).
 \end{definition}
 \begin{remark}
-    Po definiciji je torej \( \H[n] = \L[\C]{\set{\ket j}{j\in\B[n]}} \).
+    Po definiciji je torej \( \HH[n] = \LL[\C]{\set{\ket j}{j\in\B[n]}} \).
 \end{remark}
 
 \begin{example}[\( n = 1 \) in \( n = 2 \)]
@@ -142,9 +142,9 @@ Skozi ta del bomo uporabljali naslednje oznake:
 \subsection{Tenzorski produkt}
 
 \begin{definition}[Tenzorski produkt]\label{tensorprod}
-    Tenzorski produkt prostorov \( \H[n] \) in \( \H[m] \) je enak \( \H[n+m] \).
-    Pišemo \( \H[n] ⊗\H[m] \).
-    Če sta \( a\in\H[n] \) in \( b\in\H[m] \) je \( a⊗b \in \H[n]⊗\H[m] \).
+    Tenzorski produkt prostorov \( \HH[n] \) in \( \HH[m] \) je enak \( \HH[n+m] \).
+    Pišemo \( \HH[n] ⊗\HH[m] \).
+    Če sta \( a\in\HH[n] \) in \( b\in\HH[m] \) je \( a⊗b \in \HH[n]⊗\HH[m] \).
 \end{definition}
 \begin{remark}
     Operator \(⊗\) je res tenzorski produkt.
@@ -165,12 +165,12 @@ Skozi ta del bomo uporabljali naslednje oznake:
     \begin{align*}
         &\hh[n] = \hh^{⊗n}
         = ρⁿ\underbrace{(\ket 0 + \ket 1) ⊗ \dots ⊗ \p{\ket 0 + \ket 1}}_n,\\
-        &\H[n] = \H^{⊗n} = \underbrace{\H ⊗ \dots ⊗ \H}_n.
+        &\HH[n] = \HH^{⊗n} = \underbrace{\HH ⊗ \dots ⊗ \HH}_n.
     \end{align*}
 \end{examples}
 
 \begin{definition}
-    Če lahko \( a\in\H[n] \) zapišemo kot \( \bigotimes_{j=1}^{n} aⱼ \) za neke \( aⱼ\in\H \) pravimo, da je enostaven ali separabilen, sicer je pa sestavljen oziroma kvantno prepleten.
+    Če lahko \( a\in\HH[n] \) zapišemo kot \( \bigotimes_{j=1}^{n} aⱼ \) za neke \( aⱼ\in\HH \) pravimo, da je enostaven ali separabilen, sicer je pa sestavljen oziroma kvantno prepleten.
 \end{definition}
 
 \subsection{Kvantne preslikave}
@@ -207,11 +207,11 @@ Skozi ta del bomo uporabljali naslednje oznake:
 \end{definition}
 
 \begin{theorem}[No cloning]\label{no-cloning}
-    Ne obstajajo vrata reda \( 2 \), ki vsak vektor \(a ⊗\ket{0}\in \H ⊗\H\) slika v \(a⊗a\).
+    Ne obstajajo vrata reda \( 2 \), ki vsak vektor \(a ⊗\ket{0}\in \HH ⊗\HH\) slika v \(a⊗a\).
 \end{theorem}
 
 \begin{proof}
-    Naj bo \(U\) tak, da za vsak \( a \in \H \) velja \( U{\p{a⊗\ket0}} = a⊗a \).\\
+    Naj bo \(U\) tak, da za vsak \( a \in \HH \) velja \( U{\p{a⊗\ket0}} = a⊗a \).\\
     Potem za \( \hh ⊗\ket0 = ρ(\ket{00} + \ket{10}) \) velja:
     \[
         U{\p{ρ(\ket{00} + \ket{10})}} =
@@ -520,7 +520,7 @@ Osnovni aksiomi na kratko:
 %         = \measure{b}{\new{a}{x{\p a}}}{\new{a}{y{\p a}}}\label{ax-12}
 % \end{gather}
 
-% \apply{X}{a}{\apply{\H}{b}{x{\p{a,b}}}} = \apply{\H}{b}{\apply{X}{a}{x{\p{a,b}}}}
+% \apply{X}{a}{\apply{\HH}{b}{x{\p{a,b}}}} = \apply{\HH}{b}{\apply{X}{a}{x{\p{a,b}}}}
 \begin{example}[Izpeljava enakosti projekcije na \(z\)-os in naključno rotacijo faze]
     Dokaz uporabi identiteti \( \ctl X . \swap . \ctl X \overset{\dagger}{=} \swap . \ctl X . \swap \) in \( \swap . \ctl X . \swap \overset{\ddagger}{=} (\had⊗I) . \ctl Z . (\had⊗I) \)
     \begin{align*}
