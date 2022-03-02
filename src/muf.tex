@@ -1,43 +1,4 @@
-% \pdfvariable majorversion 1 % PDF version 1.7
-% \pdfvariable minorversion 7
-
-% \usepackage{cmap}
-% \usepackage[T1]{fontenc}
-\usepackage{fontspec}
-\usepackage{lualatex-math}
-\usepackage{unicode-math}
-\usepackage{polyglossia}
-\usepackage[backend=biber,bibencoding=utf8,backref=true]{biblatex}
-\usepackage[cmyk,hyperref]{xcolor}
-
-% \setmainfont{TeX Gyre Pagella}
-% \setmathfont{TeX Gyre Pagella Math}
-\setmathfont{Latin Modern Math}
-\setmathfont{Asana Math}[range={scr}]
-\setmathfont{STIX Two Math-Regular}[range={bb}]
-% \setmathfont{Asana Math}[range={"007B,"007D}]  % {}
-\setmathfont{Asana Math}[range={8709}]  % U+2205, emptyset
-\setmainlanguage{slovene}
-\DeclareLanguageMapping{slovenian}{slovene}
-
-% \usepackage{mathtools}
-\usepackage{amsthm}
-
-\usepackage[braket]{qcircuit}
-\usepackage{tikz}
-\usetikzlibrary{babel}
-\usetikzlibrary{angles,quotes}
-
-\usepackage{minted}
-
-\usepackage[style=german]{csquotes}
-\usepackage{stmaryrd}
-
-\usepackage[normalem]{ulem}
-\renewcommand{\ULdepth}{1.8pt}
-\newcommand{\ul}[1]{\uline{#1}}
-
-
+% LTeX: enabled=false
 \newtheorem{theorem}{Izrek}
 \newtheorem{statement}{Trditev}
 \newtheorem{lemma}{Lema}
@@ -67,34 +28,6 @@
 }{
 }
 
-% \topmargin=-0.45in
-% \evensidemargin=0in
-% \oddsidemargin=0in
-% \textwidth=6.5in
-% \textheight=9.0in
-% \headsep=0.25in
-
-% \RequirePackage{array}
-% \renewcommand{\arraystretch}{1.4}
-% \renewcommand{\arraystretch}{2}
-% \linespread{0.5}
-% \linespread{1.111}
-
-\textwidth 15cm
-\textheight 24cm
-\oddsidemargin.5cm
-\evensidemargin.5cm
-\topmargin-5mm
-\addtolength{\footskip}{10pt}
-\pagestyle{plain}
-\overfullrule=15pt
-
-
-% \renewcommand\headrulewidth{0.4pt}
-% \renewcommand\footrulewidth{0.4pt}
-
-% \setlength\parindent{0pt}
-
 \newcommand{\N}{\mathbb N}
 \newcommand{\Z}{\mathbb Z}
 \newcommand{\Q}{\mathbb Q}
@@ -123,9 +56,9 @@
 \newcommand{\swap}{\mathtt{swap}}
 \newcommand{\hh}[1][]{\mathbf{h}_{#1}}
 \newcommand{\B}[1][]{\mathbf{B}_{#1}}
-\newcommand{\HH}[1][]{\mathbf{H}_{#1}}
+\renewcommand{\H}[1][]{\mathbf{H}_{#1}}
 \renewcommand{\S}{\mathbb{S}}
-\newcommand{\LL}[2][]{\mathcal{L}_{#1}{\p{#2}}}
+\renewcommand{\L}[2][]{\mathcal{L}_{#1}{\p{#2}}}
 \newcommand{\g}[1]{\mathtt{#1}}
 \newcommand{\D}[1]{D{\p{\g{#1}}}}
 \newcommand{\U}[1][]{\mathbf{U}_{#1}}
@@ -157,9 +90,7 @@
 \newcommand{\airquotes}[1]{"`#1"'}
 \shorthandoff{"}
 
-% \newcommand{\for}[2]{\forall#1.\;#2}
-% \newcommand{\exist}[2]{\exists#1\smallni:\;#2}
-% \newcommand{\existi}[2]{\exists!#1\smallni:\;#2}
+\newmintinline[qpl]{ocaml}{escapeinside=||, autogobble}
 
 \makeatletter
 \newcommand{\oset}[3][0ex]{%
@@ -168,8 +99,6 @@
     \hbox{$\scriptstyle#2$}\vss}}}}
 \makeatother
 
-\newmintinline[qpl]{ocaml}{escapeinside=||, autogobble}
-
 \makeatletter
 \newcommand{\listintertext}{\@ifstar\listintertext@\listintertext@@}
 \newcommand{\listintertext@}[1]{% \listintertext*{#1}
@@ -177,51 +106,3 @@
 \newcommand{\listintertext@@}[1]{% \listintertext{#1}
   \hspace{-\leftmargin}#1}
 \makeatother
-
-\usepackage{hyperxmp}[2020/03/01]
-\RequirePackage[pdfa,pdfapart=1,pdfaconformance=B]{hyperref}
-
-% \definecolor{citecolor}{cmyk}{0,0.6,0,0}
-% \hypersetup{pdfencoding=auto, psdextra, pdflang=sl, pdfmetalang=en,
-%   bookmarksopen, bookmarksdepth=3,
-%   unicode,
-%   pdfapart=1,
-%   pdfaconformance=B,
-%   pdfauthor={Strah},
-%   pdfdate={2022-02-28},
-%   pdftitle={Kvantni algebrajski učinki},
-%   pdfsubject={matematika},
-%   pdfstartview=,
-%   citecolor={citecolor},
-%   hypertexnames=false,% use guessable names for links
-%   linktocpage=true,
-%   plainpages=false,           % Forces page anchors to be named by the Arabic form  of the page number, rather than the formatted form
-%   colorlinks,
-%   breaklinks,
-% }
-
-
-\hypersetup{pdfencoding=auto, psdextra,
-bookmarksopen, bookmarksdepth=3,
-pdfauthor={Strah},
-pdftitle={Kvantni algebrajski učinki},
-pdfsubject={matematika},}
-
-\makeatletter
-% Bugfix of hyperref to produce CMYK links
-\let\HyColor@HyperrefBorderColor\HyColor@XZeroOneThreeFour
-\makeatother
-
-% \hypersetup{%
-%     pdfdisplaydoctitle=true,
-%     pdfversionid=1,
-%     pdftrapped=False,
-%     pdfapart=1,
-%     pdfaconformance=B,
-%     pdfstartpage={},
-%     urlbordercolor=red
-% }
-
-\usepackage[a-1b,latxmp,mathxmp]{pdfx}
-
-% \input{pdfacode}

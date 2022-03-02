@@ -1,0 +1,120 @@
+% Úτƒ-8 encoded
+%%%% PDF/A PDF/X setup part %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Variables initiating  %%%
+\newcounter{colourmode}
+\newcounter{pdftype}
+\newcounter{iccinsert}
+
+%% Control of colour mode and pdf type
+\setcounter{colourmode}{1}  % 0 --- undefined; 1 --- cmyk (always for pdf/x); 2 --- rgb
+\setcounter{pdftype}{2}     % 0 --- undefined; 1 --- pdf/x; 2 --- pdf/a
+\setcounter{iccinsert}{0}   % 0 --- don't upload icc cmyk inside pdf/x; 1 --- upload icc cmyk inside pdf/x;
+\newcommand{\pdfapart}{1}        % PDF/A part
+\newcommand{\pdfaconformance}{B} % PDF/A conformance
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Defining function to check compiler %%%
+
+% % http://tug.org/TUGboat/tb37-1/tb115hagen-pdf.pdf
+% \ifnum\luatexversion>81
+%     \RequirePackage{luatex85}
+% \else
+% \fi
+\pdfvariable objcompresslevel 0%
+\pdfvariable minorversion 7%
+\pdfvariable inclusioncopyfonts 1% If positive, this parameter forces pdfTEX to include fonts from a pdf file loaded with \pdfximage, even if those fonts are available on disk. Bigger files might be created, but included pdf files are sure to be embedded with the adequate fonts; indeed, the fonts on disk might be different from the embedded ones, and glyphs might be missing.
+
+\RequirePackage{etoolbox}[2015/08/02]
+
+%%%% PDF/A PDF/X setup part END %%%%
+
+%%% Main class setting %%%
+
+\documentclass[a4paper,10pt]{article}
+
+%%%% Setting options for russian language that follows.
+\usepackage[tuenc]{fontspec}[2016/02/01]
+\usepackage{polyglossia}[2014/05/21]
+\setmainlanguage{slovene}
+% \setotherlanguage{english}
+\defaultfontfeatures{Ligatures=TeX}
+% \setmathfont{Latin Modern Math}
+%    \setmainfont{DejaVu Serif}
+%    \newfontfamily\cyrillicfont{DejaVu Serif}
+%    \setsansfont{DejaVu Sans}
+%    \newfontfamily\cyrillicfontsf{DejaVu Sans}
+%    \setmonofont{DejaVu Sans Mono}
+%    \newfontfamily{\cyrillicfonttt}{DejaVu Sans Mono}
+\setmainfont{CMU Serif}
+\setsansfont{CMU Sans Serif}
+\setmonofont{CMU Typewriter Text}
+\newfontfamily\cyrillicfont{CMU Serif} % Uncomment if asked to define cyrillic fonts.
+\newfontfamily\cyrillicfontsf{CMU Sans Serif} % Uncomment if asked to define cyrillic fonts.
+\newfontfamily\cyrillicfonttt{CMU Typewriter Text} % Uncomment if asked to define cyrillic fonts.
+
+
+%%% Colours
+\ifboolexpr{test {\ifnumequal{\value{colourmode}}{1}} or test {\ifnumequal{\value{pdftype}}{1}}}{
+    \usepackage[dvipsnames, table, hyperref, cmyk]{xcolor}  % cmyk colours --- needed for PDF/X, questionable for PDF/A
+}{%
+    \ifnumequal{\value{colourmode}}{2}{%
+        \usepackage[dvipsnames, table, hyperref, rgb]{xcolor}  % rgb colours
+    }{%
+        \usepackage[dvipsnames, table, hyperref]{xcolor}
+    }
+}
+
+
+\usepackage{tikz}
+    \usetikzlibrary{arrows.meta}
+
+
+\newcommand{\docTitle}{Kvantni algebrajski učinki --- PDF/A and PDF/X test document}
+\newcommand{\docAuthor}{Strah ČŠŽčšž}
+\newcommand{\AuthorURL}{https://muf.moe} 
+\title{\docTitle}
+\author{\docAuthor}
+
+%%% Hyperlinks %%%
+\usepackage{hyperxmp}[2016/04/27] % extended pdf options
+\ifnumless{\value{pdftype}}{2}{%
+    \usepackage{hyperref}[2012/11/06]
+}{%
+    \usepackage[pdfa]{hyperref}[2012/11/06] %The default value of the new option 'pdfa' is 'false'. It influences  the loading of the package and cannot be changed after hyperref is  loaded. Hyperxmp also uses it and set pdf/a xmp options
+}
+
+
+\definecolor{citecolor}{cmyk}{0,0.6,0,0}
+
+\hypersetup{% 
+    unicode=true,
+    pdftitle={\docTitle},
+    pdfauthor={\docAuthor},
+    pdfcopyright={This work is licensed under MIT License},
+    pdfsubject={Subject}, 
+    pdfkeywords={PDF/A} {PDF/X} {TeX} {LaTeX} {Typesetting},
+    % pdflicenseurl={http://creativecommons.org/licenses/by/4.0/},
+    pdfmetalang={en},
+    pdflang={sl},
+%    pdfdate={\today},
+    bookmarksopen=true,
+    bookmarksopenlevel=3,
+    hypertexnames=false,% use guessable names for links
+    linktocpage=true,
+    plainpages=false,           % Forces page anchors to be named by the Arabic form  of the page number, rather than the formatted form
+    colorlinks,
+    breaklinks,
+    citecolor={citecolor},
+        pdfcontacturl = {\AuthorURL},
+        pdfcontactcity = {Ljubljana},
+        pdfcontactcountry = {Slovenia},
+        pdfcontactemail = {some\_mail@mail.si},
+}
+
+\input{pdfaxcode}
+
+\begin{document}
+\maketitle
+test
+\end{document}
