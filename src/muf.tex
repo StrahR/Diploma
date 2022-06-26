@@ -1,14 +1,13 @@
 % LTeX: enabled=false
-\newtheorem{theorem}{Izrek}
-\newtheorem{statement}{Trditev}
-\newtheorem{lemma}{Lema}
+\newtheorem{theorem}{Izrek}[section]
+\newtheorem{proposition}[theorem]{Trditev}
+\newtheorem{lemma}[theorem]{Lema}
 \newtheorem*{corrolary}{Posledica}
 
 \theoremstyle{definition}
-\newtheorem{definition}{Definicija}
+\newtheorem{definition}[theorem]{Definicija}
 
 \newtheorem*{example}{Primer}
-\newtheorem*{example*}{Primer}
 \newtheorem*{examples}{Primeri}
 
 \theoremstyle{remark}
@@ -29,15 +28,12 @@
 }
 
 \renewcommand{\d}{\;\mathrm d}
-% \newcommand{\vphi}{\phi}
-\renewcommand{\phi}{\varphi}
-\newcommand{\eps}{\varepsilon}
 \renewcommand{\hat}{\widehat}
 \renewcommand{\tilde}{\widetilde}
-% \newcommand{\oldbar}{\bar}
 % \renewcommand{\bar}{\overline}
 \newcommand{\subs}{\subseteq}
 \newcommand{\nin}{\not\in}
+\newcommand{\contradiction}{\quad\lightning}
 
 \newcommand{\p}[1]{\left( {#1} \right)}
 \newcommand{\set}[2]{\left\{ #1 \mid #2 \right\}}
@@ -58,8 +54,8 @@
 \newcommand{\swap}{\mathtt{swap}}
 \newcommand{\hh}[1][]{\mathbf{h}_{#1}}
 \newcommand{\B}[1][]{\mathbf{B}_{#1}}
+\newcommand{\M}[1][]{\mathbf{M}_{#1}}
 \renewcommand{\H}[1][]{\mathbf{H}_{#1}}
-\renewcommand{\S}{\mathbb{S}}
 \renewcommand{\L}[2][]{\mathcal{L}_{#1}{\p{#2}}}
 \newcommand{\g}[1]{\mathtt{#1}}
 \newcommand{\D}[1]{D{\p{\g{#1}}}}
@@ -70,7 +66,7 @@
 \newcommand{\cstarcpu}{\cat{Cstar}_{\textrm{CPU}}}
 \newcommand{\brat}[2]{\cat{Brat}{\arity{#1}{#2}}}
 
-\newcommand{\op}[1]{\text{\sffamily#1}}
+\newcommand{\op}[1]{\text{\sffamily#1}}  %TODO: fix italics in theorem env
 \newcommand{\cmd}[1]{\text{\sffamily#1}}
 \newcommand{\eff}[1]{\text{\sffamily\ul{#1}}}
 \newcommand{\enew}{\eff{new}{\p{}}}

@@ -2,8 +2,231 @@
 
 \subsection{Modeli algebrajskih teorij z linearnimi parametri}
 
+% \subsubsection{Algebrajska teorija z linearnimi parametri}
+
+\begin{definition}[Členost]
+    Členost, \(\arity{p}{m₁, …, mₖ}\), je naravno število \(p\) skupaj s seznamom naravnih števil \(mᵢ\).
+% \end{definition}
+% \begin{definition}
+    Signatura z linearnimi parametri je množica operacij s členostmi.
+    Neformalno to pove, da operacija \(\op O\) sprejme \(p\) parametrov in \(k\) računskih spremenljivk, kjer \(i\)-ta veže \(mᵢ\) parametrov.
+    Pišemo \(\op O : \arity{p}{m₁, …, mₖ}\).
+\end{definition}
+
+% TODO: define judgement
+
+\begin{example}
+    \begin{gather*}
+        \op{new}          : \arity{0}{1}\qquad
+        \op{measure}      : \arity{1}{0, 0}\qquad
+        \op{apply}_{\g U} : \arity{n}{n}
+    \end{gather*}
+\end{example}
+
+\begin{example}
+    %TODO: elaborate
+    \[\begin{prooftree}
+        \hypo{\sequent{Γ}{Δ, a}{         t } }
+      \infer1{\sequent{Γ}{Δ   }{\tnew{a}{t}} }
+  \end{prooftree}\quad
+  \begin{prooftree}
+        \hypo{\sequent{Γ}{Δ   }{             t    } }
+        \hypo{\sequent{Γ}{Δ   }{                u } }
+      \infer2{\sequent{Γ}{Δ, a}{\tmeasure{a}{t}{u}} }
+  \end{prooftree}\]
+  \[\begin{prooftree}
+        \hypo{\sequent{Γ}{Δ, a₁, …, aₙ}{                      t }}
+      \infer1{\sequent{Γ}{Δ, a₁, …, aₙ}{\tapply{U}{a₁, …, aₙ}{t}}}
+  \end{prooftree}\]
+\end{example}
+
+\begin{definition}[Aksiomi]
+    %TODO: define term
+    Aksiom v neki signaturi je par izrazov v istem kontekstu; pišemo \(\seq{t=u}\).
+    Predstavitev teorije je signatura skupaj z množico aksiomov.
+\end{definition}
+
 \subsection{Semantika kvantnega programskega jezika}
 
 \subsection{\texorpdfstring{\(C^*\)-algebre}{C*-algebre}}
 
+\begin{definition}
+    Množica \(A\) je \(C^*\)-algebra, če:
+    \begin{enumerate}[(a)]
+        \item je normiran \(ℂ\)-vektorski prostor,
+        \item ima množenje in enoto zanj,
+        \item ima involucijo \((-)^*\),
+        \item za vsak \(x ∈ A\) velja \(\|x\|² = \|x^*x\|\).
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    \(C^*\) se prebere kot \airquotes{c zvezdica}.
+\end{remark}
+\begin{remark}
+    Fiziki involucijo pogosto označujejo z \((-)^\dagger\) zaradi zgodovinskih razlogov.
+\end{remark}
+
+\begin{definition}
+    Za \(C^*\)-algebri \(A\) in \(B\) je preslikava \(f : A → B\) \(*\)-homomorfizem, če je linearna in ohranja množenje, enoto, ter involucijo.
+\end{definition}
+\begin{remark}
+    \(*\)-homorfizem se prebere kot \airquotes{zvezdica homomorfizem}.
+\end{remark}
+
+\begin{example}
+    Množica kompleksnih \(n×n\) matrik \( \M[n] ≔ Mₙ(ℂ) \), kjer za normo vzamemo determinanto in za involucijo hermitsko transponiranje, je \(C^*\)-algebra.
+    Res, lastnosti (a) do (c) držijo (to vemo od prej), lastnost (d) je pa preprosto preveriti: \(\det{A^{H}A} = \det{A^H}\det{A} = \p{\det{A}}²\).
+\end{example}
+
+\begin{definition}
+    %TODO: finish definition
+    Direktna vsota \(C^*\)-algeber \(X⊕Y\) je kartezičen produkt množic z operacijami definiranimi po komponentah.
+\end{definition}
+
+\begin{example}
+    %TODO: finish definition
+    Za vsako \(C^*\)-algebro \(X\) je tudi množica \(n×n\) matrik nad \(X\) \(C^*\)-algebra.
+    Označimo jo z \(Mₙ(X)\).
+\end{example}
+
+\begin{proposition}
+    \(C*\)-algebre skupaj z \(*\)-homomorfizmi tvorijo kategorijo \(\cstar\).
+\end{proposition}
+
+\begin{proof}
+    %TODO
+\end{proof}
+
+%TODO: definition of C*-algebras as models
+
+\subsection{Polnost za meritev}
+%TODO: add motivation/explanation about why we don't model new
+
+\begin{definition}
+    Operacijo \(\op{measure}\) interpretiramo z \(*\)-homomorfizmom \( \op{measure} : \semmap{1}{0, 0} \) s predpisom \[\smeasure{α}{β} = \p{\mat{α & 0 \\ 0 & β}}.\]
+\end{definition}
+\begin{definition}
+    %TODO: consider like 3×3 unitaries
+    Za \(U ∈ \U[p]\) interpretiramo operacijo \(\op{apply}_{\g U}\) z \(*\)-homomorfizmom \( \op{apply}_{\g U} : \semmap{p}{p}\) s predpisom \(\sapply{U}{A} = U^*AU.\)
+\end{definition}
+\begin{remark}
+    TODO: beseda o členosti operacij
+\end{remark}
+
+\begin{proposition}
+    %TODO: subtheory?
+    %TODO: reword?
+    Kompleksna števila \(ℂ ∈ \cstar\) tvorijo model fragmenta kvantnega računalništva, ki vključuje operaciji \(\op{measure}\) in \(\op{apply}\) (ampak ne \(\op{new}\)) in vse relevantne aksiome ((A)–(C), (F)–(J)).
+\end{proposition}
+
+\begin{proof}
+    TODO
+\end{proof}
+
+\begin{theorem}[Polnost za meritev]
+    %TODO: prava polnost? univerzalnost/polnost?
+    Kompleksna števila tvorijo poln model:
+    \begin{enumerate}
+        \item Za vsak \(*\)-homomorfizem \(f : \semmap{p}{m₁,…,mₖ}\) obstaja term v algebrajski teoriji, ki ne vsebuje \(\op{new}\), tako da je \(t : \arity{p}{m₁,…,mₖ}\) in \(\sem{t} = f\).
+        \item Če \(\seq{t, u}\) ne vsebujeta \(\op{new}\) in \(\sem{t} = \sem{u}\) lahko izpeljemo \(\seq{t = u}\).
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    TODO
+\end{proof}
+
+\subsection{Polnost v splošnem}
+
+\begin{definition}
+    Element \(x\) \(C^*\)-algebre je pozitiven, če obstaja kak element \(y\), da je \(x = y^*y\).
+\end{definition}
+
+\begin{definition}
+    Preslikava \(f\) je popolnoma pozitivna, če za vsak \(k ∈ ℕ\) preslikava \(Mₖ(f)\) ohranja pozitivnost elementov.
+\end{definition}
+
+\begin{definition}
+    Preslikava \(f\) je eniška, če slika enoto v enoto.
+\end{definition}
+
+\begin{proposition}
+    \(C*\)-algebre skupaj s popolnoma pozitivnimi eniškimi preslikavami tvorijo kategorijo \(\cstarcpu\) (angl. \begin{otherlanguage}{en}Completeley Positive Unital maps\end{otherlanguage}).
+\end{proposition}
+\begin{proof}
+    TODO
+\end{proof}
+
+\begin{definition}
+    Operacijo \(\op{new}\) interpretiramo s preslikavo
+    \(\op{new} : \semmap{0}{1}\) s predpisom \[\snew{\mat{α₁₁ & α₁₂ \\ α₂₁ & α₂₂}} = α₁₁.\]
+\end{definition}
+
+%NOTE: maybe different notation operations and the interpretation morphisms
+\begin{proposition}
+    Preslikava \(\op{new}\) ni \(*\)-homomorfizem.
+\end{proposition}
+
+\begin{proof}
+    Denimo, da je. Potem je 
+    \[0 = \op{new}{\bmat{0&1\\0&0}}\op{new}{\bmat{0&0\\1&0}}
+        = \op{new}{\p{\bmat{0&1\\0&0}\bmat{0&0\\1&0}}}
+        = \op{new}\bmat{1&0\\0&0}
+        = 1 \contradiction\qedhere
+    \]
+\end{proof}
+
+\begin{proposition}
+    Preslikava \(\op{new}\) je popolnoma pozitivna in eniška.
+\end{proposition}
+
+\begin{proof}
+    TODO
+\end{proof}
+
+\begin{proposition}
+    %TODO: subtheory?
+    %TODO: reword?
+    Kompleksna števila \(ℂ ∈ \cstarcpu\) tvorijo model kvantnega računalništva.
+\end{proposition}
+
+\begin{proof}
+    TODO
+\end{proof}
+
+\begin{theorem}[Polnost v splošnem]
+    Kompleksna števila tvorijo poln model:
+    \begin{enumerate}
+        \item Za vsako popolnoma pozitivno eniško preslikavo \(f : \semmap{p}{m₁,…,mₖ}\) obstaja term v algebrajski teoriji, tako da je \(t : \arity{p}{m₁,…,mₖ}\) in \(\sem{t} = f\).
+        \item Če \(\seq{t, u}\) in \(\sem{t} = \sem{u}\) lahko izpeljemo \(\seq{t = u}\).
+    \end{enumerate}
+\end{theorem}
+
 \subsection{Dokaz polnosti}
+
+\begin{theorem}[Stinespringov izrek o dilaciji]
+    Naj bo \(f : \mc A → \M[p]\) CPU. Tedaj obstaja \(q ≥ p\) in \(*\)-homomorfizem \(g : \mc A → \M[q]\), tako da je \(f(A) = g(A)|ₚ\).
+    \[\begin{tikzcd}
+        A \\
+        {\M[q]} & {\M[p]}
+        \arrow[      from=2-1, to=2-2]
+        \arrow["g", from=1-1, to=2-1]
+        \arrow["f",  from=1-1, to=2-2]
+    \end{tikzcd}\]
+\end{theorem}
+
+\begin{theorem}[o minimalnosti dilacije]
+    Lahko izberemo minimalno dilacijo: če je \(r ≥ p\) in \( h : \mc A → \M[p] \) \(*\)-homomorfizem tak, da je \( h(-)|ₚ = f(-) \) je \(r ≥ q\) in \(g(-) = Uh(-)U^*|_q\) za neko \(r×r\) unitarno matriko.
+    % https://q.uiver.app/?q=WzAsNSxbMywwLCJBIl0sWzMsMSwiXFxNW3FdIl0sWzQsMSwiXFxNW3BdIl0sWzIsMSwiXFxNW3JdIl0sWzAsMSwiXFxNW3JdIl0sWzEsMl0sWzAsMSwiZyJdLFswLDIsImYiXSxbMywxXSxbNCwzLCJVKC0pVSoiLDFdLFswLDQsImgiLDJdLFs0LDIsIiIsMix7ImN1cnZlIjozfV1d
+    \[\begin{tikzcd}
+        &&& A \\
+        {\M[r]} && {\M[r]} & {\M[q]} & {\M[p]}
+        \arrow[from=2-4, to=2-5]
+        \arrow["g", from=1-4, to=2-4]
+        \arrow["f", from=1-4, to=2-5]
+        \arrow[from=2-3, to=2-4]
+        \arrow["{U(-)U*}"{description}, from=2-1, to=2-3]
+        \arrow["h"', from=1-4, to=2-1]
+        \arrow[curve={height=20pt}, from=2-1, to=2-5]
+    \end{tikzcd}\]
+\end{theorem}

@@ -56,10 +56,13 @@
 
 \RequirePackage[braket]{qcircuit}
 \RequirePackage{tikz}
+  \usetikzlibrary{cd}
   \usetikzlibrary{babel}
   \usetikzlibrary{angles,quotes}
-
+\RequirePackage{quiver}
+\RequirePackage{ebproof}
 \RequirePackage{minted}
+\RequirePackage{enumerate}
 
 \ifthenelse{\boolean{@english}}{
   \RequirePackage[style=english]{csquotes}
