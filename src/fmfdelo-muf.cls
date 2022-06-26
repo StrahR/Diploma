@@ -82,7 +82,7 @@
 % \setmathfont{TeX Gyre Pagella Math}
 \setmathfont{Latin Modern Math}
 \setmathfont{Asana Math}[range={scr}]
-\setmathfont{STIX Two Math-Regular}[range={bb}]
+\setmathfont{STIX Two Math-Regular}[range={bb,"1D538-"1D56B,"0211D}]
 \setmathfont{STIX Two Math-Regular}[range={"2102,"210D,"2115,"2119,"211A,"211D,"2124}]
 % \setmathfont{Asana Math}[range={"007B,"007D}]  % {}
 \setmathfont{Asana Math}[range={8709}]  % U+2205, emptyset
