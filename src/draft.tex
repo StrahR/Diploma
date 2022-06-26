@@ -1,0 +1,267 @@
+\documentclass[a4paper]{article}
+% Kodiranje in podpora slovenščini
+\usepackage[T1]{fontenc}        % kodiranje znakov v .pdf
+\usepackage[slovene]{babel}
+
+\usepackage{fontspec}
+\usepackage{lualatex-math}
+\usepackage{unicode-math}
+
+% \setmainfont{TeX Gyre Pagella}
+% \setmathfont{TeX Gyre Pagella Math}
+\setmathfont{Latin Modern Math}
+\setmathfont{Asana Math}[range={scr}]
+\setmathfont{STIX Two Math-Regular}[range={bb}]
+% \setmathfont{Asana Math}[range={"007B,"007D}]  % {}
+\setmathfont{Asana Math}[range={8709}]  % U+2205, emptyset
+
+% \usepackage{mathtools}
+\usepackage{amsthm}
+
+\usepackage[braket]{qcircuit}
+\usepackage{tikz}
+\usetikzlibrary{babel}
+\usetikzlibrary{angles,quotes}
+
+\usepackage{minted}
+
+\usepackage{stmaryrd}
+
+\newtheorem{theorem}{Izrek}
+\newtheorem{trditev}{Trditev}
+\newtheorem*{corrolary}{Posledica}
+\newtheorem{definition}{Definicija}
+\newtheorem{zgled}{Zgled}
+\newtheorem{lemma}{Lema}
+\newtheorem*{example}{Primer}
+\newtheorem*{opomba}{Opomba}
+
+% \topmargin=-0.45in
+% \evensidemargin=0in
+% \oddsidemargin=0in
+% \textwidth=6.5in
+% \textheight=9.0in
+% \headsep=0.25in
+
+\linespread{1.1}
+
+% \pagestyle{fancy}
+% \lhead{\hmwkAuthorName}
+% \chead{\hmwkClass:\ \hmwkTitle}
+% \rhead{\firstxmark}
+% \lfoot{\lastxmark}
+% \cfoot{\thepage}
+
+% \renewcommand\headrulewidth{0.4pt}
+% \renewcommand\footrulewidth{0.4pt}
+
+% \setlength\parindent{0pt}
+
+\title{Kvantni algebrajski učinki}
+% \title{Quantum Algebraic Effects}
+\author{Strah}
+% \mentor{doc.~dr.~Matija~Pretnar}
+\date{\today}
+
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\renewcommand{\d}{\;\mathrm d}
+% \newcommand{\vphi}{\phi}
+\renewcommand{\phi}{\varphi}
+\newcommand{\eps}{\varepsilon}
+\renewcommand{\hat}{\widehat}
+\renewcommand{\tilde}{\widetilde}
+\renewcommand{\bar}{\overline}
+\newcommand{\subs}{\subseteq}
+\newcommand{\nin}{\not\in}
+
+\newcommand{\p}[1]{\left( {#1} \right)}
+\newcommand{\set}[2]{\left\{ #1 \mid #2 \right\}}
+\newcommand{\newfrac}[2]{{}^{#1}\!/_{\!#2}}
+\newcommand{\im}[1]{\mathrm{im}{\p{#1}}}
+\newcommand{\mb}[1]{\mathbold{#1}}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+
+\newcommand{\had}{\mathtt{Had}}
+\newcommand{\hh}[1][]{\mathbf{h}_{#1}}
+\newcommand{\B}[1][]{\mathbf{B}_{#1}}
+\renewcommand{\H}[1][]{\mathbf{H}_{#1}}
+\renewcommand{\S}{\mathbb{S}}
+\renewcommand{\L}[2][]{\mathcal{L}_{#1}{\p{#2}}}
+\newcommand{\g}[1]{\mathtt{#1}}
+\newcommand{\D}[1]{D{\p{\g{#1}}}}
+\newcommand{\ctl}[1]{\g{c#1}}
+\newcommand{\ctlo}[1]{\g{\bar{c}#1}}
+
+\newcommand{\cmd}[1]{\textnormal{\sffamily#1}}
+\newcommand{\eff}[1]{\textnormal{\sffamily\ul{#1}}}
+\newcommand{\tnew}[2]{\cmd{new}{\p{#1.#2}}}
+\newcommand{\tapply}[3]{\cmd{apply}_{\g #1}{\p{#2.#3}}}
+\newcommand{\tmeasure}[3]{\cmd{measure}{\p{#1; #2,#3}}}
+\newcommand{\tdiscard}[2]{\cmd{discard}{\p{#1.#2}}}
+\newcommand{\new}[2]{\nu{#1}.\,#2}
+\newcommand{\apply}[3]{{\g #1}_{#2}{\p{#3}}}
+\renewcommand{\measure}[3]{#2 {\;?_{#1}\,} #3}
+\newcommand{\discard}[2]{\cmd{disc}_{#1}{\p{#2}}}
+
+\newcommand{\sequent}[3]{#1 \mid #2 \vdash #3}
+\newcommand{\seq}[1]{\sequent{\Gamma}{\Delta}{#1}}
+\newcommand{\sem}[2][]{{\llbracket#2\rrbracket}_{#1}}
+
+
+% \newcommand{\for}[2]{\forall#1.\;#2}
+% \newcommand{\exist}[2]{\exists#1\smallni:\;#2}
+% \newcommand{\existi}[2]{\exists!#1\smallni:\;#2}
+
+\makeatletter
+\newcommand{\oset}[3][0ex]{%
+  \mathrel{\mathop{#3}\limits^{
+    \vbox to#1{\kern-2\ex@
+    \hbox{$\scriptstyle#2$}\vss}}}}
+\makeatother
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  test
+\end{abstract}
+
+\section{Kvantno računalništvo ter algebrajski učinki in diagrami}
+\subsection{Kvantna mehanika}
+
+V tem delu bomo uporabljali naslednje oznake:
+\begin{itemize}
+    \item \( \N = \{0, \dots \}, \N_+ = \{1, \dots\} \),
+    \item \( n\in\N_+ \), ki mu bomo pravili število kubitov,
+    \item \( j, k, \dots \in \{0, \dots, 2^n\} \),
+    \item \( j = j_1\dots j_n \) binarni zapis števila \( j \).
+\end{itemize}
+
+\subsubsection{Kvantni vektorji}
+
+\begin{definition}
+    Binarni vektorji so elementi prostora \( \B[n] \coloneq 2^n \) in jih pišemo kot nize v binarnem zapisu.
+\end{definition}
+
+\begin{example}
+    \(\B[2] = \{00, 01, 10, 11\}\).
+\end{example}
+
+\begin{definition}
+    Elementom prostora \( \H[n] \coloneq \C^{2^n} \) pravimo kvantni vektorji, elementom \( \H \coloneq \H[1] \) pa kubiti.  Prostoru \( \H[n] \) pravimo prostor kvantnih vektorjev reda \( n \), njegovo standardno bazo pa označimo z \( \{e_j\} \).
+\end{definition}
+
+\begin{definition}%[Braket notacija]
+    Naj bo \( j \in \{0, \dots, 2^n-1\} \), ter \( \hat{\jmath} \in \B[n] \) pripadajoč vektor v binarnem zapisu. Potem je \( \ket j = \ket{\hat{\jmath}} \coloneq e_j \).
+\end{definition}
+\begin{opomba}
+    Po definiciji je torej \( \H[n] = \L[\C]{\set{\ket j}{j\in\B[n]}} \).
+\end{opomba}
+
+\begin{example}[\(n = 1\)]
+    \[ 
+        a = \begin{bmatrix}a_0 \\ a_1\end{bmatrix}
+            = a_0\ket 0 + a_1\ket 1
+            = a_0\begin{bmatrix}1 \\ 0\end{bmatrix} + a_1\begin{bmatrix}0 \\ 1\end{bmatrix}\text.\qedhere
+    \]
+\end{example}
+
+\begin{example}[\(n = 2\)]
+    \[
+        a = \begin{bmatrix}a_0\\ a_1\\ a_2\\ a_3\end{bmatrix}
+            = \begin{bmatrix}a_{00}\\ a_{01}\\ a_{10}\\ a_{11}\end{bmatrix}
+            = a_{00}\ket{00} + a_{01}\ket{01} + a_{10}\ket{10} + a_{11}\ket{11}\text.\qedhere
+    \]
+\end{example}
+
+\begin{example}%[Hadamardov vektor] % maybe skip this one?
+    \[
+        \hh \coloneq \rho \left(\ket 0 + \ket 1\right),\quad
+        \hh[n] \coloneq \rho^n\sum_{j\in\B[n]} \ket j,\quad
+        \rho \coloneq \frac{1}{\sqrt2}\text.\qedhere
+        \]
+\end{example}
+
+\subsubsection{Tenzorski produkt}
+
+\begin{definition}[Tenzorski produkt]
+    Tenzorski produkt prostorov \( \H[n] \) in \( \H[m] \) je enak \( \H[n+m] \).
+    Pišemo \( \H[n]\otimes\H[m] \). Če sta \( a\in\H[n] \) in \( b\in\H[m] \) je \( a\otimes b \in \H[n]\otimes\H[m] \).
+\end{definition}
+\begin{opomba}
+    Operator \(\otimes\) je res tenzorski produkt.
+\end{opomba}
+
+\begin{example}[\(n=m=1\)]
+    \[
+        \begin{bmatrix}a_0 \\ a_1\end{bmatrix}\otimes \begin{bmatrix}b_0 \\ b_1\end{bmatrix}
+        = \begin{bmatrix}a_0b_0\\ a_0b_1\\ a_1b_0\\ a_1b_1\end{bmatrix}\text.\qedhere
+    \]
+\end{example}
+
+\begin{example}
+    \[
+        \ket j \otimes \ket k = \ket{j\#k} \eqcolon \ket{jk},\quad
+        a\otimes b = \sum_{\substack{j\in\B[n],\\k\in\B[m]}} a_jb_k\ket{jk}.
+    \]
+\end{example}
+
+\begin{example}
+    \[
+        \hh[n] = \hh^{\otimes n} = \rho^n\underbrace{(\ket 0 + \ket 1)\otimes\dots\otimes(\ket 0 + \ket 1)}_n\text.\qedhere
+    \]
+\end{example}
+\begin{example}
+    \[\H[n] = \H^{\otimes n}\text.\qedhere\]
+\end{example}
+
+\begin{definition}
+    Če lahko \(a\in\H[n]\) zapišemo kot \(\bigotimes_{j=1}^{n} a_j; a_j\in\H\) pravimo, da je enostaven ali separabilen, sicer je pa sestavljen oziroma kvantno prepleten.
+\end{definition}
+
+
+\begin{definition}%[Unitarna vrata]
+    Unitarna vrata reda \( n \) so unitarna matrika dimenzije \( 2^n \).
+    Tenzorski produkt vrat \( U \otimes V = [u_{jk}V]_{j,k} \) uporabljen na \(a\otimes b\) je enak \( Ua \otimes Vb \).
+\end{definition}
+\begin{example}
+    \[
+        \begin{bmatrix}
+            a_{00} & a_{01} \\ a_{10} & a_{11}
+        \end{bmatrix}
+        \otimes B
+        % \begin{bmatrix}
+        %     b_{00} & b_{01} \\ b_{10} & b_{11}
+        % \end{bmatrix}
+        =
+        \begin{bmatrix}
+            a_{00} B & a_{01} B \\ a_{10} B & a_{11} B
+        \end{bmatrix}\text.\qedhere\]
+        % \begin{bmatrix}
+        %     a_{00}b_{00} & a_{01}b_{00} & a_{00}b_{01} & a_{01}b_{01} \\
+        %     a_{10}b_{00} & a_{11}b_{00} & a_{10}b_{01} & a_{11}b_{01} \\
+        %     a_{00}b_{10} & a_{01}b_{10} & a_{00}b_{11} & a_{01}b_{11} \\
+        %     a_{10}b_{10} & a_{11}b_{10} & a_{10}b_{11} & a_{11}b_{11}
+        % \end{bmatrix}
+    % \]
+\end{example}
+\begin{definition}%[Bločno-diagonalna matrika]
+    Za vrata \( U_0,\dots,U_n \) označimo njihovo bločno-diagnoalno matriko z \( D{\p{U_0,\dots,U_n}} \).
+\end{definition}
+% TODO: QPL, vezje
+
+\begin{theorem}[No cloning]
+    Ne obstaja unitarna matrika (vrata reda \(2\)), ki vsak vektor \(a\otimes\ket{0}\in \H\otimes\H\) slika v \(a\otimes a\).
+\end{theorem}
+
+\begin{proof}
+    Naj bo \(U\) tak, da \(\forall a \in \H \) velja \( U{\p{a\otimes\ket0}} = a\otimes a \).
+    Potem za \( \hh\otimes\ket0 = \rho(\ket{00} + \ket{10}) \) velja, da je \( U{\p{\rho(\ket{00} + \ket{10})}} = \rho^2(\ket{00} + \ket{01} + \ket{10} + \ket{11}) \), oziroma \(U\ket{00} + U\ket{10} = \rho(\ket{00} + \ket{01} + \ket{10} + \ket{11})\)
+\end{proof}
+
+\end{document}
