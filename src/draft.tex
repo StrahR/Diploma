@@ -19,35 +19,38 @@
 \begin{abstract}
     % \subsubsection*{Motivacija} % TODO: Reword
 
-    Kvantni programski jeziki predstavljajo nove probleme za teorijo programskih jezikov,
-    kot so linearnost tipov, (kvantni) fizikalni pojavi, in še mnogi drugi.
-    V tej nalogi se bomo posvetili tema dvema.
+    Kvantno računalništvo temelji na veliko modernih konceptih v teoriji programskih jezikov,
+    % Kvantni programski jeziki predstavljajo nove probleme za teorijo programskih jezikov,
+    kot na primer linearnost tipov, (kvantnimi) fizikalnimi pojavi, in še mnogo drugimi.
+    V diplomski nalogi se bomo posvetili tema dvema, v tem članku pa zgolj drugemu.
+    % V tej nalogi se bomo posvetili tema dvema.
     % Dober način razumevanja je, da razumemo enakost programov.
-    Naš cilj je razumeti, kako se kvantne programe,
-    in dober način je razumevanje enakosti programov,
-    tj. kdaj sta dva programa enaka?
+    Naš cilj je razumeti, kako se kvantni programi obnašajo,
+    in dober način je razumevanje enakosti programov.
+    % tj. kdaj sta dva programa enaka.
 
     % \subsubsection*{Pregled}
 
-    Najprej bomo predstavili algebrajsko teorijo za kvantne programe;
-    ta je zgrajena na unitarnih vratih in meritvah ter ima linearne parametre.
-    Nato bomo dokazali, da lahko s to teorijo predstavimo vse programe (polnost)
-    in nato iz nje izpeljali pravila za enakost kvantnih programov.
-
+    % Najprej bomo predstavili algebrajsko teorijo za kvantne programe;
+    % ta je zgrajena na unitarnih vratih in meritvah ter ima linearne parametre.
+    % Nato bomo dokazali, da lahko s to teorijo predstavimo vse programe (polnost)
+    % in nato iz nje izpeljali pravila za enakost kvantnih programov.
 \end{abstract}
 
+
 \section{Kvantna mehanika}
+
 Ta del je povzet po \cite{ess-qc}.
 Vsebuje osnovne definicije (in primere) matematičnih osnov kvantne mehanike,
-ki jih potrebujemo, da definiramo želene operacije nad kubiti.
-Te se nahajajo na prvih nekaj straneh, 
+ki jih potrebujemo za definicije želenih operacij nad kubiti.
+% Te se nahajajo na prvih nekaj straneh.
 
 \subsubsection*{Oznake}
 Skozi ta del bomo uporabljali naslednje oznake:
 \begin{itemize}
-    \item \( ℕ = \{ 0, \dots \}, ℕ_+ = \{ 1, \dots \} \),
+    \item \( ℕ = \{ 0, \dots \} \), \( ℕ_+ = \{ 1, \dots \} \), \( ℕₙ = \{ 0, \dots, 2ⁿ-1 \} \),
     \item \( n,m \in ℕ_+ \), ki mu bomo pravili število kubitov,
-    \item \( j, k, \dots \in \{ 0, \dots, 2ⁿ - 1 \} \),
+    \item \( j, k, \dots \in ℕₙ \),
     % \item \( j = jₙ \dots j₀ \) binarni zapis števila \( j \),
     \item \( aⱼ \) \( j \)-ta komponenta vektorja \( a \),
     \item \( j = j₁ \dots jₙ \) binarni zapis števila \( j \).
@@ -57,6 +60,7 @@ Skozi ta del bomo uporabljali naslednje oznake:
 \end{itemize}
 
 \subsection{Kvantni vektorji}
+
 \begin{definition}\label{binv}
     Binarni vektorji so elementi prostora \( \B[n] ≔ \{ 0, 1 \}ⁿ \) in jih pišemo kot nize v binarnem zapisu.  Za nas predstavljajo svet v katerem se odvijajo klasični programi.
 \end{definition}
@@ -73,7 +77,7 @@ Skozi ta del bomo uporabljali naslednje oznake:
 \end{definition}
 
 \begin{definition}[Braket notacija]\label{braket}
-    Naj bo \( j \in \{0, \dots, 2ⁿ-1\} \), ter \( \hat{\jmath} \in \B[n] \) pripadajoč vektor v binarnem zapisu. Potem je \( \ket j = \ket{\hat{\jmath}} ≔ eⱼ \).
+    Naj bo \( j \in ℕₙ \), ter \( \hat{\jmath} \in \B[n] \) pripadajoč vektor v binarnem zapisu. Potem je \( \ket j = \ket{\hat{\jmath}} ≔ eⱼ \).
 \end{definition}
 \begin{remark}
     Po definiciji je torej \( \HH[n] = \LL[\C]{\set{\ket j}{j\in\B[n]}} \).
@@ -99,6 +103,7 @@ Skozi ta del bomo uporabljali naslednje oznake:
 \end{example}
 
 \subsection{Blochova sfera}
+
 \vspace{-1.5em}
 \parbox[t]{.66\textwidth}{
     \begin{statement}
@@ -110,8 +115,8 @@ Skozi ta del bomo uporabljali naslednje oznake:
     \end{statement}
     \begin{proof}
         Naj bo \( a = a₀\ket0 + a₁\ket1 = r₀e^{iφ₀}\ket0 + r₁e^{iφ₁}\ket1 \).
-        Označimo \( r ≔ \sqrt{|a₀|² + |a₁|²}, φ ≔ φ₁ - φ₀, θ ≔ 2\arccos{\frac{a₀}{r}} \).\\
-        Potem je \( a = \hat a ≔ \frac{a}{re^{iφ₀}} = \frac{a₀}{r}\ket0 + \frac{a₁}{r}e^{iφ}\ket1 \).
+        Označimo \( r ≔ \sqrt{r₀² + r₁²}, φ ≔ φ₁ - φ₀, θ ≔ 2\arccos{\frac{r₀}{r}} \).
+        Potem je \( a = \hat a ≔ \frac{a}{re^{iφ₀}} = \frac{r₀}{r}\ket0 + \frac{r₁}{r}e^{iφ}\ket1 = \cos\frac{θ}{2}\ket0 + e^{iφ}\sin\frac{θ}{2}\ket1 \).
     \end{proof}
 }\hfill
 \begin{tikzpicture}[baseline=(current bounding box.north)]
@@ -285,12 +290,19 @@ Izkaže se, da če na koncu zmerimo kubite, se drugi način obnaša enako kot pr
         \ket{j₁\dots}\ket{U{jₛ}}\ket{\dots jₙ} &; jᵣ = 0
     \end{cases}
     \]
-    Takim vratom pravimo kontrolirana ("`na nič"' in "`na ena"').
+    Takim vratom pravimo kontrolirana ("`na ena"' in "`na nič"').
     Posebej za \( U \in \U[1] \) označimo
     \[ \ctl U ≔ C_{1,2}{\p U} = \D{I₂, U},\quad
         \ctlo U ≔ \overline{C}_{1,2}{\p U} = \D{U, I₂}. \]
 \end{definition}
 
+\begin{example}[Prepleteni pari kubitov]
+    Kontrolirana vrata prepletejo pare kubitov. Na primer\\
+    \( \eapply{\ctl X}{a, b} \) se obnaša kot
+    \qpl{if |\(\emeasure{a} = 0\)| then |\( \p{a, b} \)| else |\( \p{a, \lnot b} \)|}.
+    Seveda vemo, da drugi izraz ni veljaven (ker meritev uniči kubit a),
+    ampak je zato kontrola ravno tisto orodje, s katerim želimo nadomestiti pogojne stavke.
+\end{example}
 
 
 \section{Kvantno računalništvo ter algebrajski učinki in diagrami}
@@ -301,11 +313,11 @@ Kvantne programe lahko predstavimo kot diagrame vezja.
 Škatle predstavljajo unitarna vrata, črte med njimi pa žice;
 po enojnih žicah tečejo kubiti, po dvojnih pa klasični biti (\(0\) ali \(1\)).
 Pike na žici (in potem navpična žica ven) pomenijo kontrolo;
-polna pika kontrolira "`na nič"', prazna pa "`na ena"'.
+prazna pika kontrolira "`na nič"', polna pa "`na ena"'.
 Taka vezja beremo od leve proti desni.
 Natančnejši opis lahko najdete v \cite{ess-qc}.
 
-Spodaj sta dva primera, opisana z besedami in diagrami, ki ju bomo srečali še kasneje.
+Spodaj sta dva primera kvantnih programov, opisana z besedami in diagrami, ki ju bomo srečali tudi še kasneje.
 
 \begin{example}[Projekcija na \(z\)-os]\label{ex-proj-z}
     Najprej zmerimo \( a \) in nato glede na rezultat svež kubit bodisi negiramo bodisi ne.
@@ -363,6 +375,7 @@ Z računskimi učinki se med programiranjem pogosto srečamo: globalno stanje sp
     Računskim učinkom, ki jih lahko predstavimo s kašno algebrajsko teorijo, pravimo algebrajski učinki.
 \end{definition}
 
+
 \section{Programski jezik}
 
 V našem jeziku\cite{algeff-lin-qpl} imamo navadne osnovne konstrukte,
@@ -377,16 +390,9 @@ imamo pa naslednje funkcije dostopanja:
     \item \(\eff{measure}\): izvede meritev na kubitu, vrne element tipa \texttt{bit}.
 \end{itemize}
 
-% \begin{example}[Prepleteni pari kubitov]
-%     Kontrolirana vrata prepletejo pare kubitov, na primer
-%     \(\eapply{\ctl X}{a, b}\) se obnaša kot
-%     \qpl{if |\(\emeasure{a} = 0\)| then |\( \p{a, b} \)| else |\( \p{a, ¬b} \)|}
-% \end{example}
-
 \subsection{Pretvorba v algebrajske izraze}
 
 Konstruktom v programskem jeziku priredimo naslednje algebrajske izraze ter uvedemo še strnjeno obliko, za lažjo manipulacijo na papirju.
-
 
 \begin{table}[ht]
     \centering
@@ -408,7 +414,7 @@ Konstruktom v programskem jeziku priredimo naslednje algebrajske izraze ter uved
     \end{tabular}
 \end{table}
 
-\pagebreak
+% \pagebreak
 
 \begin{example}[Projekcija na \( z \)-os]\(\)
     \begin{enumerate}
@@ -437,7 +443,9 @@ Konstruktom v programskem jeziku priredimo naslednje algebrajske izraze ter uved
 
 \subsection{Aksiomi}
 
-Osnovni aksiomi na kratko:
+% Aksiomi za enakost programov so (brez dokaza) sledeči:
+Aksiome za enakost programov lahko delimo na dva dela; prvih pet je glavnih, ostalih sedem pa bolj "`administrativnih"' oziroma pomožnih. Slednji nam povejo zgolj, da se \( \eff{apply} \)
+strinja s strukturo unitarnih matrik, ter da stvari komutirajo, kolikor vezanje spremenljivk (in vrstni red uporabe matrik) dopušča. Podrobnejši opis (z dokazom) najdete v \cite{algeff-lin-qpl}.
 
 % \setlength\parindent{0pt}
 
@@ -446,19 +454,21 @@ Osnovni aksiomi na kratko:
 \end{axiom}
 
 \begin{axiom}{Kvantna kontrola je po meritvi kot klasična kontrola:}\label{ax-2}
-    \( \measureraw{a}{\apply{U}{b}{x(b)}}{\apply{V}{b}{y(b)}}
-    = \applyd{U, V}{a,b}{\measureraw{a}{x(b)}{y(b)}} \).
+    \( \applyd{U, V}{a,b}{\measureraw{a}{x(b)}{y(b)}}
+        = \measureraw{a}{\apply{U}{b}{x(b)}}{\apply{V}{b}{y(b)}} \).
 \end{axiom}
 
 \begin{axiom}{Kvantna vrata uporabljena na zavrženih kubitih so odveč:}\label{ax-3}
     \( \apply{U}{a}{\discard{a}{t}} = \discard{a}{t} \).
 \end{axiom}
 
-\begin{axiom}{Meritve novih kubitov so vedno \(0\):}\label{ax-4}
+% \begin{axiom}{Meritve novih kubitov so vedno \(0\):}\label{ax-4}
+\begin{axiom}{Novi kubiti so \( \ket0 \) glede na meritev:}\label{ax-4}
     \( \new{a}{\measureraw{a}{x}{y}} = x \).
 \end{axiom}
 
-\begin{axiom}{Vrata kontrolirana z novimi kubiti se nikoli ne uporabijo:}\label{ax-5}
+% \begin{axiom}{Vrata kontrolirana z novimi kubiti se nikoli ne uporabijo:}\label{ax-5}
+\begin{axiom}{Novi kubiti so \( \ket0 \) glede na kontrolo:}\label{ax-5}
     \( \new{a}{\applyd{U,V}{a,b}{x{\p{a,b}}}} = \apply{U}{b}{\new{a}{x{\p{a,b}}}} \).
 \end{axiom}
 
@@ -521,8 +531,11 @@ Osnovni aksiomi na kratko:
 % \end{gather}
 
 % \apply{X}{a}{\apply{\HH}{b}{x{\p{a,b}}}} = \apply{\HH}{b}{\apply{X}{a}{x{\p{a,b}}}}
-\begin{example}[Izpeljava enakosti projekcije na \(z\)-os in naključno rotacijo faze]
-    Dokaz uporabi identiteti \( \ctl X . \swap . \ctl X \overset{\dagger}{=} \swap . \ctl X . \swap \) in \( \swap . \ctl X . \swap \overset{\ddagger}{=} (\had⊗I) . \ctl Z . (\had⊗I) \)
+\begin{example}[Izpeljava enakosti projekcije na \(z\)-os in naključne rotacije faze]
+    Izpeljava se zanaša na identiteti 
+    \( \ctl X . \swap . \ctl X \overset{\dagger}{=} \swap . \ctl X . \swap \) in 
+    \( \swap . \ctl X . \swap \overset{\ddagger}{=} (\had⊗\g{I₂}) . \ctl Z . (\had⊗\g{I₂}) \).
+    \begin{NoHyper}
     \begin{align*}
         &\hspace{-3em}\measure{a}{\new{b}{x{\p b}}}{\new{b}{\apply{X}{b}{x{\p b}}}}\\
         =&\new{b}{\measureraw{a}{x{\p b}}{\apply{X}{b}{x{\p b}}}}
@@ -542,7 +555,8 @@ Osnovni aksiomi na kratko:
         =&\new{b}{\apply{\had}{b}{\measureraw{b}{x{\p a}}{\apply{Z}{a}{x{\p a}}}}}.
             &(\ref{ax-2})
     \end{align*}
-    Kot vidimo, smo definirali jezik (in orodja) s katerimi lahko relativno enostavno dokazujemo enakost med programi.
+    \end{NoHyper}
+    % Kot vidimo, smo definirali jezik (in orodja) s katerimi lahko relativno enostavno dokazujemo enakost med programi.
     % Opazimo, da ta dokaz ni bil popolnoma mehanski;
     % uporabiti smo morali dve identiteti v \( \U[2] \).
     % To nam namiguje, da enakost programov ni preprost problem,
