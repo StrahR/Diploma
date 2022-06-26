@@ -108,7 +108,7 @@ Skozi ta del bomo uporabljali naslednje oznake:
 \parbox[t]{.66\textwidth}{
     \begin{statement}
         V fizičnem svetu sta dva kubita, ki se razlikujeta zgolj za (kompleksen) faktor, enaka.
-        Matematično to pomeni, da stanja kubitov (nadaljnje tudi kubiti) živijo v \( \mathbf{P}\C² \cong \S² \):
+        Matematično to pomeni, da stanja kubitov (nadaljnje tudi kubiti) živijo v \( \mathbf{P}\C¹ \cong \S² \):
         % To pomeni, da lahko vsak kubit zapišemo kot točko v \( \S² \):
         \[ a = \cos\frac{θ}{2}\ket0 + e^{iφ}\sin\frac{θ}{2}\ket1,\quad
             φ \in [0, 2π), θ \in [0, π]. \]
@@ -271,7 +271,7 @@ drugi pa z uporabo kvantne prepletenosti.
 Izkaže se, da če na koncu zmerimo kubite, se drugi način obnaša enako kot prvi.
 
 \begin{definition}[Kvantna meritev]
-    Meritev kubita \(a = a_0\ket0 + a_1\ket1\) označimo \(M\p{a}\) in je \(0\) z verjetnostjo \(|a_0|^2\) in \(1\) z verjetnostjo \(|a_1|^2\). To "`uniči"' kubit \(a\).
+    Meritev kubita \(a = a_0\ket0 + a_1\ket1\) označimo \(M\p{a}\) in je \(0\) z verjetnostjo \(|a_0|^2\) in \(1\) z verjetnostjo \(|a_1|^2\). To \airquotes{uniči} kubit \(a\).
     % \[ \Qcircuit @C=1em @R=.7em {
     %         & \meter & \cw %& & \ctrlo{1} & \ctrl{1} & \qw & & \ctrl{1} & \qw \\
     %         % &        &     & & \gate U & \gate V & \qw & & \targ & \qw
@@ -290,7 +290,7 @@ Izkaže se, da če na koncu zmerimo kubite, se drugi način obnaša enako kot pr
         \ket{j₁\dots}\ket{U{jₛ}}\ket{\dots jₙ} &; jᵣ = 0
     \end{cases}
     \]
-    Takim vratom pravimo kontrolirana ("`na ena"' in "`na nič"').
+    Takim vratom pravimo kontrolirana (\airquotes{na ena} in \airquotes{na nič}).
     Posebej za \( U \in \U[1] \) označimo
     \[ \ctl U ≔ C_{1,2}{\p U} = \D{I₂, U},\quad
         \ctlo U ≔ \overline{C}_{1,2}{\p U} = \D{U, I₂}. \]
@@ -313,7 +313,7 @@ Kvantne programe lahko predstavimo kot diagrame vezja.
 Škatle predstavljajo unitarna vrata, črte med njimi pa žice;
 po enojnih žicah tečejo kubiti, po dvojnih pa klasični biti (\(0\) ali \(1\)).
 Pike na žici (in potem navpična žica ven) pomenijo kontrolo;
-prazna pika kontrolira "`na nič"', polna pa "`na ena"'.
+prazna pika kontrolira \airquotes{na nič}, polna pa \airquotes{na ena}.
 Taka vezja beremo od leve proti desni.
 Natančnejši opis lahko najdete v \cite{ess-qc}.
 
@@ -444,7 +444,7 @@ Konstruktom v programskem jeziku priredimo naslednje algebrajske izraze ter uved
 \subsection{Aksiomi}
 
 % Aksiomi za enakost programov so (brez dokaza) sledeči:
-Aksiome za enakost programov lahko delimo na dva dela; prvih pet je glavnih, ostalih sedem pa bolj "`administrativnih"' oziroma pomožnih. Slednji nam povejo zgolj, da se \( \eff{apply} \)
+Aksiome za enakost programov lahko delimo na dva dela; prvih pet je glavnih, ostalih sedem pa bolj \airquotes{administrativnih} oziroma pomožnih. Slednji nam povejo zgolj, da se \( \eff{apply} \)
 strinja s strukturo unitarnih matrik, ter da stvari komutirajo, kolikor vezanje spremenljivk (in vrstni red uporabe matrik) dopušča. Podrobnejši opis (z dokazom) najdete v \cite{algeff-lin-qpl}.
 
 % \setlength\parindent{0pt}
@@ -515,7 +515,7 @@ strinja s strukturo unitarnih matrik, ter da stvari komutirajo, kolikor vezanje 
 % \intertext{Vrata kontrolirana z novimi kubiti se nikoli ne uporabijo.}
 %     \new{a}{\applyd{U,V}{a,b}{x{\p{a,b}}}}
 %         = \apply{U}{b}{\new{a}{x{\p{a,b}}}}\label{ax-5}
-% \intertext{Ostanejo še bolj "`administrativni"' aksiomi:
+% \intertext{Ostanejo še bolj \airquotes{administrativni} aksiomi:
 % Spoštovanje simetrične grupe \( \U[n] \).}
 %     \apply{swap}{a,b}{x{\p{a,b}}} = x(b,a)\label{ax-6}\\
 %     \apply{I}{a}{x{\p a}} = x{\p a}\label{ax-7}\\
