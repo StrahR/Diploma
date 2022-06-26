@@ -1,0 +1,45 @@
+\section{Kvantno računalništvo ter algebrajski učinki in diagrami}
+
+\subsection{Kvantna vezja}
+
+Kvantne programe lahko predstavimo kot diagrame vezja.
+Škatle predstavljajo unitarna vrata, črte med njimi pa žice;
+po enojnih žicah tečejo kubiti, po dvojnih pa klasični biti (\(0\) ali \(1\)).
+Pike na žici (in potem navpična žica ven) pomenijo kontrolo;
+prazna pika kontrolira \airquotes{na nič}, polna pa \airquotes{na ena}.
+Taka vezja beremo od leve proti desni.
+Natančnejši opis lahko najdete v \cite{ess-qc}.
+
+Spodaj sta dva primera kvantnih programov, opisana z besedami in diagrami, ki ju bomo srečali tudi še kasneje.
+
+\begin{example}[Projekcija na \(z\)-os]\label{ex:proj-z}
+    Najprej zmerimo \( a \) in nato glede na rezultat svež kubit bodisi negiramo bodisi ne.
+    Na Blochovi sferi to zgleda približno kot projekcija na \(z\)-os (edina kubita na \(z\)-osi sta \( \ket0 \) in \( \ket1 = X \ket0 \)).
+    \[ \Qcircuit @C=1em @R=.7em {
+            & \lstick{\ket0} & \gate{\g X} & \rstick{b} \qw\\
+            \lstick{a} & \meter & \cctrl{-1}
+        }
+    \]
+\end{example}
+
+\begin{example}[Naključna rotacija faze]\label{ex:rand-ph-shift}
+    Meritev Hadamardovega vektorja simulira pravičen met kovanca,
+    vrata \( Z \) pa rotirajo fazo, torej bomo v polovici primerov kubitu \( a \) rotirali fazo.
+    \[ \Qcircuit @C=1em @R=.7em {
+            \lstick{a} & \qw & \qw & \qw & \qw & \gate{\g Z} & \rstick{a}\qw\\
+            && \lstick{\ket0} & \gate{\had} & \meter & \cctrl{-1}
+        }
+    \]
+\end{example}
+
+\subsection{Algebrajski učinki}
+
+Z računskimi učinki se med programiranjem pogosto srečamo: globalno stanje spremenljivk, vhodno/izhodne naprave, naključnost, izjeme, nedeterminizem, ipd.
+
+\begin{definition}[Računski učinki]
+    Če ima funkcija ali operacija še kak navzven viden učinek poleg vrnjene vrednosti, slednjemu pravimo računski učinek (učinek računanja).
+\end{definition}
+
+\begin{definition}[Algebrajski učinki]
+    Računskim učinkom, ki jih lahko predstavimo s kašno algebrajsko teorijo, pravimo algebrajski učinki.
+\end{definition}

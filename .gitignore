@@ -1,8 +1,8 @@
 ## User-defined ignores
 .vscode/
-__latexindent_temp.tex
-VzorecDela.*
+__latexindent_temp.*
 main.pdf
+*.xmpdata
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
@@ -280,4 +280,3 @@ TSWLatexianTemp*
 
 # Makeindex log files
 *.lpz
-taslak.pdf
