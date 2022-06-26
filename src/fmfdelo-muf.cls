@@ -57,10 +57,6 @@
 \RequirePackage{fontspec}
 \RequirePackage{unicode-math}
 
-% \setmainfont[Numbers={Proportional},Ligatures={TeX, Common%, Historic, Contextual, Rare, Discretionary 
-% }]{XITS}
-% \setmathfont{XITS Math}
-
 \RequirePackage{polyglossia}
 \RequirePackage[backend=biber,bibencoding=utf8,backref=true]{biblatex}
 
