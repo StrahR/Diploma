@@ -1,61 +1,7 @@
-\documentclass[a4paper]{article}
-% Kodiranje in podpora slovenščini
-\usepackage[T1]{fontenc}        % kodiranje znakov v .pdf
+\documentclass[a4paper,slovene]{article}
 \usepackage[slovene]{babel}
 
-\usepackage{fontspec}
-\usepackage{lualatex-math}
-\usepackage{unicode-math}
-
-% \setmainfont{TeX Gyre Pagella}
-% \setmathfont{TeX Gyre Pagella Math}
-\setmathfont{Latin Modern Math}
-\setmathfont{Asana Math}[range={scr}]
-\setmathfont{STIX Two Math-Regular}[range={bb}]
-% \setmathfont{Asana Math}[range={"007B,"007D}]  % {}
-\setmathfont{Asana Math}[range={8709}]  % U+2205, emptyset
-
-% \usepackage{mathtools}
-\usepackage{amsthm}
-
-\usepackage[braket]{qcircuit}
-\usepackage{tikz}
-\usetikzlibrary{babel}
-\usetikzlibrary{angles,quotes}
-
-\usepackage{minted}
-
-\usepackage{stmaryrd}
-
-\newtheorem{theorem}{Izrek}
-\newtheorem{trditev}{Trditev}
-\newtheorem*{corrolary}{Posledica}
-\newtheorem{definition}{Definicija}
-\newtheorem{zgled}{Zgled}
-\newtheorem{lemma}{Lema}
-\newtheorem*{example}{Primer}
-\newtheorem*{opomba}{Opomba}
-
-% \topmargin=-0.45in
-% \evensidemargin=0in
-% \oddsidemargin=0in
-% \textwidth=6.5in
-% \textheight=9.0in
-% \headsep=0.25in
-
-\linespread{1.1}
-
-% \pagestyle{fancy}
-% \lhead{\hmwkAuthorName}
-% \chead{\hmwkClass:\ \hmwkTitle}
-% \rhead{\firstxmark}
-% \lfoot{\lastxmark}
-% \cfoot{\thepage}
-
-% \renewcommand\headrulewidth{0.4pt}
-% \renewcommand\footrulewidth{0.4pt}
-
-% \setlength\parindent{0pt}
+\input{muf.tex}
 
 \title{Kvantni algebrajski učinki}
 % \title{Quantum Algebraic Effects}
@@ -63,205 +9,391 @@
 % \mentor{doc.~dr.~Matija~Pretnar}
 \date{\today}
 
-\newcommand{\N}{\mathbb N}
-\newcommand{\Z}{\mathbb Z}
-\newcommand{\Q}{\mathbb Q}
-\newcommand{\R}{\mathbb R}
-\newcommand{\C}{\mathbb C}
-\renewcommand{\d}{\;\mathrm d}
-% \newcommand{\vphi}{\phi}
-\renewcommand{\phi}{\varphi}
-\newcommand{\eps}{\varepsilon}
-\renewcommand{\hat}{\widehat}
-\renewcommand{\tilde}{\widetilde}
-\renewcommand{\bar}{\overline}
-\newcommand{\subs}{\subseteq}
-\newcommand{\nin}{\not\in}
+\addbibresource{draft.bib}
 
-\newcommand{\p}[1]{\left( {#1} \right)}
-\newcommand{\set}[2]{\left\{ #1 \mid #2 \right\}}
-\newcommand{\newfrac}[2]{{}^{#1}\!/_{\!#2}}
-\newcommand{\im}[1]{\mathrm{im}{\p{#1}}}
-\newcommand{\mb}[1]{\mathbold{#1}}
-\newcommand{\mf}[1]{\mathfrak{#1}}
-\newcommand{\mc}[1]{\mathcal{#1}}
-
-\newcommand{\had}{\mathtt{Had}}
-\newcommand{\hh}[1][]{\mathbf{h}_{#1}}
-\newcommand{\B}[1][]{\mathbf{B}_{#1}}
-\renewcommand{\H}[1][]{\mathbf{H}_{#1}}
-\renewcommand{\S}{\mathbb{S}}
-\renewcommand{\L}[2][]{\mathcal{L}_{#1}{\p{#2}}}
-\newcommand{\g}[1]{\mathtt{#1}}
-\newcommand{\D}[1]{D{\p{\g{#1}}}}
-\newcommand{\ctl}[1]{\g{c#1}}
-\newcommand{\ctlo}[1]{\g{\bar{c}#1}}
-
-\newcommand{\cmd}[1]{\textnormal{\sffamily#1}}
-\newcommand{\eff}[1]{\textnormal{\sffamily\ul{#1}}}
-\newcommand{\tnew}[2]{\cmd{new}{\p{#1.#2}}}
-\newcommand{\tapply}[3]{\cmd{apply}_{\g #1}{\p{#2.#3}}}
-\newcommand{\tmeasure}[3]{\cmd{measure}{\p{#1; #2,#3}}}
-\newcommand{\tdiscard}[2]{\cmd{discard}{\p{#1.#2}}}
-\newcommand{\new}[2]{\nu{#1}.\,#2}
-\newcommand{\apply}[3]{{\g #1}_{#2}{\p{#3}}}
-\renewcommand{\measure}[3]{#2 {\;?_{#1}\,} #3}
-\newcommand{\discard}[2]{\cmd{disc}_{#1}{\p{#2}}}
-
-\newcommand{\sequent}[3]{#1 \mid #2 \vdash #3}
-\newcommand{\seq}[1]{\sequent{\Gamma}{\Delta}{#1}}
-\newcommand{\sem}[2][]{{\llbracket#2\rrbracket}_{#1}}
-
-
-% \newcommand{\for}[2]{\forall#1.\;#2}
-% \newcommand{\exist}[2]{\exists#1\smallni:\;#2}
-% \newcommand{\existi}[2]{\exists!#1\smallni:\;#2}
-
-\makeatletter
-\newcommand{\oset}[3][0ex]{%
-  \mathrel{\mathop{#3}\limits^{
-    \vbox to#1{\kern-2\ex@
-    \hbox{$\scriptstyle#2$}\vss}}}}
-\makeatother
+\renewcommand{\thesection}{\Roman{section}}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-  test
+    \subsubsection*{Motivacija} % TODO: Reword
+
+    Kvantni programski jeziki predstavljajo nove probleme za teorijo programskih jezikov,
+    kot so linearnost tipov, (kvantni) fizikalni pojavi, in še mnogi drugi.
+    V tej nalogi se bomo posvetili tema dvema.
+    % Dober način razumevanja je, da razumemo enakost programov.
+    Naš cilj je razumeti, kako se kvantne programe,
+    in dober način je razumevanje enakosti programov,
+    tj. kdaj sta dva programa enaka?
+
+    \subsubsection*{Pregled}
+
+    Najprej bomo predstavili algebrajsko teorijo za kvantne programe;
+    ta je zgrajena na unitarnih vratih in meritvah ter ima linearne parametre.
+    Nato bomo dokazali, da lahko s to teorijo predstavimo vse programe (polnost)
+    in nato iz nje izpeljali pravila za enakost kvantnih programov.
+
 \end{abstract}
 
 \section{Kvantno računalništvo ter algebrajski učinki in diagrami}
-\subsection{Kvantna mehanika}
 
-V tem delu bomo uporabljali naslednje oznake:
+\subsection{Kvantna mehanika}
+Ta del je povzet po \cite{ess-qc}.
+
+\subsubsection*{Oznake}
+Skozi ta del bomo uporabljali naslednje oznake:
 \begin{itemize}
-    \item \( \N = \{0, \dots \}, \N_+ = \{1, \dots\} \),
-    \item \( n\in\N_+ \), ki mu bomo pravili število kubitov,
-    \item \( j, k, \dots \in \{0, \dots, 2^n\} \),
-    \item \( j = j_1\dots j_n \) binarni zapis števila \( j \).
+    \item \( ℕ = \{ 0, \dots \}, ℕ_+ = \{ 1, \dots \} \),
+    \item \( n \in ℕ_+ \), ki mu bomo pravili število kubitov,
+    \item \( j, k, \dots \in \{ 0, \dots, 2ⁿ - 1 \} \),
+    \item \( j = j₁ \dots jₙ \) binarni zapis števila \( j \),
+    \item \( \mb n = \{ 0, \dots, n-1 \} \), na primer \( \mb 2 = \{ 0, 1 \} \).
+    % \item \( \mathbb n = \{ 0, \dots, n-1 \} \), na primer \( \mathbb 2 = \{ 0, 1 \} \).
 \end{itemize}
 
 \subsubsection{Kvantni vektorji}
-
-\begin{definition}
-    Binarni vektorji so elementi prostora \( \B[n] \coloneq 2^n \) in jih pišemo kot nize v binarnem zapisu.
+\begin{definition}\label{binv}
+    Binarni vektorji so elementi prostora \( \B[n] ≔ \mb 2ⁿ \) in jih pišemo kot nize v binarnem zapisu.
 \end{definition}
 
 \begin{example}
     \(\B[2] = \{00, 01, 10, 11\}\).
 \end{example}
+\begin{remark}
+    \(1\) in \(01\) predstavljata različna vektorja.
+\end{remark}
 
-\begin{definition}
-    Elementom prostora \( \H[n] \coloneq \C^{2^n} \) pravimo kvantni vektorji, elementom \( \H \coloneq \H[1] \) pa kubiti.  Prostoru \( \H[n] \) pravimo prostor kvantnih vektorjev reda \( n \), njegovo standardno bazo pa označimo z \( \{e_j\} \).
+\begin{definition}[Hilbertov prostor]\label{hilb-sp}
+    Elementom prostora \( \H[n] ≔ \C^{2ⁿ} \) pravimo kvantni vektorji, elementom \( \H ≔ \H[1] \) pa kubiti.  Prostoru \( \H[n] \) torej pravimo prostor kvantnih vektorjev reda \( n \), njegovo standardno bazo pa označimo z \( \{eⱼ\} \).
 \end{definition}
 
-\begin{definition}%[Braket notacija]
-    Naj bo \( j \in \{0, \dots, 2^n-1\} \), ter \( \hat{\jmath} \in \B[n] \) pripadajoč vektor v binarnem zapisu. Potem je \( \ket j = \ket{\hat{\jmath}} \coloneq e_j \).
+\begin{definition}[Braket notacija]\label{braket}
+    Naj bo \( j \in \{0, \dots, 2ⁿ-1\} \), ter \( \hat{\jmath} \in \B[n] \) pripadajoč vektor v binarnem zapisu. Potem je \( \ket j = \ket{\hat{\jmath}} ≔ eⱼ \).
 \end{definition}
-\begin{opomba}
+\begin{remark}
     Po definiciji je torej \( \H[n] = \L[\C]{\set{\ket j}{j\in\B[n]}} \).
-\end{opomba}
+\end{remark}
 
 \begin{example}[\(n = 1\)]
     \[ 
-        a = \begin{bmatrix}a_0 \\ a_1\end{bmatrix}
-            = a_0\ket 0 + a_1\ket 1
-            = a_0\begin{bmatrix}1 \\ 0\end{bmatrix} + a_1\begin{bmatrix}0 \\ 1\end{bmatrix}\text.\qedhere
+        a = \begin{bmatrix}a₀\\a₁\end{bmatrix}
+          = a₀\begin{bmatrix}1\\0\end{bmatrix} + a₁\begin{bmatrix}0\\1\end{bmatrix}
+          = a₀\ket 0 + a₁\ket 1
+        \text.
     \]
 \end{example}
 
 \begin{example}[\(n = 2\)]
     \[
-        a = \begin{bmatrix}a_0\\ a_1\\ a_2\\ a_3\end{bmatrix}
-            = \begin{bmatrix}a_{00}\\ a_{01}\\ a_{10}\\ a_{11}\end{bmatrix}
-            = a_{00}\ket{00} + a_{01}\ket{01} + a_{10}\ket{10} + a_{11}\ket{11}\text.\qedhere
+        a = \begin{bmatrix}a₀\\a₁\\a₂\\a₃\end{bmatrix}
+          = \begin{bmatrix}a₀₀\\ a₀₁\\ a₁₀\\ a₁₁\end{bmatrix}
+          = a₀₀\ket{00} + a₀₁\ket{01} + a₁₀\ket{10} + a₁₁\ket{11}.
     \]
 \end{example}
 
-\begin{example}%[Hadamardov vektor] % maybe skip this one?
+\begin{example}[Hadamardov vektor]\label{had}
     \[
-        \hh \coloneq \rho \left(\ket 0 + \ket 1\right),\quad
-        \hh[n] \coloneq \rho^n\sum_{j\in\B[n]} \ket j,\quad
-        \rho \coloneq \frac{1}{\sqrt2}\text.\qedhere
+        \hh ≔ ρ \left(\ket 0 + \ket 1\right),\quad
+        \hh[n] ≔ ρⁿ\sum_{j\in\B[n]} \ket j,\quad
+        ρ ≔ \frac{1}{\sqrt2}.
         \]
 \end{example}
 
 \subsubsection{Tenzorski produkt}
 
-\begin{definition}[Tenzorski produkt]
+\begin{definition}[Tenzorski produkt]\label{tensorprod}
     Tenzorski produkt prostorov \( \H[n] \) in \( \H[m] \) je enak \( \H[n+m] \).
-    Pišemo \( \H[n]\otimes\H[m] \). Če sta \( a\in\H[n] \) in \( b\in\H[m] \) je \( a\otimes b \in \H[n]\otimes\H[m] \).
+    Pišemo \( \H[n] ⊗\H[m] \).
+    Če sta \( a\in\H[n] \) in \( b\in\H[m] \) je \( a⊗b \in \H[n]⊗\H[m] \).
 \end{definition}
-\begin{opomba}
-    Operator \(\otimes\) je res tenzorski produkt.
-\end{opomba}
+\begin{remark}
+    Operator \(⊗\) je res tenzorski produkt.
+\end{remark}
 
 \begin{example}[\(n=m=1\)]
     \[
-        \begin{bmatrix}a_0 \\ a_1\end{bmatrix}\otimes \begin{bmatrix}b_0 \\ b_1\end{bmatrix}
-        = \begin{bmatrix}a_0b_0\\ a_0b_1\\ a_1b_0\\ a_1b_1\end{bmatrix}\text.\qedhere
+        \begin{bmatrix}a₀ \\ a₁\end{bmatrix}⊗\begin{bmatrix}b₀ \\ b₁\end{bmatrix}
+        = \begin{bmatrix}a₀b₀\\ a₀b₁\\ a₁b₀\\ a₁b₁\end{bmatrix}.
     \]
 \end{example}
 
 \begin{example}
     \[
-        \ket j \otimes \ket k = \ket{j\#k} \eqcolon \ket{jk},\quad
-        a\otimes b = \sum_{\substack{j\in\B[n],\\k\in\B[m]}} a_jb_k\ket{jk}.
+        \ket j ⊗ \ket k = \ket{j\#k} ≕ \ket j \ket k,\quad
+        a⊗b = \sum_{\substack{j\in\B[n],\\k\in\B[m]}} aⱼbₖ\ket{jk}.
     \]
 \end{example}
 
-\begin{example}
+\begin{example}[Hadamardov vektor kot tenzorski produkt]
     \[
-        \hh[n] = \hh^{\otimes n} = \rho^n\underbrace{(\ket 0 + \ket 1)\otimes\dots\otimes(\ket 0 + \ket 1)}_n\text.\qedhere
+        \hh[n] = \hh^{⊗n} = ρⁿ\underbrace{(\ket 0 + \ket 1) ⊗ \dots ⊗ \p{\ket 0 + \ket 1}}_n.
     \]
 \end{example}
-\begin{example}
-    \[\H[n] = \H^{\otimes n}\text.\qedhere\]
+\begin{example}[Hilbertov prostor kot tenzorski produkt]
+    \[\H[n] = \H^{⊗n}.\]
 \end{example}
 
 \begin{definition}
-    Če lahko \(a\in\H[n]\) zapišemo kot \(\bigotimes_{j=1}^{n} a_j; a_j\in\H\) pravimo, da je enostaven ali separabilen, sicer je pa sestavljen oziroma kvantno prepleten.
+    Če lahko \( a\in\H[n] \) zapišemo kot \( \bigotimes_{j=1}^{n} aⱼ \) za neke \( aⱼ\in\H \) pravimo, da je enostaven ali separabilen, sicer je pa sestavljen oziroma kvantno prepleten.
 \end{definition}
 
+\subsubsection{Kvantne preslikave/Unitarna vrata}%TODO: title
 
 \begin{definition}%[Unitarna vrata]
-    Unitarna vrata reda \( n \) so unitarna matrika dimenzije \( 2^n \).
-    Tenzorski produkt vrat \( U \otimes V = [u_{jk}V]_{j,k} \) uporabljen na \(a\otimes b\) je enak \( Ua \otimes Vb \).
+    Unitarna vrata reda \( n \) so unitarna matrika dimenzije \( 2ⁿ \).
+    Tenzorski produkt vrat \( U⊗V ≔ [u_{jk}V]_{j,k} \) uporabljen na \( a⊗b \) je enak \( Ua⊗Vb \).
 \end{definition}
-\begin{example}
+
+\begin{example}[Tenzorski produkt vrat]
     \[
         \begin{bmatrix}
-            a_{00} & a_{01} \\ a_{10} & a_{11}
-        \end{bmatrix}
-        \otimes B
+            a₀₀ & a₀₁ \\ a₁₀ & a₁₁
+        \end{bmatrix} ⊗ B
         % \begin{bmatrix}
-        %     b_{00} & b_{01} \\ b_{10} & b_{11}
+        %     b₀₀ & b₀₁ \\ b₁₀ & b₁₁
         % \end{bmatrix}
         =
         \begin{bmatrix}
-            a_{00} B & a_{01} B \\ a_{10} B & a_{11} B
-        \end{bmatrix}\text.\qedhere\]
+            a₀₀ B & a₀₁ B \\ a₁₀ B & a₁₁ B
+        \end{bmatrix}.
+    \]
         % \begin{bmatrix}
-        %     a_{00}b_{00} & a_{01}b_{00} & a_{00}b_{01} & a_{01}b_{01} \\
-        %     a_{10}b_{00} & a_{11}b_{00} & a_{10}b_{01} & a_{11}b_{01} \\
-        %     a_{00}b_{10} & a_{01}b_{10} & a_{00}b_{11} & a_{01}b_{11} \\
-        %     a_{10}b_{10} & a_{11}b_{10} & a_{10}b_{11} & a_{11}b_{11}
+        %     a₀₀b₀₀ & a₀₁b₀₀ & a₀₀b₀₁ & a₀₁b₀₁ \\
+        %     a₁₀b₀₀ & a₁₁b₀₀ & a₁₀b₀₁ & a₁₁b₀₁ \\
+        %     a₀₀b₁₀ & a₀₁b₁₀ & a₀₀b₁₁ & a₀₁b₁₁ \\
+        %     a₁₀b₁₀ & a₁₁b₁₀ & a₁₀b₁₁ & a₁₁b₁₁
         % \end{bmatrix}
     % \]
 \end{example}
+
 \begin{definition}%[Bločno-diagonalna matrika]
-    Za vrata \( U_0,\dots,U_n \) označimo njihovo bločno-diagnoalno matriko z \( D{\p{U_0,\dots,U_n}} \).
+    Za vrata \( U₀,\dots,Uₙ \) označimo njihovo bločno-diagnoalno matriko z \( D{\p{U₀,\dots,Uₙ}} \).
 \end{definition}
 % TODO: QPL, vezje
 
-\begin{theorem}[No cloning]
-    Ne obstaja unitarna matrika (vrata reda \(2\)), ki vsak vektor \(a\otimes\ket{0}\in \H\otimes\H\) slika v \(a\otimes a\).
+\begin{theorem}[No cloning]\label{no-cloning}
+    Ne obstaja unitarna matrika (vrata reda \(2\)), ki vsak vektor \(a ⊗\ket{0}\in \H ⊗\H\) slika v \(a⊗a\).
 \end{theorem}
 
 \begin{proof}
-    Naj bo \(U\) tak, da \(\forall a \in \H \) velja \( U{\p{a\otimes\ket0}} = a\otimes a \).
-    Potem za \( \hh\otimes\ket0 = \rho(\ket{00} + \ket{10}) \) velja, da je \( U{\p{\rho(\ket{00} + \ket{10})}} = \rho^2(\ket{00} + \ket{01} + \ket{10} + \ket{11}) \), oziroma \(U\ket{00} + U\ket{10} = \rho(\ket{00} + \ket{01} + \ket{10} + \ket{11})\)
+    Naj bo \(U\) tak, da \(\forall a \in \H \) velja \( U{\p{a⊗\ket0}} = a⊗a \).\\
+    Potem za \( \hh ⊗\ket0 = ρ(\ket{00} + \ket{10}) \) velja:
+    \[
+        U{\p{ρ(\ket{00} + \ket{10})}} =
+        \begin{cases}
+            ρ²(\ket{00} + \ket{01} + \ket{10} + \ket{11}),\\
+            ρ U\ket{00} + U\ket{10} = ρ(\ket{00} + \ket{11}),
+        \end{cases}
+    \]
+    kar je protislovje.
 \end{proof}
+
+\begin{example}[Paulijeve matrike]
+    To so matrike zrcaljenja okrog osi na Blochovi sferi:
+    \[
+        I₂ = \begin{bmatrix}1&0\\0&1\end{bmatrix}\text{,\quad}
+        X   = \begin{bmatrix}0&1\\1&0\end{bmatrix}\text{,\quad}
+        Y   = \begin{bmatrix}0&-i\\i&0\end{bmatrix}\text{,\quad}
+        Z   = \begin{bmatrix}1&0\\0&-1\end{bmatrix}\text.
+    \]
+    Velja \(X² = Y² = Z² = I₂\).
+\end{example}
+
+\begin{example}[Hadamardova matrika]
+    \[
+        \had = ρ\begin{bmatrix}1&1\\1&-1\end{bmatrix}\text{,\quad}
+        \had(\ket{0}) = \hh\text{,\quad}
+        \had^{⊗n}(\ket{0ⁿ}) = \hh[n].
+    \]
+\end{example}
+
+\[ \Qcircuit @C=1em @R=.7em {
+        & \gate{\had} & \gate{\g Z} & \gate{\had} & \qw\\
+        &             &      =      &             &    \\
+        & \qw         & \gate{\g X} & \qw         & \qw
+    }
+\]
+\begin{example}[Fazni zamik]
+    \begin{align*}
+        S_α = \begin{bmatrix}1&0\\0&e^{iα}\end{bmatrix}
+        \text{, posebej označimo } S ≔ S_{\newfrac{π}{2}}\text{: }
+        S² = X\\
+        S_α\p{a₀\ket 0 + a₁\ket1} = a₀\ket0 + a₁e^{iα}\ket1.
+    \end{align*}
+\end{example}
+
+\subsubsection{Kvantna meritev}
+
+\begin{definition}[Kvantna meritev]
+    Meritev kubita \(a = a_0\ket0 + a_1\ket1\) označimo \(M\p{a}\) in je \(0\) z verjetnostjo \(|a_0|^2\) in \(1\) z verjetnostjo \(|a_1|^2\). To "`uniči"' kubit \(a\).
+    \[ \Qcircuit @C=1em @R=.7em {
+            & \meter & \cw %& & \ctrlo{1} & \ctrl{1} & \qw & & \ctrl{1} & \qw \\
+            % &        &     & & \gate U & \gate V & \qw & & \targ & \qw
+        }
+    \]
+\end{definition}
+% \begin{definition}[Kontrola]
+%     Kontrolirana vrata so …
+% \end{definition}
+
+% TODO: QPL, vezje
+\begin{example}[Projekcija na Z os]
+    \[ \Qcircuit @C=1em @R=.7em {
+            & \lstick{\ket0} & \gate{\g X} & \rstick{b} \qw\\
+            \lstick{a} & \meter & \cctrl{-1}
+        }
+    \]
+\end{example}
+
+\begin{example}[Naključna rotacija faze]
+    \[ \Qcircuit @C=1em @R=.7em {
+            \lstick{a} & \qw & \qw & \qw & \qw & \gate{\g Z} & \rstick{a}\qw\\
+            && \lstick{\ket0} & \gate{\had} & \meter & \cctrl{-1}
+        }
+    \]
+\end{example}
+% \[ \Qcircuit @C=1em @R=.7em {
+%         & \lstick{\ket0} & \gate{\g X} & \rstick{b} \qw &&&&
+%         \lstick{a} & \qw & \qw & \qw & \qw & \gate{\g Z} & \rstick{a}\qw\\
+%         \lstick{a} & \meter & \cctrl{-1} &&&&
+%         &&& \lstick{\ket0} & \gate{\had} & \meter & \cctrl{-1}
+%     }
+% \]
+
+% \frame{
+%     \frametitle[Vezja]{Grafični prikaz}
+
+%     Grafično predstavimo kot kvantna vezja:
+%     \[ \Qcircuit @C=1em @R=.7em {
+%             & \gate{\g U} & \qw & & \meter & \cw \\
+%             & \ctrl{1} & \qw & & \ctrlo{1} & \ctrl{1} & \qw \\
+%             & \targ & \qw & & \gate{\g U} & \gate{\g V} & \qw
+%         }
+%     \]
+% }
+
+\subsection{Algebrajski učinki}
+
+\begin{definition}[Računski učinki]
+    Če ima funkcija ali operacija še kak navzven viden učinek poleg vrnjene vrednosti temu pravimo računski učinek (učinek računanja).
+\end{definition}
+
+\begin{definition}[Algebrajski učinki]
+    So računski učinki, ki jih lahko predstavimo z algebrajsko teorijo.
+\end{definition}
+
+\subsection{Kvantno računalništvo}
+
+Kaj sploh imamo?
+\begin{itemize}
+    \item Tip kubitov \texttt{qubit}. Funkcije dostopanja:
+    \begin{itemize}
+        \item \(\eff{new}\): dodeli nov kubit, z začetno vrednostjo \(\ket 0\).
+        \item \(\eff{apply}_{\g U}\): Uporabi vrata \(U\) na danem kubitu.
+        \item \(\eff{measure}\): izvede meritev na kubitu, vrne element tipa \texttt{bit}.
+    \end{itemize}
+    \item Za tipa \(A\) in \(B\) obstaja tip \(A\otimes B\) prepletenih parov.
+\end{itemize}
+\begin{example}[Prepleteni pari kubitov]  % TODO: Kontrolirana vrata
+    Obstajajo ti. kontrolirana vrata, na primer \(\ctl X\).
+    \(\eapply{\ctl X}{a, b}\) se obnaša kot
+    \qpl{if |\(\emeasure{a} = 0\)| then |\( \p{a, b} \)| else |\( \p{a, ¬b} \)|}
+\end{example}
+
+\subsubsection{Pretvorba v algebrajske izraze}
+
+\begin{table}[ht]
+    % TODO: mogoče drug vrstni red?
+    \centering
+    \begin{tabular}{|l|l|l|}
+        \hline
+        Kvantni programski jezik  & Algebrajski izrazi       & Matematični simboli        \\
+        \hline
+        \qpl{let |\( a \leftarrow \enew \)| in |\( t \)|}
+                                  & \( \tnew{a}{t} \)        & \( \new{a}{t} \)           \\
+        \qpl{|\( \eapply{\g{U}}{a} \)|; |\( x\p{a} \)|}
+                                  & \( \tapply{U}{a}{t} \)   & \( \apply{U}{a}{t} \)      \\
+        \qpl{if |\( \emeasure{a} = 0 \)| then |\( t \)| else |\( u \)|}
+                                  & \( \tmeasure{a}{t}{u} \) & \( \measureraw{a}{t}{u} \) \\
+        \qpl{if |\( \emeasure{a} = 0 \)| then |\( t \)| else |\( t \)|}
+        % \qpl{|\( \ediscard{a}; t \)|}
+                                  & \( \tdiscard{a}{t} \)    & \( \discard{a}{t} \)       \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{example}[Projekcija na \( Z \)-os]\(\)
+    \begin{enumerate}
+        \item \qpl{if |\(\eff{measure}\p{a} = 0\)| then |\( \enew \)| else |\( \eapply{\g{X}}{\enew} \)|}
+        \item \( \tmeasure{a}{\tnew{b}{x\p{b}}}{\tnew{b}{\tapply{X}{b}{x\p{b}}}} \)
+        \item \(
+            \measure{b}
+                {\new{a}              {x\p{a}}}
+                {\new{a} {\apply{X}{a}{x\p{a}}}
+            }\)
+    \end{enumerate}
+\end{example}
+
+\begin{example}[Naključna rotacija faze]\(\)
+    \begin{enumerate}
+        \item \qpl{if |\( \emeasure{\eapply{\had}{\enew}} = 0 \)| then |\( a \)| else |\( \eapply{\g{Z}}{a} \)|}
+        \item \( \tnew{b}{\tapply{\had}{b}{\tmeasure{b}{x\p{a}}{\tapply{Z}{a}{x\p{a}}}}} \)
+        \item \(
+            \new{a}{ \apply{\had}{a}{
+                \measureraw{a}
+                    {x\p{b}}
+                    {\apply{Z}{b}{x\p{b}}}
+            }}\)
+    \end{enumerate}
+\end{example}
+
+\subsubsection{Aksiomi}
+
+Osnovni aksiomi na kratko:
+\begin{gather}
+\intertext{Kvantna negacija pred meritvijo je negacija po meritvi.}
+    \apply{X}{a}{\measureraw{a}{x}{y}} = \measureraw{a}{y}{x}\label{ax-1}
+\intertext{Kvantna kontrola je po meritvi kot klasična kontrola.}
+    \measureraw{a}{\apply{U}{b}{x(b)}}{\apply{V}{b}{y(b)}}
+        = \applyd{U, V}{a,b}{\measureraw{a}{x(b)}{y(b)}}\label{ax-2}
+\intertext{Kvantna vrata uporabljena na zavrženih kubitih so odveč.}
+    \apply{U}{a}{\discard{a}{t}} = \discard{a}{t}\label{ax-3}
+\intertext{Meritve novih kubitov so vedno \(0\).}
+    \new{a}{\measureraw{a}{x}{y}} = x\label{ax-4}
+\intertext{Vrata kontrolirana z novimi kubiti se nikoli ne uporabijo.}
+    \new{a}{\applyd{U,V}{a,b}{x{\p{a,b}}}}
+        = \apply{U}{b}{\new{a}{x{\p{a,b}}}}\label{ax-5}
+\intertext{Ostanejo še bolj "`administrativni"' aksiomi.}
+\intertext{Spoštovanje simetrične grupe.}
+    \apply{swap}{a,b}{x{\p{a,b}}} = x(b,a)\label{ax-6}\\
+    \apply{I}{a}{x{\p a}} = x{\p a}\label{ax-7}\\
+    \apply{UV}{a}{x{\p a}} = \apply{U}{a}{\apply{V}{a}{x{\p a}}}\label{ax-8}\\
+    \apply{U⊗V}{a,b}{x{\p{a,b}}} = \apply{U}{a}{\apply{V}{b}{x{\p{a,b}}}}\label{ax-9}
+\intertext{Komutativnost.}
+    % \apply{U}{a}{\apply{V}{b}{x{\p{a,b}}}} = \apply{V}{b}{\apply{U}{a}{x{\p{a,b}}}}\\
+    \measure{a}{\measureraw{b}{u}{v}}{\measureraw{b}{x}{y}}
+        = \measure{b}{\measureraw{a}{u}{x}}{\measureraw{a}{v}{y}}\label{ax-10}\\
+    \new{a}{\new{b}{x{\p{a,b}}}} = \new{b}{\new{a}{x{\p{a,b}}}}\label{ax-11}\\
+    \new{a}{\measureraw{b}{x{\p a}}{y{\p a}}}
+        = \measure{b}{\new{a}{x{\p a}}}{\new{a}{y{\p a}}}\label{ax-12}
+\end{gather}
+
+% \apply{X}{a}{\apply{\H}{b}{x{\p{a,b}}}} = \apply{\H}{b}{\apply{X}{a}{x{\p{a,b}}}}
+\begin{example}
+    \begin{align*}
+        &\hspace{-3em}\measure{b}{\new{a}{x\p{a}}}{\new{a}{\apply{X}{a}{x\p{a}}}}\\
+        =&\new{a}{\measureraw{b}{x\p{a}}{\apply{X}{a}{x\p{a}}}}&{(\ref{ax-12})}\\
+        =&\new{a}{\apply{\ctl X}{b,a}{\measureraw{b}{x\p{a}}{x\p{a}}}}&{(\ref{ax-2})}\\
+        =&\new{a}{\apply{\ctl X}{b,a}{\discard{b}{x\p{a}}}}&{(\text{def.})}\\
+        =&\new{a}{\apply{\ctl X}{a,b}{\apply{\ctl X}{b,a}{\discard{a}{x\p{b}}}}}&\\
+        =&\new{a}{\apply{\ctl X}{b,a}{\discard{a}{x\p{b}}}}&{(\ref{ax-5})}\\
+        =&\new{a}{\apply{\had}{a}{\apply{\ctl Z}{a,b}{\apply{\had}{a}{\discard{a}{x\p{b}}}}}}&\\
+        =&\new{a}{\apply{\had}{a}{\apply{\ctl Z}{a,b}{\discard{a}{x\p{b}}}}}&{(\ref{ax-3})}\\
+        =&\new{a}{\apply{\had}{a}{\measureraw{a}{x\p{b}}{\apply{Z}{b}{x\p{b}}}}}.&(\ref{ax-2})
+    \end{align*}
+\end{example}
+
+\printbibliography
 
 \end{document}
