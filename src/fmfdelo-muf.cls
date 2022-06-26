@@ -43,12 +43,6 @@
 
 \RequirePackage[a-2b]{pdfx}
 
-\ifthenelse{\boolean{@english}}{
-  \RequirePackage[english]{babel}
-}{
-  \RequirePackage[slovene,english]{babel}
-}
-
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
 \RequirePackage{amsfonts}
