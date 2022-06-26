@@ -280,3 +280,7 @@ TSWLatexianTemp*
 
 # Makeindex log files
 *.lpz
+
+# custom
+presentation/kratka_predstavitev.pdf
+presentation/kratka_predstavitev.tex

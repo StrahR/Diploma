@@ -13,7 +13,7 @@ Natančnejši opis lahko najdete v \cite{ess-qc}.
 Spodaj sta dva primera kvantnih programov, opisana z besedami in diagrami, ki ju bomo srečali tudi še kasneje.
 
 \begin{example}[Projekcija na \(z\)-os]\label{ex:proj-z}
-    Najprej zmerimo \( a \) in nato glede na rezultat svež kubit bodisi negiramo bodisi ne.
+    Najprej zmerimo \(a\) in nato glede na rezultat svež kubit bodisi negiramo bodisi ne.
     Na Blochovi sferi to zgleda približno kot projekcija na \(z\)-os (edina kubita na \(z\)-osi sta \( \ket0 \) in \( \ket1 = X \ket0 \)).
     \[ \Qcircuit @C=1em @R=.7em {
             & \lstick{\ket0} & \gate{\g X} & \rstick{b} \qw\\
@@ -24,7 +24,7 @@ Spodaj sta dva primera kvantnih programov, opisana z besedami in diagrami, ki ju
 
 \begin{example}[Naključna rotacija faze]\label{ex:rand-ph-shift}
     Meritev Hadamardovega vektorja simulira pravičen met kovanca,
-    vrata \( Z \) pa rotirajo fazo, torej bomo v polovici primerov kubitu \( a \) rotirali fazo.
+    vrata \(Z\) pa rotirajo fazo, torej bomo v polovici primerov kubitu \(a\) rotirali fazo.
     \[ \Qcircuit @C=1em @R=.7em {
             \lstick{a} & \qw & \qw & \qw & \qw & \gate{\g Z} & \rstick{a}\qw\\
             && \lstick{\ket0} & \gate{\had} & \meter & \cctrl{-1}

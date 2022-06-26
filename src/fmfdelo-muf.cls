@@ -41,7 +41,7 @@
 
 \LoadClass[a4paper,12pt]{amsart}
 
-\RequirePackage[a-1b]{pdfx}
+\RequirePackage[a-2b]{pdfx}
 
 \ifthenelse{\boolean{@english}}{
   \RequirePackage[english]{babel}
@@ -83,6 +83,7 @@
 \setmathfont{Latin Modern Math}
 \setmathfont{Asana Math}[range={scr}]
 \setmathfont{STIX Two Math-Regular}[range={bb}]
+\setmathfont{STIX Two Math-Regular}[range={"2102,"210D,"2115,"2119,"211A,"211D,"2124}]
 % \setmathfont{Asana Math}[range={"007B,"007D}]  % {}
 \setmathfont{Asana Math}[range={8709}]  % U+2205, emptyset
 \ifthenelse{\boolean{@english}}{
