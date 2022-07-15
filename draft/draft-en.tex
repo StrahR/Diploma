@@ -1,0 +1,623 @@
+\documentclass[a4paper]{article}
+\usepackage[british]{babel}
+
+% \title{Kvantni algebrajski učinki}
+\title{Quantum Algebraic Effects}
+\author{Strah,\quad mentor: doc.~dr.~Matija~Pretnar}
+% \mentor{doc.~dr.~Matija~Pretnar}
+\date{\today}
+
+\input{muf-en.tex}
+
+\addbibresource{draft.bib}
+
+% \renewcommand{\thesection}{\Roman{section}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+    % \subsubsection*{Motivacija} % TODO: Reword
+
+    Quantum computing is based on many modern programming language theory concepts,
+    % Kvantno računalništvo temelji na veliko modernih konceptih v teoriji programskih jezikov,
+    % Kvantni programski jeziki predstavljajo nove probleme za teorijo programskih jezikov,
+    such as linear types, (quantum) physics, and many others.
+    % kot na primer linearnost tipov, (kvantnimi) fizikalnimi pojavi, in še mnogo drugimi.
+    In my thesis I will be focusing on these two, but in this article I will only present the latter.
+    % V diplomski nalogi se bomo posvetili tema dvema, v tem članku pa zgolj drugemu.
+    % V tej nalogi se bomo posvetili tema dvema.
+    % Dober način razumevanja je, da razumemo enakost programov.
+    Our goal is understanding quantum programs,
+    % Naš cilj je razumeti, kako se kvantni programi obnašajo,
+    and a good way of understanding them is understanding program equality.
+    % , that is, when are two programs equal.
+    % in dober način je razumevanje enakosti programov.
+    % tj. kdaj sta dva programa enaka.
+
+    % \subsubsection*{Pregled}
+
+    % Najprej bomo predstavili algebrajsko teorijo za kvantne programe;
+    % ta je zgrajena na unitarnih vratih in meritvah ter ima linearne parametre.
+    % Nato bomo dokazali, da lahko s to teorijo predstavimo vse programe (polnost)
+    % in nato iz nje izpeljali pravila za enakost kvantnih programov.
+\end{abstract}
+
+
+\section{Quantum Mechanics}
+
+This part is mostly summarised from \cite{ess-qc}.
+% Ta del je povzet po \cite{ess-qc}.
+It contains basic definitions (and examples) of mathematical basis of quantum mechanics
+% Vsebuje osnovne definicije (in primere) matematičnih osnov kvantne mehanike,
+that we need to define our desired qubit operations.
+% ki jih potrebujemo za definicije želenih operacij nad kubiti.
+% Te se nahajajo na prvih nekaj straneh.
+
+\subsubsection*{Notation}
+Throughout this part I will be using the following symbols:
+\begin{itemize}
+    \item \( ℕ = \{ 0, \dots \} \), \( ℕ_+ = \{ 1, \dots \} \), \( ℕₙ = \{ 0, \dots, 2ⁿ-1 \} \),
+    \item \( n,m \in ℕ_+ \), which we call the number of qubits,
+    \item \( j, k, \dots \in ℕₙ \),
+    % \item \( j = jₙ \dots j₀ \) binarni zapis števila \( j \),
+    \item \( aⱼ \) \( j \)-th component of vector \( a \),
+    \item \( j = j₁ \dots jₙ \) the binary representation of \( j \).
+    % \item \( \mb 0ⁿ = 0\dots0, \mb 1ⁿ = 1\dots1 \).
+    % \item \( \mb n = \{ 0, \dots, n-1 \} \), na primer \( \mb 2 = \{ 0, 1 \} \).
+    % \item \( \mathbb n = \{ 0, \dots, n-1 \} \), na primer \( \mathbb 2 = \{ 0, 1 \} \).
+\end{itemize}
+
+\subsection{Quantum Vectors}
+
+\begin{definition}\label{binv}
+    Binary vectors are elements of the space \( \B[n] ≔ \{ 0, 1 \}ⁿ \) and I will be writing them as stings of \(1\)s and \(0\)s.  For us they represent classical computation.
+\end{definition}
+
+\begin{example}
+    \(\B[2] = \{00, 01, 10, 11\}\).
+\end{example}
+\begin{remark}
+    \(1\) and \(01\) represent different vectors.
+\end{remark}
+
+\begin{definition}[Hilbert space]\label{hilb-sp}
+    Elements of the space \( \HH[n] ≔ \C^{2ⁿ} \) are called quantum vectors, while elements of  \( \HH ≔ \HH[1] \) are qubits.  The space \( \HH[n] \) is thus called the space of quantum vectors of order \( n \), and its standard basis is denoted with \( \{eⱼ\} \).  This is where quantum processes take place.
+\end{definition}
+
+\begin{definition}[Braket notation]\label{braket}
+    Let \( j \in ℕₙ \) and \( \hat{\jmath} \in \B[n] \) be the corresponding binary vector.  Then \( \ket j = \ket{\hat{\jmath}} ≔ eⱼ \).
+\end{definition}
+\begin{remark}
+    By definition, it follows that \( \HH[n] = \LL[\C]{\set{\ket j}{j\in\B[n]}} \).
+\end{remark}
+
+\begin{example}[\( n = 1 \) and \( n = 2 \)]
+    \begin{align*}
+        a &= \begin{bmatrix}a₀\\a₁\end{bmatrix}
+        = a₀\begin{bmatrix}1\\0\end{bmatrix} + a₁\begin{bmatrix}0\\1\end{bmatrix}
+        = a₀\ket 0 + a₁\ket 1,\\
+        a &= \begin{bmatrix}a₀\\a₁\\a₂\\a₃\end{bmatrix}
+        = \begin{bmatrix}a₀₀\\ a₀₁\\ a₁₀\\ a₁₁\end{bmatrix}
+        = a₀₀\ket{00} + a₀₁\ket{01} + a₁₀\ket{10} + a₁₁\ket{11}.
+    \end{align*}
+\end{example}
+
+\begin{example}[Hadamard vector]\label{had}\(\)
+    \vspace{-1em}
+    \[ \hh ≔ ρ \left(\ket 0 + \ket 1\right),\quad
+        \hh[n] ≔ ρⁿ\sum_{j\in\B[n]} \ket j,\quad
+        ρ ≔ \frac{1}{\sqrt2}.
+    \]
+\end{example}
+
+\subsection{Bloch Sphere}
+
+\vspace{-1.5em}
+\parbox[t]{.7\textwidth}{
+    \begin{statement}
+        In the physical world two qubits that differ by a (complex) factor represent the same state.
+        Mathematically this means states of qubits (also qubits) live in \( \mathbf{P}\C¹ \cong \S² \):
+        \[ a = \cos\frac{θ}{2}\ket0 + e^{iφ}\sin\frac{θ}{2}\ket1,\quad
+            φ \in [0, 2π), θ \in [0, π]. \]
+    \end{statement}
+    \begin{proof}
+        Let \( a = a₀\ket0 + a₁\ket1 = r₀e^{iφ₀}\ket0 + r₁e^{iφ₁}\ket1 \).\\
+        Denote \( r ≔ \sqrt{r₀² + r₁²}, φ ≔ φ₁ - φ₀, θ ≔ 2\arccos{\frac{r₀}{r}} \).\\
+        Then \( a = \hat a ≔ \frac{a}{re^{iφ₀}} = \frac{r₀}{r}\ket0 + \frac{r₁}{r}e^{iφ}\ket1 = \cos\frac{θ}{2}\ket0 + e^{iφ}\sin\frac{θ}{2}\ket1 \).
+    \end{proof}
+}\hfill
+\begin{tikzpicture}[baseline=(current bounding box.north)]
+    % Define radius
+    \def\r{7/2}
+    
+    % Bloch vector
+    \draw (0,0) node[circle,fill,inner sep=1] (orig) {} -- (\r/6,\r/4) node[circle,fill,inner sep=0.7,label=above:\(a\)] (a) {};
+    \draw[dashed] (orig) -- (\r/6,-\r/10) node (phi) {} -- (a);
+    
+    % Sphere
+    \draw (orig) circle (\r/2);
+    \draw[dashed, gray] (orig) ellipse (\r/2 and \r/6);
+    
+    % Axes
+    \draw[->] (orig) -- ++(-\r/10,-\r/6) node[below] (x) {\(x\)};
+    \draw[->] (orig) -- ++(\r/2,0) node[right] (y) {\(y\)};
+    \draw[->] (orig) -- ++(0,\r/2) node[above] (z) {\(z=\ket 0\)};
+    \draw[->, draw=gray] (orig) -- ++(0,-\r/2) node[below] (s) {\(\ket 1\)};
+    
+    %Angles
+    % \draw[->, draw=gray] 
+    % \draw[draw=gray,->] (orig) ellipse (\r/6 and \r/12) node {\(φ\)};
+    \pic[draw=gray,->,"\(φ\)",angle eccentricity=0.6] {angle=x--orig--phi};
+    \pic[draw=gray,<-,"\(θ\)",angle eccentricity=1.4] {angle=a--orig--z};
+\end{tikzpicture}
+
+\subsection{Tensor Product}
+
+\begin{definition}[Tensor product]\label{tensorprod}
+    The tensor product of spaces \( \HH[n] \) and \( \HH[m] \) is equal to \( \HH[n+m] \).
+    We write \( \HH[n]⊗\HH[m] \).
+    If \( a\in\HH[n] \) and \( b\in\HH[m] \) then \( a⊗b \in \HH[n]⊗\HH[m] \).
+\end{definition}
+\begin{remark}
+    The operator \(⊗\) is indeed a tensor product.
+\end{remark}
+\begin{example}[Tensor product of basis vectors]
+    \[ \ket j ⊗ \ket k = \ket{j₁\dots jₙk₁\dots kₘ} = \ket j \ket k = \ket{jk},
+    \]
+\end{example}
+\begin{example}[General tensor product]\(\)
+    \vspace{-1em}
+    \[ 
+        \begin{bmatrix}a₀ \\ a₁\end{bmatrix}⊗\begin{bmatrix}b₀ \\ b₁\end{bmatrix}
+        = \begin{bmatrix}a₀b₀\\ a₀b₁\\ a₁b₀\\ a₁b₁\end{bmatrix},\quad
+        a⊗b = \sum_{\substack{j\in\B[n],\\k\in\B[m]}} aⱼbₖ\ket{jk}.
+    \]
+\end{example}
+\begin{examples}[Tensor exponent]
+    \begin{align*}
+        &\hh[n] = \hh^{⊗n}
+        = ρⁿ\underbrace{(\ket 0 + \ket 1) ⊗ \dots ⊗ \p{\ket 0 + \ket 1}}_n,\\
+        &\HH[n] = \HH^{⊗n} = \underbrace{\HH ⊗ \dots ⊗ \HH}_n.
+    \end{align*}
+\end{examples}
+
+\begin{definition}
+    If \( a\in\HH[n] \) can be written as \( \bigotimes_{j=1}^{n} aⱼ \) for some \( aⱼ\in\HH \) we say it's simple or separable, otherwise it's composite or quantum entangled. % NOTE: simple? elementary?
+\end{definition}
+
+\subsection{Quantum Maps}
+
+\begin{definition}%[Unitarna vrata]
+    The space of unitary gates of order \( n \) is \( \U[n] ≔ \U{\p{2ⁿ}} \), the space of unitary \( 2ⁿ \times 2ⁿ \) matrices.
+    The tensor product of gates \( U⊗V ≔ [u_{jk}V]_{j,k} \) used on \( a⊗b \) is \( Ua⊗Vb \).
+\end{definition}
+
+\begin{example}[Tensor product of unitary gates]
+    \[
+        \begin{bmatrix}
+            a₀₀ & a₀₁ \\ a₁₀ & a₁₁
+        \end{bmatrix} ⊗ B
+        % \begin{bmatrix}
+        %     b₀₀ & b₀₁ \\ b₁₀ & b₁₁
+        % \end{bmatrix}
+        =
+        \begin{bmatrix}
+            a₀₀ B & a₀₁ B \\ a₁₀ B & a₁₁ B
+        \end{bmatrix}.
+    \]
+        % \begin{bmatrix}
+        %     a₀₀b₀₀ & a₀₁b₀₀ & a₀₀b₀₁ & a₀₁b₀₁ \\
+        %     a₁₀b₀₀ & a₁₁b₀₀ & a₁₀b₀₁ & a₁₁b₀₁ \\
+        %     a₀₀b₁₀ & a₀₁b₁₀ & a₀₀b₁₁ & a₀₁b₁₁ \\
+        %     a₁₀b₁₀ & a₁₁b₁₀ & a₁₀b₁₁ & a₁₁b₁₁
+        % \end{bmatrix}
+    % \]
+\end{example}
+
+\begin{definition}%[Bločno-diagonalna matrika]
+    For gates \( U₀,\dots,Uₛ \) we denote their block-diagonal matrix with \( D{\p{U₀,\dots,Uₛ}} \).
+\end{definition}
+
+\begin{theorem}[No cloning]\label{no-cloning}
+    There doesn't exist a unitary gate of odrer \( 2 \), which maps every vector of the form \(a ⊗\ket{0}\in \HH ⊗\HH\) to \(a⊗a\).
+\end{theorem}
+
+\begin{proof}
+    Let \(U\) be such that for all \( a \in \HH \) we have \( U{\p{a⊗\ket0}} = a⊗a \).\\
+    Then for \( \hh ⊗\ket0 = ρ(\ket{00} + \ket{10}) \) the following holds:
+    \[
+        U{\p{ρ(\ket{00} + \ket{10})}} =
+        \begin{cases}
+            ρ²(\ket{00} + \ket{01} + \ket{10} + \ket{11}),\\
+            ρ U\ket{00} + U\ket{10} = ρ(\ket{00} + \ket{11}),
+        \end{cases}
+    \]
+    which is a contradiction.
+\end{proof}
+
+\begin{example}[Pauli matrices]
+    These are the matrices of half-rotation around the axes on the bloch sphere:
+    \[
+        I₂ = \begin{bmatrix} 1 &  0 \\ 0 &  1 \end{bmatrix},\quad
+        X  = \begin{bmatrix} 0 &  1 \\ 1 &  0 \end{bmatrix},\quad
+        Y  = \begin{bmatrix} 0 & -i \\ i &  0 \end{bmatrix},\quad
+        Z  = \begin{bmatrix} 1 &  0 \\ 0 & -1 \end{bmatrix}.
+    \]
+    It holds that \(X² = Y² = Z² = I₂\).
+    The map \( X \) is also called negation,
+    since \( X{\ket0} = \ket1 \) and \( X{\ket1} = \ket0 \).
+\end{example}
+
+\begin{example}[Hadamard matrix]
+    \[
+        \had = ρ\begin{bmatrix}1&1\\1&-1\end{bmatrix},\quad
+        \had\ket{0} = \hh,\quad
+        \had^{⊗n}\ket{\mathbf{0}ⁿ} = \hh[n].
+    \]
+\end{example}
+
+% \[ \Qcircuit @C=1em @R=.7em {
+%         & \gate{\had} & \gate{\g Z} & \gate{\had} & \qw\\
+%         &             &      =      &             &    \\
+%         & \qw         & \gate{\g X} & \qw         & \qw
+%     }
+% \]
+\begin{example}[Phase shift]
+    \begin{align*}
+        &S_α = \begin{bmatrix}1&0\\0&e^{iα}\end{bmatrix}
+        \text{, posebej označimo } S ≔ S_{\newfrac{π}{2}}, T ≔ S_{\newfrac{π}{4}}, \\
+        &S_α\p{a₀\ket 0 + a₁\ket1} = a₀\ket0 + a₁e^{iα}\ket1.
+    \end{align*}
+\end{example}
+
+\subsection{Quantum Measurement}
+
+In classical computation we have \texttt{if} statements.
+This can be generalised in two ways;
+first, with direct measurement (and classical \texttt{if} statements),
+and second by using quantum entanglement.
+It turns out that after measurement the two ways are equivalent.
+
+% V klasičnem računalništvu poznamo pogojne stavke. To lahko na kubite posplošimo na dva načina,
+% prvi z direktno meritvijo kubita (in uporabo klasičnih pogojnih stavkov),
+% drugi pa z uporabo kvantne prepletenosti.
+% Izkaže se, da če na koncu zmerimo kubite, se drugi način obnaša enako kot prvi.
+
+\begin{definition}[Quantum Measurement]
+    Denote the measurement of a qubit \( a = a_0\ket0 + a_1\ket1 \) with \( M{\p a} \) and it is \(0\) with probability \(|a_0|^2\) and \(1\) with probability \(|a_1|^2\). This will \airquotes{destroy} the qubit \(a\).
+    % Meritev kubita \(a = a_0\ket0 + a_1\ket1\) označimo \(M\p{a}\) in je \(0\) z verjetnostjo \(|a_0|^2\) in \(1\) z verjetnostjo \(|a_1|^2\). To \airquotes{uniči} kubit \(a\).
+    % \[ \Qcircuit @C=1em @R=.7em {
+    %         & \meter & \cw %& & \ctrlo{1} & \ctrl{1} & \qw & & \ctrl{1} & \qw \\
+    %         % &        &     & & \gate U & \gate V & \qw & & \targ & \qw
+    %     }
+    % \]
+\end{definition}
+
+\begin{definition}[Quantum Control]
+    For \( r,s\in\N \) and \( U \in \U[1] \) define  \( C_{r,s}{\p U} \) and \( \overline{C}_{r,s}{\p U} \) by
+    % Za \( r,s\in\N \) in \( U \in \U[1] \) definiramo \( C_{r,s}{\p U} \) in \( \overline{C}_{r,s}{\p U} \) s predpisoma
+    \[ C_{r,s}{\p U}\ket j = \begin{cases}
+        \ket j &; jᵣ = 0\\
+        \ket{j₁\dots}\ket{U{jₛ}}\ket{\dots jₙ} &; jᵣ = 1
+    \end{cases}\qquad
+    \overline{C}_{r,s}{\p U}\ket j = \begin{cases}
+        \ket j &; jᵣ = 1\\
+        \ket{j₁\dots}\ket{U{jₛ}}\ket{\dots jₙ} &; jᵣ = 0
+    \end{cases}
+    \]
+    We call such gates controlled (\airquotes{on one} and \airquotes{on zero}).
+    % Takim vratom pravimo kontrolirana (\airquotes{na ena} in \airquotes{na nič}).
+    Specially, for \( U \in \U[1] \) we denote
+    % Posebej za \( U \in \U[1] \) označimo
+    \[ \ctl U ≔ C_{1,2}{\p U} = \D{I₂, U},\quad
+        \ctlo U ≔ \overline{C}_{1,2}{\p U} = \D{U, I₂}. \]
+\end{definition}
+
+\begin{example}[Entangled qubits]
+    Controlled gates entangle pairs of qubits. For example \( \eapply{\ctl X}{a, b} \) behaves like 
+    \qpl{if |\(\emeasure{a} = 0\)| then |\( \p{a, b} \)| else |\( \p{a, \lnot b} \)|}.
+    % Kontrolirana vrata prepletejo pare kubitov. Na primer\\
+    % \( \eapply{\ctl X}{a, b} \) se obnaša kot
+    % \qpl{if |\(\emeasure{a} = 0\)| then |\( \p{a, b} \)| else |\( \p{a, \lnot b} \)|}.
+    Of course, we know the second expression is not valid (since measurement destroys \(a\)),
+    but it is for this exact reason that quantum control is the tool we want to replace \texttt{if} statements with!
+    % Seveda vemo, da drugi izraz ni veljaven (ker meritev uniči kubit a),
+    % ampak je zato kontrola ravno tisto orodje, s katerim želimo nadomestiti pogojne stavke.
+\end{example}
+
+
+\section{Quantum Computation, Algebraic Effects and Diagrams}
+
+\subsection{Quantum Circuits}
+
+Quantum programs can be represented as circuit diagrams.
+Boxes represent quantum gates and lines between them wires; single for qubits, double for classical bits.
+Circles on the wire (and then a vertical wire from them)
+represent control; empty circles control \airquotes{on zero} and full control \airquotes{on one}.
+We read such circuits left to right.
+A more thorough account can be found in \cite{ess-qc}.
+
+% Kvantne programe lahko predstavimo kot diagrame vezja.
+% Škatle predstavljajo unitarna vrata, črte med njimi pa žice;
+% po enojnih žicah tečejo kubiti, po dvojnih pa klasični biti (\(0\) ali \(1\)).
+% Pike na žici (in potem navpična žica ven) pomenijo kontrolo;
+% prazna pika kontrolira \airquotes{na nič}, polna pa \airquotes{na ena}.
+% Taka vezja beremo od leve proti desni.
+% Natančnejši opis lahko najdete v \cite{ess-qc}.
+
+Below are two examples of quantum programs, described both with words and diagrams. We will also see these examples used later.
+
+% Spodaj sta dva primera kvantnih programov, opisana z besedami in diagrami, ki ju bomo srečali tudi še kasneje.
+
+\begin{example}[Projection to the \(z\)-axis]\label{ex-proj-z}
+    First measure \(a\) and then depending on the result either flip or leave alone a fresh qubit.
+    On the Bloch sphere this looks approximately like a projection to the \(z\)-axis (as the only qubits on it are \(\ket 0\) and \(\ket 1\)).
+    % Najprej zmerimo \( a \) in nato glede na rezultat svež kubit bodisi negiramo bodisi ne.
+    % Na Blochovi sferi to zgleda približno kot projekcija na \(z\)-os (edina kubita na \(z\)-osi sta \( \ket0 \) in \( \ket1 = X \ket0 \)).
+    \[ \Qcircuit @C=1em @R=.7em {
+            & \lstick{\ket0} & \gate{\g X} & \rstick{b} \qw\\
+            \lstick{a} & \meter & \cctrl{-1}
+        }
+    \]
+\end{example}
+
+\begin{example}[Random phase shift]\label{ex-rand-ph-shift}
+    Measurement of the Hadamard vector simulates a fair coin toss and the \(Z\) gate is a phase shift by \(\pi\) radians. The algorithm randomly either shifts the phase or not.
+    % Meritev Hadamardovega vektorja simulira pravičen met kovanca,
+    % vrata \( Z \) pa rotirajo fazo, torej bomo v polovici primerov kubitu \( a \) rotirali fazo.
+    \[ \Qcircuit @C=1em @R=.7em {
+            \lstick{a} & \qw & \qw & \qw & \qw & \gate{\g Z} & \rstick{a}\qw\\
+            && \lstick{\ket0} & \gate{\had} & \meter & \cctrl{-1}
+        }
+    \]
+\end{example}
+% \[ \Qcircuit @C=1em @R=.7em {
+%         & \lstick{\ket0} & \gate{\g X} & \rstick{b} \qw &&&&
+%         \lstick{a} & \qw & \qw & \qw & \qw & \gate{\g Z} & \rstick{a}\qw\\
+%         \lstick{a} & \meter & \cctrl{-1} &&&&
+%         &&& \lstick{\ket0} & \gate{\had} & \meter & \cctrl{-1}
+%     }
+% \]
+
+% \frame{
+%     \frametitle[Vezja]{Grafični prikaz}
+
+%     Grafično predstavimo kot kvantna vezja:
+%     \[ \Qcircuit @C=1em @R=.7em {
+%             & \gate{\g U} & \qw & & \meter & \cw \\
+%             & \ctrl{1} & \qw & & \ctrlo{1} & \ctrl{1} & \qw \\
+%             & \targ & \qw & & \gate{\g U} & \gate{\g V} & \qw
+%         }
+%     \]
+% }
+
+\subsection{Algebraic Effects}
+
+We often use computational effects while programming:
+global variable state, IO devices, randomness, exceptions, non-determinism, etc.
+
+% Z računskimi učinki se med programiranjem pogosto srečamo: globalno stanje spremenljivk, vhodno/izhodne naprave, naključnost, izjeme, nedeterminizem, ipd.
+
+\begin{definition}[Computational Effects]
+    If a function or operation has some outward detectable effect other than the returned value we call it a computational effect (effect of the computation).
+    % Če ima funkcija ali operacija še kak navzven viden učinek poleg vrnjene vrednosti, slednjemu pravimo računski učinek (učinek računanja).
+    % Programe lahko ločimo na dve vrsti:
+    % \begin{itemize}
+    %     \item na čiste funkcije, ki zgolj vrnejo vrednost,
+    %     \item in operacije, ki imajo poleg vrnjene vrednosti še kak stranski učinek; temu pravimo računski učinek (učinek računanja).
+    % \end{itemize}
+\end{definition}
+
+\begin{definition}[Algebraic Effects]
+    Computational effects that can be represented with some algebraic theory are called algebraic effects.
+    % Računskim učinkom, ki jih lahko predstavimo s kašno algebrajsko teorijo, pravimo algebrajski učinki.
+\end{definition}
+
+
+\section{Quantum Programming Language}
+
+In our language\cite{algeff-lin-qpl} we have the usual basic constructs, e.g. types, \texttt{let} and \texttt{if} statements, etc.
+Other than that we also have quantum elements:
+the type of qubits \texttt{qubit} and for every two types \(A\) and \(B\) we have the type of entangled pairs \( A⊗B \).
+Due to the nature of qubits we cannot access their inner state directly, but we do have the following accessor functions:
+\begin{itemize}
+    \item \(\eff{new}\): assigns a new qubit with initial value \(\ket 0\),
+    \item \(\eff{apply}_{\g U}\): uses gate \(U\) on a given vector,
+    \item \(\eff{measure}\): measures a given qubit and returns an element of type \texttt{bit}.
+\end{itemize}
+
+
+% V našem jeziku\cite{algeff-lin-qpl} imamo navadne osnovne konstrukte,
+% npr. tipe, \texttt{let} ter \texttt{if} stavke, itd.
+% Poleg tega imamo pa še elemente kvantnega računalništva:
+% tip kubitov \texttt{qubit} in tip prepletenih parov \( A⊗B \) za vsaka dva tipa \(A\) in \(B\).
+% Zaradi narave kubitov ne moremo neposredno dostopati do notranjega stanja pomnilnika,
+% imamo pa naslednje funkcije dostopanja:
+% \begin{itemize}
+%     \item \(\eff{new}\): dodeli nov kubit, z začetno vrednostjo \(\ket 0\),
+%     \item \(\eff{apply}_{\g U}\): uporabi vrata \(U\) na danem vektorju,
+%     \item \(\eff{measure}\): izvede meritev na kubitu, vrne element tipa \texttt{bit}.
+% \end{itemize}
+
+\subsection{Conversion into Algebraic Expressions}
+
+The above constructs are assigned the following algebraic expressions. We also introduce a concise notation for pen and paper manipulation.
+
+% Konstruktom v programskem jeziku priredimo naslednje algebrajske izraze ter uvedemo še strnjeno obliko, za lažjo manipulacijo na papirju.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|l|l|l|}
+        \hline
+        Quantum programming language 
+            & Algebraic expressions              & Mathematical symbols          \\
+        \hline
+        \qpl{let |\( a \leftarrow \enew \)| in |\( x{\p{a}} \)|}
+            & \( \tnew{a}{x{\p a}} \)         & \( \new{a}{x{\p a}} \)       \\
+        \qpl{|\( \eapply{\g{U}}{a} \)|; |\( x{\p{a}} \)|}
+            & \( \tapply{U}{a}{x{\p a}} \)    & \(\apply{U}{a}{x{\p a}}\)    \\
+        \qpl{if |\( \emeasure{a} = 0 \)| then |\( t \)| else |\( u \)|}
+            & \( \tmeasure{a}{t}{u} \)        & \( \measureraw{a}{t}{u} \)   \\
+        % \qpl{if |\( \emeasure{a} = 0 \)| then |\( t \)| else |\( t \)|}
+        \qpl{|\( \ediscard{a} \)|; |\( t \)|}
+            & \( \tdiscard{a}{t} \)           & \( \discard{a}{t} \)         \\
+        \hline
+    \end{tabular}
+\end{table}
+
+% \pagebreak
+
+\begin{example}[Projection to the \( z \)-axis]\(\)
+    \begin{enumerate}
+        \item \qpl{if |\(\emeasure{a} = 0\)| then |\( \enew \)| else |\( \eapply{\g{X}}{\enew} \)|}
+        \item \( \tmeasure{a}{\tnew{b}{x{\p b}}}{\tnew{b}{\tapply{X}{b}{x{\p b}}}} \)
+        \item \(
+            \measure{a}
+                {\new{b}              {x{\p b}}}
+                {\new{b} {\apply{X}{b}{x{\p b}}}
+            }\)
+    \end{enumerate}
+\end{example}
+
+\begin{example}[Random phase shift]\(\)
+    \begin{enumerate}
+        \item \qpl{if |\( \emeasure{\eapply{\had}{\enew}} = 0 \)| then |\( a \)| else |\( \eapply{\g{Z}}{a} \)|}
+        \item \( \tnew{b}{\tapply{\had}{b}{\tmeasure{b}{x{\p a}}{\tapply{Z}{a}{x{\p a}}}}} \)
+        \item \(
+            \new{b}{ \apply{\had}{b}{
+                \measureraw{b}
+                    {x{\p a}}
+                    {\apply{Z}{a}{x{\p a}}}
+            }}\)
+    \end{enumerate}
+\end{example}
+
+\subsection{Axioms}
+
+We can separate the axioms for program equality into two groups: the first five are conceptual, while the other seven are administrative.
+The latter tell us \(\eff{apply}\) agrees with the algebraic structure of unitary matrices and that things commute as far as variable binding (and matrix order) allows. A more detailed description (with proofs) can be found in \cite{algeff-lin-qpl}.
+
+% Aksiomi za enakost programov so (brez dokaza) sledeči:
+% Aksiome za enakost programov lahko delimo na dva dela; prvih pet je glavnih, ostalih sedem pa bolj \airquotes{administrativnih} oziroma pomožnih. Slednji nam povejo zgolj, da se \( \eff{apply} \)
+% strinja s strukturo unitarnih matrik, ter da stvari komutirajo, kolikor vezanje spremenljivk (in vrstni red uporabe matrik) dopušča. Podrobnejši opis (z dokazom) najdete v \cite{algeff-lin-qpl}.
+
+% \setlength\parindent{0pt}
+
+\begin{axiom}{Quantum negation before measurement is regular negation after measurement:}\label{ax-1}
+    \( \apply{X}{a}{\measureraw{a}{x}{y}} = \measureraw{a}{y}{x} \).
+\end{axiom}
+
+\begin{axiom}{Quantum control is like classical control after measurement:}\label{ax-2}
+    \( \applyd{U, V}{a,b}{\measureraw{a}{x(b)}{y(b)}}
+        = \measureraw{a}{\apply{U}{b}{x(b)}}{\apply{V}{b}{y(b)}} \).
+\end{axiom}
+
+\begin{axiom}{Quantum gates used on discarded qubits are unnecessary:}\label{ax-3}
+    \( \apply{U}{a}{\discard{a}{t}} = \discard{a}{t} \).
+\end{axiom}
+
+% \begin{axiom}{Meritve novih kubitov so vedno \(0\):}\label{ax-4}
+\begin{axiom}{Fresh qubits are \(\ket 0\) wrt. measurement:}\label{ax-4}
+    \( \new{a}{\measureraw{a}{x}{y}} = x \).
+\end{axiom}
+
+% \begin{axiom}{Vrata kontrolirana z novimi kubiti se nikoli ne uporabijo:}\label{ax-5}
+\begin{axiom}{Fresh qubits are \(\ket 0\) wrt. control:}\label{ax-5}
+    \( \new{a}{\applyd{U,V}{a,b}{x{\p{a,b}}}} = \apply{U}{b}{\new{a}{x{\p{a,b}}}} \).
+\end{axiom}
+
+\begin{axiom}{Symmetric group \(\U[n]\) structure is respected:}\label{ax-6}
+    \( \apply{swap}{a,b}{x{\p{a,b}}} = x{\p{b,a}} \),
+\end{axiom}
+
+\begin{axiom}{}\label{ax-7}
+    \( \apply{I}{a}{x{\p a}} = x{\p a} \),
+\end{axiom}
+
+\begin{axiom}{}\label{ax-8}
+    \( \apply{UV}{a}{x{\p a}} = \apply{V}{a}{\apply{U}{a}{x{\p a}}} \),
+\end{axiom}
+
+\begin{axiom}{}\label{ax-9}
+    \( \apply{U⊗V}{a,b}{x{\p{a,b}}} = \apply{U}{a}{\apply{V}{b}{x{\p{a,b}}}} \).
+\end{axiom}
+
+\begin{axiom}{Commutativity:}\label{ax-10}
+    \( \measure{a}{\measureraw{b}{u}{v}}{\measureraw{b}{x}{y}}
+        = \measure{b}{\measureraw{a}{u}{x}}{\measureraw{a}{v}{y}} \),
+\end{axiom}
+
+\begin{axiom}{}\label{ax-11}
+    \( \new{a}{\new{b}{x{\p{a,b}}}} = \new{b}{\new{a}{x{\p{a,b}}}} \),
+\end{axiom}
+
+\begin{axiom}{}\label{ax-12}
+    \( \new{a}{\measureraw{b}{x{\p a}}{y{\p a}}}
+        = \measure{b}{\new{a}{x{\p a}}}{\new{a}{y{\p a}}} \).
+\end{axiom}
+
+% \begin{gather}
+% \intertext{Kvantna negacija pred meritvijo je negacija po meritvi.}
+%     \apply{X}{a}{\measureraw{a}{x}{y}} = \measureraw{a}{y}{x}\label{ax-1}
+% \intertext{Kvantna kontrola je po meritvi kot klasična kontrola.}
+%     \measureraw{a}{\apply{U}{b}{x(b)}}{\apply{V}{b}{y(b)}}
+%         = \applyd{U, V}{a,b}{\measureraw{a}{x(b)}{y(b)}}\label{ax-2}
+% \intertext{Kvantna vrata uporabljena na zavrženih kubitih so odveč.}
+%     \apply{U}{a}{\discard{a}{t}} = \discard{a}{t}\label{ax-3}
+% \intertext{Meritve novih kubitov so vedno \(0\).}
+%     \new{a}{\measureraw{a}{x}{y}} = x\label{ax-4}
+% \intertext{Vrata kontrolirana z novimi kubiti se nikoli ne uporabijo.}
+%     \new{a}{\applyd{U,V}{a,b}{x{\p{a,b}}}}
+%         = \apply{U}{b}{\new{a}{x{\p{a,b}}}}\label{ax-5}
+% \intertext{Ostanejo še bolj \airquotes{administrativni} aksiomi:
+% Spoštovanje simetrične grupe \( \U[n] \).}
+%     \apply{swap}{a,b}{x{\p{a,b}}} = x(b,a)\label{ax-6}\\
+%     \apply{I}{a}{x{\p a}} = x{\p a}\label{ax-7}\\
+%     \apply{UV}{a}{x{\p a}} = \apply{U}{a}{\apply{V}{a}{x{\p a}}}\label{ax-8}\\
+%     \apply{U⊗V}{a,b}{x{\p{a,b}}} = \apply{U}{a}{\apply{V}{b}{x{\p{a,b}}}}\label{ax-9}
+% \intertext{Komutativnost.}
+%     % \apply{U}{a}{\apply{V}{b}{x{\p{a,b}}}} = \apply{V}{b}{\apply{U}{a}{x{\p{a,b}}}}\\
+%     \measure{a}{\measureraw{b}{u}{v}}{\measureraw{b}{x}{y}}
+%         = \measure{b}{\measureraw{a}{u}{x}}{\measureraw{a}{v}{y}}\label{ax-10}\\
+%     \new{a}{\new{b}{x{\p{a,b}}}} = \new{b}{\new{a}{x{\p{a,b}}}}\label{ax-11}\\
+%     \new{a}{\measureraw{b}{x{\p a}}{y{\p a}}}
+%         = \measure{b}{\new{a}{x{\p a}}}{\new{a}{y{\p a}}}\label{ax-12}
+% \end{gather}
+
+% \apply{X}{a}{\apply{\HH}{b}{x{\p{a,b}}}} = \apply{\HH}{b}{\apply{X}{a}{x{\p{a,b}}}}
+\begin{example}[Derivation of equality between \(z\)-axis projection and random phase shift]
+    The derivation relies on the identities
+    % Izpeljava se zanaša na identiteti 
+    \( \ctl X . \swap . \ctl X \overset{\dagger}{=} \swap . \ctl X . \swap \) and
+    \( \swap . \ctl X . \swap \overset{\ddagger}{=} (\had⊗\g{I₂}) . \ctl Z . (\had⊗\g{I₂}) \).
+    \begin{NoHyper}
+    \begin{align*}
+        &\hspace{-3em}\measure{a}{\new{b}{x{\p b}}}{\new{b}{\apply{X}{b}{x{\p b}}}}\\
+        =&\new{b}{\measureraw{a}{x{\p b}}{\apply{X}{b}{x{\p b}}}}
+            &{(\ref{ax-12})}\\
+        =&\new{b}{\apply{\ctl X}{a,b}{\measureraw{a}{x{\p b}}{x{\p b}}}}
+            &{(\ref{ax-2})}\\
+        =&\new{b}{\apply{\ctl X}{a,b}{\discard{a}{x{\p b}}}}
+            &{(\text{def.})}\\
+        =&\new{b}{\apply{\ctl X}{b,a}{\apply{\ctl X}{a,b}{\discard{b}{x{\p a}}}}}
+            &{(\dagger)}\\
+        =&\new{b}{\apply{\ctl X}{a,b}{\discard{b}{x{\p a}}}}
+            &{(\ref{ax-5})}\\
+        =&\new{b}{\apply{\had}{b}{\apply{\ctl Z}{b,a}{\apply{\had}{b}{\discard{b}{x{\p a}}}}}}
+            &{(\ddagger)}\\
+        =&\new{b}{\apply{\had}{b}{\apply{\ctl Z}{b,a}{\discard{b}{x{\p a}}}}}
+            &{(\ref{ax-3})}\\
+        =&\new{b}{\apply{\had}{b}{\measureraw{b}{x{\p a}}{\apply{Z}{a}{x{\p a}}}}}.
+            &(\ref{ax-2})
+    \end{align*}
+    \end{NoHyper}
+    % Kot vidimo, smo definirali jezik (in orodja) s katerimi lahko relativno enostavno dokazujemo enakost med programi.
+    % Opazimo, da ta dokaz ni bil popolnoma mehanski;
+    % uporabiti smo morali dve identiteti v \( \U[2] \).
+    % To nam namiguje, da enakost programov ni preprost problem,
+    % ki bi ga lahko računalniki sami rešili.
+\end{example}
+
+\printbibliography
+\end{document}

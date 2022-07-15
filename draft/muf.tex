@@ -1,0 +1,184 @@
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{luainputenc}
+\usepackage{fontspec}
+\usepackage{lualatex-math}
+\usepackage{unicode-math}
+\usepackage[backend=biber,bibencoding=utf8,backref=true]{biblatex}
+% \usepackage{hyperxmp}
+\usepackage[pdfa]{hyperref}
+% \hypersetup{%
+%     unicode,
+%     pdfapart=1,
+%     pdfaconformance=B,
+%     pdfauthor={Strah},
+%     pdfdate={\today},
+%     pdftitle={Kvantni algebrajski učinki},
+% }
+
+
+% \setmainfont{TeX Gyre Pagella}
+% \setmathfont{TeX Gyre Pagella Math}
+\setmathfont{Latin Modern Math}
+\setmathfont{Asana Math}[range={scr}]
+\setmathfont{STIX Two Math-Regular}[range={bb}]
+% \setmathfont{Asana Math}[range={"007B,"007D}]  % {}
+\setmathfont{Asana Math}[range={8709}]  % U+2205, emptyset
+
+% \usepackage{mathtools}
+\usepackage{amsthm}
+
+\usepackage[braket]{qcircuit}
+\usepackage{tikz}
+\usetikzlibrary{babel}
+\usetikzlibrary{angles,quotes}
+
+\usepackage{minted}
+
+\usepackage[style=german]{csquotes}
+\usepackage{stmaryrd}
+
+\usepackage[normalem]{ulem}
+\renewcommand{\ULdepth}{1.8pt}
+\newcommand{\ul}[1]{\uline{#1}}
+
+
+\newtheorem{theorem}{Izrek}
+\newtheorem{statement}{Trditev}
+\newtheorem{lemma}{Lema}
+\newtheorem*{corrolary}{Posledica}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definicija}
+
+\newtheorem*{example}{Primer}
+\newtheorem*{example*}{Primer}
+\newtheorem*{examples}{Primeri}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Opomba}
+
+\newcounter{axiom}
+\setcounter{axiom}{0}
+\renewcommand\theaxiom{\Alph{axiom}}
+\newenvironment{axiom}[2][-1]{
+    \ifnum#1>0
+        \refsetcounter{axiom}{#1}
+    \fi
+    \refstepcounter{axiom}
+    \setlength\parindent{0pt}
+    \ifblank{#2}{}{\vskip.5em #2\par}
+    \textbf{Aksiom \theaxiom.}
+}{
+}
+
+% \topmargin=-0.45in
+% \evensidemargin=0in
+% \oddsidemargin=0in
+% \textwidth=6.5in
+% \textheight=9.0in
+% \headsep=0.25in
+
+% \RequirePackage{array}
+% \renewcommand{\arraystretch}{1.4}
+% \renewcommand{\arraystretch}{2}
+% \linespread{0.5}
+% \linespread{1.111}
+
+\textwidth 15cm
+\textheight 24cm
+\oddsidemargin.5cm
+\evensidemargin.5cm
+\topmargin-5mm
+\addtolength{\footskip}{10pt}
+\pagestyle{plain}
+\overfullrule=15pt
+
+
+% \renewcommand\headrulewidth{0.4pt}
+% \renewcommand\footrulewidth{0.4pt}
+
+% \setlength\parindent{0pt}
+
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\renewcommand{\d}{\;\mathrm d}
+% \newcommand{\vphi}{\phi}
+\renewcommand{\phi}{\varphi}
+\newcommand{\eps}{\varepsilon}
+\renewcommand{\hat}{\widehat}
+\renewcommand{\tilde}{\widetilde}
+% \newcommand{\oldbar}{\bar}
+% \renewcommand{\bar}{\overline}
+\newcommand{\subs}{\subseteq}
+\newcommand{\nin}{\not\in}
+
+\newcommand{\p}[1]{\left( {#1} \right)}
+\newcommand{\set}[2]{\left\{ #1 \mid #2 \right\}}
+\newcommand{\newfrac}[2]{{}^{#1}\!/_{\!#2}}
+\newcommand{\im}[1]{\mathrm{im}{\p{#1}}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+
+\newcommand{\had}{\mathtt{Had}}
+\newcommand{\swap}{\mathtt{swap}}
+\newcommand{\hh}[1][]{\mathbf{h}_{#1}}
+\newcommand{\B}[1][]{\mathbf{B}_{#1}}
+\newcommand{\HH}[1][]{\mathbf{H}_{#1}}
+\renewcommand{\S}{\mathbb{S}}
+\newcommand{\LL}[2][]{\mathcal{L}_{#1}{\p{#2}}}
+\newcommand{\g}[1]{\mathtt{#1}}
+\newcommand{\D}[1]{D{\p{\g{#1}}}}
+\newcommand{\U}[1][]{\mathbf{U}_{#1}}
+\newcommand{\ctl}[1]{\g{c#1}}
+\newcommand{\ctlo}[1]{\g{\bar c} \g #1}
+
+\newcommand{\cmd}[1]{\text{\sffamily#1}}
+\newcommand{\eff}[1]{\text{\sffamily\ul{#1}}}
+\newcommand{\enew}{\eff{new}{\p{}}}
+\newcommand{\eapply}[2]{\eff{apply}_{\g{#1}}{\p{#2}}}
+\newcommand{\emeasure}[1]{\eff{measure}{\p{#1}}}
+\newcommand{\ediscard}[1]{\eff{discard}{\p{#1}}}
+\newcommand{\tnew}[2]{\cmd{new}{\p{#1.\,#2}}}
+\newcommand{\tapply}[3]{\cmd{apply}_{\g{#1}}{\p{#2.\,#3}}}
+\newcommand{\tmeasure}[3]{\cmd{measure}{\p{#1.\,#2;#3}}}
+\newcommand{\tdiscard}[2]{\cmd{discard}{\p{#1.\,#2}}}
+\newcommand{\new}[2]{\nu{#1}.\,#2}
+\newcommand{\apply}[3]{{\g{#1}}_{#2}{\p{#3}}}
+\newcommand{\applyd}[3]{{\D{#1}}_{#2}{\p{#3}}}
+\renewcommand{\measure}[3]{\p{#2} {\;?_{#1}\,} \p{#3}}
+\newcommand{\measureraw}[3]{#2 {\;?_{#1}\,} #3}
+\newcommand{\discard}[2]{\cmd{disc}_{#1}{\p{#2}}}
+
+\newcommand{\sequent}[3]{#1 \mid #2 \vdash #3}
+\newcommand{\seq}[1]{\sequent{\Gamma}{\Delta}{#1}}
+\newcommand{\sem}[2][]{{\llbracket#2\rrbracket}_{#1}}
+
+\shorthandon{"}
+\newcommand{\airquotes}[1]{"`#1"'}
+\shorthandoff{"}
+
+% \newcommand{\for}[2]{\forall#1.\;#2}
+% \newcommand{\exist}[2]{\exists#1\smallni:\;#2}
+% \newcommand{\existi}[2]{\exists!#1\smallni:\;#2}
+
+\makeatletter
+\newcommand{\oset}[3][0ex]{%
+  \mathrel{\mathop{#3}\limits^{
+    \vbox to#1{\kern-2\ex@
+    \hbox{$\scriptstyle#2$}\vss}}}}
+\makeatother
+
+\newmintinline[qpl]{ocaml}{escapeinside=||, autogobble}
+
+\makeatletter
+\newcommand{\listintertext}{\@ifstar\listintertext@\listintertext@@}
+\newcommand{\listintertext@}[1]{% \listintertext*{#1}
+  \hspace*{-\@totalleftmargin}#1}
+\newcommand{\listintertext@@}[1]{% \listintertext{#1}
+  \hspace{-\leftmargin}#1}
+\makeatother
