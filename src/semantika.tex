@@ -51,10 +51,12 @@
 \subsection{\texorpdfstring{\(C^*\)-algebre}{C*-algebre}}
 
 \begin{definition}
+    \(k\)-algebra \(A\) je normirana, če velja \(∀{x, y ∈ A}.{\|xy\| ≤ \|x\|\|y\|}\).
+\end{definition}
+\begin{definition}
     Množica \(A\) je \(C^*\)-algebra, če:
     \begin{enumerate}[(a)]
-        \item je normiran \(ℂ\)-vektorski prostor,
-        \item ima množenje in enoto zanj,
+        \item je normirana \(ℂ\)-algebra z enoto,
         \item ima involucijo \((-)^*\),
         \item za vsak \(x ∈ A\) velja \(\|x\|² = \|x^*x\|\).
     \end{enumerate}
@@ -63,7 +65,7 @@
     \(C^*\) se prebere kot \airquotes{c zvezdica}.
 \end{remark}
 \begin{remark}
-    Fiziki involucijo pogosto označujejo z \((-)^\dagger\) zaradi zgodovinskih razlogov.
+    V fiziki se iz zgodovinskih razlogov involucija pogosto označuje z \((-)^†\).
 \end{remark}
 
 \begin{definition}
@@ -80,7 +82,7 @@
 
 \begin{definition}
     %TODO: finish definition
-    Direktna vsota \(C^*\)-algeber \(X⊕Y\) je kartezičen produkt množic z operacijami definiranimi po komponentah.
+    Direktna vsota \(C^*\)-algeber \(X⊕Y\) je kartezični produkt množic z operacijami definiranimi po komponentah.
 \end{definition}
 
 \begin{example}
@@ -90,7 +92,7 @@
 \end{example}
 
 \begin{proposition}
-    \(C*\)-algebre skupaj z \(*\)-homomorfizmi tvorijo kategorijo \(\cstar\).
+    \(C^*\)-algebre skupaj z \(*\)-homomorfizmi tvorijo kategorijo \(\cstar\).
 \end{proposition}
 
 \begin{proof}
@@ -151,7 +153,7 @@
 \end{definition}
 
 \begin{proposition}
-    \(C*\)-algebre skupaj s popolnoma pozitivnimi eniškimi preslikavami tvorijo kategorijo \(\cstarcpu\) (angl. \foreignlanguage{english}{Completely Positive Unital maps}).
+    \(C^*\)-algebre skupaj s popolnoma pozitivnimi eniškimi preslikavami tvorijo kategorijo \(\cstarcpu\) (angl. \foreignlanguage{english}{Completely Positive Unital maps}).
 \end{proposition}
 \begin{proof}
     TODO
@@ -169,9 +171,9 @@
 
 \begin{proof}
     Denimo, da je. Potem je 
-    \[0 = \op{new}{\bmat{0&1\\0&0}}\op{new}{\bmat{0&0\\1&0}}
-        = \op{new}{\p{\bmat{0&1\\0&0}\bmat{0&0\\1&0}}}
-        = \op{new}\bmat{1&0\\0&0}
+    \[0 = \op{new}{\pmat{0&1\\0&0}}\op{new}{\pmat{0&0\\1&0}}
+        = \op{new}{\p{\bmat{0&1\\0&0}⋅\bmat{0&0\\1&0}}}
+        = \op{new}\pmat{1&0\\0&0}
         = 1 \contradiction\qedhere
     \]
 \end{proof}
@@ -209,9 +211,9 @@
     \[\begin{tikzcd}
         A \\
         {\M[q]} & {\M[p]}
-        \arrow[      from=2-1, to=2-2]
+        \arrow[     from=2-1, to=2-2]
         \arrow["g", from=1-1, to=2-1]
-        \arrow["f",  from=1-1, to=2-2]
+        \arrow["f", from=1-1, to=2-2]
     \end{tikzcd}\]
 \end{theorem}
 

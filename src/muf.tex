@@ -33,7 +33,7 @@
 % \renewcommand{\bar}{\overline}
 \newcommand{\subs}{\subseteq}
 \newcommand{\nin}{\not\in}
-\newcommand{\contradiction}{\quad\lightning}
+\newcommand{\contradiction}{\,\,\lightning}
 
 \newcommand{\p}[1]{\left( {#1} \right)}
 \newcommand{\set}[2]{\left\{ #1 \mid #2 \right\}}
@@ -47,6 +47,7 @@
 
 \usepackage{xstring}
 \newcommand{\mat}[1]{\begin{matrix} #1 \end{matrix}}
+\newcommand{\pmat}[1]{\left(\mat{#1}\right)}
 \newcommand{\bmat}[1]{\left[\mat{#1}\right]}
 \renewcommand{\vec}[1]{\bmat{\StrSubstitute[0]{#1}{,}{\\}}}
 
@@ -96,28 +97,31 @@
 % \newcommand{\brsem}[1]{⟬ #1 ⟭}
 % \newcommand{\brsem}[1]{⦅ #1 ⦆}
 \newcommand{\brsem}[1]{⦇ #1 ⦈}
+\usepackage[nomessages]{fp}
 \newcommand{\semmap}[2]{% cf. https://tex.stackexchange.com/a/87423/64454
   \def\nextitem{\def\nextitem{⊕}}% Separator
-  \forcsvlist\semmapitem{#2} → \M[2^{#1}]
+  \forcsvlist\semmapitem{#2} → \M[\IfInteger{#1}{\FPeval\result{round(2^(#1):0)}\result}{2^{#1}}]
 }
 \newcommand{\semmapitem}[1]{%
   \nextitem
-  \if\detokenize{#1}…%
+  \def\param{\detokenize{#1}}%
+  \if\param…%
     ⋯%
   \else%
-    \M[2^{\detokenize{#1}}]\!%
+    \M[\IfInteger{\param}{\FPeval\result{round(2^(\param):0)}\result}{2^{\param}}]\!%
   \fi
 }
 \newcommand{\semhom}[2]{
   \def\nextitem{\def\nextitem{⊕}}% Separator
-  \cstar{\p{\forcsvlist\semhomitem{#2}, \M[2^{#1}]}}
+  \cstar{\p{\forcsvlist\semhomitem{#2}, \M[\IfInteger{#1}{\FPeval\result{round(2^(#1):0)}\result}{2^{#1}}]}}
 }
 \newcommand{\semhomitem}[1]{%
   \nextitem
-  \if\detokenize{#1}…%
+  \def\param{\detokenize{#1}}%
+  \if\param…%
     ⋯%
   \else%
-    \M[2^{\detokenize{#1}}]\!%
+    \M[\IfInteger{\param}{\FPeval\result{round(2^(\param):0)}\result}{2^{\param}}]\!%
   \fi
 }
 
