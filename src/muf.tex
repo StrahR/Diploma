@@ -88,6 +88,11 @@
 \newcommand{\sapply}[2]{\op{apply}_{\g{#1}}{\p{#2}}}
 \newcommand{\smeasure}[2]{\op{measure}{\p{#1,#2}}}
 
+\newcommand{\type}[1]{\text{\ttfamily#1}}
+\newcommand{\unit}{\type{I}}
+\newcommand{\bit}{\type{bit}}
+\newcommand{\qbit}{\type{qbit}}
+
 \newcommand{\arity}[2]{\p{#1 \mid #2}}
 % \newcommand{\arity}[2]{\p{#1 \mid \StrSubstitute[0]{#2}{,}{\ }}}
 
@@ -143,3 +148,7 @@
 \newcommand{\listintertext@@}[1]{% \listintertext{#1}
   \hspace{-\leftmargin}#1}
 \makeatother
+
+\renewcommand{\for}[2]{\forall#1.\;#2}
+\newcommand{\exist}[2]{\exists#1\smallni:\;#2}
+\newcommand{\existi}[2]{\exists!#1\smallni:\;#2}
