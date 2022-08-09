@@ -50,13 +50,36 @@
 
 \subsection{\texorpdfstring{\(C^*\)-algebre}{C*-algebre}}
 
-\begin{definition}
-    \(k\)-algebra \(A\) je normirana, če velja \(∀{x, y ∈ A}.{\|xy\| ≤ \|x\|\|y\|}\).
+%TODO: citations
+\begin{definition} %TODO: cite vidav
+    Za polje \(k\) je množica \(A\) \(k\)-algebra, če je
+    \begin{enumerate}
+        \item \(k\)-vektorski prostor,
+        \item kolobar za seštevanje in množenje,
+        \item velja \(\for{a,b ∈ A, λ ∈ k}{(λa)b = λ(ab) = a(λb)}\).
+    \end{enumerate}
 \end{definition}
+
+\begin{definition}
+    \(k\)-algebra \(A\) je normirana, če ima normo in velja \(\for{x, y ∈ A}{\|xy\| ≤ \|x\|\|y\|}\).
+\end{definition}
+\begin{definition} %TODO: cite vidav
+    Involucija je operacija \(x ↦ x^*\) na elementih algebre, za katero velja:
+    \begin{enumerate}
+        \item \(\for{a,b ∈ A}{(a+b)^* = a^* + b^*}\),
+        \item \(\for{λ ∈ ℂ, a ∈ A}{(λa)^* = \bar{λ}a^*}\),
+        \item \(\for{a,b ∈ A}{(xy)^* = y^*x^*}\),
+        \item \(\for{a ∈ A}{a^{**} = a}\).
+    \end{enumerate}
+\end{definition}
+\begin{definition}
+    Normirana \(k\)-algebra je Banachova, če je polna kot metrični prostor z metriko porojeno iz norme.
+\end{definition}
+
 \begin{definition}
     Množica \(A\) je \(C^*\)-algebra, če:
     \begin{enumerate}[(a)]
-        \item je normirana \(ℂ\)-algebra z enoto,
+        \item je Banachova \(ℂ\)-algebra z enoto,
         \item ima involucijo \((-)^*\),
         \item za vsak \(x ∈ A\) velja \(\|x\|² = \|x^*x\|\).
     \end{enumerate}
@@ -77,7 +100,7 @@
 
 \begin{example}
     Množica kompleksnih \(n×n\) matrik \( \M[n] ≔ Mₙ(ℂ) \), kjer za normo vzamemo determinanto in za involucijo hermitsko transponiranje, je \(C^*\)-algebra.
-    Res, lastnosti (a) do (c) držijo (to vemo od prej), lastnost (d) je pa preprosto preveriti: \(\det{A^{H}A} = \det{A^H}\det{A} = \p{\det{A}}²\).
+    Res, lastnosti (a) do (c) držijo (to vemo od prej), lastnost (d) je pa preprosto preveriti: \(\det{\p{A^{H}A}} = \p{\det{A^H}}\p{\det{A}} = \p{\det{A}}²\).
 \end{example}
 
 \begin{definition}
