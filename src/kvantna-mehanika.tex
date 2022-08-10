@@ -1,5 +1,5 @@
 \section{Kvantna mehanika}
-
+% TODO: also cite selinger-qpl and ramšak-qm
 Ta del je povzet po \cite{ess-qc}.
 Vsebuje osnovne definicije (in primere) matematičnih osnov kvantne mehanike,
 ki jih potrebujemo za definicije želenih operacij nad kubiti.
@@ -20,65 +20,103 @@ Skozi ta del bomo uporabljali naslednje oznake:
 \end{itemize}
 \addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
 
+\subsection{Kvantni biti}
+
+Klasični biti zavzamejo dve vrednosti: \(\mb{0}\) in \(\mb{1}\).
+Te lahko posplošimo na kvantne bite (oziroma kubite) kot formalne kompleksne linearne kombinacije klasičnih stanj, t.j. vsak kubit \(q\) je oblike \(α\mb{0} + β\mb{1}\),
+za \(α,β ∈ ℂ\), kjer nista oba 0. Številoma \(α\) in \(β\) pravimo amplitudi.
+Tu \(\mb0\) in \(\mb1\) razumemo kot formalna simbola, ki predstavljata klasični stanji.
+V splošnem stanje kubita ni odvisno od skalarnega večkratnika,
+tako da kubita \(α\mb0 + β\mb1\) in \(α'\mb0 + β'\mb1\) predstavljata isto kvantno stanje
+čim obstaja kak neničelen \(γ ∈ ℂ\), tako da je \(α = γα'\) in \(β = γβ'\).
+Iz praktičnih razlogov se amplitude pogosto normalizira, torej jih pomnožimo s takim skalarjem,
+da velja \(|α|² + |β|² = c\), kjer za \(c\) ponavadi vzamemo kar \(1\).
+Ta normalizacija nam amplitude še vedno ne definira enolično;
+\(α\) in \(β\) sta določeni zgolj do množenja s kompleksno enoto natančno.
+
+Sledi, da klasični stanji \(\mb0\) in \(\mb1\) identificiramo z baznima vektorjema prostora \(ℂ²\), \(e₀\) in \(e₁\), te pa pogosto označujemo v t.i. \airquotes{ket} zapisu
+kot \(\ket{0} ≔ e₀\) in \(\ket{1} ≔ e₁\).
+Za kvantna stanja, ki niso klasična pravimo, da so kvantna superpozicija \(\ket0\) in \(\ket1\).
+
 \subsection{Kvantni vektorji}
 
+Ko želimo kubite posplošiti na kvantne vektorje, je naš prvi instinkt, da vzamemo \(n\)-terice kubitov, vendar se izkaže, da to ne ustreza fizikalnim pojavom.
+Ampak vseeno nismo daleč od resnice, le da moramo namesto \(n\)-kratnega kartezičnega produkta
+vzeti \(n\)-kratni tenzorski produkt.
+
+Začnimo s točnimi definicijami vseh gornjih pojmov.
+
 \begin{definition}\label{binv}
-    Binarni vektorji so elementi prostora \( \B[n] ≔ \{ 0, 1 \}ⁿ \) in jih pišemo kot nize v binarnem zapisu.  Za nas predstavljajo svet v katerem se odvijajo klasični programi.
+    Binarni vektorji so elementi prostora \( \B[n] ≔ \{ 0, 1 \}ⁿ \) in jih pišemo kot nize v binarnem zapisu.
+    % Za nas predstavljajo svet v katerem se odvijajo klasični programi.
 \end{definition}
 
-\begin{example}  %TODO: dodaj opis
-    \( \B[2] = \{00, 01, 10, 11\} \).
+\begin{example}
+    Ko nize naštevamo, jih ponavadi urejamo leksikografsko. V dveh dimenzijah so binarni vektorji sledeči: 
+    \( \B[2] = \{\mb{00}, \mb{01}, \mb{10}, \mb{11}\} \).
 \end{example}
 \begin{remark}
-    Niza \(1\) in \(01\) predstavljata različna vektorja.
+    Niza \(\mb1\) in \(\mb{01}\) predstavljata različna vektorja.
 \end{remark}
 
 \begin{definition}[Hilbertov prostor]\label{hilb-sp}
-    Elementom prostora \( \H[n] ≔ ℂ^{2ⁿ} \) pravimo kvantni vektorji, elementom \(\H ≔ \H[1]\) pa kubiti.  Prostoru \(\H[n]\) torej pravimo prostor kvantnih vektorjev reda \(n\), njegovo standardno bazo pa označimo z \(\{eⱼ\}ⱼ\). Tu se izvajajo kvantni programi.
+    Elementom prostora \( \H[n] ≔ ℂ^{2ⁿ} \) pravimo kvantni vektorji, elementom \(\H ≔ \H[1]\) pa kubiti.  Prostoru \(\H[n]\) torej pravimo prostor kvantnih vektorjev reda \(n\), njegovo standardno bazo pa označimo z \(\{eⱼ\}ⱼ\).
+    % Tu se izvajajo kvantni programi.
 \end{definition}
 
-\begin{definition}[Braket notacija]\label{braket}
+\begin{definition}[Ket notacija]\label{ket}
     Naj bo \(j ∈ ℕₙ\), ter \( \hat{\jmath} ∈ \B[n] \) pripadajoč vektor v binarnem zapisu. Potem je \( \ket j = \ket{\hat{\jmath}} ≔ eⱼ \).
 \end{definition}
 \begin{remark}
     Po definiciji je torej \( \H[n] = \L[ℂ]{\set{\ket j}{j ∈ \B[n]}} \).
 \end{remark}
 
+\begin{definition}
+    Stanje kubita \(q\) označimo z \(\state{q}\).
+\end{definition}
+
+Ker so kvantni vektorji zgolj vektorji, jih bomo pisali tudi kot vektorje.
+Ekvivalenca med zapisoma je prikazana na naslednjih primerih:
 \begin{example}[\( n = 1 \)]
     \[ a = \vec{a₀, a₁}
          = a₀\vec{1,0} + a₁\vec{0,1}
-         = a₀\ket 0 + a₁\ket 1.
+         = a₀\ket{\mb0} + a₁\ket{\mb1}.
     \]
 \end{example}
 \begin{example}[\( n = 2 \)]
     \[ a = \vec{a₀,  a₁,  a₂,  a₃}
          = \vec{a₀₀, a₀₁, a₁₀, a₁₁}
-         = a₀₀\ket{00} + a₀₁\ket{01} + a₁₀\ket{10} + a₁₁\ket{11}.
+         = a₀₀\ket{\mb{00}} + a₀₁\ket{\mb{01}} + a₁₀\ket{\mb{10}} + a₁₁\ket{\mb{11}}.
     \]
 \end{example}
 
 \begin{example}[Hadamardov vektor]\label{had}
-    \[ \hh ≔ ρ\p{\ket 0 + \ket 1},\quad
+    Vektor, ki ima na vseh mestih enico (modulo skalarni večkratnik),
+    se izkaže za zelo pomembnega. Kasneje bomo videli, kakšne raznolike uporabe ima, od vira naključnosti do bistva dokaza izreka o ne-kloniranju.
+    \[ \hh ≔ ρ\vec{1,1} = ρ\p{\ket{\mb0} + \ket{\mb1}},\quad
         \hh[n] ≔ ρⁿ∑_{j ∈ \B[n]} \ket j,\quad
         ρ ≔ \frac{1}{\sqrt2}.
     \]
 \end{example}
 
 \subsection{Blochova sfera}
+Spomnimo se, da so stanja kubitov določena zgolj do skalarja natančno, torej dejansko živijo v projektivnem prostoru.  Formalno to zajamemo v naslednji trditvi:
 
 \begin{proposition}
-    %TODO: elaborate
     V fizičnem svetu sta dva kubita, ki se razlikujeta zgolj za (kompleksen) faktor, enaka.
-    Matematično to pomeni, da stanja kubitov (nadaljnje tudi kubiti) živijo v \( \mathbf{P}ℂ¹ ≅ 𝕊² \):
+    Matematično to pomeni, da stanja kubitov živijo v \( \mathbf{P}ℂ¹ ≅ 𝕊² \) in jih lahko zapišemo v naslednji obliki:
     % To pomeni, da lahko vsak kubit zapišemo kot točko v \( \S² \):
-    \[ a = \cos{\textstyle\frac{θ}{2}}\ket0 + e^{iφ}\sin{\textstyle\frac{θ}{2}}\ket1,\quad
+    \[ \state{a} = \state{\textstyle\cos\frac{θ}{2}\ket{\mb0}
+                            + e^{iφ}\sin\frac{θ}{2}\ket{\mb1}},\quad
         φ ∈ [0, 2π), θ ∈ [0, π]. \]
+    Temu prostoru pravimo Blochova sfera.
 \end{proposition}
 \begin{proof}
-    Naj bo \( a = a₀\ket0 + a₁\ket1 = r₀e^{iφ₀}\ket0 + r₁e^{iφ₁}\ket1 \).
+    Naj bo \( a = a₀\ket{\mb0} + a₁\ket{\mb1} = r₀e^{iφ₀}\ket{\mb0} + r₁e^{iφ₁}\ket{\mb1} \).
     Če označimo
     \[ r ≔ \sqrt{r₀² + r₁²}\text{, }φ ≔ φ₁ - φ₀\text{, }θ ≔ 2\arccos{\frac{r₀}{r}}, \]
-    je potem \[ a = \hat a ≔ \frac{a}{re^{iφ₀}} = \frac{r₀}{r}\ket0 + \frac{r₁}{r}e^{iφ}\ket1 = \cos\frac{θ}{2}\ket0 + e^{iφ}\sin\frac{θ}{2}\ket1.\qedhere \]
+    je potem \[ \hat a ≔ \frac{a}{re^{iφ₀}} = \frac{r₀}{r}\ket{\mb0} + \frac{r₁}{r}e^{iφ}\ket{\mb1} = \cos\frac{θ}{2}\ket{\mb0} + e^{iφ}\sin\frac{θ}{2}\ket{\mb1}\]
+    in velja \(\{a\} = \{\hat a\}\) po konstrukciji.
 \end{proof}
 
 \begin{figure}[h]
@@ -112,30 +150,33 @@ Skozi ta del bomo uporabljali naslednje oznake:
 \label{fig:bloch-sphere}
 \end{figure}
 
-
 \subsection{Tenzorski produkt}
 
-\begin{definition}[Tenzorski produkt]\label{tensorprod}
+\begin{definition}\label{tensorprod}
     Tenzorski produkt prostorov \(\H[n]\) in \(\H[m]\) je enak \(\H[n+m]\).
     Pišemo \(\H[n]⊗\H[m]\).
-    Če sta \(a ∈ \H[n]\) in \(b ∈ \H[m]\) je \(a⊗b ∈ \H[n]⊗\H[m]\).
+    % Če sta \(a ∈ \H[n]\) in \(b ∈ \H[m]\) je \(a⊗b ∈ \H[n]⊗\H[m]\).
 \end{definition}
 \begin{remark}
     Operator \(⊗\) je res tenzorski produkt.
 \end{remark}
-\begin{example}[Tenzorski produkt baznih vektorjev]  %TODO: elaborate
-    \[ \ket j ⊗ \ket k = \ket{j₁\dots jₙk₁\dots kₘ} = \ket j \ket k = \ket{jk},
-    \]
+
+\begin{definition}
+    Tenzorski produkt vektorjev \(a ∈ \H[n]\) in \(b ∈ \H[m]\) živi v prostoru \(\H[n]⊗\H[m]\)
+    in je enak \(a⊗b = \displaystyle∑_{\substack{j ∈ \B[n],\\k ∈ \B[m]}} aⱼbₖ\ket{j}⊗\ket{k}.\)
+\end{definition}
+\begin{example}[Tenzorski produkt baznih vektorjev]
+    Pišemo ga lahko na različne ekvivalentne načine:
+    \[ \ket j ⊗ \ket k = \ket{j₁\dots jₙk₁\dots kₘ} = \ket j \ket k = \ket{jk}. \]
 \end{example}
-\begin{example}[Splošni tenzorski produkt]  %TODO: elaborate
-    \[ \vec{a₀, a₁}⊗\vec{b₀, b₁} = \vec{a₀b₀, a₀b₁, a₁b₀, a₁b₁},\quad
-       a⊗b = ∑_{\substack{j ∈ \B[n],\\k ∈ \B[m]}} aⱼbₖ\ket{jk}.
-    \]
+\begin{example}[\(n = m = 1\)]  %TODO: elaborate
+    Naj bosta \(a, b ∈ \H\). Tedaj je \(a⊗b = a₀b₀\ket{\mb{00}} + a₀b₁\ket{\mb{01}} + a₁b₀\ket{\mb{10}} + a₁b₁\ket{\mb{11}}\). Kot vektor to napišemo tako:
+    \[ \vec{a₀, a₁}⊗\vec{b₀, b₁} = \vec{a₀b₀, a₀b₁, a₁b₀, a₁b₁}\]
 \end{example}
 \begin{examples}[Tenzorski eksponent]
     \begin{align*}
         &\hh[n] = \hh^{⊗n}
-        = ρⁿ\underbrace{(\ket 0 + \ket 1) ⊗ ⋯ ⊗ \p{\ket 0 + \ket 1}}_n,\\
+        = ρⁿ\underbrace{(\ket{\mb0} + \ket{\mb1}) ⊗ ⋯ ⊗ \p{\ket{\mb0} + \ket{\mb1}}}_n,\\
         &\H[n] = \H^{⊗n} = \underbrace{\H ⊗ ⋯ ⊗ \H}_n.
     \end{align*}
 \end{examples}
@@ -144,37 +185,49 @@ Skozi ta del bomo uporabljali naslednje oznake:
     Če lahko \(a ∈ \H[n]\) zapišemo kot \( ⨂_{j=1}^{n} aⱼ \) za neke \(aⱼ ∈ \H\) pravimo, da je enostaven ali separabilen, sicer je pa sestavljen oziroma kvantno prepleten.
 \end{definition}
 
+\begin{example}
+    Vektor \(\ket{\mb{00}} + \ket{\mb{10}}\) je separabilen, saj je enak \(\p{\ket{\mb0} + \ket{\mb1}}⊗\ket{\mb0}\) in \(\ket{\mb{00}} + \ket{\mb{11}}\) je prepleten, saj ga ne moremo zapisati kot tenzorski produkt dveh kubitov. Res, če je \(a₀b₁ = 0\) mora biti vsaj en izmed \(a₀\) in \(b₁\) enak \(0\), vendar je to v nasprotju z eno od enačb \(a₀b₀ = a₁b₁ = 1\).
+\end{example}
+
 \subsection{Kvantne preslikave}
 
 \begin{definition}%[Unitarna vrata]
     Prostor unitarnih vrat reda \(n\) je \( \U[n] ≔ \U{\p{2ⁿ}} \), prostor unitarnih \(2ⁿ×2ⁿ\) matrik.
-    Tenzorski produkt vrat \( U⊗V ≔ [u_{jk}V]_{j,k} \) uporabljen na \(a⊗b\) je enak \(Ua⊗Vb\).
+\end{definition}
+\begin{definition}
+    Tenzorski produkt vrat \( U⊗V ≔ [u_{jk}V]_{j,k} \) je običajen Kroneckerjev produkt matrik.
+    Produkt \(U⊗V\) uporabljen na \(a⊗b\) je enak \(Ua⊗Vb\).
 \end{definition}
 
-\begin{example}[Tenzorski produkt unitarnih vrat]  %TODO: elaborate
-    \[ \bmat{a₀₀ & a₀₁ \\ a₁₀ & a₁₁} = \bmat{a₀₀ B & a₀₁ B \\ a₁₀ B & a₁₁ B}.
+\begin{example}[Tenzorski produkt unitarnih vrat]
+    Če je \(A\) reda \(1\), zgleda tenzorski produkt \(A⊗B\) tako:
+    \[ \bmat{a₀₀ & a₀₁ \\ a₁₀ & a₁₁}⊗B = \bmat{a₀₀ B & a₀₁ B \\ a₁₀ B & a₁₁ B}.
     \]
 \end{example}
 
 \begin{definition}%[Bločno-diagonalna matrika]
-    Za vrata \( U₀, …, Uₛ \) označimo njihovo bločno-diagnoalno matriko z \( D{\p{U₀,…,Uₛ}} \).
+    Za vrata \( U₁, …, Uₛ \) označimo njihovo bločno-diagnoalno matriko z \( D{\p{U₁,…,Uₛ}} \).
 \end{definition}
 
 \begin{theorem}[No cloning]\label{no-cloning}
-    Ne obstajajo vrata reda \(2\), ki vsak vektor \( a⊗\ket{0} ∈ \H⊗\H \) slika v \(a⊗a\).
+    Ne obstajajo vrata reda \(2\), ki vsak vektor \( a⊗\ket{\mb0} ∈ \H⊗\H \) slika v \(a⊗a\).
 \end{theorem}
 
 \begin{proof}
-    Naj bo \(U\) tak, da za vsak \(a ∈ \H\) velja \( U{\p{a⊗\ket0}} = a⊗a \).\\
-    Potem za \( \hh⊗\ket0 = ρ(\ket{00} + \ket{10}) \) velja:
-    \[
-        U{\p{ρ\p{\ket{00} + \ket{10}}}} =
-        \begin{cases}
-            ρ²\p{\ket{00} + \ket{01} + \ket{10} + \ket{11}},\\
-            ρ U\ket{00} + U\ket{10} = ρ\p{\ket{00} + \ket{11}},
-        \end{cases}
-    \]
-    kar je protislovje.
+    Naj bo \(U\) tak, da za vsak \(a ∈ \H\) velja \( U{\p{a⊗\ket{\mb0}}} = a⊗a \).
+    Potem za \( \hh⊗\ket{\mb0} = ρ(\ket{\mb{00}} + \ket{\mb{10}}) \) po definiciji \(U\) velja
+    \( U{\p{\hh⊗\ket{\mb0}}} = \hh[2]. \)
+    Vendar, če upoštevamo, da je \(U\) linearna lahko zapišemo tudi
+    \[ U{\p{ρ\p{\ket{\mb{00}} + \ket{\mb{10}}}}}
+       = ρ\p{U\ket{\mb{00}} + U\ket{\mb{10}}} = ρ\p{\ket{\mb{00}} + \ket{\mb{11}}},\]
+    % \[
+    %     U{\p{ρ\p{\ket{\mb{00}} + \ket{\mb{10}}}}} =
+    %     \begin{cases}
+    %         ρ²\p{\ket{\mb{00}} + \ket{\mb{01}} + \ket{\mb{10}} + \ket{\mb{11}}},\\
+    %         ρ\p{U\ket{\mb{00}} + U\ket{\mb{10}}} = ρ\p{\ket{\mb{00}} + \ket{\mb{11}}},
+    %     \end{cases}
+    % \]
+    kar je protislovje, saj \(ρ\p{\ket{\mb{00}} + \ket{\mb{11}}}\) ni separabilen.
 \end{proof}
 
 \begin{example}[Paulijeve matrike]
@@ -186,13 +239,13 @@ Skozi ta del bomo uporabljali naslednje oznake:
     \]
     Velja \(X² = Y² = Z² = I₂\).
     Preslikavi \(X\) pravimo negacija,
-    saj je \( X{\ket0} = \ket1 \) in \( X{\ket1} = \ket0 \).
+    saj je \( X{\ket{\mb0}} = \ket{\mb1} \) in \( X{\ket{\mb1}} = \ket{\mb0} \).
 \end{example}
 
 \begin{example}[Hadamardova matrika]  %TODO: elaborate
     \[ \had = ρ\bmat{1&1\\1&-1},\quad
-       \had\ket{0} = \hh,\quad
-       \had^{⊗n}\ket{\mathbf{0}ⁿ} = \hh[n].
+       \had\ket{\mb{0}} = \hh,\quad
+       \had^{⊗n}\ket{\mb{0}ⁿ} = \hh[n].
     \]
 \end{example}
 
@@ -206,7 +259,7 @@ Skozi ta del bomo uporabljali naslednje oznake:
     \begin{align*}
         &S_α = \bmat{1&0\\0&e^{iα}}
         \text{, posebej označimo } S ≔ S_{\newfrac{π}{2}}, T ≔ S_{\newfrac{π}{4}}, \\
-        &S_α\p{a₀\ket 0 + a₁\ket1} = a₀\ket0 + a₁e^{iα}\ket1.
+        &S_α\p{a₀\ket{\mb0} + a₁\ket{\mb1}} = a₀\ket{\mb0} + a₁e^{iα}\ket{\mb1}.
     \end{align*}
 \end{example}
 
@@ -215,10 +268,14 @@ Skozi ta del bomo uporabljali naslednje oznake:
 V klasičnem računalništvu poznamo pogojne stavke. To lahko na kubite posplošimo na dva načina,
 prvi z direktno meritvijo kubita (in uporabo klasičnih pogojnih stavkov),
 drugi pa z uporabo kvantne prepletenosti.
-Izkaže se, da če na koncu zmerimo kubite, se drugi način obnaša enako kot prvi.
+Izkaže se, da če po vseh operacijah zmerimo kubite, se drugi način obnaša enako kot prvi.
 
-\begin{definition}[Kvantna meritev]  %TODO: generalise
-    Meritev kubita \(a = a_0\ket0 + a_1\ket1\) označimo \(M\p{a}\) in je \(0\) z verjetnostjo \(|a_0|^2\) in \(1\) z verjetnostjo \(|a_1|^2\). To \airquotes{uniči} kubit \(a\).
+\begin{definition}
+    Meritev kubita \(a = a_0\ket{\mb0} + a_1\ket{\mb1}\) označimo \(M{\p{a}}\) in je \(0\) z verjetnostjo \(|a_0|^2\) ter \(1\) z verjetnostjo \(|a_1|^2\).
+    Po izvedeni meritvi, je \(a\) bodisi v stanju \(a₀\ket{\mb0}\), bodisi v stanju \(a₁\ket{\mb1}\), odvisno od rezultata meritve.  Temu pravimo kolaps prepletenega stanja.
+    V praksi to pomeni, da \(a\) po meritvi izgubi vse svoje kvantne lastnosti, tako da je ekvivalentno, če rečemo, da se \(a\) kar uniči.
+    V fizikalnih in matematičnih delih bomo uporabljali prvotno definicijo, v računalniških delih pa definicijo z uničenjem.
+    %To \airquotes{uniči} kubit \(a\).
     % \[ \Qcircuit @C=1em @R=.7em {
     %         & \meter & \cw %& & \ctrlo{1} & \ctrl{1} & \qw & & \ctrl{1} & \qw \\
     %         % &        &     & & \gate U & \gate V & \qw & & \targ & \qw
@@ -226,16 +283,68 @@ Izkaže se, da če na koncu zmerimo kubite, se drugi način obnaša enako kot pr
     % \]
 \end{definition}
 
+\begin{proposition}
+    V kvantnem računalništvu je meritev definirana s kolapsom ekvivalentna meritvi definirani z uničenjem kubita.
+\end{proposition}
+
+Dokaz prepustimo za malo kasneje, ko definiramo orodja za kvantno računalništvo.
+
+\begin{definition} % TODO: fix indexing so it's more in line with the rest of the notation
+    Naj \(αₖ\) označujejo tiste amplitude, ki se nahajajo pred keti, ki imajo na \(j\)-tem mestu \(\mb{0}\), in \(βₖ\) tiste, ki se nahajajo pred keti, ki imajo na \(j\)-tem mestu \(\mb{1}\).
+    Meritev vektorja \(a\) na \(j\)-tem mestu označimo \(Mⱼ{\p{a}}\) in je \(0\) z verjetnostjo \(∑ |αₖ|²\) ter \(1\) z verjetnostjo \(∑ |βₖ|²\).
+    Po meritvi bo \(a\) enak bodisi \(∑_{k = b₁⋯\mb0⋯bₙ} αₖ\ket{k}\) bodisi \(∑_{k = b₁⋯\mb1⋯bₙ} βₖ\ket{k}\).
+\end{definition}
+
+\begin{example}
+    Naj bo \(a = α\ket{\mb{00}} + β\ket{\mb{01}} + γ\ket{\mb{10}} + δ\ket{\mb{11}}\),
+    kjer z amplitudami normalizirani na \(1\).
+    Tedaj je rezultat \(M₁{\p a}\) lahko sledeč:
+    \begin{itemize}
+        \item \(0\) z verjetnostjo \(|α|² + |β|²\) in \(a = α\ket{\mb{00}} + β\ket{\mb{01}}\),
+        \item \(1\) z verjetnostjo \(|γ|² + |δ|²\) in \(a = γ\ket{\mb{10}} + δ\ket{\mb{11}}\).
+    \end{itemize}
+    Če namesto po prvem kubitu merimo po drugem, je rezultat sledeč:
+    \begin{itemize}
+        \item \(0\) z verjetnostjo \(|α|² + |γ|²\) in \(a = α\ket{\mb{00}} + γ\ket{\mb{10}}\),
+        \item \(1\) z verjetnostjo \(|β|² + |δ|²\) in \(a = β\ket{\mb{01}} + δ\ket{\mb{11}}\).
+    \end{itemize}
+    Če po meritvi po prvem kubitu izvedemo še meritev po drugem, je rezultat sledeč:
+    \begin{itemize}
+        \item Če je bil \(M₁{\p a} = 0\) označimo \(p₀ = |α|² + |β|²\)
+        \begin{itemize}
+            \item z verjetnostjo \(p₀₀ = \frac{|α|²}{|α|² + |β|²}\) je \(M₂{\p a} = 0\) in \(a = α\ket{\mb{00}}\),
+            \item z verjetnostjo \(p₀₁ = \frac{|β|²}{|α|² + |β|²}\) je \(M₂{\p a} = 1\) in \(a = β\ket{\mb{01}}\).
+        \end{itemize}
+        \item Če je bil \(M₁{\p a} = 1\) označimo \(p₁ = |γ|² + |δ|²\)
+        \begin{itemize}
+            \item z verjetnostjo \(p₁₀ = \frac{|γ|²}{|γ|² + |δ|²}\) je \(M₂{\p a} = 0\) in \(a = γ\ket{\mb{10}}\),
+            \item z verjetnostjo \(p₁₁ = \frac{|δ|²}{|γ|² + |δ|²}\) je \(M₂{\p a} = 1\) in \(a = δ\ket{\mb{11}}\).
+        \end{itemize}
+    \end{itemize}
+    Skupaj je verjetnost, da na koncu izmerimo \(\ket{\mb{00}}\) enaka \(p₀p₀₀ = |α|²\), verjetnost, da izmerimo \(\ket{\mb{01}}\) je \(p₀p₀₁ = |β|²\), itd.
+    Omenili smo, da ponavadi normaliziramo na \(1\), vendar se izkaže, da je bolj praktično, če normaliziramo na skupno verjetnost, da pristanemo v tem stanju.
+    Ena prednost tega pristopa je, da po meritvi ne rabimo normalizirati kubita.
+\end{example}
+
+\begin{convention}
+    Če ne piše drugače naj bodo vektorji normalizirani kot piše zgoraj.
+\end{convention}
+
+\begin{remark}
+    Če meritev na vektorjih interpretiramo kot \airquotes{uničujočo}, potem preostanek vektorja po meritvi postane enak kot zgoraj, le da odstranimo izmerjeni \airquotes{kubit}.
+    Na zgornjem primeru to zgleda kot \(a = α\ket{\mb{0}} + β\ket{\mb{1}}\) namesto \(α\ket{\mb{00}} + β\ket{\mb{01}}\), kjer \(a\) zdaj razumemo kot preostanek vektorja, ko mu odstranimo prvo komponento.
+\end{remark}
+
 \begin{definition}[Kontrola]
     Za \( r,s ∈ ℕ \) in \( U ∈ \U[1] \) definiramo \( C_{r,s}{\p U} \) in \( \overline{C}_{r,s}{\p U} \) s predpisoma
     \begin{align*}
         C_{r,s}{\p U}\ket j &= \begin{cases}
-            \ket j &;\quad jᵣ = 0\\
-            \ket{j₁\dots}\ket{U{jₛ}}\ket{\dots jₙ} &;\quad jᵣ = 1
+            \ket j &;\quad jᵣ = \mb0\\
+            \ket{j₁\dots}\ket{U{jₛ}}\ket{\dots jₙ} &;\quad jᵣ = \mb1
         \end{cases}\\
         \overline{C}_{r,s}{\p U}\ket j &= \begin{cases}
-            \ket{j₁\dots}\ket{U{jₛ}}\ket{\dots jₙ} &;\quad jᵣ = 0\\
-            \ket j &;\quad jᵣ = 1
+            \ket{j₁\dots}\ket{U{jₛ}}\ket{\dots jₙ} &;\quad jᵣ = \mb0\\
+            \ket j &;\quad jᵣ = \mb1
         \end{cases}
     \end{align*}
     Takim vratom pravimo kontrolirana (\airquotes{na ena} in \airquotes{na nič}).
@@ -253,3 +362,8 @@ Izkaže se, da če na koncu zmerimo kubite, se drugi način obnaša enako kot pr
     Seveda vemo, da drugi izraz ni veljaven (ker meritev uniči kubit a),
     ampak je zato kontrola ravno tisto orodje, s katerim želimo nadomestiti pogojne stavke.
 \end{example}
+
+% TODO: fill out subsections
+\subsection{Čista in mešana stanja}
+
+\subsection{Gostotne matrike}

@@ -7,16 +7,17 @@ Kvantne programe lahko predstavimo kot diagrame vezja.
 po enojnih žicah tečejo kubiti, po dvojnih pa klasični biti (\(0\) ali \(1\)).
 Pike na žici (in potem navpična žica ven) pomenijo kontrolo;
 prazna pika kontrolira \airquotes{na nič}, polna pa \airquotes{na ena}.
+Škatla s števcem predstavlja meritev.
 Taka vezja beremo od leve proti desni.
-Natančnejši opis lahko najdete v \cite{ess-qc}.
+Podrobnejši opis lahko najdete v \cite{ess-qc}. %TODO: opiši?
 
 Spodaj sta dva primera kvantnih programov, opisana z besedami in diagrami, ki ju bomo srečali tudi še kasneje.
 
 \begin{example}[Projekcija na \(z\)-os]\label{ex:proj-z}
     Najprej zmerimo \(a\) in nato glede na rezultat svež kubit bodisi negiramo bodisi ne.
-    Na Blochovi sferi to zgleda približno kot projekcija na \(z\)-os (edina kubita na \(z\)-osi sta \( \ket0 \) in \( \ket1 = X \ket0 \)).
+    Na Blochovi sferi to zgleda približno kot projekcija na \(z\)-os (edina kubita na \(z\)-osi sta \( \ket{\mb0} \) in \( \ket{\mb1} = X \ket{\mb0} \)).
     \[ \Qcircuit @C=1em @R=.7em {
-            & \lstick{\ket0} & \gate{\g X} & \rstick{b} \qw\\
+            & \lstick{\ket{\mb0}} & \gate{\g X} & \rstick{b} \qw\\
             \lstick{a} & \meter & \cctrl{-1}
         }
     \]
@@ -27,10 +28,21 @@ Spodaj sta dva primera kvantnih programov, opisana z besedami in diagrami, ki ju
     vrata \(Z\) pa rotirajo fazo, torej bomo v polovici primerov kubitu \(a\) rotirali fazo.
     \[ \Qcircuit @C=1em @R=.7em {
             \lstick{a} & \qw & \qw & \qw & \qw & \gate{\g Z} & \rstick{a}\qw\\
-            && \lstick{\ket0} & \gate{\had} & \meter & \cctrl{-1}
+            && \lstick{\ket{\mb0}} & \gate{\had} & \meter & \cctrl{-1}
         }
     \]
 \end{example}
+
+Spomnimo se zdaj trditve o ekvivalenci definicij meritev:
+
+\begin{proposition}
+    V kvantnem računalništvu je meritev definirana s kolapsom ekvivalentna meritvi definirani z uničenjem kubita.
+\end{proposition}
+
+\begin{proof}
+    Očitno je prva definicija močnejša od druge, tako da moramo dokazati zgolj, da lahko iz druge definicije simuliramo obnašanje prve.
+    Ampak če pogledamo prvi primer zgoraj, projekcijo na \(z\)-os, je to natanko to, kar potrebujemo. Izmerimo kubit \(a\) in dobimo klasični bit \(M{\p a}\), s katerim potem nov kubit nastavimo bodisi na \(\ket{\mb0}\) bodisi na \(\ket{\mb1}\), kar je pa natanko vrednost kubita \(a\) po meritvi v skladu s prvo definicijo.
+\end{proof}
 
 \subsection{Algebrajski učinki}
 
