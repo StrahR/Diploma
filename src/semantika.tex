@@ -171,8 +171,23 @@
 \end{definition}
 
 \begin{definition}
-    Preslikava \(f\) je popolnoma pozitivna, če za vsak \(k ∈ ℕ\) preslikava \(Mₖ(f)\) ohranja pozitivnost elementov.
+    Preslikava \(f\) je popolnoma pozitivna, če za vsak \(k ∈ ℕ₊\) preslikava \(Mₖ{\p f}\) ohranja pozitivnost elementov.
 \end{definition}
+
+\begin{proposition}
+    Za \(f : X → Y\), kjer množenje v enem od \(X\) in \(Y\) komutira, so naslednje trditve ekvivalentne:
+    \begin{enumerate}
+        \item \(f\) ohranja pozitivnost elementov,
+        \item za vsak \(k ∈ ℕ₊\) preslikava \(Mₖ{\p f}\) ohranja pozitivnost elementov,
+        \item \(f\) je popolnoma pozitivna.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Trditvi \((2)\) in \((3)\) sta ekvivalentni po definiciji in očitno \((2) ⇒ (1)\).
+    Dokazati moramo torej zgolj \((1) ⇒ (2)\).
+    TODO
+\end{proof}
 
 \begin{definition}
     Preslikava \(f\) je eniška, če slika enoto v enoto.
@@ -209,12 +224,16 @@
 \end{proposition}
 
 \begin{proof}
-    TODO
+    Preverimo obe lastnosti:
+    \begin{itemize}
+        \item \(\op{new}{\pmat{1&0\\0&1}} = 1\),
+        \item Naj bo \(x\) pozitiven element. Potem je \(x = y^*y\), za nek \(y ∈ \M[2]\).
+        Če zapišemo \(y = \pmat{a&b\\c&d}\) je potem \(\op{new}{\p x} = a\bar a + c\bar c\).
+        Število \(a\bar a + c\bar c\) je realno in nenegativno, torej lahko vzamemo \(y = \sqrt{a\bar a + c\bar c}\).\qedhere
+    \end{itemize}
 \end{proof}
 
 \begin{proposition}
-    %TODO: subtheory?
-    %TODO: reword?
     Kompleksna števila \(ℂ ∈ \cstarcpu\) tvorijo model kvantnega računalništva.
 \end{proposition}
 
@@ -231,6 +250,7 @@
 \end{theorem}
 
 \subsection{Dokaz polnosti}
+Naštejmo najprej nekaj pomožnih izrekov.
 
 \begin{theorem}[Stinespringov izrek o dilaciji]
     Naj bo \(f : \mc A → \M[p]\) CPU. Tedaj obstaja \(q ≥ p\) in \(*\)-homomorfizem \(g : \mc A → \M[q]\), tako da je \(f(A) = g(A)|ₚ\).
