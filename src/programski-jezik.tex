@@ -3,14 +3,37 @@
 \subsection{Signatura}
 
 \subsection{Teorija tipov}
+Kvantno računalništvo se najbolje modelira z linearno logiko. Spomnimo se, da kubitov ne moremo klonirati, niti jih uničiti (z unitarnimi vrati, uničimo jih lahko z meritvijo).
+Linearna logika ta koncept formalizira: vsako hipotezo moramo uporabiti natanko enkrat.
+Če nato iz linearne logike zgradimo teorijo tipov, se ta pogoj naravno spremeni v pogoj, da moramo vsak parameter funkciji (in na splošno vsak kubit v programu) uporabiti natanko enkrat,
+kot to fizika tudi zahteva.
 
-\[ A,B ::= \type{0} \mid \unit \mid \qbit \mid A⊗B \mid A+B \]
+Definiramo fragment linearne logike s sledečimi simboli: \(⊗, +, 0, 1, ⊸, !\).
+%TODO: add prooftrees
+
+Na podoben način kot zgoraj definiramo teorijo tipov, kjer funkcijski tip razumemo kot linearnega le v kvantnih argumentih.
+\begin{align*}%TODO: linear type theory
+    A,B ::= \type{0} \mid \unit \mid \qbit \mid A⊗B \mid A+B \mid A → B
+\end{align*}
 Definiramo \(\bit ≔ \unit + \unit\).
-
 
 \subsection{Sintaksa}
 
+Sintaktične elemente delimo na dvoje, vrednosti in izračune:\\
+\begin{tabular}{r l l}
+    vrednost \(v\) \(::=\)& \(x\)                                & spremenljivka\\
+                %   \(\mid\)& \qpl{true} \(\mid\) \qpl{false} &\\
+                  \(\mid\)& \bf{\texttt{fn}} \(x : A ⇒ c\)       & funkcija\\
+    izračun \(c\)  \(::=\)& \qpl{return|\((v)\)|}                &\\
+                  \(\mid\)& \(\eff{op}{\p c}\)                   & operacija\\
+                  \(\mid\)& \qpl{if |\(\emeasure{c} = 0\)| then |\(c₁\)| else |\(c₂\)|}
+                                                                 & pogojni stavek\\
+                  \(\mid\)& \qpl{let |\((x,y) = z\)| in |\(c\)|} & razcep vektorja\\
+                  \(\mid\)& \(v₁{\p{v₂}}\)                       & uporaba funkcije\\
+                  \(\mid\)& \qpl{|\(c₁\)|;|\(c₂\)|}             & veriženje
+\end{tabular}
 
+Naš jezik definira naslednje operacije oziroma algebrajske učinke:
 \begin{itemize}
     \item \(\eff{new} : \unit → \qbit\): Dodeli nov kubit.
     \item Za vsaka vrata \(U\) reda \(n\) operacijo \(\eff{apply}_{\g U} : \qbit^{⊗n} → \qbit^{⊗n}\): Uporabi vrata \(U\) na danem kubitu.
