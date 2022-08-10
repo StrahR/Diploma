@@ -46,6 +46,13 @@
     Predstavitev teorije je signatura skupaj z množico aksiomov.
 \end{definition}
 
+\begin{definition}%TODO: paragraph?
+    Omejimo se na kategorije, kjer za vsak objekt \(X\) in vsako naravno število \(n\) obstaja nek objekt \(n•X\). Operacijo \(•\) lahko razumemo kot delovanje naravnih števil na dano kategorijo.
+    Tedaj lahko morfizme \(X → n•Y\)
+\end{definition}
+
+
+
 \subsection{Semantika kvantnega programskega jezika}
 
 \subsection{\texorpdfstring{\(C^*\)-algebre}{C*-algebre}}
@@ -90,6 +97,9 @@
 \begin{remark}
     V fiziki se iz zgodovinskih razlogov involucija pogosto označuje z \((-)^†\).
 \end{remark}
+\begin{remark}
+    Velja \(\|x^*\| = \|x\|\), saj je \(\|x\|² = \|x^*x\| = \|x^*\|²\) in \(\|x^*x\| ≤ \|x*\|\|x\|\).
+\end{remark}
 
 \begin{definition}
     Za \(C^*\)-algebri \(A\) in \(B\) je preslikava \(f : A → B\) \(*\)-homomorfizem, če je linearna in ohranja množenje, enoto, ter involucijo.
@@ -105,7 +115,8 @@
 
 \begin{definition}
     %TODO: finish definition
-    Direktna vsota \(C^*\)-algeber \(X⊕Y\) je kartezični produkt množic z operacijami definiranimi po komponentah.
+    Direktna vsota \(C^*\)-algeber \(X\) in \(Y\) je kartezični produkt množic z operacijami definiranimi po komponentah.
+    Označimo jo z \(X⊕Y\).
 \end{definition}
 
 \begin{example}
@@ -113,6 +124,10 @@
     Za vsako \(C^*\)-algebro \(X\) je tudi množica \(n×n\) matrik nad \(X\) \(C^*\)-algebra.
     Označimo jo z \(Mₙ(X)\).
 \end{example}
+
+\begin{proposition}
+    Velja \(Mₙ(\M[k]) ≅ \M[nk]\).
+\end{proposition}
 
 \begin{proposition}
     \(C^*\)-algebre skupaj z \(*\)-homomorfizmi tvorijo kategorijo \(\cstar\).
