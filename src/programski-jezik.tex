@@ -1,7 +1,5 @@
 \section{Programski jezik}
 
-\subsection{Signatura}
-
 \subsection{Teorija tipov}
 Kvantno računalništvo se najbolje modelira z linearno logiko. Spomnimo se, da kubitov ne moremo klonirati, niti jih uničiti (z unitarnimi vrati, uničimo jih lahko z meritvijo).
 Linearna logika ta koncept formalizira: vsako hipotezo moramo uporabiti natanko enkrat.
@@ -21,16 +19,16 @@ Definiramo \(\bit ≔ \unit + \unit\).
 
 Sintaktične elemente delimo na dvoje, vrednosti in izračune:\\
 \begin{tabular}{r l l}
-    vrednost \(v\) \(::=\)& \(x\)                                & spremenljivka\\
+    izračun \(c\) \(::=\)& \(x\)                                & spremenljivka\\
                 %   \(\mid\)& \qpl{true} \(\mid\) \qpl{false} &\\
-                  \(\mid\)& \bf{\texttt{fn}} \(x : A ⇒ c\)       & funkcija\\
-    izračun \(c\)  \(::=\)& \qpl{return|\((v)\)|}                &\\
-                  \(\mid\)& \(\eff{op}{\p c}\)                   & operacija\\
-                  \(\mid\)& \qpl{if |\(\emeasure{c} = 0\)| then |\(c₁\)| else |\(c₂\)|}
-                                                                 & pogojni stavek\\
-                  \(\mid\)& \qpl{let |\((x,y) = z\)| in |\(c\)|} & razcep vektorja\\
-                  \(\mid\)& \(v₁{\p{v₂}}\)                       & uporaba funkcije\\
-                  \(\mid\)& \qpl{|\(c₁\)|;|\(c₂\)|}             & veriženje
+                 \(\mid\)& \bf{\texttt{fn}} \(x : A ⇒ c\)       & funkcija\\
+    % izračun \(c\)  \(::=\)& \qpl{return|\((v)\)|}                &\\
+                 \(\mid\)& \(\eff{op}{\p c}\)                   & operacija\\
+                 \(\mid\)& \qpl{if |\(\emeasure{c} = 0\)| then |\(c₁\)| else |\(c₂\)|}
+                                                                & pogojni stavek\\
+                 \(\mid\)& \qpl{let |\((x,y) = z\)| in |\(c\)|} & razcep vektorja\\
+                 \(\mid\)& \(v₁{\p{v₂}}\)                       & uporaba funkcije\\
+                 \(\mid\)& \qpl{|\(c₁\)|;|\(c₂\)|}              & veriženje
 \end{tabular}
 
 Naš jezik definira naslednje operacije oziroma algebrajske učinke:
@@ -41,65 +39,86 @@ Naš jezik definira naslednje operacije oziroma algebrajske učinke:
     \item \(\eff{discard} : \qbit → \unit\): Uniči kubit.
 \end{itemize}
 
+Da lahko naše učinke lažje interpretiramo kot algebrajske izraze, jih bomo zapisali v obliki z nadaljevanji:
+\begin{itemize}
+    \item če je \(t\) izračun s kubitom \(a\), potem obstaja izračun \(\tnew{a}{t}\), ki dodeli ta kubit in ga nastavi na \(\ket{\mb0}\), potem pa nadaljuje s \(t\),
+    \item če je \(t\) izračun s kubiti \(a₁,…,aₙ\), so \(b₁,…,bₙ\) kubiti in \(U\) unitarna vrata reda \(n\), potem obstaja izračun \(\cmd{apply}_{\g U}{\p{b₁,…,bₙ;\, a₁,…,aₙ.\,t}}\), ki najprej uporabi vrata \(U\) na kubitih \(b₁,…,bₙ\), nato pa shrani rezultat v \(a₁,…,aₙ\) in nadaljuje s \(t\). Ta operacija uniči kubite \(bᵢ\), tako da bomo v splošnem pisali kar \(\tapply{U}{a₁,…,aₙ}{t}\),
+    \item če sta \(t\) in \(u\) izračuna in je \(a\) kubit, potem obstaja izračun \(\tmeasure{a}{t}{u}\), ki izmeri \(a\) in nadaljuje v \(t\) ali \(u\), glede na rezultat meritve. Ta operacija je linearna, torej \(t\) in \(u\) ne smeta uporabiti kubita \(a\); tega namreč meritev uniči,
+    \item če je \(t\) izračun in \(a\) kubit, potem obstaja izračun \(\tdiscard{a}{t}\), ki zavrže kubit \(a\). Kot zgoraj, \(t\) ne sme uporabiti kubita \(a\),
+    \item če je \(x\) neko nadaljevanje, ki pričakuje \(n\) kubitov (oznaka \(x : n\)) in so \(a₁,…,aₙ\) kubiti, je \(x(a₁,…,aₙ)\) izračun na \(n\) kubitih.
+\end{itemize}
 
+\begin{examples}[Projekcija na Z os in naključna rotacija faze]
+    Zgornja primera programov lahko sedaj zapišemo v tej obliki:
+    \begin{enumerate}
+        \item \(\tmeasure{a}{\tnew{b}{x(b)}}{\tnew{b}{\tapply{X}{b}{x(b)}}}\)
+        \item \(\tnew{b}{\tapply{\had}{b}{\tmeasure{b}{x(a)}{\tapply{Z}{a}{x(a)}}}}\)
+    \end{enumerate}
+    \(x\) je tu neko poljubno nadaljevanje, ki pričakuje en kubit.
+    V diagramu bi torej bil \(x\) karkoli je potem po žici desno na koncu primera.
+
+    Sicer obnašanje programov ni postalo nič bolj jasno, oziroma je na prvi pogled še težje videti kaj program dela, vendar pa lahko sedaj te izraze manipuliramo kot smo navajeni iz algebre.
+    Ampak, da lahko z izrazi sploh karkoli naredimo potrebujemo nekaj enakosti med izbranimi osnovnimi izrazi, oziroma aksiome.
+\end{examples}
 
 \subsection{Aksiomi}
+Izkaže se, da je nabor aksiomov, ki jih potrebujemo za polno karakterizacijo kvantnih programov majhen: potrebujemo jih \(12\) in kot bomo videli nismo žrtvovali preprostosti, da smo prišli do te številke.
 
 Aksiome za enakost programov\cite{algeff-lin-qpl} lahko delimo na dva dela: prvih pet je glavnih, ostalih sedem pa bolj \airquotes{administrativnih} oziroma pomožnih.
 Slednji nam povejo zgolj, da se \(\eff{apply}\) strinja s strukturo unitarnih matrik,
 ter da stvari komutirajo, kolikor vezanje spremenljivk (in vrstni red uporabe matrik) dopušča.
 
 \begin{axiom}{Kvantna negacija pred meritvijo je negacija po meritvi:}\label{ax:1}
-    \( \apply{X}{a}{\measureraw{a}{x}{y}} = \measureraw{a}{y}{x} \).
+    \( \tapply{X}{a}{\tmeasure{a}{x}{y}} = \tmeasure{a}{y}{x} \).
 \end{axiom}
 
 \begin{axiom}{Kvantna kontrola je po meritvi kot klasična kontrola:}\label{ax:2}
-    \( \applyd{U, V}{a,b}{\measureraw{a}{x(b)}{y(b)}}
-        = \measureraw{a}{\apply{U}{b}{x(b)}}{\apply{V}{b}{y(b)}} \).
+    \( \tapplyd{U, V}{a,b}{\tmeasure{a}{x(b)}{y(b)}}\\
+       \text{\hspace{7em}} = \tmeasure{a}{\tapply{U}{b}{x(b)}}{\tapply{V}{b}{y(b)}} \).
 \end{axiom}
 
 \begin{axiom}{Kvantna vrata uporabljena na zavrženih kubitih so odveč:}\label{ax:3}
-    \( \apply{U}{a}{\discard{a}{t}} = \discard{a}{t} \).
+    \( \tapply{U}{a}{\tdiscard{a}{t}} = \tdiscard{a}{t} \).
 \end{axiom}
 
 % \begin{axiom}{Meritve novih kubitov so vedno \(0\):}\label{ax:4}
 \begin{axiom}{Novi kubiti so \( \ket{\mb0} \) glede na meritev:}\label{ax:4}
-    \( \new{a}{\measureraw{a}{x}{y}} = x \).
+    \( \tnew{a}{\tmeasure{a}{x}{y}} = x \).
 \end{axiom}
 
 % \begin{axiom}{Vrata kontrolirana z novimi kubiti se nikoli ne uporabijo:}\label{ax:5}
 \begin{axiom}{Novi kubiti so \( \ket{\mb0} \) glede na kontrolo:}\label{ax:5}
-    \( \new{a}{\applyd{U,V}{a,b}{x{\p{a,b}}}} = \apply{U}{b}{\new{a}{x{\p{a,b}}}} \).
+    \( \tnew{a}{\tapplyd{U,V}{a,b}{x{\p{a,b}}}} = \tapply{U}{b}{\tnew{a}{x{\p{a,b}}}} \).
 \end{axiom}
 
 \begin{axiom}{Spoštovanje simetrične grupe \( \U[n] \):}\label{ax:6}
-    \( \apply{swap}{a,b}{x{\p{a,b}}} = x{\p{b,a}} \),
+    \( \tapply{swap}{a,b}{x{\p{a,b}}} = x{\p{b,a}} \),
 \end{axiom}
 
 \begin{axiom}{}\label{ax:7}
-    \( \apply{I}{a}{x{\p a}} = x{\p a} \),
+    \( \tapply{I}{a}{x{\p a}} = x{\p a} \),
 \end{axiom}
 
 \begin{axiom}{}\label{ax:8}
-    \( \apply{UV}{a}{x{\p a}} = \apply{V}{a}{\apply{U}{a}{x{\p a}}} \),
+    \( \tapply{UV}{a}{x{\p a}} = \tapply{V}{a}{\tapply{U}{a}{x{\p a}}} \),
 \end{axiom}
 
 \begin{axiom}{}\label{ax:9}
-    \( \apply{U⊗V}{a,b}{x{\p{a,b}}} = \apply{U}{a}{\apply{V}{b}{x{\p{a,b}}}} \).
+    \( \tapply{U⊗V}{a,b}{x{\p{a,b}}} = \tapply{U}{a}{\tapply{V}{b}{x{\p{a,b}}}} \).
 \end{axiom}
 
 \begin{axiom}{Komutativnost:}\label{ax:10}
-    \( \measure{a}{\measureraw{b}{u}{v}}{\measureraw{b}{x}{y}}
-        = \measure{b}{\measureraw{a}{u}{x}}{\measureraw{a}{v}{y}} \),
+    \( \tmeasure{a}{\tmeasure{b}{u}{v}}{\tmeasure{b}{x}{y}}\\
+       \text{\hspace{7em}} = \tmeasure{b}{\tmeasure{a}{u}{x}}{\tmeasure{a}{v}{y}} \),
 \end{axiom}
 
 \begin{axiom}{}\label{ax:11}
-    \( \new{a}{\new{b}{x{\p{a,b}}}} = \new{b}{\new{a}{x{\p{a,b}}}} \),
+    \( \tnew{a}{\tnew{b}{x{\p{a,b}}}} = \tnew{b}{\tnew{a}{x{\p{a,b}}}} \),
 \end{axiom}
 
 \begin{axiom}{}\label{ax:12}
-    \( \new{a}{\measureraw{b}{x{\p a}}{y{\p a}}}
-        = \measure{b}{\new{a}{x{\p a}}}{\new{a}{y{\p a}}} \).
+    \( \tnew{a}{\tmeasure{b}{x{\p a}}{y{\p a}}}\\
+       \text{\hspace{7em}} = \tmeasure{b}{\tnew{a}{x{\p a}}}{\tnew{a}{y{\p a}}} \).
 \end{axiom}
 
 \subsection{Primeri}
