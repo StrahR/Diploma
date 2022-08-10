@@ -151,7 +151,7 @@
     TODO
 \end{proof}
 
-\begin{theorem}[Polnost za meritev]
+\begin{theorem}[Polnost za meritev]\label{th:partial}
     %TODO: prava polnost? univerzalnost/polnost?
     Kompleksna števila tvorijo poln model:
     \begin{enumerate}
@@ -253,7 +253,7 @@
 Naštejmo najprej nekaj pomožnih izrekov.
 
 \begin{theorem}[Stinespringov izrek o dilaciji]
-    Naj bo \(f : \mc A → \M[p]\) CPU. Tedaj obstaja \(q ≥ p\) in \(*\)-homomorfizem \(g : \mc A → \M[q]\), tako da je \(f(A) = g(A)|ₚ\).
+    Naj bo \(f : \mc A → \M[p]\) popolnoma pozitivna in eniška. Tedaj obstaja \(q ≥ p\) in \(*\)-homomorfizem \(g : \mc A → \M[q]\), tako da je \(f(A) = g(A)|ₚ\).
     \[\begin{tikzcd}
         A \\
         {\M[q]} & {\M[p]}
@@ -273,8 +273,122 @@ Naštejmo najprej nekaj pomožnih izrekov.
         \arrow["g", from=1-4, to=2-4]
         \arrow["f", from=1-4, to=2-5]
         \arrow[from=2-3, to=2-4]
-        \arrow["{U(-)U*}"{description}, from=2-1, to=2-3]
+        \arrow["{U(-)U^*}"{description}, from=2-1, to=2-3]
         \arrow["h"', from=1-4, to=2-1]
         \arrow[curve={height=20pt}, from=2-1, to=2-5]
     \end{tikzcd}\]
 \end{theorem}
+
+\begin{proof}[Dokaz izreka o polnosti.]
+    Naj bo \(f : \semmap{p}{m₁,…,mₖ}\) kot v izreku. Potem lahko uporabimo Stinespringov izrek o dilaciji, skupaj z minimalnostjo, da \(f\) razcepimo na \(g : A → \M[q]\), za nek \(q ≥ 2ᵖ\), kjer je \(A = \M[2^{m₁}]⊗⋯⊗\M[2^{mₖ}]\).
+    Če je \(q\) potenca \(2\), je izrek praktično dokazan; \(g\) lahko definiramo po izreku \ref{th:partial}, skrčitev pa z zaporednimi \(\op{new}\) in premešavanjem koordinat.
+    Drugi del sledi iz minimalnosti dilacije. %TODO: source?
+    Vendar v splošnem \(q\) ni potenca \(2\). Kljub temu, pa lahko tudi \(g\) ustrezno faktoriziramo:
+    % https://q.uiver.app/?q=WzAsNSxbMCwwLCJBIl0sWzMsMCwiMl57beG1on1cXGNkb3QgXFxNW3Fd4oqVKDJecS1xKVxcY2RvdFxcTVsyXntt4bWifV0iXSxbNCwwLCJcXE1bMl57beG1oitxfV0iXSxbNCwxLCJcXE1bcV0iXSxbNCwyLCJcXE1bMl5wXSJdLFswLDQsImYiLDJdLFswLDMsImciLDJdLFswLDEsIigyXntt4bWifVxcY2RvdCBnLCgyXmwtcSlcXGNkb3Qgz4DhtaIpIl0sWzEsMl0sWzIsM10sWzMsNF0sWzEsMywiz4DigoEiXV0=
+    \[\begin{tikzcd}
+        A &&& {2^{mᵢ}\cdot \M[q]⊕(2^q-q)\cdot\M[2^{mᵢ}]} & {\M[2^{mᵢ+q}]} \\
+        &&&& {\M[q]} \\
+        &&&& {\M[2^p]}
+        \arrow["f"', from=1-1, to=3-5]
+        \arrow["g"', from=1-1, to=2-5]
+        \arrow["{(2^{mᵢ}\cdot g,(2^q-q)\cdot πᵢ)}", from=1-1, to=1-4]
+        \arrow["h", from=1-4, to=1-5]
+        \arrow[from=1-5, to=2-5]
+        \arrow[from=2-5, to=3-5]
+        \arrow["{π₁}", from=1-4, to=2-5]
+    \end{tikzcd}\]
+    Navpične preslikave so zožitve, vodoravne pa \(*\)-homomorfizmi, torej lahko kot prej definiramo term \(t\), da je \(\sem{t} = f\).
+    Ostane nam še drugi del izreka, naj bosta \(t\) in \(u\) taka, da je \(\sem{t} = \sem{u}\).
+    Po iz aksiomov o komutativnosti lahko zapišemo \(t\) kot \(\tnew{a₁,…,aₗ}{t'}\) (in podobno za \(u\)). Iz aksioma \ref{ax:4} sledi \(\tnew{a}{\tdiscard{a}{x}} = x\), torej je BŠS število \(\op{new}\) na začetku \(t\) in \(u\) enako.
+    Po izreku \ref{th:partial} imamo \(*\)-homomorfizma \(\sem{t'}, \sem{u'}: A → \M[2ˡ]\), tako da velja \(\sem{t} = A \xrightarrow{\sem{t'}} \M[2ˡ] → \M[2ᵖ]\) in \(\sem{u} = A \xrightarrow{\sem{u'}} \M[2ˡ] → \M[2ᵖ]\).
+    Po Stinespringovem izreku in minimalnosti spet sledi, da lahko \(\sem{t} = \sem{u}\) faktoriziramo skozi nek \(\M[q]\). Po minimalnosti (kjer za \(h\) vzamemo \(\sem{t'}\) in \(\sem{u'}\) ter \(r = 2ˡ\)) tudi obstajata \(2ˡ×2ˡ\) unitarni matriki \(U\) in \(V\), da spodnji diagram komutira.
+    % https://q.uiver.app/?q=WzAsNyxbMCwyLCJBIl0sWzMsMCwiXFxNWzLLoV0iXSxbNCwxLCJcXE1bMsuhXSJdLFs1LDIsIlxcTVsyXnFdIl0sWzMsNCwiXFxNWzLLoV0iXSxbNCwzLCJcXE1bMsuhXSJdLFs3LDIsIlxcTVsy4bWWXSJdLFswLDEsIlxcc2Vte3QnfSJdLFsxLDIsIlUoLSlVXioiLDJdLFsyLDNdLFswLDQsIlxcc2Vte3UnfSJdLFs0LDUsIlYoLSlWXioiXSxbNSwzXSxbNCw2LCIiLDEseyJjdXJ2ZSI6M31dLFsxLDYsIiIsMSx7ImN1cnZlIjotM31dLFszLDZdXQ==
+    \[\begin{tikzcd}
+        &&& {\M[2ˡ]} \\
+        &&&& {\M[2ˡ]} \\
+        A &&&&& {\M[2^q]} && {\M[2ᵖ]} \\
+        &&&& {\M[2ˡ]} \\
+        &&& {\M[2ˡ]}
+        \arrow["{\sem{t'}}", from=3-1, to=1-4]
+        \arrow["{U(-)U^*}"', from=1-4, to=2-5]
+        \arrow[from=2-5, to=3-6]
+        \arrow["{\sem{u'}}", from=3-1, to=5-4]
+        \arrow["{V(-)V^*}", from=5-4, to=4-5]
+        \arrow[from=4-5, to=3-6]
+        \arrow[curve={height=18pt}, from=5-4, to=3-8]
+        \arrow[curve={height=-18pt}, from=1-4, to=3-8]
+        \arrow[from=3-6, to=3-8]
+    \end{tikzcd}\]
+    Kompozituma preslikav na notranjem diamantu sta \(*\)-homomorfizma.
+    Ker desna trikotnika komutirata, matriki \(U\) in \(V\) ne spreminjata prvih \(p\) kubitov
+    in lahko po spodnji lemi BŠS vzamemo \(U = V = I\).
+
+    \begin{lemma}\label{lemma:fix}
+        Naj bo \(m < n\) in \(U\) vrata reda \(n\), ki fiksirajo prvih \(m\) kubitov.
+        Tedaj lahko izpeljemo
+        \[ \sequent{x:n}{a₁,…,aₘ}{\tnew{a_{m+1},…,aₙ}{\tapply{U}{a}{x(a)}}
+                                  = \tnew{a_{m+1},…,aₙ}{x(a)}}.\]
+    \end{lemma}
+    
+    \begin{proof}[Dokaz leme]
+        Ker je \(U = D{\p{I, U'}}\) za neka vrata \(U'\) reda \(n-m\), je po aksiomu \ref{ax:5} leva stran enaka \(\tapply{I}{a₁,…,aₘ}{\tnew{a_{m+1},…,aₙ}{x(a)}}\), kar je pa enako desni strani po aksiomu \ref{ax:7}.
+    \end{proof}
+
+    Zgornji diagram lahko torej poenostavimo na
+    % https://q.uiver.app/?q=WzAsNCxbMCwxLCJBIl0sWzIsMCwiXFxNWzLLoV0iXSxbMywxLCJcXE1bMl5xXSJdLFsyLDIsIlxcTVsyy6FdIl0sWzAsMSwiXFxzZW17dCd9Il0sWzAsMywiXFxzZW17dSd9Il0sWzMsMl0sWzEsMl1d
+    \[\begin{tikzcd}
+        && {\M[2ˡ]} \\
+        A &&& {\M[2^q]} \\
+        && {\M[2ˡ]}
+        \arrow["{\sem{t'}}",  from=2-1, to=1-3]
+        \arrow["{\sem{u'}}"', from=2-1, to=3-3]
+        \arrow[from=3-3, to=2-4]
+        \arrow[from=1-3, to=2-4]
+    \end{tikzcd}\]
+    in uporabimo sledečo lemo:
+
+    \begin{lemma}
+        Če sta \(f\) in \(g\) taka \(*\)-homomorfizma, da spodnji diagram komutira
+        \[\begin{tikzcd}
+            A \\
+            {\M[p+q]} & {\M[p]}
+            \arrow[     from=2-1, to=2-2]
+            \arrow["f"', from=1-1, to=2-1]
+            \arrow["g", from=1-1, to=2-2]
+        \end{tikzcd}\]
+        kjer je vodoravna preslikava zožitev, lahko preslikavo \(f\) faktoriziramo skozi bločno-diagonalno preslikavo \(\M[p]⊕\M[q] → \M[p+q]\) (meritev).
+    \end{lemma}
+
+    Iz te leme dobimo preslikave \(f\), \(f'\), \(g\), \(h\) in lahko z njimi razširimo naš diagram.
+    % https://q.uiver.app/?q=WzAsNixbMCwxLCJBIl0sWzMsMCwiXFxNWzLLoV0iXSxbNCwxLCJcXE1bMl5xXSJdLFszLDIsIlxcTVsyy6FdIl0sWzEsMCwiXFxNW3Fd4oqVXFxNWzLLoS1xXSJdLFsxLDIsIlxcTVtxXeKKlVxcTVsyy6EtcV0iXSxbMCwxLCJcXHNlbXt0J30iLDIseyJsYWJlbF9wb3NpdGlvbiI6ODB9XSxbMCwzLCJcXHNlbXt1J30iLDAseyJsYWJlbF9wb3NpdGlvbiI6ODB9XSxbMywyXSxbMSwyXSxbMCw1LCIoZicsIGgpIiwyXSxbMCw0LCIoZiwgZykiXSxbNSwzXSxbNCwxXV0=
+    \[\begin{tikzcd}
+        & {\M[q]⊕\M[2ˡ-q]} && {\M[2ˡ]} \\
+        A &&&& {\M[2^q]} \\
+        & {\M[q]⊕\M[2ˡ-q]} && {\M[2ˡ]}
+        \arrow["{\sem{t'}}"'{pos=0.6}, from=2-1, to=1-4]
+        \arrow["{\sem{u'}}"{pos=0.6}, from=2-1, to=3-4]
+        \arrow[from=3-4, to=2-5]
+        \arrow[from=1-4, to=2-5]
+        \arrow["{(f', h)}"', from=2-1, to=3-2]
+        \arrow["{(f, g)}", from=2-1, to=1-2]
+        \arrow[from=3-2, to=3-4]
+        \arrow[from=1-2, to=1-4]
+    \end{tikzcd}\]
+    Ker diagram komutira, takoj vidimo, da je \(f = f'\).
+
+    Vemo, da je \(t = \tnew{a}{\tnew{b}{\tmeasure{b}{t'}{u'}}}\) in po lemi \ref{lemma:fix}
+    je to enako tudi \(\tnew{a}{\tnew{b}{\tapply{U}{a,b}{\tmeasure{b}{t'}{u'}}}}\),
+    kjer je \(U\) unitarna matrika, ki zamenja pojavitvi \((2ˡ-q)\) v \(\M[q + (2ˡ-q) + q + (2ˡ-q)] = \M[2ˡ]⊗\M[2]\). Matrika je res prave dimenzije (saj je \(a\) vektor \(l\)-tih kubitov, ki mu priključimo še en kubit \(b\)), in fiksira prvih \(q > 2ᵖ\) vrstic, torej prvih \(p\) kubitov.
+
+    Sledi, da je \(t = u\) čim je \(\tapply{U}{a,b}{\tmeasure{b}{t'}{u'}} = \tmeasure{b}{u'}{t'}\).
+    Po izreku \ref{th:partial} lahko enakost izpeljemo natanko tedaj, ko sta pripadajoča \(*\)-homomorfizma enaka. Če ju izračunamo res vidimo, da sta enaka:
+    \begin{align*}
+        \sem{&\tapply{U}{a,b}{\tmeasure{b}{t'}{u'}}}(x)
+         = U\pmat{\sem{t'}(x)&0\\0&\sem{u'}(x)}U^*\\
+        &= U\pmat{f(x)&0&0&0\\0&g(x)&0&0\\0&0&f(x)&0\\0&0&0&h(x)}U^*
+         = \pmat{f(x)&0&0&0\\0&h(x)&0&0\\0&0&f(x)&0\\0&0&0&g(x)}\\
+        &= \pmat{\sem{u'}(x)&0\\0&\sem{t'}(x)}
+         = \sem{\tmeasure{b}{u'}{t'}},
+    \end{align*}
+    torej je dokaz končan.
+\end{proof}
