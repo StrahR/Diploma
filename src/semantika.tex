@@ -1,7 +1,6 @@
 \section{Semantika}
 
 \subsection{Modeli algebrajskih teorij z linearnimi parametri}
-% TODO: define models
 % \subsubsection{Algebrajska teorija z linearnimi parametri}
 
 \begin{definition}[Členost]
@@ -42,17 +41,89 @@
 
 \begin{definition}[Aksiomi]
     %TODO: define term
-    Aksiom v neki signaturi je par izrazov v istem kontekstu; pišemo \(\seq{t=u}\).
+    Aksiom v neki signaturi je par izrazov v istem kontekstu; pišemo \(\absseq{t=u}\).
     Predstavitev teorije je signatura skupaj z množico aksiomov.
 \end{definition}
 
-\begin{definition}%TODO: paragraph?
-    Omejimo se na kategorije, kjer za vsak objekt \(X\) in vsako naravno število \(n\) obstaja nek objekt \(n•X\). Operacijo \(•\) lahko razumemo kot delovanje naravnih števil na dano kategorijo.
-    Tedaj lahko morfizme \(X → n•Y\)
+\begin{definition}
+    Kategorija je sestavljena iz
+    \begin{itemize}
+        \item nabora objektov (ponavadi označeni z \(X,Y,Z,…\)) in
+        \item nabora morfizmov (ponavadi označeni s \(f,g,h,…\)),
+    \end{itemize}
+    tako da
+    \begin{itemize}
+        \item ima vsak morfizem dva objekta, ki jima pravimo domena in kodomena (označimo \(f : X → Y\), kjer je \(X\) domena in \(Y\) kodomena),
+        \item ima vsak objekt \(X\) identiteto \(1_X : X → X\),
+        \item ima vsak par morfizmov \(f\) in \(g\), tako da je kodomena \(f\) enaka domeni \(g\), kompozitum \(g∘f\), ki ima domeno enako \(f\) in kodomeno enako \(g\),
+    \end{itemize}
+    in veljata naslednja aksioma:
+    \begin{itemize}
+        \item za vsak \(f : X → Y\) velja \(1_Y∘f = f = f∘1_X\) in
+        \item za vsake \(f,g,h : X → Y → Z → W\) velja \(h∘(g∘f) = (h∘g)∘f\).
+    \end{itemize}
 \end{definition}
 
+\begin{examples}
+    Poznamo mnogo primerov kategorij, par bolj znanih naštejmo spodaj.
+    \begin{itemize}
+        \item grupe s homomorfizmi,
+        \item topološki prostori z zveznimi preslikavami,
+        \item Hausdorffovi prostori z zveznimi preslikavami,
+        \item vektorski prostori z linearnimi preslikavami,
+        \item …
+    \end{itemize}
+\end{examples}
 
+Intuitivno lahko gledamo na kategorije kot neke splošne strukture, v katerih imajo objekti neko svojo strukturo, ki jo morfizmi spoštujejo.
 
+So pa kategorije bistveno bolj splošnejši pojem od tega, na primer delno urejene množice lahko predstavimo kot kategorije:
+\begin{example}
+    Naj bo \(\p{P, ≤}\) delno urejena množica.
+    Vzemimo za objekte kategorije elemente množice \(P\), morfizem med objekti \(x\) in \(y\) pa naj obstaja natanko tedaj, ko je \(x ≤ y\).
+    Tokrat morfizmi niso funkcije, vendar zgolj formalni objekti, ampak vseeno zadoščajo vsem pogojem kategorije.
+\end{example}
+
+% \begin{definition}%TODO: paragraph?
+Omejimo se na kategorije, kjer za vsak objekt \(X\) in vsako naravno število \(n\) obstaja nek objekt \(n•X\). Operacijo \(•\) lahko razumemo kot delovanje naravnih števil na dano kategorijo.
+Tedaj lahko morfizme \(X → n•Y\) interpretiramo kot morfizme \(X → Y\) z \(n\) parametri.
+Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi oblike \( \abssemmap{p}{m₁,…,mₖ}\).
+% \end{definition}
+
+\begin{definition}
+    Struktura za signaturo je objekt \(X\) skupaj z morfizmom oblike \(\abssemmap{p}{m₁,…,mₖ}\) za vsako operacijo \(\op{O} : \arity{p}{m₁,…,mₖ}\). Označimo ga z \(\sem{\op{O}}\).
+\end{definition}
+
+\begin{definition}
+    Vsakemu izrazu \(\seq{t}\) definiramo njegov interpretacijski morfizem \(\sem{t}\) z indukcijo na strukturi členov na naslednji način:
+    \[ \sem{\op{O}{\p{a₁,…,aₚ; b₁,…,b_{m₁}.t₁, …, b₁,…,b_{mₖ}.tₖ}}}
+      = \sem{\op{O}}{\p{\sem{t₁}{\p -},…,\sem{tₖ}{\p -}}},\]
+    kjer \(\op{O}\) interpretiramo z morfizmom iz signature, \(tᵢ\) pa po indukciji.
+\end{definition}
+
+\begin{definition}
+    Model za algebrajsko teorijo z linearnimi parametri je struktura za njeno signaturo, tako da sta za vsak aksiom \(\absseq{t=u}\) interpretacijska morfizma \(\sem{t}\) in \(\sem{u}\) enaka.
+\end{definition}
+
+\begin{proposition}[Zdravost]
+    Če lahko enakost izpeljemo v algebrajski teoriji, potem drži v vseh modelih.
+\end{proposition}
+
+\begin{proof}
+    Dokaz poteka po indukciji. Naj bo \(\absseq{t=u}\).
+    % Naj bo \(\seq{t=u}\) in naj bosta \(t\) in \(u\) oblike
+    % \begin{align*}
+    %     t &= \op{O}₁{\p{a₁,…,aₚ ; b₁,…,b_{m₁}.t₁, …, b₁,…,b_{mₖ}.tₖ}}\\
+    %     u &= \op{O}₂{\p{a₁,…,a_q; b₁,…,b_{n₁}.u₁, …, b₁,…,b_{nₗ}.uₗ}}.
+    % \end{align*}
+    Brez škode za splošnost je lahko veriga enakosti prek aksiomov dolga zgolj en člen, saj je enakost tranzitivna.
+    Tedaj lahko ta aksiom uporabimo na dva načina: prvi je, da ga uporabimo na podizrazih, kar pomeni, da sta interpretacijska morfizma enaka po indukciji, drugi je pa, da aksiom uporabimo neposredno na celih izrazih, iz česar pa enakost morfizmov sledi neposredno iz definicije modela.
+    % Če sta operaciji \(\op{O}₁\) in \(\op{O}₂\) enaki, sta tudi interpretacijska morfizma enaka natanko tedaj, ko lahko izpeljemo enakost med 
+\end{proof}
+
+%TODO: define fully complete models?
+
+%TODO: what is this?
 \subsection{Semantika kvantnega programskega jezika}
 
 \subsection{\texorpdfstring{\(C^*\)-algebre}{C*-algebre}}
@@ -68,7 +139,7 @@
 \end{definition}
 
 \begin{definition}
-    \(k\)-algebra \(A\) je normirana, če ima normo in velja \(\for{x, y ∈ A}{\|xy\| ≤ \|x\|\|y\|}\).
+    \(k\)-algebra \(A\) je normirana, če ima normo in za poljubna \(x,y ∈ A\) velja \(\|xy\| ≤ \|x\|\|y\|\).
 \end{definition}
 \begin{definition} %TODO: cite vidav
     Involucija je operacija \(x ↦ x^*\) na elementih algebre, za katero velja:
@@ -138,7 +209,6 @@
 \end{proof}
 
 %TODO: definition of C*-algebras as models
-%TODO: soundness (zdravost)
 
 \subsection{Polnost za meritev}
 %TODO: add motivation/explanation about why we don't model new
@@ -171,7 +241,7 @@
     Kompleksna števila tvorijo poln model:
     \begin{enumerate}
         \item Za vsak \(*\)-homomorfizem \(f : \semmap{p}{m₁,…,mₖ}\) obstaja term v algebrajski teoriji, ki ne vsebuje \(\op{new}\), tako da je \(t : \arity{p}{m₁,…,mₖ}\) in \(\sem{t} = f\).
-        \item Če \(\seq{t, u}\) ne vsebujeta \(\op{new}\) in \(\sem{t} = \sem{u}\) lahko izpeljemo \(\seq{t = u}\).
+        \item Če \(\absseq{t, u}\) ne vsebujeta \(\op{new}\) in \(\sem{t} = \sem{u}\) lahko izpeljemo \(\absseq{t = u}\).
     \end{enumerate}
 \end{theorem}
 
@@ -260,7 +330,7 @@
     Kompleksna števila tvorijo poln model:
     \begin{enumerate}
         \item Za vsako popolnoma pozitivno eniško preslikavo \(f : \semmap{p}{m₁,…,mₖ}\) obstaja term v algebrajski teoriji, tako da je \(t : \arity{p}{m₁,…,mₖ}\) in \(\sem{t} = f\).
-        \item Če \(\seq{t, u}\) in \(\sem{t} = \sem{u}\) lahko izpeljemo \(\seq{t = u}\).
+        \item Če \(\absseq{t, u}\) in \(\sem{t} = \sem{u}\) lahko izpeljemo \(\absseq{t = u}\).
     \end{enumerate}
 \end{theorem}
 

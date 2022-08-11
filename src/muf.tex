@@ -100,7 +100,8 @@
 % \newcommand{\arity}[2]{\p{#1 \mid \StrSubstitute[0]{#2}{,}{\ }}}
 
 \newcommand{\sequent}[3]{#1 \mid #2 \vdash #3}
-\newcommand{\seq}[1]{\sequent{\Gamma}{\Delta}{#1}}
+\newcommand{\seq}[1]{\sequent{x₁:m₁,…,xₖ:mₖ}{a₁,…,aₚ}{#1}}
+\newcommand{\absseq}[1]{\sequent{\Gamma}{\Delta}{#1}}
 \newcommand{\sem}[1]{⟦ #1 ⟧}
 % \newcommand{\brsem}[1]{⟬ #1 ⟭}
 % \newcommand{\brsem}[1]{⦅ #1 ⦆}
@@ -117,6 +118,19 @@
     ⋯%
   \else%
     \M[\IfInteger{\param}{\FPeval\result{round(2^(\param):0)}\result}{2^{\param}}]\!%
+  \fi
+}
+\newcommand{\abssemmap}[2]{% cf. https://tex.stackexchange.com/a/87423/64454
+  \def\nextitem{\def\nextitem{×}}% Separator
+  \forcsvlist\abssemmapitem{#2} → (#1 • X)
+}
+\newcommand{\abssemmapitem}[1]{%
+  \nextitem
+  \def\param{\detokenize{#1}}%
+  \if\param…%
+    ⋯%
+  \else%
+    (\param • X)\!%
   \fi
 }
 \newcommand{\semhom}[2]{
