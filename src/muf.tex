@@ -46,6 +46,7 @@
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\cat}[1]{\mathbf{#1}}
 \newcommand{\tr}[1]{\textrm{tr}{#1}}
+\newcommand{\rang}[1]{\textrm{rang}{\p{#1}}}
 
 \usepackage{xstring}
 \newcommand{\mat}[1]{\begin{matrix} #1 \end{matrix}}
@@ -66,8 +67,9 @@
 \newcommand{\U}[1][]{\mathbf{U}_{#1}}
 \newcommand{\ctl}[1]{\g{c#1}}
 \newcommand{\ctlo}[1]{\g{\bar c} \g #1}
-\newcommand{\cstar}{\cat{Cstar}}
-\newcommand{\cstarcpu}{\cat{Cstar}_{\textrm{CPU}}}
+\newcommand{\cstarcat}{\cat{Cstar}}
+\newcommand{\cstarcpucat}{\cat{Cstar}_{\textrm{CPU}}}
+\newcommand{\cstar}[2]{\cat{Cstar}{\arity{#1}{#2}}}
 \newcommand{\brat}[2]{\cat{Brat}{\arity{#1}{#2}}}
 
 \newcommand{\op}[1]{\textnormal{\sffamily#1}}

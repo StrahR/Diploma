@@ -77,12 +77,12 @@
 
 Intuitivno lahko gledamo na kategorije kot neke splošne strukture, v katerih imajo objekti neko svojo strukturo, ki jo morfizmi spoštujejo.
 
-So pa kategorije bistveno bolj splošnejši pojem od tega, na primer delno urejene množice lahko predstavimo kot kategorije:
-\begin{example}
-    Naj bo \(\p{P, ≤}\) delno urejena množica.
-    Vzemimo za objekte kategorije elemente množice \(P\), morfizem med objekti \(x\) in \(y\) pa naj obstaja natanko tedaj, ko je \(x ≤ y\).
-    Tokrat morfizmi niso funkcije, vendar zgolj formalni objekti, ampak vseeno zadoščajo vsem pogojem kategorije.
-\end{example}
+% So pa kategorije bistveno bolj splošnejši pojem od tega, na primer delno urejene množice lahko predstavimo kot kategorije:
+% \begin{example}
+%     Naj bo \(\p{P, ≤}\) delno urejena množica.
+%     Vzemimo za objekte kategorije elemente množice \(P\), morfizem med objekti \(x\) in \(y\) pa naj obstaja natanko tedaj, ko je \(x ≤ y\).
+%     Tokrat morfizmi niso funkcije, vendar zgolj formalni objekti, ampak vseeno zadoščajo vsem pogojem kategorije.
+% \end{example}
 
 % \begin{definition}%TODO: paragraph?
 Omejimo se na kategorije, kjer za vsak objekt \(X\) in vsako naravno število \(n\) obstaja nek objekt \(n•X\). Operacijo \(•\) lahko razumemo kot delovanje naravnih števil na dano kategorijo.
@@ -201,7 +201,7 @@ Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi o
 \end{proposition}
 
 \begin{proposition}
-    \(C^*\)-algebre skupaj z \(*\)-homomorfizmi tvorijo kategorijo \(\cstar\).
+    \(C^*\)-algebre skupaj z \(*\)-homomorfizmi tvorijo kategorijo \(\cstarcat\).
 \end{proposition}
 
 \begin{proof}
@@ -227,7 +227,7 @@ Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi o
 \begin{proposition}
     %TODO: subtheory?
     %TODO: reword?
-    Kompleksna števila \(ℂ ∈ \cstar\) tvorijo model fragmenta kvantnega računalništva, ki vključuje operaciji \(\op{measure}\) in \(\op{apply}\) (ampak ne \(\op{new}\)) in vse relevantne aksiome ((A)–(C), (F)–(J)).
+    Kompleksna števila \(ℂ ∈ \cstarcat\) tvorijo model fragmenta kvantnega računalništva, ki vključuje operaciji \(\op{measure}\) in \(\op{apply}\) (ampak ne \(\op{new}\)) in vse relevantne aksiome ((A)–(C), (F)–(J)).
 \end{proposition}
 
 % TODO: bratteli diagrams
@@ -245,7 +245,40 @@ Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi o
     \end{enumerate}
 \end{theorem}
 
+% \begin{proposition}
+%     Neničelni \(*\)-homomorfizmi \(\M[k] → \M[n]\) obstajajo le, če je \(n ≥ k\).
+% \end{proposition}
+
+\begin{proposition}
+    Naj bo \(n\) večkratnik \(k\) in \(f : \M[k] → \M[n]\). Tedaj obstaja unitarna preslikava \(U ∈ \M[n]\), tako da je \(f\) oblike \(A ↦ UD{(\underbrace{A,…,A}_m)}U^*\), kjer je \(n = k⋅m\). Številu \(m\) pravimo kratnost \(*\)-homomorfizma.
+\end{proposition}
+
+Označimo \(\cat{C} ≔ \semmap{p}{m₁,…,mₖ}\) do konca razdelka.
+
+%TODO: cite P. A. Fillmore
+\begin{definition}
+    % Za preslikavo \(f : A → B\), kjer je \(A = \M[k₁]⊕⋯⊕\M[kᵣ]\) in \(B = \M[n₁]⊕⋯⊕\M[nₛ]\) je Brattelijev diagram multigraf z dvema vrsticama vozlišč označenih s \(kᵢ\) in \(nⱼ\), skupaj z \(mᵢⱼ\) povezavami med \(kᵢ\) in \(nⱼ\), kjer je \(mᵢⱼ\) kratnost preslikave \(πⱼ∘f∘ιᵢ\).
+    Za \(m₁,…,mₖ,p ∈ ℕ₊\) so elementi množica Brattelijevih diagramov \(\cat{B} ≔ \brat{2ᵖ}{2^{m₁},…,2^{mₖ}}\) \(k\)-terice naravnih števil \(\p{s₁,…,sₖ}\), tako da je \(∑sᵢ2^{mᵢ} = 2ᵖ\).
+    Definiramo funkcijo \(μ : \cat{B} → \cat{C}\) s predpisom
+    \[μ{\p{s₁,…,sₖ}}{\p{A₁,…,Aₖ}} = D{\p{A₁,…,A₁,A₂,…,Aₖ}},\] kjer se \(Aᵢ\) na diagonali pojavi \(sᵢ\)-krat. 
+\end{definition}
+
+\begin{lemma}
+    Obstaja \(ρ : \cat{C} → \cat{B}\), da je \(ρ∘μ = \id\). Še več, \(ρ{\p f}\) in \(ρ{\p g}\) sta enaka natanko tedaj, ko obstaja \(2ᵖ×2ᵖ\) unitarna matrika \(U\), tako da je \(f = U^*(g(-))U\).
+\end{lemma}
+
 \begin{proof}
+    Naj bosta \(f,g : \semmap{p}{m₁,…,mₖ}\) in definirajmo \(fᵢ ≔ f∘ιᵢ, gᵢ ≔ g∘ιᵢ : \M[2^{mᵢ}] → \M[2ᵖ]\).
+    Po zgornji trditvi velja torej \(fᵢ{(A)} = Vᵢ(D(A,…,A))Vᵢ^* ≕ VᵢD_{sᵢ}Vᵢ^*\) in \(gᵢ{(A)} = Wᵢ(D(A,…,A))Wᵢ^* ≕ WᵢD_{tᵢ}Wᵢ^*\), kjer je pri vsakem \(A\) na diagonali \(sᵢ\) in \(tᵢ\)-krat.
+
+    \((⇐)\) Naj bo \(f = Ug{(-)}U^*\). Potem, če se omejimo na \(\M[2^{m₁}]\) velja tudi \(fᵢ = Ugᵢ{(-)}U^*\).
+    Vstavimo in nesemo unitarne matrike na eno stran in dobimo \(D_{sᵢ} = (VᵢUWᵢ^*)^*D_{tᵢ}(VᵢUWᵢ^*)\). Ker unitarne matrike ne vplivajo na rang, je \(\rang{A}⋅sᵢ = \rang{D_{sᵢ}} = \rang{D_{tᵢ}} = \rang{A}⋅tᵢ\). Sledi \(sᵢ = tᵢ\) in, ker je bil \(i\) poljuben, sta Brattelijeva diagrama, ki pripadata \(f\) in \(g\) enaka.
+
+    \((⇒)\) Naj bodo sedaj \(sᵢ = tᵢ\). Potem sta enaka tudi \(D_{sᵢ}\) in \(D_{tᵢ}\), torej lahko izrazimo \(fᵢ = Vᵢ(Wᵢ^*gᵢ{(-)}Wᵢ)Vᵢ^* = Uᵢgᵢ{(-)}Uᵢ^*\) z \(Uᵢ ≔ VᵢWᵢ^*\).
+    %TODO: finish proof
+\end{proof}
+
+\begin{proof}[Dokaz izreka \ref{th:partial}.]
     TODO
 \end{proof}
 
@@ -279,7 +312,7 @@ Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi o
 \end{definition}
 
 \begin{proposition}
-    \(C^*\)-algebre skupaj s popolnoma pozitivnimi eniškimi preslikavami tvorijo kategorijo \(\cstarcpu\) (angl. \foreignlanguage{english}{Completely Positive Unital maps}).
+    \(C^*\)-algebre skupaj s popolnoma pozitivnimi eniškimi preslikavami tvorijo kategorijo \(\cstarcpucat\) (angl. \foreignlanguage{english}{Completely Positive Unital maps}).
 \end{proposition}
 \begin{proof}
     TODO
@@ -319,7 +352,7 @@ Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi o
 \end{proof}
 
 \begin{proposition}
-    Kompleksna števila \(ℂ ∈ \cstarcpu\) tvorijo model kvantnega računalništva.
+    Kompleksna števila \(ℂ ∈ \cstarcpucat\) tvorijo model kvantnega računalništva.
 \end{proposition}
 
 \begin{proof}
@@ -420,15 +453,15 @@ Naštejmo najprej nekaj pomožnih izrekov.
     \end{proof}
 
     Zgornji diagram lahko torej poenostavimo na
-    % https://q.uiver.app/?q=WzAsNCxbMCwxLCJBIl0sWzIsMCwiXFxNWzLLoV0iXSxbMywxLCJcXE1bMl5xXSJdLFsyLDIsIlxcTVsyy6FdIl0sWzAsMSwiXFxzZW17dCd9Il0sWzAsMywiXFxzZW17dSd9Il0sWzMsMl0sWzEsMl1d
+    % https://q.uiver.app/?q=WzAsNCxbMCwxLCJBIl0sWzEsMCwiXFxNWzLLoV0iXSxbMiwxLCJcXE1bMl5xXSJdLFsxLDIsIlxcTVsyy6FdIl0sWzAsMSwiXFxzZW17dCd9Il0sWzAsMywiXFxzZW17dSd9IiwyXSxbMywyXSxbMSwyXV0=
     \[\begin{tikzcd}
-        && {\M[2ˡ]} \\
-        A &&& {\M[2^q]} \\
-        && {\M[2ˡ]}
-        \arrow["{\sem{t'}}",  from=2-1, to=1-3]
-        \arrow["{\sem{u'}}"', from=2-1, to=3-3]
-        \arrow[               from=3-3, to=2-4]
-        \arrow[               from=1-3, to=2-4]
+        & {\M[2ˡ]} \\
+        A && {\M[2^q]} \\
+        & {\M[2ˡ]}
+        \arrow["{\sem{t'}}",  from=2-1, to=1-2]
+        \arrow["{\sem{u'}}"', from=2-1, to=3-2]
+        \arrow[               from=3-2, to=2-3]
+        \arrow[               from=1-2, to=2-3]
     \end{tikzcd}\]
     in uporabimo sledečo lemo:
 
