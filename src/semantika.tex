@@ -250,15 +250,16 @@ Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi o
 % \end{proposition}
 
 \begin{proposition}
-    Naj bo \(n\) večkratnik \(k\) in \(f : \M[k] → \M[n]\). Tedaj obstaja unitarna preslikava \(U ∈ \M[n]\), tako da je \(f\) oblike \(A ↦ UD{(\underbrace{A,…,A}_m)}U^*\), kjer je \(n = k⋅m\). Številu \(m\) pravimo kratnost \(*\)-homomorfizma.
+    Naj bo \(n ≥ k\) in \(f : \M[k] → \M[n]\) \(*\)-homomorfizem, ki ne ohranja enote. Tedaj obstaja unitarna preslikava \(U ∈ \M[n]\), tako da je \(f\) oblike \(A ↦ UD{(A,…,A,0)}U^*\), kjer se \(A\) na diagonali pojavi \(m\)-krat, \(0\) je \(r×r\) ničelna matrika, in velja \(n = m⋅k + r\). Številu \(m\) pravimo kratnost \(*\)-homomorfizma.
+    Če \(f\) ohranja enoto je \(r = 0\) in \(n = m⋅k\).
 \end{proposition}
 
-Označimo \(\cat{C} ≔ \semmap{p}{m₁,…,mₖ}\) do konca razdelka.
+Označimo \(\cat{C} ≔ \semmap{p}{m₁,…,mₖ}\).
 
 %TODO: cite P. A. Fillmore
 \begin{definition}
     % Za preslikavo \(f : A → B\), kjer je \(A = \M[k₁]⊕⋯⊕\M[kᵣ]\) in \(B = \M[n₁]⊕⋯⊕\M[nₛ]\) je Brattelijev diagram multigraf z dvema vrsticama vozlišč označenih s \(kᵢ\) in \(nⱼ\), skupaj z \(mᵢⱼ\) povezavami med \(kᵢ\) in \(nⱼ\), kjer je \(mᵢⱼ\) kratnost preslikave \(πⱼ∘f∘ιᵢ\).
-    Za \(m₁,…,mₖ,p ∈ ℕ₊\) so elementi množica Brattelijevih diagramov \(\cat{B} ≔ \brat{2ᵖ}{2^{m₁},…,2^{mₖ}}\) \(k\)-terice naravnih števil \(\p{s₁,…,sₖ}\), tako da je \(∑sᵢ2^{mᵢ} = 2ᵖ\).
+    Za \(m₁,…,mₖ,p ∈ ℕ₊\) so elementi množice Brattelijevih diagramov \(\cat{B} ≔ \brat{2ᵖ}{2^{m₁},…,2^{mₖ}}\) \(k\)-terice naravnih števil \(\p{s₁,…,sₖ}\), tako da je \(∑ᵢsᵢ2^{mᵢ} = 2ᵖ\).
     Definiramo funkcijo \(μ : \cat{B} → \cat{C}\) s predpisom
     \[μ{\p{s₁,…,sₖ}}{\p{A₁,…,Aₖ}} = D{\p{A₁,…,A₁,A₂,…,Aₖ}},\] kjer se \(Aᵢ\) na diagonali pojavi \(sᵢ\)-krat. 
 \end{definition}
@@ -268,14 +269,27 @@ Označimo \(\cat{C} ≔ \semmap{p}{m₁,…,mₖ}\) do konca razdelka.
 \end{lemma}
 
 \begin{proof}
-    Naj bosta \(f,g : \semmap{p}{m₁,…,mₖ}\) in definirajmo \(fᵢ ≔ f∘ιᵢ, gᵢ ≔ g∘ιᵢ : \M[2^{mᵢ}] → \M[2ᵖ]\).
-    Po zgornji trditvi velja torej \(fᵢ{(A)} = Vᵢ(D(A,…,A))Vᵢ^* ≕ VᵢD_{sᵢ}Vᵢ^*\) in \(gᵢ{(A)} = Wᵢ(D(A,…,A))Wᵢ^* ≕ WᵢD_{tᵢ}Wᵢ^*\), kjer je pri vsakem \(A\) na diagonali \(sᵢ\) in \(tᵢ\)-krat.
+    Naj bosta \(f,g : \semmap{p}{m₁,…,mₖ}\) \(*\)-homomorfizma.
 
-    \((⇐)\) Naj bo \(f = Ug{(-)}U^*\). Potem, če se omejimo na \(\M[2^{m₁}]\) velja tudi \(fᵢ = Ugᵢ{(-)}U^*\).
-    Vstavimo in nesemo unitarne matrike na eno stran in dobimo \(D_{sᵢ} = (VᵢUWᵢ^*)^*D_{tᵢ}(VᵢUWᵢ^*)\). Ker unitarne matrike ne vplivajo na rang, je \(\rang{A}⋅sᵢ = \rang{D_{sᵢ}} = \rang{D_{tᵢ}} = \rang{A}⋅tᵢ\). Sledi \(sᵢ = tᵢ\) in, ker je bil \(i\) poljuben, sta Brattelijeva diagrama, ki pripadata \(f\) in \(g\) enaka.
+    Definirajmo \(fᵢ ≔ f∘ιᵢ, gᵢ ≔ g∘ιᵢ : \M[2^{mᵢ}] → \M[2ᵖ]\), kjer je \(ιᵢ(A) = (0,…,A,…,0)\) (z \(A\)-jem na \(i\)-tem mestu).
 
-    \((⇒)\) Naj bodo sedaj \(sᵢ = tᵢ\). Potem sta enaka tudi \(D_{sᵢ}\) in \(D_{tᵢ}\), torej lahko izrazimo \(fᵢ = Vᵢ(Wᵢ^*gᵢ{(-)}Wᵢ)Vᵢ^* = Uᵢgᵢ{(-)}Uᵢ^*\) z \(Uᵢ ≔ VᵢWᵢ^*\).
-    %TODO: finish proof
+    Preslikavo \(ρ\) definiramo tako, da \(f\) slika v \(k\)-terico kratnosti preslikav \(fᵢ\). Označimo \(ρ(f) = \p{t₁,…,tₖ}\).
+
+    Zaradi tranzitivnosti lahko za \(g\) vzamemo kar \(μ(ρ(g)) = μ(s₁,…,sₖ)\).
+
+    \((⇐)\)
+    Naj bo \(f = Ug{(-)}U^*\).
+    Enakost komponiramo z \(ιᵢ\) in dobimo enakosti \(fᵢ = Ugᵢ{(-)}U^*\).
+    Po zgornji trditvi za vsak \(A\) velja \(fᵢ{(A)} = Vᵢ(D(A,…,A))Vᵢ^* ≕ VᵢD_{tᵢ}Vᵢ^*\), \(gᵢ{(A)}\) je pa enak \(D(0,A,…,A,0) ≕ D_{sᵢ}\), kjer se pri vsakem \(D\)-ju \(A\) na diagonali pojavi \(tᵢ\) in \(sᵢ\)-krat.
+    Vstavimo te dve enačbi v predpostavko in nesemo unitarne matrike na eno stran, da dobimo \(D_{tᵢ} = (VᵢU)D_{sᵢ}(VᵢU)^*\).
+
+    Naj bo sedaj \(A\) neka matrika ranga \(1\).
+    Ker unitarne matrike ne vplivajo na rang, je \(tᵢ = \rang{D_{tᵢ}} = \rang{D_{sᵢ}} = sᵢ\).
+    Ker je bil \(i\) poljuben, sta torej Brattelijeva diagrama, ki pripadata \(f\) in \(g\), enaka.
+
+    \((⇒)\)
+    Naj bo tudi \(ρ(f) = (s₁,…,sₖ)\).
+    % TODO: js ne znam q.q
 \end{proof}
 
 \begin{proof}[Dokaz izreka \ref{th:partial}.]
