@@ -17,16 +17,16 @@ Definiramo \(\bit ≔ \unit + \unit\).
 
 \subsection{Sintaksa}
 
-Sintaktične elemente delimo na dvoje, vrednosti in izračune:\\
-\begin{tabular}{r l l}
+Poznamo sledeče sintaktične elemente:\\
+\begin{tabular}{r l l}%TODO: fix all this
     izračun \(c\) \(::=\)& \(x\)                                & spremenljivka\\
                 %   \(\mid\)& \qpl{true} \(\mid\) \qpl{false} &\\
                  \(\mid\)& \bf{\texttt{fn}} \(x : A ⇒ c\)       & funkcija\\
     % izračun \(c\)  \(::=\)& \qpl{return|\((v)\)|}                &\\
                  \(\mid\)& \(\eff{op}{\p c}\)                   & operacija\\
-                 \(\mid\)& \qpl{if |\(\emeasure{c} = 0\)| then |\(c₁\)| else |\(c₂\)|}
+                 \(\mid\)& \qpl{if |\(b\)| then |\(c₁\)| else |\(c₂\)|}
                                                                 & pogojni stavek\\
-                 \(\mid\)& \qpl{let |\((x,y) = z\)| in |\(c\)|} & razcep vektorja\\
+                %  \(\mid\)& \qpl{let |\((x,y) = z\)| in |\(c\)|} & razcep vektorja\\
                  \(\mid\)& \(v₁{\p{v₂}}\)                       & uporaba funkcije\\
                  \(\mid\)& \qpl{|\(c₁\)|;|\(c₂\)|}              & veriženje
 \end{tabular}
