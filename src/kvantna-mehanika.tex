@@ -30,7 +30,7 @@ V splošnem stanje kubita ni odvisno od skalarnega večkratnika,
 tako da kubita \(α\mb0 + β\mb1\) in \(α'\mb0 + β'\mb1\) predstavljata isto kvantno stanje
 čim obstaja kak neničelen \(γ ∈ ℂ\), tako da je \(α = γα'\) in \(β = γβ'\).
 Iz praktičnih razlogov se amplitude pogosto normalizira, torej jih pomnožimo s takim skalarjem,
-da velja \(|α|² + |β|² = c\), kjer za \(c\) ponavadi vzamemo kar \(1\).
+da velja \(|α|² + |β|² = c ≤ 1\), kjer za \(c\) ponavadi vzamemo kar \(1\).
 Ta normalizacija nam amplitude še vedno ne definira enolično;
 \(α\) in \(β\) sta določeni zgolj do množenja s kompleksno enoto natančno.
 
@@ -296,8 +296,7 @@ Dokaz prepustimo za malo kasneje, ko definiramo orodja za kvantno računalništv
 \end{definition}
 
 \begin{example}
-    Naj bo \(a = α\ket{\mb{00}} + β\ket{\mb{01}} + γ\ket{\mb{10}} + δ\ket{\mb{11}}\),
-    kjer z amplitudami normalizirani na \(1\).
+    Naj bo \(a = α\ket{\mb{00}} + β\ket{\mb{01}} + γ\ket{\mb{10}} + δ\ket{\mb{11}}\), kjer so amplitude normalizirane na \(1\).
     Tedaj je rezultat \(M₁{\p a}\) lahko sledeč:
     \begin{itemize}
         \item \(0\) z verjetnostjo \(|α|² + |β|²\) in \(a = α\ket{\mb{00}} + β\ket{\mb{01}}\),
@@ -363,7 +362,139 @@ Dokaz prepustimo za malo kasneje, ko definiramo orodja za kvantno računalništv
     ampak je zato kontrola ravno tisto orodje, s katerim želimo nadomestiti pogojne stavke.
 \end{example}
 
-% TODO: fill out subsections
+\subsection{Kvantna vezja}
+
+Kvantne programe lahko predstavimo kot diagrame vezja.
+Škatle predstavljajo unitarna vrata, črte med njimi pa žice;
+po enojnih žicah tečejo kubiti, po dvojnih pa klasični biti (\(0\) ali \(1\)).
+Pike na žici (in potem navpična žica ven) pomenijo kontrolo;
+prazna pika kontrolira \airquotes{na nič}, polna pa \airquotes{na ena}.
+Škatla s števcem predstavlja meritev.
+Taka vezja beremo od leve proti desni.
+Podrobnejši opis lahko najdete v \cite{ess-qc}. %TODO: opiši?
+
+Spodaj sta dva primera kvantnih programov, opisana z besedami in diagrami, ki ju bomo srečali tudi še kasneje.
+
+\begin{example}[Projekcija na \(z\)-os]\label{ex:proj-z}
+    Najprej izmerimo \(a\) in nato glede na rezultat svež kubit bodisi negiramo bodisi ne.
+    Na Blochovi sferi to zgleda približno kot projekcija na \(z\)-os (edina kubita na \(z\)-osi sta \( \ket{\mb0} \) in \( \ket{\mb1} = X \ket{\mb0} \)).
+    \[ \Qcircuit @C=1em @R=.7em {
+            & \lstick{\ket{\mb0}} & \gate{\g X} & \rstick{b} \qw\\
+            \lstick{a} & \meter & \cctrl{-1}
+        }
+    \]
+\end{example}
+
+\begin{example}[Naključna rotacija faze]\label{ex:rand-ph-shift}
+    Meritev Hadamardovega vektorja simulira pravičen met kovanca,
+    vrata \(Z\) pa rotirajo fazo, torej bomo v polovici primerov kubitu \(a\) rotirali fazo.
+    \[ \Qcircuit @C=1em @R=.7em {
+            \lstick{a} & \qw & \qw & \qw & \qw & \gate{\g Z} & \rstick{a}\qw\\
+            && \lstick{\ket{\mb0}} & \gate{\had} & \meter & \cctrl{-1}
+        }
+    \]
+\end{example}
+
+Spomnimo se zdaj trditve o ekvivalenci definicij meritev:
+
+\begin{proposition}
+    V kvantnem računalništvu je meritev definirana s kolapsom ekvivalentna meritvi definirani z uničenjem kubita.
+\end{proposition}
+
+\begin{proof}
+    Očitno je prva definicija močnejša od druge, tako da moramo dokazati zgolj, da lahko iz druge definicije simuliramo obnašanje prve.
+    Ampak če pogledamo prvi primer zgoraj, projekcijo na \(z\)-os, je to natanko to, kar potrebujemo. Izmerimo kubit \(a\) in dobimo klasični bit \(M{\p a}\), s katerim potem nov kubit nastavimo bodisi na \(\ket{\mb0}\) bodisi na \(\ket{\mb1}\), kar je pa natanko vrednost kubita \(a\) po meritvi v skladu s prvo definicijo.
+\end{proof}
+
+
+% TODO: move this to when i need it?
 \subsection{Čista in mešana stanja}
+Še enkrat si oglejmo prvi primer zgoraj, projekcijo na \(z\)-os.
+Stanje kubita pred projekcijo znamo napisati: \(\state{a₀\ket{\mb0} + a₁\ket{\mb1}}\).
+Ampak stanja kubita \(b\) na koncu pa ne. Kubit je namreč v tako imenovanem mešanem stanju med stanji \(\state{\ket{\mb0}}\) in \(\state{\ket{\mb1}}\). Zapišimo to stanje torej kot \(|a₀|²\state{\ket{\mb0}} + |a₁|²\state{\ket{\mb1}}\).
+
+\begin{definition}
+    Naj je za vsak \(i ∈ \{1,…,m\}\) kvantni sistem z verjetnostjo \(λᵢ\) v stanju \(\state{uᵢ}\), kjer so \(uᵢ\) enotski vektorji. To je diskretna verjetnostna porazdelitev, ki jo bomo pisali kot \(λ₁\state{u₁} + ⋯ + λₘ\state{uₘ}\). Če je \(m = 1\) takemu stanju pravimo čisto stanje, sicer pa mešano stanje.
+    Stanjem \(\state{uᵢ}\) pravili tudi čiste komponente mešanega stanja.
+\end{definition}
+\begin{remark}
+    Kvantni sistem je zgolj v enem stanju, tako da nam mešana stanja dejansko največ povejo o posameznem opazovalcu sistema in kaj on ve.
+    Če ima sistem več kot enega opazovalca, so lahko mešana stanja vsakega opazovalca različna.
+\end{remark}
+
+\begin{definition}
+    Kvantna vrata lahko uporabimo tudi na mešanih stanjih,
+    tako da jih uporabimo na vsaki čisti komponenti posebej.
+\end{definition}
 
 \subsection{Gostotne matrike}
+
+\begin{definition}
+    Gostotna matrika je neničelna pozitivno semi-definitna hermitska matrika, ki ima sled manjšo ali enako \(1\).
+\end{definition}
+
+Izkaže se, da lahko stanje poljubnega vektorja izrazimo z gostotnimi matrikami. Res, naj bo \(a\) nek normaliziran vektor.
+Potem \(\state{a}\) dodelimo gostotno matriko \(aa^*\).
+Opazimo, da je \(\tr{\p{aa^*}} = ∑ᵢ|aᵢ|² = c\), hkrati pa, če je \(γ\) neka kompleksna enota \(\p{|γ| = 1}\) je gostotna matrika \(\state{γa}\) enaka \(γ\bar{γ}aa^* = aa^*\), torej nam normalizacija gostotnih matrik enolično določi stanje vektorja.
+
+\begin{example}
+    Naj bo \(a = \frac{1}{\sqrt{2}}\p{\ket{\mb0} - \ket{\mb1}}\).
+    Potem je gostotna matrika prirejena \(\state{a}\) enaka
+    \[aa^* = \frac12\pmat{1&-1\\-1&1}\]
+\end{example}
+
+Oglejmo si sedaj mešano stanje \(∑ᵢλᵢ\state{uᵢ}\).
+Če stanja \(\state{uᵢ}\) zamenjamo z njihovimi gostotnimi matrikami dobimo matriko oblike \(λ₁u₁u₁^* + ⋯ + λₘuₘuₘ^*\).
+Izkaže se, da je to spet gostotna matrika, saj je sled te matrike konveksna kombinacija števil \(\tr{\p{uᵢuᵢ^*}} ≤ 1\).
+
+\begin{example}
+    Izračunajmo gostotno matriko mešanega stanja \(\frac12\state{\ket{\mb0}}+\frac12\state{\ket{\mb1}}\):
+    \[\frac12\pmat{1&0\\0&0} + \frac12\pmat{0&0\\0&1} = \frac12\pmat{1&0\\0&1}.\]
+    Sedaj pa izračunajmo še gostotno matriko \(\textstyle\frac12\state{\frac{1}{\sqrt{2}}\p{\ket{\mb0} + \ket{\mb1}}} + \frac12\state{\frac{1}{\sqrt{2}}\p{\ket{\mb0} - \ket{\mb1}}}\):
+    \[\frac14\pmat{1&1\\1&1} + \frac14\pmat{1&-1\\-1&1} = \frac12\pmat{1&0\\0&1}.\]
+    Kljub temu, da sta mešani stanji različni, sta gostotni matriki enaki.
+    Kot bomo videli malo kasneje, se izkaže, da opazovalec ne more ločiti med stanji, ki imajo enako gostotno matriko.
+\end{example}
+
+\begin{definition}
+    Gostotna matrika je čista, če je ranga \(1\).
+\end{definition}
+
+\begin{proposition}
+    Vsaka čista gostotna matrika predstavlja neko čisto stanje.
+\end{proposition}
+\begin{proof}
+    Naj bo \(A\) gostotna matrika. Ker je ranga \(1\) je oblike \(aa*\) za nek vektor \(a\), torej pripada stanju \(\state{a}\).
+\end{proof}
+
+\begin{proposition}
+    Vsaki gostotni matriki pripada neko mešano stanje.
+\end{proposition}
+\begin{proof}
+    Naj bo \(A\) poljubna gostotna matrika.
+    Ker je hermitska ima realne lastne vrednosti in ker je pozitivno semi-definitna so te lastne vrednosti nenegativne.
+    Potem lahko \(A\) diagonaliziramo z \(UDU^*\), kjer je diagonalna matrika lastnih vrednosti \(λᵢ\), \(U\) pa neka unitarna matrika.
+    Sledi, da je \(A = ∑ᵢλᵢuᵢuᵢ^*\), kjer je \(uᵢ = Ueᵢ\).
+    Lastne vrednosti so nenegativne, njihova vsota je pa enaka \(\tr{A} ≤ 1\), torej so ustrezne za koeficiente mešanega stanja \(∑ᵢλᵢ\state{uᵢ}\).
+\end{proof}
+
+Zdaj, ko imamo karakterizacijo stanj z gostotnimi matrikami, bi želeli na njih tudi neposredno izvajati kvantne operacije.
+Poznamo dve, in izkaže se, da lahko obe definiramo na preprost način.
+
+\begin{definition}
+    Naj bo \(a\) nek vektor in \(U\) kvantna vrata.
+    Potem je gostotna matrika stanja \(\state{Ua}\) enaka \(Uaa^*U^*\),
+    kar lahko linearno razširimo tudi na mešana stanja, torej lahko kvantna vrata na gostotni matriki uporabimo s predpisom \(A ↦ UAU^*\).
+\end{definition}
+
+\begin{definition}
+    Naj bo \(a\) nek vektor. Za preprostost definirajmo meritev le na prvem kubitu, saj je v splošnem ideja enaka.
+    Razdelimo vektor na zgornjo in spodnjo polovico, \(a₀\) in \(a₁\).
+    % Potem je \(aᵢ ≔ ∑ⱼaᵢⱼ\ket{ij}\)
+    Potem je gostotna matrika za \(a\) enaka \(\pmat{a₀a₀^*&a₀a₁^*\\a₁a₀^*&a₁a₁^*}\).
+    Po meritvi na prvem mestu je \(a\) v stanju ene od polovic (dopolnjenih z ničlami na koncu ali začetku), gostotna matrika pa je enaka eni od \(\pmat{a₀a₀^*&0\\0&0}\) ali \(\pmat{0&0\\0&a₁a₁^*}\), odvisno od rezultata meritve.
+    Opazimo, da je sled teh gostotnih matrik enaka verjetnosti, da ta gostotna matrika ustreza kolapsiranemu vektorju, torej lahko dogovor o normalizaciji uporabljamo tudi za gostotne matrike.
+\end{definition}
+
+Ker sta meritev in uporaba kvantnih vrat edini operaciji, ki jih lahko izvajamo na kubitih, in jih lahko izvajamo neposredno na gostotnih matrikah, to natanko pomeni, da če imata dve stanji enako gostotno matriko, ju ne moremo ločiti.
+
