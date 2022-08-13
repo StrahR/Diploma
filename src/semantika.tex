@@ -39,8 +39,7 @@
   \end{prooftree}\]
 \end{example}
 
-\begin{definition}[Aksiomi]
-    %TODO: define term
+\begin{definition}
     Aksiom v neki signaturi je par izrazov v istem kontekstu; pišemo \(\absseq{t=u}\).
     Predstavitev teorije je signatura skupaj z množico aksiomov.
 \end{definition}
@@ -84,11 +83,9 @@ Intuitivno lahko gledamo na kategorije kot neke splošne strukture, v katerih im
 %     Tokrat morfizmi niso funkcije, vendar zgolj formalni objekti, ampak vseeno zadoščajo vsem pogojem kategorije.
 % \end{example}
 
-% \begin{definition}%TODO: paragraph?
 Omejimo se na kategorije, kjer za vsak objekt \(X\) in vsako naravno število \(n\) obstaja nek objekt \(n•X\). Operacijo \(•\) lahko razumemo kot delovanje naravnih števil na dano kategorijo.
 Tedaj lahko morfizme \(X → n•Y\) interpretiramo kot morfizme \(X → Y\) z \(n\) parametri.
 Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi oblike \( \abssemmap{p}{m₁,…,mₖ}\).
-% \end{definition}
 
 \begin{definition}
     Struktura za signaturo je objekt \(X\) skupaj z morfizmom oblike \(\abssemmap{p}{m₁,…,mₖ}\) za vsako operacijo \(\op{O} : \arity{p}{m₁,…,mₖ}\). Označimo ga z \(\sem{\op{O}}\).
@@ -204,43 +201,40 @@ Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi o
     \(C^*\)-algebre skupaj z \(*\)-homomorfizmi tvorijo kategorijo \(\cstarcat\).
 \end{proposition}
 
-\begin{proof}
-    %TODO
-\end{proof}
-
-%TODO: definition of C*-algebras as models
-
 \subsection{Polnost za meritev}
-%TODO: add motivation/explanation about why we don't model new
+Operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) želimo interpretirati z morfizmom iz \(\semmap{p}{m₁,…,mₖ}\). Za \(\op{measure}\) in \(\op{apply}\) to ni problem, saj \(*\)-homomorfizmi iz \(\semmap{1}{0,0}\) in \(\semmap{p}{p}\) obstajajo, vendar problem nastane pri \(\op{new}\).
+Želeli bi \(*\)-homomorfizem oblike \(\semmap{0}{1}\), vendar ta ne obstaja. Problem rešimo tako, da najprej dokažemo izrek zgolj za meritve in uporabo vrat, kasneje pa razvijemo orodje, s katerim lahko interpretiramo \(\op{new}\), in potem poskusimo izraze z \(\op{new}\) prevesti na ustrezne izraze brez \(\op{new}\).
 
 \begin{definition}
     Operacijo \(\op{measure}\) interpretiramo z \(*\)-homomorfizmom \( \op{measure} : \semmap{1}{0, 0} \) s predpisom \[\smeasure{α}{β} = \p{\mat{α & 0 \\ 0 & β}}.\]
 \end{definition}
 \begin{definition}
     %TODO: consider like 3×3 unitaries
-    Za \(U ∈ \U[p]\) interpretiramo operacijo \(\op{apply}_{\g U}\) z \(*\)-homomorfizmom \( \op{apply}_{\g U} : \semmap{p}{p}\) s predpisom \(\sapply{U}{A} = U^*AU.\)
+    Za \(U ∈ \U[p]\) interpretiramo operacijo \(\op{apply}_{\g U}\) z \(*\)-homomorfizmom \( \op{apply}_{\g U} : \semmap{p}{p}\) s predpisom \(A ↦ U^*AU.\)
 \end{definition}
-\begin{remark}
-    TODO: beseda o členosti operacij
-\end{remark}
+%TODO: motivate these interpretations and define models as opposite category if possible
 
 \begin{proposition}
-    %TODO: subtheory?
-    %TODO: reword?
     Kompleksna števila \(ℂ ∈ \cstarcat\) tvorijo model fragmenta kvantnega računalništva, ki vključuje operaciji \(\op{measure}\) in \(\op{apply}\) (ampak ne \(\op{new}\)) in vse relevantne aksiome ((A)–(C), (F)–(J)).
 \end{proposition}
 
-% TODO: bratteli diagrams
-
 \begin{proof}
-    TODO
+    Definirajmo \(n•ℂ ≔ \M[2ⁿ]\) in operaciji \(\op{measure}\) in \(\op{apply}\) interpretirajmo kot zgoraj.
+    To je že struktura, sedaj moramo pa še preveriti aksiome.
+    \begin{enumerate}[\((A)\)]
+        \item 
+        \item test
+        \item test
+        \addtocounter{enumi}{2}
+        \item test
+    \end{enumerate}
 \end{proof}
 
 \begin{theorem}[Polnost za meritev]\label{th:partial}
     %TODO: prava polnost? univerzalnost/polnost?
     Kompleksna števila tvorijo poln model:
     \begin{enumerate}
-        \item Za vsak \(*\)-homomorfizem \(f : \semmap{p}{m₁,…,mₖ}\) obstaja term v algebrajski teoriji, ki ne vsebuje \(\op{new}\), tako da je \(t : \arity{p}{m₁,…,mₖ}\) in \(\sem{t} = f\).
+        \item Za vsak \(*\)-homomorfizem \(f : \semmap{p}{m₁,…,mₖ}\) obstaja izraz v algebrajski teoriji, ki ne vsebuje \(\op{new}\), tako da je \(t : \arity{p}{m₁,…,mₖ}\) in \(\sem{t} = f\).
         \item Če \(\absseq{t, u}\) ne vsebujeta \(\op{new}\) in \(\sem{t} = \sem{u}\) lahko izpeljemo \(\absseq{t = u}\).
     \end{enumerate}
 \end{theorem}
@@ -250,7 +244,7 @@ Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi o
 % \end{proposition}
 
 \begin{proposition}
-    Naj bo \(n ≥ k\) in \(f : \M[k] → \M[n]\) \(*\)-homomorfizem, ki ne ohranja enote. Tedaj obstaja unitarna preslikava \(U ∈ \M[n]\), tako da je \(f\) oblike \(A ↦ UD{(A,…,A,0)}U^*\), kjer se \(A\) na diagonali pojavi \(m\)-krat, \(0\) je \(r×r\) ničelna matrika, in velja \(n = m⋅k + r\). Številu \(m\) pravimo kratnost \(*\)-homomorfizma.
+    Naj bo \(n ≥ k\) in \(f : \M[k] → \M[n]\) \(*\)-homomorfizem, ki ne (nujno) ohranja enote. Tedaj obstaja unitarna preslikava \(U ∈ \M[n]\), tako da je \(f\) oblike \(A ↦ UD{(A,…,A,0)}U^*\), kjer se \(A\) na diagonali pojavi \(m\)-krat, \(0\) je \(r×r\) ničelna matrika, in velja \(n = m⋅k + r\). Številu \(m\) pravimo kratnost \(*\)-homomorfizma.
     Če \(f\) ohranja enoto je \(r = 0\) in \(n = m⋅k\).
 \end{proposition}
 
@@ -376,7 +370,7 @@ Označimo \(\cat{C} ≔ \semmap{p}{m₁,…,mₖ}\).
 \begin{theorem}[Polnost v splošnem]
     Kompleksna števila tvorijo poln model:
     \begin{enumerate}
-        \item Za vsako popolnoma pozitivno eniško preslikavo \(f : \semmap{p}{m₁,…,mₖ}\) obstaja term v algebrajski teoriji, tako da je \(t : \arity{p}{m₁,…,mₖ}\) in \(\sem{t} = f\).
+        \item Za vsako popolnoma pozitivno eniško preslikavo \(f : \semmap{p}{m₁,…,mₖ}\) obstaja izraz v algebrajski teoriji, tako da je \(t : \arity{p}{m₁,…,mₖ}\) in \(\sem{t} = f\).
         \item Če \(\absseq{t, u}\) in \(\sem{t} = \sem{u}\) lahko izpeljemo \(\absseq{t = u}\).
     \end{enumerate}
 \end{theorem}
@@ -429,7 +423,7 @@ Naštejmo najprej nekaj pomožnih izrekov.
         \arrow[                                     from=2-5, to=3-5]
         \arrow["{π₁}",                              from=1-4, to=2-5]
     \end{tikzcd}\]
-    Navpične preslikave so zožitve, vodoravne pa \(*\)-homomorfizmi, torej lahko kot prej definiramo term \(t\), da je \(\sem{t} = f\).
+    Navpične preslikave so zožitve, vodoravne pa \(*\)-homomorfizmi, torej lahko kot prej definiramo izraz \(t\), da je \(\sem{t} = f\).
     Ostane nam še drugi del izreka, naj bosta \(t\) in \(u\) taka, da je \(\sem{t} = \sem{u}\).
     Po iz aksiomov o komutativnosti lahko zapišemo \(t\) kot \(\tnew{a₁,…,aₗ}{t'}\) (in podobno za \(u\)). Iz aksioma \ref{ax:4} sledi \(\tnew{a}{\tdiscard{a}{x}} = x\), torej je BŠS število \(\op{new}\) na začetku \(t\) in \(u\) enako.
     Po izreku \ref{th:partial} imamo \(*\)-homomorfizma \(\sem{t'}, \sem{u'}: A → \M[2ˡ]\), tako da velja \(\sem{t} = A \xrightarrow{\sem{t'}} \M[2ˡ] → \M[2ᵖ]\) in \(\sem{u} = A \xrightarrow{\sem{u'}} \M[2ˡ] → \M[2ᵖ]\).

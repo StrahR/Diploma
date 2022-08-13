@@ -169,7 +169,7 @@ Spomnimo se, da so stanja kubitov določena zgolj do skalarja natančno, torej d
     Pišemo ga lahko na različne ekvivalentne načine:
     \[ \ket j ⊗ \ket k = \ket{j₁\dots jₙk₁\dots kₘ} = \ket j \ket k = \ket{jk}. \]
 \end{example}
-\begin{example}[\(n = m = 1\)]  %TODO: elaborate
+\begin{example}[\(n = m = 1\)]
     Naj bosta \(a, b ∈ \H\). Tedaj je \(a⊗b = a₀b₀\ket{\mb{00}} + a₀b₁\ket{\mb{01}} + a₁b₀\ket{\mb{10}} + a₁b₁\ket{\mb{11}}\). Kot vektor to napišemo tako:
     \[ \vec{a₀, a₁}⊗\vec{b₀, b₁} = \vec{a₀b₀, a₀b₁, a₁b₀, a₁b₁}\]
 \end{example}
@@ -255,13 +255,13 @@ Spomnimo se, da so stanja kubitov določena zgolj do skalarja natančno, torej d
 %         & \qw         & \gate{\g X} & \qw         & \qw
 %     }
 % \]
-\begin{example}[Fazni zamik]  %TODO: elaborate
-    \begin{align*}
-        &S_α = \bmat{1&0\\0&e^{iα}}
-        \text{, posebej označimo } S ≔ S_{\newfrac{π}{2}}, T ≔ S_{\newfrac{π}{4}}, \\
-        &S_α\p{a₀\ket{\mb0} + a₁\ket{\mb1}} = a₀\ket{\mb0} + a₁e^{iα}\ket{\mb1}.
-    \end{align*}
-\end{example}
+% \begin{example}[Fazni zamik]
+%     \begin{align*}
+%         &S_α = \bmat{1&0\\0&e^{iα}}
+%         \text{, posebej označimo } S ≔ S_{\newfrac{π}{2}}, T ≔ S_{\newfrac{π}{4}}, \\
+%         &S_α\p{a₀\ket{\mb0} + a₁\ket{\mb1}} = a₀\ket{\mb0} + a₁e^{iα}\ket{\mb1}.
+%     \end{align*}
+% \end{example}
 
 \subsection{Kvantna meritev}
 
@@ -271,7 +271,7 @@ drugi pa z uporabo kvantne prepletenosti.
 Izkaže se, da če po vseh operacijah zmerimo kubite, se drugi način obnaša enako kot prvi.
 
 \begin{definition}
-    Meritev kubita \(a = a_0\ket{\mb0} + a_1\ket{\mb1}\) označimo \(M{\p{a}}\) in je \(0\) z verjetnostjo \(|a_0|^2\) ter \(1\) z verjetnostjo \(|a_1|^2\).
+    Meritev kubita \(a = a_0\ket{\mb0} + a_1\ket{\mb1}\) označimo \(M{\p{a}}\) in je \(0\) z verjetnostjo \(|a₀|^2\) ter \(1\) z verjetnostjo \(|a₁|^2\).
     Po izvedeni meritvi, je \(a\) bodisi v stanju \(a₀\ket{\mb0}\), bodisi v stanju \(a₁\ket{\mb1}\), odvisno od rezultata meritve.  Temu pravimo kolaps prepletenega stanja.
     V praksi to pomeni, da \(a\) po meritvi izgubi vse svoje kvantne lastnosti, tako da je ekvivalentno, če rečemo, da se \(a\) kar uniči.
     V fizikalnih in matematičnih delih bomo uporabljali prvotno definicijo, v računalniških delih pa definicijo z uničenjem.
@@ -289,10 +289,10 @@ Izkaže se, da če po vseh operacijah zmerimo kubite, se drugi način obnaša en
 
 Dokaz prepustimo za malo kasneje, ko definiramo orodja za kvantno računalništvo.
 
-\begin{definition} % TODO: fix indexing so it's more in line with the rest of the notation
+\begin{definition}
     Naj \(αₖ\) označujejo tiste amplitude, ki se nahajajo pred keti, ki imajo na \(j\)-tem mestu \(\mb{0}\), in \(βₖ\) tiste, ki se nahajajo pred keti, ki imajo na \(j\)-tem mestu \(\mb{1}\).
-    Meritev vektorja \(a\) na \(j\)-tem mestu označimo \(Mⱼ{\p{a}}\) in je \(0\) z verjetnostjo \(∑ |αₖ|²\) ter \(1\) z verjetnostjo \(∑ |βₖ|²\).
-    Po meritvi bo \(a\) enak bodisi \(∑_{k = b₁⋯\mb0⋯bₙ} αₖ\ket{k}\) bodisi \(∑_{k = b₁⋯\mb1⋯bₙ} βₖ\ket{k}\).
+    Meritev vektorja \(a\) na \(i\)-tem mestu označimo \(Mᵢ{\p{a}}\) in je \(0\) z verjetnostjo \(∑ᵢ|αᵢ|²\) ter \(1\) z verjetnostjo \(∑ᵢ|βᵢ|²\).
+    Po meritvi bo \(a\) enak bodisi \(∑_{k = j₁⋯\mb0⋯jₙ} αₖ\ket{k}\) bodisi \(∑_{k = j₁⋯\mb1⋯jₙ} βₖ\ket{k}\).
 \end{definition}
 
 \begin{example}
@@ -364,14 +364,12 @@ Dokaz prepustimo za malo kasneje, ko definiramo orodja za kvantno računalništv
 
 \subsection{Kvantna vezja}
 
-Kvantne programe lahko predstavimo kot diagrame vezja.
-Škatle predstavljajo unitarna vrata, črte med njimi pa žice;
-po enojnih žicah tečejo kubiti, po dvojnih pa klasični biti (\(0\) ali \(1\)).
-Pike na žici (in potem navpična žica ven) pomenijo kontrolo;
-prazna pika kontrolira \airquotes{na nič}, polna pa \airquotes{na ena}.
-Škatla s števcem predstavlja meritev.
-Taka vezja beremo od leve proti desni.
-Podrobnejši opis lahko najdete v \cite{ess-qc}. %TODO: opiši?
+Kvantne programe lahko predstavimo kot diagrame vezja, ki jih beremo od leve proti desni.
+Po enojnih žicah \airquotes{tečejo} kubiti, po dvojnih pa klasični biti.
+Škatle (z imenom) predstavljajo uporabo unitarnih vrat na vhodnih kubitih.
+Kontrolirana vrata imajo še piko in iz nje navpično črto;
+če je pika polna kontrolira \airquotes{na ena}, če je pa prazna pa \airquotes{na nič}.
+Meritev bomo predstavili s škatlo, ki ima v sebi \airquotes{merilec}.\cite{ess-qc}. %TODO: maybe expand
 
 Spodaj sta dva primera kvantnih programov, opisana z besedami in diagrami, ki ju bomo srečali tudi še kasneje.
 
@@ -405,7 +403,6 @@ Spomnimo se zdaj trditve o ekvivalenci definicij meritev:
     Očitno je prva definicija močnejša od druge, tako da moramo dokazati zgolj, da lahko iz druge definicije simuliramo obnašanje prve.
     Ampak če pogledamo prvi primer zgoraj, projekcijo na \(z\)-os, je to natanko to, kar potrebujemo. Izmerimo kubit \(a\) in dobimo klasični bit \(M{\p a}\), s katerim potem nov kubit nastavimo bodisi na \(\ket{\mb0}\) bodisi na \(\ket{\mb1}\), kar je pa natanko vrednost kubita \(a\) po meritvi v skladu s prvo definicijo.
 \end{proof}
-
 
 % TODO: move this to when i need it?
 \subsection{Čista in mešana stanja}
