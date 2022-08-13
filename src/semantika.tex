@@ -206,28 +206,78 @@ Operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) želimo interpretirati z mor
 Želeli bi \(*\)-homomorfizem oblike \(\semmap{0}{1}\), vendar ta ne obstaja. Problem rešimo tako, da najprej dokažemo izrek zgolj za meritve in uporabo vrat, kasneje pa razvijemo orodje, s katerim lahko interpretiramo \(\op{new}\), in potem poskusimo izraze z \(\op{new}\) prevesti na ustrezne izraze brez \(\op{new}\).
 
 \begin{definition}
-    Operacijo \(\op{measure}\) interpretiramo z \(*\)-homomorfizmom \( \op{measure} : \semmap{1}{0, 0} \) s predpisom \[\smeasure{α}{β} = \p{\mat{α & 0 \\ 0 & β}}.\]
+    Meritev interpretiramo z \(*\)-homomorfizmi oblike \(\op{measure}{\p X} : \opmap{1}{0, 0}\) s predpisom \[\smeasure{α}{β} = \p{\mat{α & 0 \\ 0 & β}}{\p X},\].
+
+    Meritev na \(j\)-tem mestu izvajamo z \(\op{measure}ⱼ ≔ Mⱼ{\p{\op{measure}{\p X}}}\).
 \end{definition}
+\begin{remark}
+    Za \(X\) implicitno izberemo tak \(\M[k]\), da bo interpretacija prave dimenzije.
+    V praksi bo \(k\) ponavadi kar \(p-j\), kjer je \(p\) število kubitov v sistemu.
+\end{remark}
+
 \begin{definition}
-    %TODO: consider like 3×3 unitaries
     Za \(U ∈ \U[p]\) interpretiramo operacijo \(\op{apply}_{\g U}\) z \(*\)-homomorfizmom \( \op{apply}_{\g U} : \semmap{p}{p}\) s predpisom \(A ↦ U^*AU.\)
 \end{definition}
+\begin{remark}
+    Pri interpretaciji uporabe vrat se zanašamo na uporabnika, da vrata \(U\) skonstruira tako, da delujejo na želenih kubitih, tako da ne bomo uvajali posebnega zapisa za delno uporabo vrat.
+\end{remark}
 %TODO: motivate these interpretations and define models as opposite category if possible
 
 \begin{proposition}
-    Kompleksna števila \(ℂ ∈ \cstarcat\) tvorijo model fragmenta kvantnega računalništva, ki vključuje operaciji \(\op{measure}\) in \(\op{apply}\) (ampak ne \(\op{new}\)) in vse relevantne aksiome ((A)–(C), (F)–(J)).
+    Kompleksna števila \(ℂ ∈ \cstarcat\) tvorijo model fragmenta kvantnega računalništva, ki vključuje operaciji \(\op{measure}\) in \(\op{apply}\) (ampak ne \(\op{new}\)) in vse relevantne aksiome ((A)–(B), (F)–(J)).
 \end{proposition}
 
 \begin{proof}
     Definirajmo \(n•ℂ ≔ \M[2ⁿ]\) in operaciji \(\op{measure}\) in \(\op{apply}\) interpretirajmo kot zgoraj.
     To je že struktura, sedaj moramo pa še preveriti aksiome.
     \begin{enumerate}[\((A)\)]
-        \item 
-        \item test
-        \item test
-        \addtocounter{enumi}{2}
-        \item test
+        \item \( \sequent{x:0,y:0}{a}{
+                    \tapply{X}{a}{\tmeasure{a}{x}{y}} = \tmeasure{a}{y}{x}} \)
+        \item \( \sequent{x:1,y:1}{a,b}{
+                    \tapplyd{U, V}{a,b}{\tmeasure{a}{x(b)}{y(b)}}\\
+                    \text{\hspace{7em}} = \tmeasure{a}{\tapply{U}{b}{x(b)}}{\tapply{V}{b}{y(b)}}} \)
+        % \item \( \sequent{Γ}{a}{\tapply{U}{a}{\tdiscard{a}{t}} = \tdiscard{a}{t}} \)
+        \addtocounter{enumi}{3}
+        \item \( \sequent{x:2}{a,b}{\tapply{swap}{a,b}{x{\p{a,b}}} = x{\p{b,a}}} \)
+        \item \( \sequent{x:1}{a}{\tapply{I}{a}{x{\p a}} = x{\p a}} \)
+        \item \( \sequent{x:1}{a}{\tapply{UV}{a}{x{\p a}} = \tapply{V}{a}{\tapply{U}{a}{x{\p a}}}} \)
+        \item \( \sequent{x:2}{a,b}{
+                    \tapply{U⊗V}{a,b}{x{\p{a,b}}}
+                    = \tapply{U}{a}{\tapply{V}{b}{x{\p{a,b}}}}} \)
+        \item \( \sequent{x:0,y:0,u:0,v:0}{a,b}{
+                    \tmeasure{a}{\tmeasure{b}{u}{v}}{\tmeasure{b}{x}{y}}\\
+                    \text{\hspace{7em}} = \tmeasure{b}{\tmeasure{a}{u}{x}}{\tmeasure{a}{v}{y}}} \)
     \end{enumerate}
+    Enakost bomo izpeljali zgolj za prve tri aksiome, saj so aksiomi (F)–(J) enostavne posledice definicij uporabe matrik.
+    Omenimo le pri aksiomu (I), da \(a,b\) v zapisu interpretiramo kot kvantni vektor, kjer \(a\) naslavlja prvi kubit, \(b\) pa drugega. Intuitivno si lahko predstavljamo \(a,b\) kot \(a⊗b\), ampak je vredno omeniti, da sta tu \(a\) in \(b\) lahko prepletena, torej vektorja, ki ga \(a,b\) predstavlja ne moremo nujno zapisati kot tenzorski produkt kubitov.
+
+    Interpretirajmo aksiom (A). Naj bosta \(A₁,A₂ ∈ \M[1] = ℂ\).
+    \begin{align*}
+        &\hspace{-3em}\sem{\tapply{X}{a}{\tmeasure{a}{x}{y}}}(A₁,A₂)
+         = X\pmat{A₁&0\\0&A₂}X^*\\
+        &= \pmat{A₂&0\\0&A₁}
+         = \sem{\tmeasure{a}{y}{x}}(A₁,A₂)
+    \end{align*}
+
+    Interpretirajmo še aksiom (B). Naj bosta \(A₁,A₂ ∈ \M[2]\).
+    \begin{align*}
+        &\hspace{-3em}\sem{\tapplyd{U, V}{a,b}{\tmeasure{a}{x(b)}{y(b)}}}(A₁,A₂)
+         = \pmat{U&0\\0&V}\pmat{A₁&0\\0&A₂}\pmat{U^*&0\\0&V^*}\\
+        &= \pmat{UA₁U^*&0\\0&VA₂V^*}
+         = \sem{\tmeasure{a}{\tapply{U}{b}{x(b)}}{\tapply{V}{b}{y(b)}}}(A₁,A₂)
+    \end{align*}
+
+    Podrobno si še oglejmo interpretacijo aksioma \(F\). Naj bo \(A ∈ \M[4]\).
+    \begin{align*}
+        &\hspace{-3em}\sem{\tapply{swap}{a,b}{x{\p{a,b}}}}(A)
+         = \mathrm{Swap}A\mathrm{Swap}^*\\
+        &= \pmat{1&0&0&0\\0&0&1&0\\0&1&0&0\\0&0&0&1}\pmat{a₁₁&a₁₂&a₁₃&a₁₄\\a₂₁&a₂₂&a₂₃&a₂₄\\a₃₁&a₃₂&a₃₃&a₃₄\\a₄₁&a₄₂&a₄₃&a₄₄}\pmat{1&0&0&0\\0&0&1&0\\0&1&0&0\\0&0&0&1}\\
+        &= \pmat{a₁₁&a₁₃&a₁₂&a₁₄\\a₃₁&a₃₃&a₃₂&a₃₄\\a₂₁&a₂₃&a₂₂&a₂₄\\a₄₁&a₄₃&a₄₂&a₄₄}
+         = \sem{x{\p{b,a}}}(A)
+    \end{align*}
+    
+    Ostale aksiome lahko preverimo podobno.
+    %TODO: then do it?
 \end{proof}
 
 \begin{theorem}[Polnost za meritev]\label{th:partial}
@@ -327,34 +377,39 @@ Označimo \(\cat{C} ≔ \semmap{p}{m₁,…,mₖ}\).
 \end{proof}
 
 \begin{definition}
-    Operacijo \(\op{new}\) interpretiramo s preslikavo
-    \(\op{new} : \semmap{0}{1}\) s predpisom \[\snew{\mat{α₁₁ & α₁₂ \\ α₂₁ & α₂₂}} = α₁₁.\]
+    Dodeljevanje novih kubitov interpretiramo s preslikavami oblike
+    \(\op{new}{\p X} : \opmap{0}{1}\) s predpisom \[\snew{\mat{α₁₁ & α₁₂ \\ α₂₁ & α₂₂}}{\p X} = α₁₁.\]
+
+    Dodelitev \(j\)-tega kubita izvajamo z \(\op{new}ⱼ ≔ Mⱼ{\p{\op{new}{\p X}}}\).
 \end{definition}
+\begin{remark}
+    Za \(X\) spet implicitno izberemo tak \(\M[k]\), da bo interpretacija prave dimenzije.
+\end{remark}
 
 %NOTE: maybe different notation operations and the interpretation morphisms
 \begin{proposition}
-    Preslikava \(\op{new}\) ni \(*\)-homomorfizem.
+    Preslikave \(\op{new}\) niso \(*\)-homomorfizmi.
 \end{proposition}
 
 \begin{proof}
-    Denimo, da je. Potem je 
-    \[0 = \op{new}{\pmat{0&1\\0&0}}\op{new}{\pmat{0&0\\1&0}}
-        = \op{new}{\p{\bmat{0&1\\0&0}⋅\bmat{0&0\\1&0}}}
-        = \op{new}\pmat{1&0\\0&0}
+    Denimo, da je \(\op{new}₁\) \(*\)-homomorfizem. Potem je 
+    \[0 = \snew₁{\mat{0&1\\0&0}}\snew₁{\mat{0&0\\1&0}}
+        = \snew₁{\bmat{0&1\\0&0}⋅\bmat{0&0\\1&0}}
+        = \snew₁{\mat{1&0\\0&0}}
         = 1 \contradiction\qedhere
     \]
 \end{proof}
 
 \begin{proposition}
-    Preslikava \(\op{new}\) je popolnoma pozitivna in eniška.
+    Preslikave \(\op{new}\) so popolnoma pozitivne in eniške.
 \end{proposition}
 
 \begin{proof}
-    Preverimo obe lastnosti:
+    Preverimo obe lastnosti za \(\op{new}{\p ℂ}\):
     \begin{itemize}
-        \item \(\op{new}{\pmat{1&0\\0&1}} = 1\),
+        \item \(\snew₁{\mat{1&0\\0&1}} = 1\),
         \item Naj bo \(x\) pozitiven element. Potem je \(x = y^*y\), za nek \(y ∈ \M[2]\).
-        Če zapišemo \(y = \pmat{a&b\\c&d}\) je potem \(\op{new}{\p x} = a\bar a + c\bar c\).
+        Če zapišemo \(y = \pmat{a&b\\c&d}\) je potem \(\snew₁{x} = a\bar a + c\bar c\).
         Število \(a\bar a + c\bar c\) je realno in nenegativno, torej lahko vzamemo \(y = \sqrt{a\bar a + c\bar c}\).\qedhere
     \end{itemize}
 \end{proof}
@@ -364,7 +419,51 @@ Označimo \(\cat{C} ≔ \semmap{p}{m₁,…,mₖ}\).
 \end{proposition}
 
 \begin{proof}
-    TODO
+    Ker so \(*\)-homomorfizmi tudi popolnoma pozitivni in eniški moramo pokazati zgolj enakost interpretacij preostalih aksiomov ((D), (E), (K), (L)).
+    \begin{enumerate}[\((A)\)]
+        \addtocounter{enumi}{3}
+        \item \( \sequent{x:0,y:0}{-}{\tnew{a}{\tmeasure{a}{x}{y}} = x} \).
+        \item \( \sequent{x:2}{b}{
+                    \tnew{a}{\tapplyd{U,V}{a,b}{x{\p{a,b}}}} = \tapply{U}{b}{\tnew{a}{x{\p{a,b}}}}} \).
+        \addtocounter{enumi}{5}
+        \item \( \sequent{x:2}{-}{\tnew{a}{\tnew{b}{x{\p{a,b}}}} = \tnew{b}{\tnew{a}{x{\p{a,b}}}}} \)
+        \item \( \sequent{x:1,y:1}{b}{\tnew{a}{\tmeasure{b}{x{\p a}}{y{\p a}}}\\
+            \text{\hspace{7em}} = \tmeasure{b}{\tnew{a}{x{\p a}}}{\tnew{a}{y{\p a}}}} \)
+    \end{enumerate}
+
+    Preverimo kar vse štiri aksiome po vrsti.
+    Naj bosta \(A₁,A₂ ∈ \M[1]\).
+    \begin{align*}
+        \sem{\tnew{a}{\tmeasure{a}{x}{y}}}(A₁,A₂)
+         = \snew₁{\mat{A₁&0\\0&A₂}} = A₁ = \sem{x}(A₁,A₂).
+    \end{align*}
+
+    Naj bo \(A ∈ \M[4]\).
+    \begin{align*}
+        &\hspace{-3em}\sem{\tnew{a}{\tapplyd{U,V}{a,b}{x{\p{a,b}}}}}(A)
+         = \snew₁{\sem{\tapplyd{U,V}{a,b}{x{\p{a,b}}}}(A)}\\
+        &= \snew₁{\bmat{U&0\\0&V}\bmat{A₁₁&A₁₂\\A₂₁&A₂₂}\bmat{U^*&0\\0&V^*}}
+         = \snew₁{\mat{UA₁₁U^*&UA₁₂V^*\\VA₂₁U^*&VA₂₂V^*}}\\
+        &= UA₁₁U^*
+         = U\p{\snew₁{A}}U^*
+         = \sem{\tapply{U}{b}{\tnew{a}{x{\p{a,b}}}}}(A).
+    \end{align*}
+    \begin{align*}
+        &\hspace{-3em}\sem{\tnew{a}{\tnew{b}{x{\p{a,b}}}}}(A)
+         = \snew₁{\snew₂{A}}
+         = a₁₁\\
+        &= \snew₂{\snew₁{\p A}}
+         = \sem{\tnew{b}{\tnew{a}{x{\p{a,b}}}}}(A).
+    \end{align*}
+
+    Naj bosta \(A,B ∈ \M[2]\).
+    \begin{align*}
+        &\hspace{-3em}\sem{\tnew{a}{\tmeasure{b}{x{\p a}}{y{\p a}}}}(A,B)
+         = \snew₁{\smeasure₂{A}{B}}\\
+        &= \pmat{a₁₁&0\\0&b₁₁}
+         = \smeasure₁{\snew₁{A}}{\snew₁{B}}\\
+        &= \sem{\tmeasure{b}{\tnew{a}{x{\p a}}}{\tnew{a}{y{\p a}}}}(A,B).\qedhere
+    \end{align*}
 \end{proof}
 
 \begin{theorem}[Polnost v splošnem]
@@ -509,7 +608,7 @@ Naštejmo najprej nekaj pomožnih izrekov.
     Sledi, da je \(t = u\) čim je \(\tapply{U}{a,b}{\tmeasure{b}{t'}{u'}} = \tmeasure{b}{u'}{t'}\).
     Po izreku \ref{th:partial} lahko enakost izpeljemo natanko tedaj, ko sta pripadajoča \(*\)-homomorfizma enaka. Če ju izračunamo res vidimo, da sta enaka:
     \begin{align*}
-        \sem{&\tapply{U}{a,b}{\tmeasure{b}{t'}{u'}}}(x)
+        &\hspace{-3em}\sem{\tapply{U}{a,b}{\tmeasure{b}{t'}{u'}}}(x)
          = U\pmat{\sem{t'}(x)&0\\0&\sem{u'}(x)}U^*\\
         &= U\pmat{f(x)&0&0&0\\0&g(x)&0&0\\0&0&f(x)&0\\0&0&0&h(x)}U^*
          = \pmat{f(x)&0&0&0\\0&h(x)&0&0\\0&0&f(x)&0\\0&0&0&g(x)}\\
