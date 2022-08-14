@@ -26,7 +26,7 @@ Poznamo sledeče sintaktične elemente:\\
 % \end{tabular}
 \begin{tabular}{r l l}
     izračun \(c\) \(::=\)& \(x\)                                              & spremenljivke\\
-                 \(\mid\)& \qpl{true} \(\mid\) \qpl{false}
+                 \(\mid\)& \(()\) % \(\mid\) \qpl{true} \(\mid\) \qpl{false}
                  \(\mid\) \(\ket{\mb0}\) \(\mid\) \(\ket{\mb1}\)              & konstante\\
                 %  \(\mid\)& \qpl{|\(b≔\)| true} \(\mid\) \qpl{|\(b≔\)| false}  & inicializacija bita\\
                  \(\mid\)& \qpl{|\(\enew\)|}                                  & inicializacija kubita\\
@@ -160,7 +160,7 @@ Tipe ločimo na dve vrsti, klasične in kvantne:\\
 \end{remark}
 
 \begin{definition}
-    Označimo \(\bit ≔ \unit + \unit\) in \(\mb{n} ≔ n⋅\unit\). To so klasični tipi.
+    Označimo \(\bit ≔ \unit + \unit\) in \qpl{true} \(≔ ι₁()\), \qpl{false} \(≔ ι₂()\).
 \end{definition}
 
 \subsubsection{Linearnost}
@@ -195,11 +195,14 @@ Ker pogoj linearnosti ne velja za klasične bite (te lahko kopiramo, kolikor ho�
   \infer1{\sseq{Γ}{x : A}}
 \end{prooftree}\quad
 \begin{prooftree}[center=false]
-  \infer0{\sseq{Γ}{\qpl{true}: \bit}}
+  \infer0{\sseq{Γ}{() : \unit}}
 \end{prooftree}\quad
-\begin{prooftree}[center=false]
-  \infer0{\sseq{Γ}{\qpl{false}: \bit}}
-\end{prooftree}\quad
+% \begin{prooftree}[center=false]
+%   \infer0{\sseq{Γ}{\qpl{true}: \bit}}
+% \end{prooftree}\quad
+% \begin{prooftree}[center=false]
+%   \infer0{\sseq{Γ}{\qpl{false}: \bit}}
+% \end{prooftree}\quad
 \begin{prooftree}[center=false]
   \infer0{\sseq{Γ}{\ket{\mb0} : \qbit}}
 \end{prooftree}\quad
