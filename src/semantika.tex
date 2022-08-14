@@ -64,7 +64,7 @@
 \end{definition}
 
 \begin{examples}
-    Poznamo mnogo primerov kategorij, par bolj znanih naštejmo spodaj.
+    Poznamo mnogo primerov kategorij, nekaj bolj znanih naštejmo spodaj:
     \begin{itemize}
         \item grupe s homomorfizmi,
         \item topološki prostori z zveznimi preslikavami,
@@ -206,7 +206,7 @@ Operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) želimo interpretirati z mor
 Želeli bi \(*\)-homomorfizem oblike \(\semmap{0}{1}\), vendar ta ne obstaja. Problem rešimo tako, da najprej dokažemo izrek zgolj za meritve in uporabo vrat, kasneje pa razvijemo orodje, s katerim lahko interpretiramo \(\op{new}\), in potem poskusimo izraze z \(\op{new}\) prevesti na ustrezne izraze brez \(\op{new}\).
 
 \begin{definition}
-    Meritev interpretiramo z \(*\)-homomorfizmi oblike \(\op{measure}{\p X} : \opmap{1}{0, 0}\) s predpisom \[\smeasure{α}{β} = \p{\mat{α & 0 \\ 0 & β}}{\p X},\].
+    Meritev interpretiramo z \(*\)-homomorfizmi oblike \(\op{measure}{\p X} : \opmap{1}{0, 0}\) s predpisom \[\smeasure{\p X}{α}{β} = \p{\mat{α & 0 \\ 0 & β}},\].
 
     Meritev na \(j\)-tem mestu izvajamo z \(\op{measure}ⱼ ≔ Mⱼ{\p{\op{measure}{\p X}}}\).
 \end{definition}
@@ -215,6 +215,7 @@ Operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) želimo interpretirati z mor
     V praksi bo \(k\) ponavadi kar \(p-j\), kjer je \(p\) število kubitov v sistemu.
 \end{remark}
 
+%TODO: fix how I use this (change order of ^*)
 \begin{definition}
     Za \(U ∈ \U[p]\) interpretiramo operacijo \(\op{apply}_{\g U}\) z \(*\)-homomorfizmom \( \op{apply}_{\g U} : \semmap{p}{p}\) s predpisom \(A ↦ U^*AU.\)
 \end{definition}
@@ -222,6 +223,10 @@ Operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) želimo interpretirati z mor
     Pri interpretaciji uporabe vrat se zanašamo na uporabnika, da vrata \(U\) skonstruira tako, da delujejo na želenih kubitih, tako da ne bomo uvajali posebnega zapisa za delno uporabo vrat.
 \end{remark}
 %TODO: motivate these interpretations and define models as opposite category if possible
+
+% \begin{definition}
+%     Definirajmo še interpretacijo za \(\op{discard}\): \[\op{discard}(α) ≔ \op{measure}(α,α).\]
+% \end{definition}
 
 \begin{proposition}
     Kompleksna števila \(ℂ ∈ \cstarcat\) tvorijo model fragmenta kvantnega računalništva, ki vključuje operaciji \(\op{measure}\) in \(\op{apply}\) (ampak ne \(\op{new}\)) in vse relevantne aksiome ((\ref{ax:A}) – (\ref{ax:B}), (\ref{ax:F}) – (\ref{ax:J})).
