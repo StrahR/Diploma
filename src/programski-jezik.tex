@@ -256,8 +256,8 @@ Ker pogoj linearnosti ne velja za klasične bite (te lahko kopiramo, kolikor ho�
 
 \subsection{Interpretacija z algebrajskimi izrazi}
 
-Da lahko naše učinke lažje interpretiramo kot algebrajske izraze, jih bomo zapisali v obliki z nadaljevanji:
-\begin{itemize}
+Da lahko naše operacije lažje interpretiramo kot algebrajske izraze, jih bomo zapisali v obliki z nadaljevanji:
+\begin{itemize}%TODO: reword
     \item če je \(t\) izračun s kubitom \(a\), potem obstaja izračun \(\tnew{a}{t}\), ki dodeli ta kubit in ga nastavi na \(\ket{\mb0}\), potem pa nadaljuje s \(t\),
     \item če je \(t\) izračun s kubiti \(a₁,…,aₙ\), so \(b₁,…,bₙ\) kubiti in \(U\) unitarna vrata reda \(n\), potem obstaja izračun \(\cmd{apply}_{\g U}{\p{b₁,…,bₙ;\, a₁,…,aₙ.\,t}}\), ki najprej uporabi vrata \(U\) na kubitih \(b₁,…,bₙ\), nato pa shrani rezultat v \(a₁,…,aₙ\) in nadaljuje s \(t\). Ta operacija uniči kubite \(bᵢ\), tako da bomo v splošnem pisali kar \(\tapply{U}{a₁,…,aₙ}{t}\),
     \item če sta \(t\) in \(u\) izračuna in je \(a\) kubit, potem obstaja izračun \(\tmeasure{a}{t}{u}\), ki izmeri \(a\) in nadaljuje v \(t\) ali \(u\), glede na rezultat meritve. Ta operacija je linearna, torej \(t\) in \(u\) ne smeta uporabiti kubita \(a\); tega namreč meritev uniči,
@@ -266,13 +266,18 @@ Da lahko naše učinke lažje interpretiramo kot algebrajske izraze, jih bomo za
 \end{itemize}
 
 \begin{examples}[Projekcija na Z os in naključna rotacija faze]
-    Zgornja primera programov lahko sedaj zapišemo v tej obliki:
+    Zgornje primere lahko sedaj zapišemo v tej obliki:
     \begin{enumerate}
-        \item \(\tmeasure{a}{\tnew{b}{x(b)}}{\tnew{b}{\tapply{X}{b}{x(b)}}}\)
-        \item \(\tnew{b}{\tapply{\had}{b}{\tmeasure{b}{x(a)}{\tapply{Z}{a}{x(a)}}}}\)
+        \item \(\cmd{new}₁(a.t) ≔ \tnew{a}{\tapply{X}{a}{t}}\),
+        \item \(\cmd{rand}(a.t) ≔ \tnew{a}{\tapply{\had}{a}{\tmeasure{a}{0}{1}}}\),
+        \item \(\tnew{a}{\tnew{b}{\tapply{\had}{a}{\tapply{\ctl{X}}{a,b}{y(a,b)}}}}\),
+        \item \(\tdiscard{a}{t} ≔ \tmeasure{a}{t}{t}\),
+        \item \(\tmeasure{a}{\tnew{b}{x(b)}}{\tnew{b}{\tapply{X}{b}{x(b)}}}\),
+        \item \(\tnew{b}{\tapply{\had}{b}{\tmeasure{b}{x(a)}{\tapply{Z}{a}{x(a)}}}}\).
     \end{enumerate}
-    \(x\) je tu neko poljubno nadaljevanje, ki pričakuje en kubit.
-    V diagramu bi torej bil \(x\) karkoli je potem po žici desno na koncu primera.
+    Tu je \(x\) neko poljubno nadaljevanje, ki pričakuje en kubit,
+    \(y\) pa nadaljevanje, ki pričakuje dva nova kubita.
+    V diagramu bi torej bila \(x\) in \(y\) karkoli je potem po žicah desno na koncu primerov.
 
     Sicer obnašanje programov ni postalo nič bolj jasno, oziroma je na prvi pogled še težje videti kaj program dela, vendar pa lahko sedaj te izraze manipuliramo kot smo navajeni iz algebre.
     Ampak, da lahko z izrazi sploh karkoli naredimo potrebujemo nekaj enakosti med izbranimi osnovnimi izrazi, oziroma aksiome.
