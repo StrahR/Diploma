@@ -1,43 +1,257 @@
 \section{Programski jezik}
 
-\subsection{Teorija tipov}
-Kvantno računalništvo se najbolje modelira z linearno logiko. Spomnimo se, da kubitov ne moremo klonirati, niti jih uničiti (z unitarnimi vrati, uničimo jih lahko z meritvijo).
-Linearna logika ta koncept formalizira: vsako hipotezo moramo uporabiti natanko enkrat.
-Če nato iz linearne logike zgradimo teorijo tipov, se ta pogoj naravno spremeni v pogoj, da moramo vsak parameter funkciji (in na splošno vsak kubit v programu) uporabiti natanko enkrat,
-kot to fizika tudi zahteva.
-
-Definiramo fragment linearne logike s sledečimi simboli: \(⊗, +, 0, 1, ⊸, !\).
-%TODO: add prooftrees
-
-Na podoben način kot zgoraj definiramo teorijo tipov, kjer funkcijski tip razumemo kot linearnega le v kvantnih argumentih.
-\begin{align*}%TODO: linear type theory
-    A,B ::= \type{0} \mid \unit \mid \qbit \mid A⊗B \mid A+B \mid A → B
-\end{align*}
-Definiramo \(\bit ≔ \unit + \unit\).
-
 \subsection{Sintaksa}
 
 Poznamo sledeče sintaktične elemente:\\
-\begin{tabular}{r l l}%TODO: fix all this
-    izračun \(c\) \(::=\)& \(x\)                                & spremenljivka\\
-                %   \(\mid\)& \qpl{true} \(\mid\) \qpl{false} &\\
-                 \(\mid\)& \bf{\texttt{fn}} \(x : A ⇒ c\)       & funkcija\\
-    % izračun \(c\)  \(::=\)& \qpl{return|\((v)\)|}                &\\
-                 \(\mid\)& \(\eff{op}{\p c}\)                   & operacija\\
-                 \(\mid\)& \qpl{if |\(b\)| then |\(c₁\)| else |\(c₂\)|}
-                                                                & pogojni stavek\\
-                %  \(\mid\)& \qpl{let |\((x,y) = z\)| in |\(c\)|} & razcep vektorja\\
-                 \(\mid\)& \(v₁{\p{v₂}}\)                       & uporaba funkcije\\
-                 \(\mid\)& \qpl{|\(c₁\)|;|\(c₂\)|}              & veriženje
+%LTeX: enabled=false
+% \begin{tabular}{r l l}%imperative version
+%     izračun \(c\) \(::=\)& \(b, q, x, …\)                                     & spremenljivke\\
+%                  \(\mid\)& \qpl{true} \(\mid\) \qpl{false}
+%                  \(\mid\) \(\ket{\mb0}\) \(\mid\) \(\ket{\mb1}\)              & konstante\\
+%                  \(\mid\)& \qpl{|\(b≔\)| true} \(\mid\) \qpl{|\(b≔\)| false}  & inicializacija bita\\
+%                  \(\mid\)& \qpl{|\(\enew{q}\)|}                               & inicializacija kubita\\
+%                  \(\mid\)& \qpl{|\(\emeasure{q}\)|}                           & meritev\\
+%                  \(\mid\)& \qpl{|\(\ediscard{q}\)|}                           & uničenje\\
+%                  \(\mid\)& \qpl{|\(\eapply{U}{q}\)|}                          & uporaba vrat\\
+%                  \(\mid\)& \qpl{fun |\(f\)| |\((x₁ : A₁, …, xₚ : Aₚ) ↦ c\)|} & funkcija\\
+%                  \(\mid\)& \qpl{if |\(b\)| then |\(c₁\)| else |\(c₂\)|}       & pogojni stavek\\
+%                  \(\mid\)& \(f{\p{c₁,…,cₚ}}\)                                 & uporaba funkcije\\
+%                 %  \(\mid\)& \qpl{let |\(x ← c₁\)| in |\(c₂\)|}                 & vezava\\
+%                  \(\mid\)& \qpl{|\(x ≔ c\)|}                                  & vezava\\
+%                  \(\mid\)& \qpl{|\(c₁\)|;|\(c₂\)|}                            & veriženje\\
+%                  \(\mid\)& \qpl{|\(x,y\)|}                                    & sestavitev vektorjev\\
+%                 %  \(\mid\)& \qpl{let |\((q₁,…,qₚ) ← y\)| in |\(c\)|}           & razcep vektorja\\
+%                  \(\mid\)& \qpl{|\((q₁,…,qₚ) ≔ y\)|}                          & razcep vektorja\\
+%                  \(\mid\)& \qpl{{|\(c\)|}}                                    & blok\\
+% \end{tabular}
+\begin{tabular}{r l l}
+    izračun \(c\) \(::=\)& \(x\)                                              & spremenljivke\\
+                 \(\mid\)& \qpl{true} \(\mid\) \qpl{false}
+                 \(\mid\) \(\ket{\mb0}\) \(\mid\) \(\ket{\mb1}\)              & konstante\\
+                %  \(\mid\)& \qpl{|\(b≔\)| true} \(\mid\) \qpl{|\(b≔\)| false}  & inicializacija bita\\
+                 \(\mid\)& \qpl{|\(\enew\)|}                                  & inicializacija kubita\\
+                 \(\mid\)& \qpl{|\(\emeasure{x}\)|}                           & meritev kubita\\
+                 \(\mid\)& \qpl{|\(\ediscard{x}\)|}                           & uničenje kubita\\
+                 \(\mid\)& \qpl{|\(\eapply{U}{x}\)|}                          & uporaba vrat\\
+                 \(\mid\)& \qpl{|\(xᵢ\)|}                                     & naslavljanje kubita\\
+                 \(\mid\)& \qpl{(|\(x₁,…,xₚ\)|)}                              & pridružitev kubitov\\
+                %  \(\mid\)& \(\eff{op}{\p q}\)                                 & operacija\\
+                 \(\mid\)& \qpl{fun |\(f(x : A) ↦ c\)|}                      & funkcija\\
+                 \(\mid\)& \(f{\p c}\)                                        & uporaba funkcije\\
+                 \(\mid\)& \qpl{if |\(c\)| then |\(c₁\)| else |\(c₂\)|}       & pogojni stavek\\
+                 \(\mid\)& \qpl{let |\(x ← c₁\)| in |\(c₂\)|}                 & vezava in veriženje\\
+                %  \(\mid\)& \qpl{|\(x ≔ c\)|}                                  & vezava\\
+                %  \(\mid\)& \qpl{|\(c₁\)|;|\(c₂\)|}                            & veriženje\\
+                %  \(\mid\)& \qpl{let |\((q₁,…,qₚ) ← y\)| in |\(c\)|}           & razcep vektorja\\
+                %  \(\mid\)& \qpl{|\((q₁,…,qₚ) ≔ y\)|}                          & razcep vektorja\\
+                %  \(\mid\)& \qpl{(|\(c\)|)}                                    & blok\\
 \end{tabular}
+%LTeX: enabled=true
 
-Naš jezik definira naslednje operacije oziroma algebrajske učinke:
+\subsubsection*{Vezava in veriženje}
+V \qpl{let |\(x ← c₁\)| in |\(c₂\)|} najprej izračunamo \(c₁\), rezultat shranimo v spremenljivko \(x\), in nadaljujemo z izvajanjem \(c₂\). Če se \(x\) ne pojavi v \(c₂\) (razen v kaki drugi vezavi) lahko zapis okrajšamo na \qpl{|\(c₁\)|;|\(c₂\)|}.
+
+\subsubsection*{Naslavljanje in pridružitev kubitov}
+Na vsak kvantni vektor reda \(n\) lahko gledamo kot \(n\) prepletenih kubitov, tako da je ta zapis smiseln.
+Dopuščali bomo, da se pridruženi kubiti pojavijo na mestih, kjer pričakujemo vektor, kot na primer v vezavi (\qpl{let |\((x₁,…,xₙ) ← c₁\)| in |\(c₂\)|}) ali pri uporabi vrat (\(\eapply{U}{x₁,…,xₙ}\)).
+Dvojne oklepaje opuščamo.
+
+
+\subsubsection*{Funkcije}
+Glede na obliko tipa \(A\) lahko definiramo nekaj okrajšav:
 \begin{itemize}
-    \item \(\eff{new} : \unit → \qbit\): Dodeli nov kubit.
-    \item Za vsaka vrata \(U\) reda \(n\) operacijo \(\eff{apply}_{\g U} : \qbit^{⊗n} → \qbit^{⊗n}\): Uporabi vrata \(U\) na danem kubitu.
-    \item \(\eff{measure} : \qbit → \bit\): Izmeri kubit in vrne rezultat meritve (\(0\) ali \(1\)).
-    \item \(\eff{discard} : \qbit → \unit\): Uniči kubit.
+    \item Če je \(A = \unit\) pišemo \qpl{fun |\(f() ↦ c\)|}.
+    \item Če je \(A\) produkt, ga razpišemo kot \qpl{fun |\(f(x₁ : A₁, …, xₙ : Aₙ) ↦ c\)|}.
 \end{itemize}
+Če funkcije ne želimo poimenovati lahko \(f\) tudi kar izpustimo.
+
+% Če je \(A\) oblike \(⨂ᵢAᵢ\) pišemo tudi \qpl{fun |\(f(x₁ : A₁, …, xₙ : Aₙ) ↦ c\)|},
+% če je pa \(A\) oblike \(B×Q\) pa pišemo \qpl{fun |\(f(b : B, x : Q) ↦ c\)|}.
+
+\subsubsection*{Inicializacija kubita}
+Dodeli nov kubit in ga vrne. Ta kubit bo enak \(\ket{\mb0}\).
+Definiramo lahko tudi operacijo \(\eff{new}₁()\), inicializira kubit na \(\ket{\mb1}\).
+
+\subsubsection*{Uporaba vrat}
+Vrata \(U\) morajo biti primerne velikosti, da jih lahko uporabimo na danem vektorju.
+Uporabi vrata \(U\) na danem vektorju.
+
+\subsubsection*{Meritev}
+Izmeri dani kubit in vrne rezultat meritve. To bo uničilo kubit, torej ga v nadaljevanju ne smemo uporabiti.
+Če je meritev oblike \(\emeasure{xᵢ}\), je meritev, ki jo izvedemo \(Mᵢ(x)\), in se vektor \(x\) spremeni skladno z definicijo meritve vektorja.
+Enako velja tudi, če meritev ni te oblike, vendar dani kubit naslavlja del vektorja.
+
+\subsubsection*{Uničenje kubita}
+Uničenje je zgolj okrajšava za meritev, katere rezultat pozabimo, tako da upošteva vsa gornja pravila.
+%TODO: če po meritivi pozabimo na rezultat ostanemo v mešanem stanju, omeni to pri meritvi
+
+\subsection{Primeri}
+\begin{example*}\label{ex:1}
+    Zgoraj smo omenili operacijo \(\eff{new}₁()\). Definiramo jo lahko znotraj jezika:
+    \begin{center}
+        \qpl{fun |\(\eff{new}₁() ↦ \eapply{X}{\enew}\)|}
+    \end{center}
+    Operacijo \(\enew\) lahko potem označimo tudi z \(\eff{new}₀()\). 
+\end{example*}
+
+\begin{example*}\label{ex:2}
+    S kvantnimi operacijami lahko modeliramo naključnost; definirajmo funkcijo \texttt{rand}, ki naključno vrne \(0\) ali \(1\):
+    \begin{center}
+        \qpl{fun |\(\eff{rand}() ↦ \emeasure{\eapply{\had}{\enew}}\)|}
+    \end{center}
+\end{example*}
+
+\begin{example*}\label{ex:3}
+    Bellovo stanje \(\state{\ket{\mb{00}} + \ket{\mb{11}}}\) lahko definiramo tako:
+    \begin{center}
+        \(\eff{apply}_{\ctl X}{\p{\eapply{\had}{\enew}, \enew}}\)
+    \end{center}
+\end{example*}
+
+\begin{example*}\label{ex:4}
+    Kot v prvem primeru, bi tudi operacijo \(\eff{discard}\) lahko definirali izključno znotraj jezika:
+    \begin{center}
+        \qpl{fun |\(\eff{discard}\p{q : \qbit} ↦\) let \(x ← \emeasure{q}\) in \(()\)|}
+    \end{center}
+    Tu \(()\) predstavlja edini element tipa \(\unit\).
+    Izkaže se, da je ta operacija bolj pomembna kot primer \ref{ex:1}, tako da jo vključimo neposredno v sintakso jezika.
+\end{example*}
+
+\begin{example*}\label{ex:5}
+    Oglejmo si zdaj še prejšnja dva primera, najprej projekcijo na \(z\)-os:
+    \begin{center}
+        \qpl{fun |\(\eff{proj}(q : \qbit) ↦ \)| if |\(\emeasure{q}\)| then |\(\eff{new}₁()\)| else |\(\eff{new}₀()\)|}
+    \end{center}
+\end{example*}
+
+\begin{example*}\label{ex:6}
+    Drugi primer je bil naključna rotacija faze. Uporabimo primer \ref{ex:2}:
+    \begin{center}
+        \qpl{fun |\(\eff{rot}(q : \qbit) ↦ \)| if |\(\eff{rand}()\)| then |\(\eapply{Z}{q}\)| else |\(q\)|}
+    \end{center}
+\end{example*}
+
+
+\subsection{Teorija tipov}
+
+Tipe ločimo na dve vrsti, klasične in kvantne:\\
+\begin{tabular}{r l l}%TODO: format
+    klasični \(B\) \(::=\)& \(\type{0}\) \(\mid\) \(\unit\)                & osnovni klasični tipi\\
+                  \(\mid\)& \(B₁+B₂\)                                      & vsota\\
+                  \(\mid\)& \(B₁×B₂\)                                      & kartezični produkt\\
+                  \(\mid\)& \(A₁ → A₂\)                                    & funkcijski tip\\
+    kvantni \(Q\) \(::=\)&  \(\qbit\)                                      & tip kubitov\\
+                 \(\mid\)&  \(Q₁⊗Q₂\)                                     & tenzorski produkt\\
+    splošni \(A\) \(::=\)&  \(B\) \(\mid\) \(Q\)                           & ostali tipi\\
+                 \(\mid\)&  \((B,Q)\)                                      & splošen produkt\\
+\end{tabular}
+\begin{remark}
+    % Kvantni tipi so natanko kvantni vektorji, 
+    % Tenzorski produkt med kvantnimi tipi je definiran kot navaden tenzorski produkt vektorjev,
+    Splošen produkt razumemo kot kartezičen produkt.
+    Definiramo lahko tudi operacije s splošnim produktom:
+    \begin{align*}
+        B₁+(B,Q) &≔ (B₁+B,Q)\\
+        B₁×(B,Q) &≔ (B₁×B,Q)\\
+        Q₁⊗(B,Q) &≔ (B,Q₁⊗Q)
+    \end{align*}
+    Prvi komponenti splošnega produkta pravimo klasična, drugi pa kvantna.
+    V nadaljevanju, ko se nanašamo na kvantne in klasične tipe, mislimo tudi na ustrezne komponente splošnega produkta.
+\end{remark}
+
+\begin{definition}
+    Označimo \(\bit ≔ \unit + \unit\) in \(\mb{n} ≔ n⋅\unit\). To so klasični tipi.
+\end{definition}
+
+\subsubsection{Linearnost}
+Kot linearnost razumemo pogoj, da se vsako hipotezo (tudi parameter, argument, predpostavko, surovino)
+uporabi natanko enkrat.
+Linearna logika nam torej formalizira razne procese, kjer iz ene stvari \airquotes{naredimo} drugo, in s tem prvo stvar \airquotes{porabimo}.
+Če potem iz linearne logike izpeljemo tako imenovano linearno teorijo tipov, se ta pogoj linearnosti naravno pretvori v pogoj, da moramo vsak argument funkciji uporabiti natanko enkrat.
+
+Spomnimo se, da z unitarnimi transformacijami (kvantnimi vrati) kubitov ne moremo niti klonirati, niti uničiti.
+To je pa ravno pogoj linearnosti!
+Pravimo, da je operacija \(\eff{apply}_{\g U}\) linearna, saj ohranja število kubitov.
+Poleg tega je tudi meritev linearna, saj porabi en kubit, ki ga nato ne moremo več uporabljati.
+Ker sta to edina načina s katerimi lahko vplivamo na stanja kubitov, morajo biti vse funkcije na kubitih tudi linearne.
+Ker pogoj linearnosti ne velja za klasične bite (te lahko kopiramo, kolikor hočemo) bomo rekli, da so funkcije linearne le na kvantnih tipih.
+
+%TODO: cite nlab+girard "Za natančno definicijo linearne logike si oglejte…"
+% Definiramo fragment linearne logike s sledečimi simboli: \(⊗, +, 0, 1, ⊸, !\).
+
+%TODO: subsubseciton
+\begin{definition}
+    Kontekst naj bo seznam dodelitev tipov spremenljivkam.
+\end{definition}
+
+\begin{definition}
+    Zapis oblike \(\sseq{Γ}{x : A}\) pomeni, da ima \(x\) tip \(A\) v kontekstu \(Γ\).
+\end{definition}
+
+%TODO: format
+%LTeX: enabled=false
+\begin{prooftree}[center=false]
+    \hypo{(x : A) ∈ Γ}
+  \infer1{\sseq{Γ}{x : A}}
+\end{prooftree}\quad
+\begin{prooftree}[center=false]
+  \infer0{\sseq{Γ}{\qpl{true}: \bit}}
+\end{prooftree}\quad
+\begin{prooftree}[center=false]
+  \infer0{\sseq{Γ}{\qpl{false}: \bit}}
+\end{prooftree}\quad
+\begin{prooftree}[center=false]
+  \infer0{\sseq{Γ}{\ket{\mb0} : \qbit}}
+\end{prooftree}\quad
+\begin{prooftree}[center=false]
+  \infer0{\sseq{Γ}{\ket{\mb1} : \qbit}}
+\end{prooftree}\\
+\begin{prooftree}[center=false]
+  \infer0{\sseq{Γ}{\eff{new} : \unit → \qbit}}
+\end{prooftree}\quad
+\begin{prooftree}[center=false]
+  \infer0{\sseq{Γ}{\eff{measure} : \qbit → \bit}}
+\end{prooftree}\quad
+\begin{prooftree}[center=false]
+  \infer0{\sseq{Γ}{\eff{discard} : \qbit → \unit}}
+\end{prooftree}\\
+\begin{prooftree}[center=false]
+    \hypo{n ∈ ℕ}
+    \hypo{U ∈ \U[n]}
+  \infer2{\sseq{Γ}{\eff{apply}_{\g U} : \qbit^{⊗n} → \qbit^{⊗n}}}
+\end{prooftree}\\
+\begin{prooftree}[center=false]
+    \hypo{\sseq{Γ}{x : \qbit^{⊗n}}}
+    \hypo{i ∈ {1,…,n}}
+  \infer2{\sseq{Γ}{xᵢ : \qbit}}
+\end{prooftree}\quad
+\begin{prooftree}[center=false]
+    \hypo{\for{i ∈ {1,…,n}}{\p{\sseq{Γ}{xᵢ : \qbit}}}}
+  \infer1{\sseq{Γ}{(x₁,…,xₙ) : \qbit^{⊗n}}}
+\end{prooftree}\\
+\begin{prooftree}[center=false]
+    \hypo{\sseq{Γ, x : A}{c : B}}
+  \infer1{\sseq{Γ       }{\qpl{fun |\((x : A) ↦ c\)|} : A → B}}
+\end{prooftree}\quad
+\begin{prooftree}[center=false]
+    \hypo{\sseq{Γ}{f : A → B}}
+    \hypo{\sseq{Γ}{c : A}}
+  \infer2{\sseq{Γ}{f{\p c} : B}}
+\end{prooftree}\\
+\begin{prooftree}[center=false]
+    \hypo{\sseq{Γ}{c : \bit}}
+    \hypo{\sseq{Γ}{c₁ : A}}
+    \hypo{\sseq{Γ}{c₂ : A}}
+  \infer3{\sseq{Γ}{\qpl{if |\(c\)| then |\(c₁\)| else |\(c₂\)|} : A}}
+\end{prooftree}\quad
+\begin{prooftree}[center=false]
+    \hypo{\sseq{Γ       }{c₁ : A}}
+    \hypo{\sseq{Γ, x : A}{c₂ : B}}
+  \infer2{\sseq{Γ       }{\qpl{let |\(x ← c₁\)| in |\(c₂\)|} : B}}
+\end{prooftree}
+%LTeX: enabled=true
+
+\subsection{Interpretacija z algebrajskimi izrazi}
 
 Da lahko naše učinke lažje interpretiramo kot algebrajske izraze, jih bomo zapisali v obliki z nadaljevanji:
 \begin{itemize}

@@ -7,6 +7,7 @@
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definicija}
 
+\newtheorem{example*}{Primer}[section]
 \newtheorem*{example}{Primer}
 \newtheorem*{examples}{Primeri}
 
@@ -76,6 +77,7 @@
 \newcommand{\cmd}[1]{\textnormal{\sffamily#1}}
 \newcommand{\eff}[1]{\textnormal{\sffamily\ul{#1}}}
 \newcommand{\enew}{\eff{new}{\p{}}}
+% \newcommand{\enew}[1]{\eff{new}{\p{#1}}}
 \newcommand{\eapply}[2]{\eff{apply}_{\g{#1}}{\p{#2}}}
 \newcommand{\emeasure}[1]{\eff{measure}{\p{#1}}}
 \newcommand{\ediscard}[1]{\eff{discard}{\p{#1}}}
@@ -102,7 +104,8 @@
 \newcommand{\arity}[2]{\p{#1 \mid #2}}
 % \newcommand{\arity}[2]{\p{#1 \mid \StrSubstitute[0]{#2}{,}{\ }}}
 
-\newcommand{\sequent}[3]{#1 \mid #2 \vdash #3}
+\newcommand{\sequent}[3]{#1 \mid #2 ⊢ #3}
+\newcommand{\sseq}[2]{#1 ⊢ #2}
 \newcommand{\seq}[1]{\sequent{x₁:m₁,…,xₖ:mₖ}{a₁,…,aₚ}{#1}}
 \newcommand{\absseq}[1]{\sequent{\Gamma}{\Delta}{#1}}
 \newcommand{\sem}[1]{\left⟦ #1 \right⟧}
@@ -165,6 +168,7 @@
 
 \newcommand{\airquotes}[1]{\enquote{#1}}
 
+\newminted[qplcode]{ocaml}{escapeinside=||, autogobble}
 \newmintinline[qpl]{ocaml}{escapeinside=||, autogobble}
 
 \makeatletter
