@@ -290,55 +290,55 @@ Aksiome za enakost programov\cite{algeff-lin-qpl} lahko delimo na dva dela: prvi
 Slednji nam povejo zgolj, da se \(\eff{apply}\) strinja s strukturo unitarnih matrik,
 ter da stvari komutirajo, kolikor vezanje spremenljivk (in vrstni red uporabe matrik) dopušča.
 
-\begin{axiom}{Kvantna negacija pred meritvijo je negacija po meritvi:}\label{ax:1}
+\begin{axiom}{Kvantna negacija pred meritvijo je negacija po meritvi:}\label{ax:A}
     \( \tapply{X}{a}{\tmeasure{a}{x}{y}} = \tmeasure{a}{y}{x} \).
 \end{axiom}
 
-\begin{axiom}{Kvantna kontrola je po meritvi kot klasična kontrola:}\label{ax:2}
+\begin{axiom}{Kvantna kontrola je po meritvi kot klasična kontrola:}\label{ax:B}
     \( \tapplyd{U, V}{a,b}{\tmeasure{a}{x(b)}{y(b)}}\\
        \text{\hspace{7em}} = \tmeasure{a}{\tapply{U}{b}{x(b)}}{\tapply{V}{b}{y(b)}} \).
 \end{axiom}
 
-\begin{axiom}{Kvantna vrata uporabljena na zavrženih kubitih so odveč:}\label{ax:3}
+\begin{axiom}{Kvantna vrata uporabljena na zavrženih kubitih so odveč:}\label{ax:C}
     \( \tapply{U}{a}{\tdiscard{a}{t}} = \tdiscard{a}{t} \).
 \end{axiom}
 
 % \begin{axiom}{Meritve novih kubitov so vedno \(0\):}\label{ax:4}
-\begin{axiom}{Novi kubiti so \( \ket{\mb0} \) glede na meritev:}\label{ax:4}
+\begin{axiom}{Novi kubiti so \( \ket{\mb0} \) glede na meritev:}\label{ax:D}
     \( \tnew{a}{\tmeasure{a}{x}{y}} = x \).
 \end{axiom}
 
-% \begin{axiom}{Vrata kontrolirana z novimi kubiti se nikoli ne uporabijo:}\label{ax:5}
-\begin{axiom}{Novi kubiti so \( \ket{\mb0} \) glede na kontrolo:}\label{ax:5}
+% \begin{axiom}{Vrata kontrolirana z novimi kubiti se nikoli ne uporabijo:}\label{ax:E}
+\begin{axiom}{Novi kubiti so \( \ket{\mb0} \) glede na kontrolo:}\label{ax:E}
     \( \tnew{a}{\tapplyd{U,V}{a,b}{x{\p{a,b}}}} = \tapply{U}{b}{\tnew{a}{x{\p{a,b}}}} \).
 \end{axiom}
 
-\begin{axiom}{Spoštovanje simetrične grupe \( \U[n] \):}\label{ax:6}
+\begin{axiom}{Spoštovanje simetrične grupe \( \U[n] \):}\label{ax:F}
     \( \tapply{swap}{a,b}{x{\p{a,b}}} = x{\p{b,a}} \),
 \end{axiom}
 
-\begin{axiom}{}\label{ax:7}
+\begin{axiom}{}\label{ax:G}
     \( \tapply{I}{a}{x{\p a}} = x{\p a} \),
 \end{axiom}
 
-\begin{axiom}{}\label{ax:8}
+\begin{axiom}{}\label{ax:H}
     \( \tapply{UV}{a}{x{\p a}} = \tapply{V}{a}{\tapply{U}{a}{x{\p a}}} \),
 \end{axiom}
 
-\begin{axiom}{}\label{ax:9}
+\begin{axiom}{}\label{ax:I}
     \( \tapply{U⊗V}{a,b}{x{\p{a,b}}} = \tapply{U}{a}{\tapply{V}{b}{x{\p{a,b}}}} \).
 \end{axiom}
 
-\begin{axiom}{Komutativnost:}\label{ax:10}
+\begin{axiom}{Komutativnost:}\label{ax:J}
     \( \tmeasure{a}{\tmeasure{b}{u}{v}}{\tmeasure{b}{x}{y}}\\
        \text{\hspace{7em}} = \tmeasure{b}{\tmeasure{a}{u}{x}}{\tmeasure{a}{v}{y}} \),
 \end{axiom}
 
-\begin{axiom}{}\label{ax:11}
+\begin{axiom}{}\label{ax:K}
     \( \tnew{a}{\tnew{b}{x{\p{a,b}}}} = \tnew{b}{\tnew{a}{x{\p{a,b}}}} \),
 \end{axiom}
 
-\begin{axiom}{}\label{ax:12}
+\begin{axiom}{}\label{ax:L}
     \( \tnew{a}{\tmeasure{b}{x{\p a}}{y{\p a}}}\\
        \text{\hspace{7em}} = \tmeasure{b}{\tnew{a}{x{\p a}}}{\tnew{a}{y{\p a}}} \).
 \end{axiom}
