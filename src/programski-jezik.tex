@@ -280,7 +280,7 @@ Da lahko naše operacije lažje predstavimo z algebrajsko teorijo, jih bomo zapi
 Naj bo \(\op{op}\) neka operacija, ki se lahko nadaljuje na \(k\) načinov. Nadaljevanja označimo s \(tᵢ\), vsako od njih pa naj tudi pričakuje nekaj parametrov (in za preprostost naj vsa pričakujejo enako število parametrov \(m\)). To zapišemo kot \(b₁,…,bₘ.tᵢ\).
 Če operacija sama zahteva \(p\) parametrov, jo pišemo kot \(\op{op}{\p{a₁,…,aₚ; b₁,…,bₘ.t₁,…,b₁,…,bₘ.tₖ}}\).
 
-Če se osredotočimo zgolj na kompleksni del jezika, torej, če pozabimo na vse klasične konstrukte, lahko definiramo konstruktorje za algebrajske izraze:
+Če se osredotočimo zgolj na kvantni del jezika, torej, če pozabimo na vse klasične konstrukte, lahko definiramo konstruktorje za algebrajske izraze:
 \begin{itemize}
     \item če je \(t\) izraz, ki pričakuje kubit \(a\), potem obstaja izraz \(\tnew{a}{t}\),
     ki dodeli nov kubit in ga shrani v \(a\), nato pa nadaljuje s \(t\),
@@ -295,11 +295,11 @@ Naj bo \(\op{op}\) neka operacija, ki se lahko nadaljuje na \(k\) načinov. Nada
     Oglejmo si zgornje primere zapisane v algebrajskem jeziku:
     \begin{enumerate}
         \item \(\cmd{new}¹(a.t) ≔ \tnew{a}{\tapply{X}{a}{t}}\),
-        \item \(\cmd{rand}(a.t) ≔ \tnew{a}{\tapply{\had}{a}{\tmeasure{a}{0}{1}}}\),
-        \item \(\tnew{a}{\tnew{b}{\tapply{\had}{a}{\tapply{\ctl{X}}{a,b}{y(a,b)}}}}\),
+        \item \(\cmd{rand}(a.x(a)) ≔ x{\p{\tnew{a}{\tapply{\had}{a}{\tmeasure{a}{0}{1}}}}}\),
+        \item \(\cmd{bell}(a,b.y(a,b)) ≔ \tnew{a}{\tnew{b}{\tapply{\had}{a}{\tapply{\ctl{X}}{a,b}{y(a,b)}}}}\),
         \item \(\tdiscard{a}{t} ≔ \tmeasure{a}{t}{t}\),
-        \item \(\tmeasure{a}{\tnew{b}{x(b)}}{\tnew{b}{\tapply{X}{b}{x(b)}}}\),
-        \item \(\tnew{b}{\tapply{\had}{b}{\tmeasure{b}{x(a)}{\tapply{Z}{a}{x(a)}}}}\).
+        \item \(\cmd{proj}(a;a.x(a)) ≔ \tmeasure{a}{\tnew{b}{x(b)}}{\tnew{b}{\tapply{X}{b}{x(b)}}}\),
+        \item \(\cmd{rot}(a;a.x(a)) ≔ \tnew{b}{\tapply{\had}{b}{\tmeasure{b}{x(a)}{\tapply{Z}{a}{x(a)}}}}\).
     \end{enumerate}
     Tu je \(x\) neko poljubno nadaljevanje, ki pričakuje en kubit,
     \(y\) pa nadaljevanje, ki pričakuje dva nova kubita.
@@ -310,8 +310,8 @@ Naj bo \(\op{op}\) neka operacija, ki se lahko nadaljuje na \(k\) načinov. Nada
 \end{examples}
 
 Na podoben način kot za tipe, lahko zgornja pravila povzamemo z drevesi.
-Naj \(\sequent{Γ}{Δ}{t}\) predstavlja, da je \(t\) izraz na kubitih v \(Δ\) v kontekstu \(Γ\),
-kjer je tokrat kontekst seznam nadaljevan, skupaj z njihovo členostjo (\(Γ = (x₁ : m₁),…,(xₖ : mₖ)\)).
+Naj \(\sequent{Γ}{Δ}{t}\) predstavlja, da je \(t\) izraz na kubitih \(Δ\) v kontekstu \(Γ\),
+kjer je tokrat kontekst seznam nadaljevan, skupaj z njihovo členostjo (\(Γ = x₁ : m₁,…,xₖ : mₖ\)).
 \[\begin{prooftree}
     \hypo{\sequent{Γ}{Δ, a}{         t }}
   \infer1{\sequent{Γ}{Δ   }{\tnew{a}{t}}}
