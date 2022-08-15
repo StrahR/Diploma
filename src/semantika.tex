@@ -75,7 +75,7 @@ Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi o
 \end{definition}
 
 \begin{definition}
-    Vsakemu izrazu \(\seq{t}\) definiramo njegov interpretacijski morfizem \(\sem{t}\) z indukcijo na strukturi členov na naslednji način:
+    Vsakemu izrazu \(\seq{t}\) definiramo njegov interpretacijski morfizem \(\sem{t}\) z indukcijo na strukturi členov na sledeč način:
     \[ \sem{\op{O}{\p{a₁,…,aₚ; b₁,…,b_{m₁}.t₁, …, b₁,…,b_{mₖ}.tₖ}}}
       = \sem{\op{O}}{\p{\sem{t₁}{\p -},…,\sem{tₖ}{\p -}}},\]
     kjer \(\op{O}\) interpretiramo z morfizmom iz signature, \(tᵢ\) pa po indukciji.
@@ -100,8 +100,6 @@ Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi o
     Tedaj lahko ta aksiom uporabimo na dva načina: prvi je, da ga uporabimo na podizrazih, kar pomeni, da sta interpretacijska morfizma enaka po indukciji, drugi je pa, da aksiom uporabimo neposredno na celih izrazih, iz česar pa enakost morfizmov sledi neposredno iz definicije modela.
     % Če sta operaciji \(\op{O}₁\) in \(\op{O}₂\) enaki, sta tudi interpretacijska morfizma enaka natanko tedaj, ko lahko izpeljemo enakost med 
 \end{proof}
-
-%TODO: define fully complete models?
 
 \subsection{\texorpdfstring{\(C^*\)-algebre}{C*-algebre}}
 
@@ -146,7 +144,7 @@ Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi o
     V fiziki se iz zgodovinskih razlogov involucija pogosto označuje z \((-)^†\).
 \end{remark}
 \begin{remark}
-    Velja \(\|x^*\| = \|x\|\), saj je \(\|x\|² = \|x^*x\| = \|x^*\|²\) in \(\|x^*x\| ≤ \|x*\|\|x\|\).
+    Velja \(\|x^*\| = \|x\|\), saj je \(\|x\|² = \|x^*x\| = \|x^*\|²\) in \(\|x^*x\| ≤ \|x^*\|\|x\|\).
 \end{remark}
 
 \begin{definition}
@@ -162,14 +160,13 @@ Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi o
 \end{example}
 
 \begin{definition}
-    %TODO: finish definition
-    Direktna vsota \(C^*\)-algeber \(X\) in \(Y\) je kartezični produkt množic z operacijami definiranimi po komponentah.
+    Direktna vsota \(C^*\)-algeber \(X\) in \(Y\) je kartezični produkt množic z operacijami definiranimi po komponentah, za normo pa vzamemo \(\max\) normo.
     Označimo jo z \(X⊕Y\).
 \end{definition}
 
 \begin{example}
-    %TODO: finish definition
     Za vsako \(C^*\)-algebro \(X\) je tudi množica \(n×n\) matrik nad \(X\) \(C^*\)-algebra.
+    Operacije definiramo kot navadne matrične, norma je pa spektralna norma.
     Označimo jo z \(Mₙ(X)\).
 \end{example}
 
@@ -197,7 +194,6 @@ Operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) želimo interpretirati z mor
     V praksi bo \(k\) ponavadi kar \(p-j\), kjer je \(p\) število kubitov v sistemu.
 \end{remark}
 
-%TODO: fix how I use this (change order of ^*)
 \begin{definition}
     Za \(U ∈ \U[p]\) interpretiramo operacijo \(\op{apply}_{\g U}\) z \(*\)-homomorfizmom \( \op{apply}_{\g U} : \semmap{p}{p}\) s predpisom \(A ↦ U^*AU.\)
 \end{definition}
@@ -240,7 +236,7 @@ Operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) želimo interpretirati z mor
     Interpretirajmo aksiom (\ref{ax:A}). Naj bosta \(A₁,A₂ ∈ \M[1] = ℂ\).
     \begin{align*}
         &\hspace{-3em}\sem{\tapply{X}{a}{\tmeasure{a}{x}{y}}}(A₁,A₂)
-         = X\pmat{A₁&0\\0&A₂}X^*\\
+         = X^*\pmat{A₁&0\\0&A₂}X\\
         &= \pmat{A₂&0\\0&A₁}
          = \sem{\tmeasure{a}{y}{x}}(A₁,A₂)
     \end{align*}
@@ -248,15 +244,15 @@ Operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) želimo interpretirati z mor
     Interpretirajmo še aksiom (\ref{ax:B}). Naj bosta \(A₁,A₂ ∈ \M[2]\).
     \begin{align*}
         &\hspace{-3em}\sem{\tapplyd{U, V}{a,b}{\tmeasure{a}{x(b)}{y(b)}}}(A₁,A₂)\\
-        &= \pmat{U&0\\0&V}\pmat{A₁&0\\0&A₂}\pmat{U^*&0\\0&V^*}
-         = \pmat{UA₁U^*&0\\0&VA₂V^*}\\
+        &= \pmat{U^*&0\\0&V^*}\pmat{A₁&0\\0&A₂}\pmat{U&0\\0&V}
+         = \pmat{U^*A₁U&0\\0&V^*A₂V}\\
         &\hspace{3em}= \sem{\tmeasure{a}{\tapply{U}{b}{x(b)}}{\tapply{V}{b}{y(b)}}}(A₁,A₂)
     \end{align*}
 
     Podrobno si še oglejmo interpretacijo aksioma (\ref{ax:F}). Naj bo \(A ∈ \M[4]\).
     \begin{align*}
         &\hspace{-3em}\sem{\tapply{swap}{a,b}{x{\p{a,b}}}}(A)
-         = \mathrm{Swap}A\mathrm{Swap}^*\\
+         = \swap^*⋅A⋅\swap\\
         &= \pmat{1&0&0&0\\0&0&1&0\\0&1&0&0\\0&0&0&1}\pmat{a₁₁&a₁₂&a₁₃&a₁₄\\a₂₁&a₂₂&a₂₃&a₂₄\\a₃₁&a₃₂&a₃₃&a₃₄\\a₄₁&a₄₂&a₄₃&a₄₄}\pmat{1&0&0&0\\0&0&1&0\\0&1&0&0\\0&0&0&1}\\
         &= \pmat{a₁₁&a₁₃&a₁₂&a₁₄\\a₃₁&a₃₃&a₃₂&a₃₄\\a₂₁&a₂₃&a₂₂&a₂₄\\a₄₁&a₄₃&a₄₂&a₄₄}
          = \sem{x{\p{b,a}}}(A)
@@ -267,8 +263,7 @@ Operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) želimo interpretirati z mor
 \end{proof}
 
 \begin{theorem}[Polnost za meritev]\label{th:partial}
-    %TODO: prava polnost? univerzalnost/polnost?
-    Kompleksna števila tvorijo poln model:
+    Model \(ℂ ∈ \cstarcat\) je univerzalno poln:
     \begin{enumerate}
         \item Za vsak \(*\)-homomorfizem \(f : \semmap{p}{m₁,…,mₖ}\) obstaja izraz v algebrajski teoriji, ki ne vsebuje \(\op{new}\), tako da je \(t : \arity{p}{m₁,…,mₖ}\) in \(\sem{t} = f\).
         \item Če \(\absseq{t, u}\) ne vsebujeta \(\op{new}\) in \(\sem{t} = \sem{u}\) lahko izpeljemo \(\absseq{t = u}\).
@@ -301,7 +296,7 @@ Označimo \(\cat{C} ≔ \semmap{p}{m₁,…,mₖ}\).
 \begin{proof}
     Pokažimo lemo zgolj v obratni smeri.
 
-    Naj bosta \(f,g : \semmap{p}{m₁,…,mₖ}\) taka \(*\)-homomorfizma, da velja \(f = Ug{(-)}U^*\).
+    Naj bosta \(f,g : \semmap{p}{m₁,…,mₖ}\) taka \(*\)-homomorfizma, da velja \(f = U^*g{(-)}U\).
 
     Definirajmo \(fᵢ ≔ f∘ιᵢ, gᵢ ≔ g∘ιᵢ : \M[2^{mᵢ}] → \M[2ᵖ]\), kjer je \(ιᵢ(A) = (0,…,A,…,0)\) (z \(A\)-jem na \(i\)-tem mestu).
     Preslikavo \(ρ\) definiramo tako, da \(f\) slika v \(k\)-terico kratnosti preslikav \(fᵢ\). Označimo \(ρ(f) = \p{t₁,…,tₖ}\).
@@ -309,18 +304,30 @@ Označimo \(\cat{C} ≔ \semmap{p}{m₁,…,mₖ}\).
     Zaradi tranzitivnosti lahko za \(g\) vzamemo kar \(μ(ρ(g)) = μ(s₁,…,sₖ)\).
 
     % \((⇐)\)
-    % Naj bo \(f = Ug{(-)}U^*\).
-    Enakost komponiramo z \(ιᵢ\) in dobimo enakosti \(fᵢ = Ugᵢ{(-)}U^*\).
-    Po zgornji trditvi za vsak \(A\) velja \(fᵢ{(A)} = Vᵢ(D(A,…,A))Vᵢ^* ≕ VᵢD_{tᵢ}Vᵢ^*\), \(gᵢ{(A)}\) je pa enak \(D(0,A,…,A,0) ≕ D_{sᵢ}\), kjer se pri vsakem \(D\)-ju \(A\) na diagonali pojavi \(tᵢ\) in \(sᵢ\)-krat.
-    Vstavimo te dve enačbi v predpostavko in nesemo unitarne matrike na eno stran, da dobimo \(D_{tᵢ} = (VᵢU)D_{sᵢ}(VᵢU)^*\).
+    % Naj bo \(f = U^*g{(-)}U\).
+    Enakost komponiramo z \(ιᵢ\) in dobimo enakosti \(fᵢ = U^*gᵢ{(-)}U\).
+    Po zgornji trditvi za vsak \(A\) velja \(fᵢ{(A)} = Vᵢ^*(D(A,…,A))Vᵢ ≕ Vᵢ^*D_{tᵢ}Vᵢ\), \(gᵢ{(A)}\) je pa enak \(D(0,A,…,A,0) ≕ D_{sᵢ}\), kjer se pri vsakem \(D\)-ju \(A\) na diagonali pojavi \(tᵢ\) in \(sᵢ\)-krat.
+    Vstavimo te dve enačbi v predpostavko in nesemo unitarne matrike na eno stran, da dobimo \(D_{tᵢ} = (VᵢU)^*D_{sᵢ}(VᵢU)\).
 
     Naj bo sedaj \(A\) neka matrika ranga \(1\).
     Ker unitarne matrike ne vplivajo na rang, je \(tᵢ = \rang{D_{tᵢ}} = \rang{D_{sᵢ}} = sᵢ\).
     Ker je bil \(i\) poljuben, sta torej Brattelijeva diagrama, ki pripadata \(f\) in \(g\), enaka.
 \end{proof}
 
-\begin{proof}[Dokaz izreka \ref{th:partial}.]
-    TODO
+\begin{proof}[Skica dokaza izreka \ref{th:partial}.]
+    Najprej pokažemo direktno ekvivalenco med določenimi izrazi, zgrajenimi le iz \(\op{measure}\) in Brattelijevimi diagrami.
+    Bolj natančno, izraz \(t\) interpretiramo kot \(\brsem{t}\), tako da velja \(μ\brsem{t} = \sem{f}\).
+    V obratni smeri pa definiramo \(\op{Measure}{\p s}\) tako, da je \(\op{Measure}{\brsem t} = t\) in \(\brsem{\op{Measure}{\p s}} = s\) po indukciji.
+
+    Potem naj bo pa \(f : \semmap{p}{m₁,…,mₖ}\) poljuben \(*\)-homomorfizem in \(s ≔ ρ(f)\).
+    Po zgornji lemi je \(f\) oblike \(U^*(μ(s))U\), torej je \(f = \sem{\tapply{U}{a}{\op{Measure}{\p s}}}\).
+
+    S tem dokažemo prvi del, drugi del se pa dokaže v dveh korakih:
+    \begin{enumerate}
+        \item definicija preslikave \(f ↦ \tapply{U}{a}{\op{Measure}{\p{ρ{\p f}}}}\) ni odvisna od \(U\) in
+        \item preslikava je surjektivna.
+    \end{enumerate}
+
 \end{proof}
 
 \subsubsection{Polnost v splošnem}
@@ -348,7 +355,6 @@ Definirajmo najprej še nekaj pojmov glede pozitivnosti in navedimo nekaj standa
 % \begin{proof}
 %     Trditvi \((2)\) in \((3)\) sta ekvivalentni po definiciji in očitno \((2) ⇒ (1)\).
 %     Dokazati moramo torej zgolj \((1) ⇒ (2)\).
-%     TODO
 % \end{proof}
 
 % \begin{definition}
@@ -358,13 +364,10 @@ Definirajmo najprej še nekaj pojmov glede pozitivnosti in navedimo nekaj standa
 \begin{proposition}
     \(C^*\)-algebre skupaj s popolnoma pozitivnimi preslikavami, ki ohranjajo enoto, tvorijo kategorijo \(\cstarcpucat\) (angl. \foreignlanguage{english}{Completely Positive Unital maps}).
 \end{proposition}
-\begin{proof}
-    TODO
-\end{proof}
 
 \begin{definition}
     Dodeljevanje novih kubitov interpretiramo s preslikavami oblike
-    \(\op{new}{\p X} : \opmap{0}{1}\) s predpisom \[\snew{\mat{α₁₁ & α₁₂ \\ α₂₁ & α₂₂}}{\p X} = α₁₁.\]
+    \(\op{new}{\p X} : \opmap{0}{1}\) s predpisom \[\snew{\p X}{\mat{α₁₁ & α₁₂ \\ α₂₁ & α₂₂}} = α₁₁.\]
 
     Dodelitev \(j\)-tega kubita izvajamo z \(\op{new}ⱼ ≔ Mⱼ{\p{\op{new}{\p X}}}\).
 \end{definition}
@@ -428,10 +431,10 @@ Definirajmo najprej še nekaj pojmov glede pozitivnosti in navedimo nekaj standa
     \begin{align*}
         &\hspace{-3em}\sem{\tnew{a}{\tapplyd{U,V}{a,b}{x{\p{a,b}}}}}(A)\\
         %  = \snew₁{\sem{\tapplyd{U,V}{a,b}{x{\p{a,b}}}}(A)}\\
-        &= \snew₁{\bmat{U&0\\0&V}\bmat{A₁₁&A₁₂\\A₂₁&A₂₂}\bmat{U^*&0\\0&V^*}}\\
-        &= \snew₁{\mat{UA₁₁U^*&UA₁₂V^*\\VA₂₁U^*&VA₂₂V^*}}\\
-        &= UA₁₁U^*
-         = U\p{\snew₁{A}}U^*\\
+        &= \snew₁{\bmat{U^*&0\\0&V^*}\bmat{A₁₁&A₁₂\\A₂₁&A₂₂}\bmat{U&0\\0&V}}\\
+        &= \snew₁{\mat{U^*A₁₁U&U^*A₁₂V\\V^*A₂₁U&V^*A₂₂V}}\\
+        &= U^*A₁₁U
+         = U^*\p{\snew₁{A}}U\\
         &= \sem{\tapply{U}{b}{\tnew{a}{x{\p{a,b}}}}}(A).
     \end{align*}
     \begin{align*}
@@ -453,7 +456,7 @@ Definirajmo najprej še nekaj pojmov glede pozitivnosti in navedimo nekaj standa
 \end{proof}
 
 \begin{theorem}[Polnost v splošnem]
-    Kompleksna števila tvorijo poln model:
+    Model \(ℂ ∈ \cstarcpucat\) je univerzalno poln:
     \begin{enumerate}
         \item Za vsako popolnoma pozitivno preslikavo \(f : \semmap{p}{m₁,…,mₖ}\), ki ohranja enoto, obstaja izraz v algebrajski teoriji, tako da je \(t : \arity{p}{m₁,…,mₖ}\) in \(\sem{t} = f\).
         \item Če \(\absseq{t, u}\) in \(\sem{t} = \sem{u}\) lahko izpeljemo \(\absseq{t = u}\).
@@ -494,7 +497,7 @@ Dokaza teh izrekov izpustimo, saj sta izven obsega tega dela.
 \begin{proof}[Dokaz izreka o polnosti.]
     Naj bo \(f : \semmap{p}{m₁,…,mₖ}\) kot v izreku. Potem lahko uporabimo Stinespringov izrek o dilaciji, skupaj z minimalnostjo, da \(f\) razcepimo na \(g : \mc A → \M[q]\), za nek \(q ≥ 2ᵖ\), kjer je \(\mc A = \M[2^{m₁}]⊗⋯⊗\M[2^{mₖ}]\).
     Če je \(q\) potenca \(2\), je izrek praktično dokazan; \(g\) lahko definiramo po izreku \ref{th:partial}, skrčitev pa z zaporednimi \(\op{new}\) in premešavanjem koordinat.
-    Drugi del sledi iz minimalnosti dilacije. %TODO: source?
+    % Drugi del sledi iz minimalnosti dilacije. % source?
     Vendar v splošnem \(q\) ni potenca \(2\). Kljub temu, pa lahko tudi \(g\) ustrezno faktoriziramo:
     % https://q.uiver.app/?q=WzAsNSxbMCwwLCJBIl0sWzMsMCwiMl57beG1on1cXGNkb3QgXFxNW3Fd4oqVKDJecS1xKVxcY2RvdFxcTVsyXntt4bWifV0iXSxbNCwwLCJcXE1bMl57beG1oitxfV0iXSxbNCwxLCJcXE1bcV0iXSxbNCwyLCJcXE1bMl5wXSJdLFswLDQsImYiLDJdLFswLDMsImciLDJdLFswLDEsIigyXntt4bWifVxcY2RvdCBnLCgyXmwtcSlcXGNkb3Qgz4DhtaIpIl0sWzEsMl0sWzIsM10sWzMsNF0sWzEsMywiz4DigoEiXV0=
     \[\begin{tikzcd}
@@ -596,8 +599,8 @@ Dokaza teh izrekov izpustimo, saj sta izven obsega tega dela.
     Po izreku \ref{th:partial} lahko enakost izpeljemo natanko tedaj, ko sta pripadajoča \(*\)-homo\-morfizma enaka. Če ju izračunamo res vidimo, da sta enaka:
     \begin{align*}
         &\hspace{-3em}\sem{\tapply{U}{a,b}{\tmeasure{b}{t'}{u'}}}(x)
-         = U\pmat{\sem{t'}(x)&0\\0&\sem{u'}(x)}U^*\\
-        &= U\pmat{f(x)&0&0&0\\0&g(x)&0&0\\0&0&f(x)&0\\0&0&0&h(x)}U^*
+         = U^*\pmat{\sem{t'}(x)&0\\0&\sem{u'}(x)}U\\
+        &= U^*\pmat{f(x)&0&0&0\\0&g(x)&0&0\\0&0&f(x)&0\\0&0&0&h(x)}U
          = \pmat{f(x)&0&0&0\\0&h(x)&0&0\\0&0&f(x)&0\\0&0&0&g(x)}\\
         &= \pmat{\sem{u'}(x)&0\\0&\sem{t'}(x)}
          = \sem{\tmeasure{b}{u'}{t'}},
@@ -609,12 +612,12 @@ Dokaza teh izrekov izpustimo, saj sta izven obsega tega dela.
 
 Oglejmo si sedaj interpretacije nekaj od naših \(6\)-ih primerov:
 \begin{enumerate}
-    \item \(\sem{\cmd{new}¹(a.t)}(A) = \snew₁{XAX^*} = a₂₂\),
+    \item \(\sem{\cmd{new}¹(a.t)}(A) = \snew₁{X^*AX} = a₂₂\),
     \addtocounter{enumi}{1}
-    \item \(\snew₁{\had⋅\snew₂{\ctl{X}⋅A⋅\ctl{X}^*}⋅\had^*} = \frac{a₁₁ + a₁₄ + a₄₁ + a₄₄}{2}\),
+    \item \(\snew₁{\had^*⋅\snew₂{\ctl{X}^*⋅A⋅\ctl{X}}⋅\had} = \frac{a₁₁ + a₁₄ + a₄₁ + a₄₄}{2}\),
     \item \(\sem{\tdiscard{a}{t}} = \sem{t}(-)⋅I₂\),
-    \item \(\sem{\cmd{proj}}(A) = \pmat{\snew₁{A}&0\\0&\snew₁{XAX^*}} = \pmat{a₁₁&0\\0&a₂₂}\),
-    \item \(\sem{\cmd{rot}}(A) = \snew₂{(I⊗\had)\sem{\smeasure₂{A}{ZAZ^*}}(I⊗\had)^*}\\
+    \item \(\sem{\cmd{proj}}(A) = \pmat{\snew₁{A}&0\\0&\snew₁{X^*AX}} = \pmat{a₁₁&0\\0&a₂₂}\),
+    \item \(\sem{\cmd{rot}}(A) = \snew₂{(I⊗\had)^*\sem{\smeasure₂{A}{Z^*AZ}}(I⊗\had)}\\
         \hspace{7em}= \snew₂{\mat{a₁₁&0&0&0\\0&a₁₁&0&0\\0&0&a₂₂&0\\0&0&0&a₂₂}} = \pmat{a₁₁&0\\0&a₂₂}\).
 \end{enumerate}
 

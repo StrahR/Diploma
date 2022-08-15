@@ -21,12 +21,23 @@ Podobno kot za \(\op{measure}\) in \(\op{new}\) jo razširimo, tako da lahko ve�
 Ta preslikava je popolnoma pozitivna, ampak ne ohranja enote (ker vse slika v \(0\)), ampak pripada razredu preslikav, za katere je \(1 - f(1)\) pozitivno.
 Recimo kategoriji \(C*\)-algeber in popolnoma pozitivnih preslikav, za katere je \(1-f(1)\) pozitivno, \(\cstarcat_{\textrm{CPSU}}\) (angl. \foreignlanguage{english}{Completely Positive Sub-Unital maps}).
 
+\begin{definition}
+    Model \(X\) v kategoriji je univerzalno poln, če za vse kontekste \(Γ|Δ ≔ x₁:m₁,…,xₖ:mₖ|a₁,…,aₚ\) velja:
+    \begin{itemize}
+        \item za vsak morfizem \(f : \abssemmap{p}{m₁,…,mₖ}\) obstaja izraz \(\absseq{t}\), tako da je \(\sem{t} = f\) in
+        \item za vse izraze teorije \(\absseq{t,u}\), za katere velja \(\sem{t} = \sem{u}\) lahko izpeljemo \(\absseq{t=u}\).
+    \end{itemize}
+\end{definition}
+\begin{remark}
+    Izreka o polnosti iz prejšnjega razdelka se tako glasita \airquotes{Model \(ℂ ∈ \mc{C}\) je univerzalno poln}, za primerni kategoriji.
+\end{remark}
+
 \begin{proposition}
     V kategoriji \(C*\)-algeber in popolnoma pozitivnih preslikav, za katere je \(1-f(1)\) pozitivno,
-    tvorijo kompleksna števila poln model kvantnega računalništva, razširjenega z \(\op{undef}\).
+    tvorijo kompleksna števila univerzalno poln model kvantnega računalništva, razširjenega z \(\op{undef}\).
 \end{proposition}
 
-Dokaz sloni na dejstvu, da so te preslikave oblike \(X → Y\) natanko določene s popolnoma pozitivnimi preslikavami, ki ohranjajo enoto, oblike \(X⊕ℂ → Y\).
+Dokaz sloni na dejstvu, da so te preslikave oblike \(X → Y\) natanko določene s popolnoma pozitivnimi preslikavami oblike \(X⊕ℂ → Y\), ki ohranjajo enoto.
 
 Isto teorijo je mogoče uporabiti tudi za modeliranje rekurzije\cite{selinger-qpl}.
 
@@ -44,7 +55,7 @@ Interpretacijski morfizem \(⦶ : \semmap{0}{0,0}\) naj bo \(⦶(α,β) = α + �
 Ta morfizem je popolnoma pozitiven, ampak ne ohranja enote.
 
 \begin{proposition}
-    V kategoriji \(C*\)-algeber in popolnoma pozitivnih preslikav, tvorijo kompleksna števila poln model kvantnega računalništva, razširjenega z \(\op{undef}\) in \(⦶\).
+    V kategoriji \(C*\)-algeber in popolnoma pozitivnih preslikav, tvorijo kompleksna števila univerzalno poln model kvantnega računalništva, razširjenega z \(\op{undef}\) in \(⦶\).
 \end{proposition}
 
 \begin{proof}[Skica dokaza.]
@@ -55,11 +66,11 @@ Ta morfizem je popolnoma pozitiven, ampak ne ohranja enote.
 
 \subsection{Klasično računalništvo}
 Naša definicija vrat se ne zanaša preveč na njihovo strukturo, torej jih lahko zamenjamo s kakšno drugo skupino matrik.
-Če vzamemo za matrike zgolj matrike z vrednostmi v \(\{0,1\}\) in dodamo nov aksiom \(x(a) = \smeasure{a}{\snew⁰{a}{x(a)}}{\snew¹{a}{x(a)}}\) (kolaps)
+Če vzamemo za matrike zgolj matrike z vrednostmi v \(\{0,1\}\) in dodamo nov aksiom \(x(a) = \tmeasure{a}{\snew⁰{a.\,x(a)}}{\snew¹{a.\,x(a)}}\) (kolaps)
 dobimo model klasičnega računalništva:
 
 \begin{proposition}
-    Množica \(\{0,1\}\) je poln model klasičnega računalništva v kategoriji \(\cat{Set}^{\textrm{op}}\).
+    Množica \(\{0,1\} ∈ \cat{Set}^{\textrm{op}}\) tvori univerzalno poln model klasičnega računalništva.
 \end{proposition}
 
 Omenimo še, da je ta aksiom nekonsistenten s kvantnim računalništvom:
