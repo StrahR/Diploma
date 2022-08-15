@@ -254,9 +254,29 @@ Ker pogoj linearnosti ne velja za klasične bite (te lahko kopiramo, kolikor ho�
 \end{prooftree}
 %LTeX: enabled=true
 
-\subsection{Interpretacija z algebrajskimi izrazi}
+\subsection{Algebrajski učinki}
 
-Da lahko naše operacije lažje interpretiramo kot algebrajske izraze, jih bomo zapisali v obliki z nadaljevanji.
+Diagrami so v rabi že dolgo časa, vendar pa so manipulacije teh diagramov nerodne;
+na naših programih raje izvajamo bolj matematične pristope, in zato na programe raje poglejmo iz bolj matematičnega vidika. Izkaže se, da lahko zelo dobro predstavimo naše programe z algebrajskimi izrazi.
+Vse naše operacije na kubitih lahko interpretiramo kot računske učinke nekih funkcij, katere pa lahko predstavimo z algebrajsko teorijo, po kateri lahko postopamo povsem matematično.
+
+Z računskimi učinki se med programiranjem pogosto srečamo: globalno stanje spremenljivk, vhodno/izhodne naprave, naključnost, izjeme, nedeterminizem, ipd.
+
+\begin{definition}[Računski učinki]
+    Če ima funkcija ali operacija še kak navzven viden učinek poleg vrnjene vrednosti, slednjemu pravimo računski učinek (učinek računanja).
+\end{definition}
+
+\begin{definition}[Algebrajski učinki]
+    Računskim učinkom, ki jih lahko predstavimo z neko algebrajsko teorijo, pravimo algebrajski učinki.
+\end{definition}
+
+Večina zanimivih (in vseh zgoraj naštetih) učinkov je algebrajskih, tako da je pristop v tem delu uporaben tudi bolj v splošnem.
+
+% TODO: fill out with some theory on algebraic effects and how they work in our particular example
+
+\subsubsection{Interpretacija z algebrajskimi izrazi}
+
+Da lahko naše operacije lažje predstavimo z algebrajsko teorijo, jih bomo zapisali v obliki z nadaljevanji.
 Naj bo \(\op{op}\) neka operacija, ki se lahko nadaljuje na \(k\) načinov. Nadaljevanja označimo s \(tᵢ\), vsako od njih pa naj tudi pričakuje nekaj parametrov (in za preprostost naj vsa pričakujejo enako število parametrov \(m\)). To zapišemo kot \(b₁,…,bₘ.tᵢ\).
 Če operacija sama zahteva \(p\) parametrov, jo pišemo kot \(\op{op}{\p{a₁,…,aₚ; b₁,…,bₘ.t₁,…,b₁,…,bₘ.tₖ}}\).
 
