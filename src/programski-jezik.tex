@@ -70,7 +70,7 @@ Glede na obliko tipa \(A\) lahko definiramo nekaj okrajšav:
 
 \subsubsection*{Inicializacija kubita}
 Dodeli nov kubit in ga vrne. Ta kubit bo enak \(\ket{\mb0}\).
-Definiramo lahko tudi operacijo \(\eff{new}₁()\), inicializira kubit na \(\ket{\mb1}\).
+Definiramo lahko tudi operacijo \(\eff{new}¹()\), inicializira kubit na \(\ket{\mb1}\).
 
 \subsubsection*{Uporaba vrat}
 Vrata \(U\) morajo biti primerne velikosti, da jih lahko uporabimo na danem vektorju.
@@ -87,9 +87,9 @@ Uničenje je zgolj okrajšava za meritev, katere rezultat pozabimo, tako da upo�
 
 \subsection{Primeri}
 \begin{example*}\label{ex:1}
-    Zgoraj smo omenili operacijo \(\eff{new}₁()\). Definiramo jo lahko znotraj jezika:
+    Zgoraj smo omenili operacijo \(\eff{new}¹()\). Definiramo jo lahko znotraj jezika:
     \begin{center}
-        \qpl{fun |\(\eff{new}₁() ↦ \eapply{X}{\enew}\)|}
+        \qpl{fun |\(\eff{new}¹() ↦ \eapply{X}{\enew}\)|}
     \end{center}
     Operacijo \(\enew\) lahko potem označimo tudi z \(\eff{new}₀()\). 
 \end{example*}
@@ -274,7 +274,7 @@ Naj bo \(\op{op}\) neka operacija, ki se lahko nadaljuje na \(k\) načinov. Nada
 \begin{examples}
     Oglejmo si zgornje primere zapisane v algebrajskem jeziku:
     \begin{enumerate}
-        \item \(\cmd{new}₁(a.t) ≔ \tnew{a}{\tapply{X}{a}{t}}\),
+        \item \(\cmd{new}¹(a.t) ≔ \tnew{a}{\tapply{X}{a}{t}}\),
         \item \(\cmd{rand}(a.t) ≔ \tnew{a}{\tapply{\had}{a}{\tmeasure{a}{0}{1}}}\),
         \item \(\tnew{a}{\tnew{b}{\tapply{\had}{a}{\tapply{\ctl{X}}{a,b}{y(a,b)}}}}\),
         \item \(\tdiscard{a}{t} ≔ \tmeasure{a}{t}{t}\),
@@ -375,5 +375,31 @@ ter da stvari komutirajo, kolikor vezava spremenljivk (in vrstni red uporabe mat
 \end{axiom}
 
 \subsection{Primeri}
+Uporabimo sedaj zgornje aksiome, da dokažemo, da sta primera \ref{ex:5} in \ref{ex:6} dejansko enaka.
+
+V dokazu bomo poleg aksiomov uporabili dve enakosti matrik, \(\ctl{X}⋅\swap⋅\ctl{X} \stackrel{(*)}{=} \swap⋅\ctl{X}⋅\swap\) in \(\swap⋅\ctl{X}⋅\swap \stackrel{(†)}{=} (\had⊗I)⋅\ctl{Z}⋅(\had⊗I)\).
+
+% \begin{align*}
+%     &\hspace{-3em}\measure{b}{\p{\new{a}{x(a)}}}{\p{\new{a}{\apply{X}{a}{x(a)}}}}&\\
+%     =&\new{a}{\measure{b}{x(a)}{\apply{X}{a}{x(a)}}}&\text{komutativnost}\\
+%     =&\new{a}{\apply{\ctl X}{b,a}{\measure{b}{x(a)}{x(a)}}}&{(2)}\\
+%     =&\new{a}{\apply{\ctl X}{b,a}{\discard{b}{x(a)}}}&\\
+%     =&\new{a}{\apply{\ctl X}{a,b}{\apply{\ctl X}{b,a}{\discard{a}{x(b)}}}}&\\
+%     =&\new{a}{\apply{\ctl X}{b,a}{\discard{a}{x(b)}}}&{(5)}\\
+%     =&\new{a}{\apply{\had}{a}{\apply{\ctl Z}{a,b}{\apply{\had}{a}{\discard{a}{x(b)}}}}}&\\
+%     =&\new{a}{\apply{\had}{a}{\apply{\ctl Z}{a,b}{\discard{a}{x(b)}}}}&{(3)}\\
+%     =&\new{a}{\apply{\had}{a}{\measure{a}{x(b)}{\apply{Z}{b}{x(b)}}}}&{(2)}
+% \end{align*}
+\begin{align*}
+     &\ \tmeasure{b}{\tnew{a}{x(a)}}{\tnew{a}{\tapply{X}{a}{x(a)}}}              &\\
+    =&\ \tnew{a}{\tmeasure{b}{x(a)}{\tapply{X}{a}{x(a)}}}                        &(\ref{ax:L})\\
+    =&\ \tnew{a}{\tapply{\ctl X}{b,a}{\tmeasure{b}{x(a)}{x(a)}}}                 &(\ref{ax:B})\\
+    =&\ \tnew{a}{\tapply{\ctl X}{b,a}{\tdiscard{b}{x(a)}}}                       &(\text{def.})\\
+    =&\ \tnew{a}{\tapply{\ctl X}{a,b}{\tapply{\ctl X}{b,a}{\tdiscard{a}{x(b)}}}} &(*)\\
+    =&\ \tnew{a}{\tapply{\ctl X}{b,a}{\tdiscard{a}{x(b)}}}                       &(\ref{ax:E})\\
+    =&\ \tnew{a}{\tapply{\had}{a}{\tapply{\ctl Z}{a,b}{\tapply{\had}{a}{\tdiscard{a}{x(b)}}}}}&(†)\\
+    =&\ \tnew{a}{\tapply{\had}{a}{\tapply{\ctl Z}{a,b}{\tdiscard{a}{x(b)}}}}     &(\ref{ax:C})\\
+    =&\ \tnew{a}{\tapply{\had}{a}{\tmeasure{a}{x(b)}{\tapply{Z}{b}{x(b)}}}}      &(\ref{ax:B})
+\end{align*}
 
 % \section{Razširitve}
