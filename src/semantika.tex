@@ -604,3 +604,26 @@ Dokaza teh izrekov izpustimo, saj sta izven obsega tega dela.
     \end{align*}
     torej je dokaz končan.
 \end{proof}
+
+\subsection{Primeri interpretacij}
+
+Oglejmo si sedaj interpretacije nekaj od naših \(6\)-ih primerov:
+\begin{enumerate}
+    \item \(\sem{\cmd{new}¹(a.t)}(A) = \snew₁{XAX^*} = a₂₂\),
+    \addtocounter{enumi}{1}
+    \item \(\snew₁{\had⋅\snew₂{\ctl{X}⋅A⋅\ctl{X}^*}⋅\had^*} = \frac{a₁₁ + a₁₄ + a₄₁ + a₄₄}{2}\),
+    \item \(\sem{\tdiscard{a}{t}} = \sem{t}(-)⋅I₂\),
+    \item \(\sem{\cmd{proj}}(A) = \pmat{\snew₁{A}&0\\0&\snew₁{XAX^*}} = \pmat{a₁₁&0\\0&a₂₂}\),
+    \item \(\sem{\cmd{rot}}(A) = \snew₂{(I⊗\had)\sem{\smeasure₂{A}{ZAZ^*}}(I⊗\had)^*}\\
+        \hspace{7em}= \snew₂{\mat{a₁₁&0&0&0\\0&a₁₁&0&0\\0&0&a₂₂&0\\0&0&0&a₂₂}} = \pmat{a₁₁&0\\0&a₂₂}\).
+\end{enumerate}
+
+Prej smo z aksiomi pokazali, da sta zadnja dva primera enaka, sedaj pa to lahko vidimo tudi iz enakosti matričnih interpretacij obeh programov.
+
+\begin{remark}
+    Pri primeru \((3)\) je vredno omeniti, kaj tisto število pomeni.
+    Če pričakovano vrednost \airquotes{opazljivke} \(A\) v stanju \(u\) definiramo kot \(u^*Au\),
+    in če poračunamo pričakovano vrednost za \(a = ρ\p{\ket{\mb{00}} + \ket{\mb{11}}}\),
+    dobimo ravno \(\frac{a₁₁ + a₁₄ + a₄₁ + a₄₄}{2}\), torej si lahko predstavljamo, da interpretacijske funkcije delujejo na opazljivkah.
+    Sicer opazljivk v tem delu nismo definirali (predstavljajo merljive fizikalne količine), si pa lahko bolj podrobno obravnavo pogledate v \cite[razdelek 3]{ramšak-qm}.
+\end{remark}
