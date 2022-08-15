@@ -399,6 +399,14 @@ Uporabimo sedaj zgornje aksiome, da dokažemo, da sta primera \ref{ex:5} in \ref
 
 V dokazu bomo poleg aksiomov uporabili dve enakosti matrik, \(\ctl{X}⋅\swap⋅\ctl{X} \stackrel{(*)}{=} \swap⋅\ctl{X}⋅\swap\) in \(\swap⋅\ctl{X}⋅\swap \stackrel{(†)}{=} (\had⊗I)⋅\ctl{Z}⋅(\had⊗I)\).
 
+Definirajmo še okrajšan zapis za algebrajske izraze:
+\begin{align*}
+    \new{a}{t}           &≔ \tnew{a}{t}\\
+    \apply{U}{a}{t}      &≔ \tapply{U}{a}{t}\\
+    \measureraw{a}{t}{u} &≔ \tmeasure{a}{t}{u}\\
+    \discard{a}{t}       &≔ \tdiscard{a}{t}
+\end{align*}
+
 % \begin{align*}
 %     &\hspace{-3em}\measure{b}{\p{\new{a}{x(a)}}}{\p{\new{a}{\apply{X}{a}{x(a)}}}}&\\
 %     =&\new{a}{\measure{b}{x(a)}{\apply{X}{a}{x(a)}}}&\text{komutativnost}\\
@@ -411,15 +419,15 @@ V dokazu bomo poleg aksiomov uporabili dve enakosti matrik, \(\ctl{X}⋅\swap⋅
 %     =&\new{a}{\apply{\had}{a}{\measure{a}{x(b)}{\apply{Z}{b}{x(b)}}}}&{(2)}
 % \end{align*}
 \begin{align*}
-     &\ \tmeasure{b}{\tnew{a}{x(a)}}{\tnew{a}{\tapply{X}{a}{x(a)}}}              &\\
-    =&\ \tnew{a}{\tmeasure{b}{x(a)}{\tapply{X}{a}{x(a)}}}                        &(\ref{ax:L})\\
-    =&\ \tnew{a}{\tapply{\ctl X}{b,a}{\tmeasure{b}{x(a)}{x(a)}}}                 &(\ref{ax:B})\\
-    =&\ \tnew{a}{\tapply{\ctl X}{b,a}{\tdiscard{b}{x(a)}}}                       &(\text{def.})\\
-    =&\ \tnew{a}{\tapply{\ctl X}{a,b}{\tapply{\ctl X}{b,a}{\tdiscard{a}{x(b)}}}} &(*)\\
-    =&\ \tnew{a}{\tapply{\ctl X}{b,a}{\tdiscard{a}{x(b)}}}                       &(\ref{ax:E})\\
-    =&\ \tnew{a}{\tapply{\had}{a}{\tapply{\ctl Z}{a,b}{\tapply{\had}{a}{\tdiscard{a}{x(b)}}}}}&(†)\\
-    =&\ \tnew{a}{\tapply{\had}{a}{\tapply{\ctl Z}{a,b}{\tdiscard{a}{x(b)}}}}     &(\ref{ax:C})\\
-    =&\ \tnew{a}{\tapply{\had}{a}{\tmeasure{a}{x(b)}{\tapply{Z}{b}{x(b)}}}}      &(\ref{ax:B})
+     &\ \measure{b}{\new{a}{x(a)}}{\new{a}{\apply{X}{a}{x(a)}}}                 &\\
+    =&\ \new{a}{\measure{b}{x(a)}{\apply{X}{a}{x(a)}}}                          &(\ref{ax:L})\\
+    =&\ \new{a}{\apply{\ctl X}{b,a}{\measureraw{b}{x(a)}{x(a)}}}                &(\ref{ax:B})\\
+    =&\ \new{a}{\apply{\ctl X}{b,a}{\discard{b}{x(a)}}}                         &(\text{def.})\\
+    =&\ \new{a}{\apply{\ctl X}{a,b}{\apply{\ctl X}{b,a}{\discard{a}{x(b)}}}}    &(*)\\
+    =&\ \new{a}{\apply{\ctl X}{b,a}{\discard{a}{x(b)}}}                         &(\ref{ax:E})\\
+    =&\ \new{a}{\apply{\had}{a}{\apply{\ctl Z}{a,b}{\apply{\had}{a}{\discard{a}{x(b)}}}}}&(†)\\
+    =&\ \new{a}{\apply{\had}{a}{\apply{\ctl Z}{a,b}{\discard{a}{x(b)}}}}        &(\ref{ax:C})\\
+    =&\ \new{a}{\apply{\had}{a}{\measureraw{a}{x(b)}{\apply{Z}{b}{x(b)}}}}      &(\ref{ax:B})
 \end{align*}
 
-% \section{Razširitve}
+Kasneje bomo to enakost preverili še z algebrajsko teorijo.
