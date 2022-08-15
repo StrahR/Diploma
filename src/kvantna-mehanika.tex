@@ -1,6 +1,5 @@
 \section{Kvantna mehanika in kvantno računalništvo}
-% TODO: also cite selinger-qpl and ramšak-qm
-Ta del je povzet po \cite{ess-qc}.
+Ta del je povzet po \cite{ess-qc,selinger-qpl,ramšak-qm}.
 Vsebuje osnovne definicije (in primere) matematičnih osnov kvantne mehanike,
 ki jih potrebujemo za definicije želenih operacij nad kubiti.
 % Te se nahajajo na prvih nekaj straneh.
@@ -37,6 +36,10 @@ Ta normalizacija nam amplitude še vedno ne definira enolično;
 Sledi, da klasični stanji \(\mb0\) in \(\mb1\) identificiramo z baznima vektorjema prostora \(ℂ²\), \(e₀\) in \(e₁\), te pa pogosto označujemo v t.i. \airquotes{ket} zapisu
 kot \(\ket{0} ≔ e₀\) in \(\ket{1} ≔ e₁\).
 Za kvantna stanja, ki niso klasična pravimo, da so kvantna superpozicija \(\ket0\) in \(\ket1\).
+
+\begin{remark}
+    \airquotes{ket} zapis je del \airquotes{braket} (izvira iz angl. \foreignlanguage{english}{bracket}) zapisa, kjer \airquotes{bra} igra vlogo dualnega vektorja in ga pišemo \(\bra{φ}\).
+\end{remark}
 
 \subsection{Kvantni vektorji}
 
@@ -201,15 +204,14 @@ Spomnimo se, da so stanja kubitov določena zgolj do skalarja natančno, torej d
 
 \begin{example}[Tenzorski produkt unitarnih vrat]
     Če je \(A\) reda \(1\), zgleda tenzorski produkt \(A⊗B\) tako:
-    \[ \bmat{a₀₀ & a₀₁ \\ a₁₀ & a₁₁}⊗B = \bmat{a₀₀ B & a₀₁ B \\ a₁₀ B & a₁₁ B}.
-    \]
+    \[ \bmat{a₀₀ & a₀₁ \\ a₁₀ & a₁₁}⊗B = \bmat{a₀₀ B & a₀₁ B \\ a₁₀ B & a₁₁ B}. \]
 \end{example}
 
 \begin{definition}%[Bločno-diagonalna matrika]
     Za vrata \( U₁, …, Uₛ \) označimo njihovo bločno-diagnoalno matriko z \( D{\p{U₁,…,Uₛ}} \).
 \end{definition}
 
-\begin{theorem}[No cloning]\label{no-cloning}
+\begin{theorem}[o nekloniranju]\label{no-cloning}
     Ne obstajajo vrata reda \(2\), ki vsak vektor \( a⊗\ket{\mb0} ∈ \H⊗\H \) slika v \(a⊗a\).
 \end{theorem}
 
@@ -242,10 +244,13 @@ Spomnimo se, da so stanja kubitov določena zgolj do skalarja natančno, torej d
     saj je \( X{\ket{\mb0}} = \ket{\mb1} \) in \( X{\ket{\mb1}} = \ket{\mb0} \).
 \end{example}
 
-\begin{example}[Hadamardova matrika]  %TODO: elaborate
+\begin{example}[Hadamardova matrika]
+    Namesto kanonične baze \(\ket{\mb0}\) in \(\ket{\mb1}\) bi lahko vzeli tudi kakšno drugo.
+    Definirajmo Hadamardovo bazo \(\ket{+} ≔ ρ(\ket{\mb0} + \ket{\mb1})\) in \(\ket{-} ≔ ρ(\ket{\mb0} - \ket{\mb1})\).
+    Potem prehodni matriki iz kanonične v Hadamardovo bazo pravimo Hadamardova matrika:
     \[ \had = ρ\bmat{1&1\\1&-1},\quad
-       \had\ket{\mb{0}} = \hh,\quad
-       \had^{⊗n}\ket{\mb{0}ⁿ} = \hh[n].
+       \had\ket{\mb{0}} = \hh = \ket{+},\quad
+       \had\ket{\mb{1}} = \ket{-}.
     \]
 \end{example}
 
@@ -352,15 +357,34 @@ Dokaz prepustimo za malo kasneje, ko definiramo orodja za kvantno računalništv
         \ctlo U ≔ \overline{C}_{1,2}{\p U} = \D{U, I₂}. \]
 \end{definition}
 
-%TODO: give example
+\begin{example}
+    Poglejmo si, kako \(\ctl X\) slika bazne vektorje:
+    \begin{align*}
+        \ctl{X}\ket{\mb{00}} &= \ket{\mb{00}}\\
+        \ctl{X}\ket{\mb{01}} &= \ket{\mb{01}}\\
+        \ctl{X}\ket{\mb{10}} &= \ket{\mb{11}}\\
+        \ctl{X}\ket{\mb{11}} &= \ket{\mb{10}}
+    \end{align*}
+    Na prvi pogled zgleda, kot da vrata delujejo le na drugi kubit, vendar temu ni nujno tako!
+    Oglejmo si isto preslikavo v Hadamardovi bazi.
 
-\begin{example}[Prepleteni pari kubitov]
-    Kontrolirana vrata prepletejo pare kubitov. Na primer
-    \( \eapply{\ctl X}{a, b} \) se obnaša kot
-    \qpl[breaklines]{if |\(\emeasure{a} = 0\)| then |\(\p{a, b}\)| else |\(\p{a, \lnot b}\)|}.
-    Seveda vemo, da drugi izraz ni veljaven (ker meritev uniči kubit a),
-    ampak je zato kontrola ravno tisto orodje, s katerim želimo nadomestiti pogojne stavke.
+    \begin{align*}
+        \ctl{X}\ket{\mb{++}} &= \ctl{X}⋅\had^{⊗2}\ket{\mb{00}} = \ket{\mb{++}}\\
+        \ctl{X}\ket{\mb{+-}} &= \ctl{X}⋅\had^{⊗2}\ket{\mb{01}} = \ket{\mb{--}}\\
+        \ctl{X}\ket{\mb{-+}} &= \ctl{X}⋅\had^{⊗2}\ket{\mb{10}} = \ket{\mb{-+}}\\
+        \ctl{X}\ket{\mb{--}} &= \ctl{X}⋅\had^{⊗2}\ket{\mb{11}} = \ket{\mb{+-}}
+    \end{align*}
+    V tem primeru pa zgleda, kot da je kontrolni kubit na drugem mestu, spremeni se pa zgolj prvi!
+    Kar se dejansko zgodi je, da se oba kubita spremenita.
+    Pravimo, da sta po operaciji kubita v prepletenem stanju.
 \end{example}
+% \begin{example}[Prepleteni pari kubitov]
+%     Kontrolirana vrata prepletejo pare kubitov. Na primer
+%     \( \eapply{\ctl X}{a, b} \) se obnaša kot
+%     \qpl[breaklines]{if |\(\emeasure{a} = 0\)| then |\(\p{a, b}\)| else |\(\p{a, \lnot b}\)|},
+%     vendar vemo, da drugi izraz ni veljaven (ker meritev uniči kubit a),
+%     ampak je zato kontrola ravno tisto orodje, s katerim želimo nadomestiti pogojne stavke.
+% \end{example}
 
 \subsection{Kvantna vezja}
 
@@ -404,7 +428,6 @@ Spomnimo se zdaj trditve o ekvivalenci definicij meritev:
     Ampak če pogledamo prvi primer zgoraj, projekcijo na \(z\)-os, je to natanko to, kar potrebujemo. Izmerimo kubit \(a\) in dobimo klasični bit \(M{\p a}\), s katerim potem nov kubit nastavimo bodisi na \(\ket{\mb0}\) bodisi na \(\ket{\mb1}\), kar je pa natanko vrednost kubita \(a\) po meritvi v skladu s prvo definicijo.
 \end{proof}
 
-% TODO: move this to when i need it?
 \subsection{Čista in mešana stanja}
 Še enkrat si oglejmo prvi primer zgoraj, projekcijo na \(z\)-os.
 Stanje kubita pred projekcijo znamo napisati: \(\state{a₀\ket{\mb0} + a₁\ket{\mb1}}\).
@@ -424,6 +447,10 @@ Ampak stanja kubita \(b\) na koncu pa ne. Kubit je namreč v tako imenovanem me�
     tako da jih uporabimo na vsaki čisti komponenti posebej.
 \end{definition}
 
+\begin{example}
+    Naj bo \(a = α\ket{\mb0} + β\ket{\mb1}\), ki ga izmerimo. Sedaj je \(a\) v enem od stanj \(α\ket{\mb0}\) in \(β\ket{\mb1}\). Sedaj \airquotes{pozabimo} koliko je rezultat meritve, je \(a\) (iz naše perspektive) v mešanem stanju \(\state{α\ket{\mb0}} + \state{β\ket{\mb1}} = |α|²\state{\ket{\mb0}} + |β|²\state{\ket{\mb1}}\).
+\end{example}
+
 \subsection{Gostotne matrike}
 
 \begin{definition}
@@ -435,7 +462,7 @@ Potem \(\state{a}\) dodelimo gostotno matriko \(aa^*\).
 Opazimo, da je \(\tr{\p{aa^*}} = ∑ᵢ|aᵢ|² = c\), hkrati pa, če je \(γ\) neka kompleksna enota \(\p{|γ| = 1}\) je gostotna matrika \(\state{γa}\) enaka \(γ\bar{γ}aa^* = aa^*\), torej nam normalizacija gostotnih matrik enolično določi stanje vektorja.
 
 \begin{example}
-    Naj bo \(a = \frac{1}{\sqrt{2}}\p{\ket{\mb0} - \ket{\mb1}}\).
+    Naj bo \(a = \ket{-} = \frac{1}{\sqrt{2}}\p{\ket{\mb0} - \ket{\mb1}}\).
     Potem je gostotna matrika prirejena \(\state{a}\) enaka
     \[aa^* = \frac12\pmat{1&-1\\-1&1}\]
 \end{example}
@@ -447,7 +474,7 @@ Izkaže se, da je to spet gostotna matrika, saj je sled te matrike konveksna kom
 \begin{example}
     Izračunajmo gostotno matriko mešanega stanja \(\frac12\state{\ket{\mb0}}+\frac12\state{\ket{\mb1}}\):
     \[\frac12\pmat{1&0\\0&0} + \frac12\pmat{0&0\\0&1} = \frac12\pmat{1&0\\0&1}.\]
-    Sedaj pa izračunajmo še gostotno matriko \(\textstyle\frac12\state{\frac{1}{\sqrt{2}}\p{\ket{\mb0} + \ket{\mb1}}} + \frac12\state{\frac{1}{\sqrt{2}}\p{\ket{\mb0} - \ket{\mb1}}}\):
+    Sedaj pa izračunajmo še gostotno matriko \(\frac12\state{\ket{+}} + \frac12\state{\ket{-}}\):
     \[\frac14\pmat{1&1\\1&1} + \frac14\pmat{1&-1\\-1&1} = \frac12\pmat{1&0\\0&1}.\]
     Kljub temu, da sta mešani stanji različni, sta gostotni matriki enaki.
     Kot bomo videli malo kasneje, se izkaže, da opazovalec ne more ločiti med stanji, ki imajo enako gostotno matriko.
@@ -461,7 +488,7 @@ Izkaže se, da je to spet gostotna matrika, saj je sled te matrike konveksna kom
     Vsaka čista gostotna matrika predstavlja neko čisto stanje.
 \end{proposition}
 \begin{proof}
-    Naj bo \(A\) gostotna matrika. Ker je ranga \(1\) je oblike \(aa*\) za nek vektor \(a\), torej pripada stanju \(\state{a}\).
+    Naj bo \(A\) gostotna matrika. Ker je ranga \(1\) je oblike \(aa^*\) za nek vektor \(a\), torej pripada stanju \(\state{a}\).
 \end{proof}
 
 \begin{proposition}
@@ -494,4 +521,3 @@ Poznamo dve, in izkaže se, da lahko obe definiramo na preprost način.
 \end{definition}
 
 Ker sta meritev in uporaba kvantnih vrat edini operaciji, ki jih lahko izvajamo na kubitih, in jih lahko izvajamo neposredno na gostotnih matrikah, to natanko pomeni, da če imata dve stanji enako gostotno matriko, ju ne moremo ločiti.
-
