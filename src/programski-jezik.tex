@@ -256,17 +256,23 @@ Ker pogoj linearnosti ne velja za klasične bite (te lahko kopiramo, kolikor ho�
 
 \subsection{Interpretacija z algebrajskimi izrazi}
 
-Da lahko naše operacije lažje interpretiramo kot algebrajske izraze, jih bomo zapisali v obliki z nadaljevanji:
-\begin{itemize}%TODO: reword
-    \item če je \(t\) izračun s kubitom \(a\), potem obstaja izračun \(\tnew{a}{t}\), ki dodeli ta kubit in ga nastavi na \(\ket{\mb0}\), potem pa nadaljuje s \(t\),
-    \item če je \(t\) izračun s kubiti \(a₁,…,aₙ\), so \(b₁,…,bₙ\) kubiti in \(U\) unitarna vrata reda \(n\), potem obstaja izračun \(\cmd{apply}_{\g U}{\p{b₁,…,bₙ;\, a₁,…,aₙ.\,t}}\), ki najprej uporabi vrata \(U\) na kubitih \(b₁,…,bₙ\), nato pa shrani rezultat v \(a₁,…,aₙ\) in nadaljuje s \(t\). Ta operacija uniči kubite \(bᵢ\), tako da bomo v splošnem pisali kar \(\tapply{U}{a₁,…,aₙ}{t}\),
-    \item če sta \(t\) in \(u\) izračuna in je \(a\) kubit, potem obstaja izračun \(\tmeasure{a}{t}{u}\), ki izmeri \(a\) in nadaljuje v \(t\) ali \(u\), glede na rezultat meritve. Ta operacija je linearna, torej \(t\) in \(u\) ne smeta uporabiti kubita \(a\); tega namreč meritev uniči,
-    \item če je \(t\) izračun in \(a\) kubit, potem obstaja izračun \(\tdiscard{a}{t}\), ki zavrže kubit \(a\). Kot zgoraj, \(t\) ne sme uporabiti kubita \(a\),
-    \item če je \(x\) neko nadaljevanje, ki pričakuje \(n\) kubitov (oznaka \(x : n\)) in so \(a₁,…,aₙ\) kubiti, je \(x(a₁,…,aₙ)\) izračun na \(n\) kubitih.
-\end{itemize}
+Da lahko naše operacije lažje interpretiramo kot algebrajske izraze, jih bomo zapisali v obliki z nadaljevanji.
+Naj bo \(\op{op}\) neka operacija, ki se lahko nadaljuje na \(k\) načinov. Nadaljevanja označimo s \(tᵢ\), vsako od njih pa naj tudi pričakuje nekaj parametrov (in za preprostost naj vsa pričakujejo enako število parametrov \(m\)). To zapišemo kot \(b₁,…,bₘ.tᵢ\).
+Če operacija sama zahteva \(p\) parametrov, jo pišemo kot \(\op{op}{\p{a₁,…,aₚ; b₁,…,bₘ.t₁,…,b₁,…,bₘ.tₖ}}\).
 
-\begin{examples}[Projekcija na Z os in naključna rotacija faze]
-    Zgornje primere lahko sedaj zapišemo v tej obliki:
+Če se osredotočimo zgolj na kompleksni del jezika, torej, če pozabimo na vse klasične konstrukte, lahko definiramo konstruktorje za algebrajske izraze:
+\begin{itemize}
+    \item če je \(t\) izraz, ki pričakuje kubit \(a\), potem obstaja izraz \(\tnew{a}{t}\),
+    ki dodeli nov kubit in ga shrani v \(a\), nato pa nadaljuje s \(t\),
+    \item če je \(t\) izraz, ki pričakuje kubite \(b₁,…,bₙ\) in so \(a₁,…,aₙ\) kubiti ter \(U\) unitarna vrata reda \(n\), potem obstaja izraz \(\cmd{apply}_{\g U}{\p{a₁,…,aₙ;\, b₁,…,bₙ.\,t}}\), ki najprej uporabi vrata \(U\) na kubitih \(a₁,…,aₙ\), nato pa shrani rezultat v \(b₁,…,bₙ\) in nadaljuje s \(t\). Ta operacija uniči kubite \(aᵢ\), tako da lahko nadaljevanje spet veže kubite \(aᵢ\) namesto \(bᵢ\) in bomo pisali kar \(\tapply{U}{a₁,…,aₙ}{t}\),
+    \item če sta \(t\) in \(u\) izraza, in je \(a\) kubit, potem obstaja izraz \(\tmeasure{a}{t}{u}\), ki izmeri \(a\) in nadaljuje v \(t\), če izmeri\(0\) in v \(u\), če izmeri \(1\). Ta operacija je linearna, torej \(t\) in \(u\) ne smeta uporabiti kubita \(a\); tega namreč meritev uniči,
+    \item če je \(t\) izraz in \(a\) kubit, potem obstaja izraz \(\tdiscard{a}{t}\), ki zavrže kubit \(a\). Kot zgoraj, \(t\) ne sme uporabiti kubita \(a\),
+    \item če je \(x\) neko nadaljevanje, ki pričakuje \(n\) kubitov (oznaka \(x : n\)) in so \(a₁,…,aₙ\) kubiti, je \(x(a₁,…,aₙ)\) izraz na \(n\) kubitih.
+\end{itemize}
+Čeprav je pogojni stavek klasičen konstrukt, ga v tem formalizmu ne pogrešamo, saj je \(\tmeasure{a}{t}{u}\) ekvivalenten \qpl{if |\(\emeasure{a} = 0\)| then |\(t\)| else |\(u\)|}, funkcije pa lahko razumemo kot poimenovana nadaljevanja.
+
+\begin{examples}
+    Oglejmo si zgornje primere zapisane v algebrajskem jeziku:
     \begin{enumerate}
         \item \(\cmd{new}₁(a.t) ≔ \tnew{a}{\tapply{X}{a}{t}}\),
         \item \(\cmd{rand}(a.t) ≔ \tnew{a}{\tapply{\had}{a}{\tmeasure{a}{0}{1}}}\),
@@ -283,12 +289,37 @@ Da lahko naše operacije lažje interpretiramo kot algebrajske izraze, jih bomo 
     Ampak, da lahko z izrazi sploh karkoli naredimo potrebujemo nekaj enakosti med izbranimi osnovnimi izrazi, oziroma aksiome.
 \end{examples}
 
+Na podoben način kot za tipe, lahko zgornja pravila povzamemo z drevesi.
+Naj \(\sequent{Γ}{Δ}{t}\) predstavlja, da je \(t\) izraz na kubitih v \(Δ\) v kontekstu \(Γ\),
+kjer je tokrat kontekst seznam nadaljevan, skupaj z njihovo členostjo (\(Γ = (x₁ : m₁),…,(xₖ : mₖ)\)).
+\[\begin{prooftree}
+    \hypo{\sequent{Γ}{Δ, a}{         t }}
+  \infer1{\sequent{Γ}{Δ   }{\tnew{a}{t}}}
+\end{prooftree}\qquad
+\begin{prooftree}
+    \hypo{\sequent{Γ}{Δ, a₁, …, aₚ}{              t }}
+  \infer1{\sequent{Γ}{Δ, a₁, …, aₚ}{\tapply{U}{a}{t}}}
+\end{prooftree}\]
+\[\begin{prooftree}
+    \hypo{\sequent{Γ}{Δ   }{             t    }}
+    \hypo{\sequent{Γ}{Δ   }{                u }}
+  \infer2{\sequent{Γ}{Δ, a}{\tmeasure{a}{t}{u}}}
+\end{prooftree}\quad
+\begin{prooftree}
+    \hypo{\sequent{Γ}{Δ           }{             t }}
+  \infer1{\sequent{Γ}{Δ, a₁, …, aₚ}{\tdiscard{a}{t}}}
+\end{prooftree}\quad
+\begin{prooftree}
+    \hypo{(x : p) ∈ Γ}
+  \infer1{\sequent{Γ}{a₁, …, aₚ}{x(a)}}
+\end{prooftree}\]
+
 \subsection{Aksiomi}
 Izkaže se, da je nabor aksiomov, ki jih potrebujemo za polno karakterizacijo kvantnih programov majhen: potrebujemo jih \(12\) in kot bomo videli nismo žrtvovali preprostosti, da smo prišli do te številke.
 
 Aksiome za enakost programov\cite{algeff-lin-qpl} lahko delimo na dva dela: prvih pet je glavnih, ostalih sedem pa bolj \airquotes{administrativnih} oziroma pomožnih.
 Slednji nam povejo zgolj, da se \(\eff{apply}\) strinja s strukturo unitarnih matrik,
-ter da stvari komutirajo, kolikor vezanje spremenljivk (in vrstni red uporabe matrik) dopušča.
+ter da stvari komutirajo, kolikor vezava spremenljivk (in vrstni red uporabe matrik) dopušča.
 
 \begin{axiom}{Kvantna negacija pred meritvijo je negacija po meritvi:}\label{ax:A}
     \( \tapply{X}{a}{\tmeasure{a}{x}{y}} = \tmeasure{a}{y}{x} \).

@@ -12,31 +12,14 @@
     Pišemo \(\op O : \arity{p}{m₁, …, mₖ}\).
 \end{definition}
 
-% TODO: define judgement
-
 \begin{example}
+    Členosti operacij jezika iz prejšnjega razdelka so sledeče:
     \begin{gather*}
         \op{new}          : \arity{0}{1}\qquad
         \op{measure}      : \arity{1}{0, 0}\qquad
+        \op{discard}      : \arity{1}{0}\qquad
         \op{apply}_{\g U} : \arity{n}{n}
     \end{gather*}
-\end{example}
-
-\begin{example}
-    %TODO: elaborate
-    \[\begin{prooftree}
-        \hypo{\sequent{Γ}{Δ, a}{         t } }
-      \infer1{\sequent{Γ}{Δ   }{\tnew{a}{t}} }
-  \end{prooftree}\quad
-  \begin{prooftree}
-        \hypo{\sequent{Γ}{Δ   }{             t    } }
-        \hypo{\sequent{Γ}{Δ   }{                u } }
-      \infer2{\sequent{Γ}{Δ, a}{\tmeasure{a}{t}{u}} }
-  \end{prooftree}\]
-  \[\begin{prooftree}
-        \hypo{\sequent{Γ}{Δ, a₁, …, aₙ}{                      t }}
-      \infer1{\sequent{Γ}{Δ, a₁, …, aₙ}{\tapply{U}{a₁, …, aₙ}{t}}}
-  \end{prooftree}\]
 \end{example}
 
 \begin{definition}
