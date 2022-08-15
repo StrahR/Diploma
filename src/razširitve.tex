@@ -75,20 +75,19 @@ dobimo model klasičnega računalništva:
 
 Omenimo še, da je ta aksiom nekonsistenten s kvantnim računalništvom:
 \begin{align*}
-    x &= \new{a}{\measure{a}{x}{y}}\\
-      &= \new{a}{\apply{\had}{a}{\apply{\had}{a}{\measure{a}{x}{y}}}}\\
+    x &= \new{a}{\measureraw{a}{x}{y}}\\
+      &= \new{a}{\apply{\had}{a}{\apply{\had}{a}{\measureraw{a}{x}{y}}}}\\
       &= \new{a}{\apply{\had}{a}{\measure{a}{
-            \new{a}{\apply{\had}{a}{             \measure{a}{x}{y}}}}{
-            \new{a}{\apply{\had}{a}{\apply{X}{A}{\measure{a}{x}{y}}}}
+            \new{a}{\apply{\had}{a}{             \measureraw{a}{x}{y}}}}{
+            \new{a}{\apply{\had}{a}{\apply{X}{A}{\measureraw{a}{x}{y}}}}
         }}}\\
       &= \new{a}{\apply{\had}{a}{\measure{a}{
-            \new{a}{\apply{\had}{a}{             \measure{a}{y}{x}}}}{
-            \new{a}{\apply{\had}{a}{\apply{X}{A}{\measure{a}{y}{x}}}}
+            \new{a}{\apply{\had}{a}{             \measureraw{a}{y}{x}}}}{
+            \new{a}{\apply{\had}{a}{\apply{X}{A}{\measureraw{a}{y}{x}}}}
         }}}\\
-      &= \new{a}{\measure{a}{y}{x}}\\
+      &= \new{a}{\measureraw{a}{y}{x}}\\
       &= y \contradiction
 \end{align*}
 \begin{remark}
     Zgornji rezultat pokaže, da je ta aksiom nekonsistenten z \emph{vsemi} modeli kvantnega računalništva, ne le našim, saj protislovje sledi neposredno iz aksiomov.
 \end{remark}
-
