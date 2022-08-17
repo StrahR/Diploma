@@ -158,6 +158,40 @@
 \newcommand{\kljucnebesede}[1]{\def\@kljucnebesede{#1}}
 \renewcommand{\keywords}[1]{\def\@keywords{#1}}
 
+\newtheorem{theorem}{Izrek}[section]
+\newtheorem{proposition}[theorem]{Trditev}
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem*{corrolary}{Posledica}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definicija}
+
+\newtheorem{example*}{Primer}[section]
+\newtheorem*{@example}{Primer}
+\newtheorem*{@examples}{Primeri}
+
+\newenvironment{example}[1][]{\begin{@example}[#1]\renewcommand*{\qedsymbol}{$\diamondsuit$}\pushQED{\qed}}{\popQED\end{@example}}
+\newenvironment{examples}[1][]{\begin{@examples}[#1]\renewcommand*{\qedsymbol}{$\diamondsuit$}\pushQED{\qed}}{\popQED\end{@examples}}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Opomba}
+\newtheorem*{convention}{Dogovor}
+
+\newcounter{axiom}
+\setcounter{axiom}{0}
+\renewcommand\theaxiom{\Alph{axiom}}
+\newenvironment{axiom}[2][-1]{
+    \ifnum#1>0
+        \refsetcounter{axiom}{#1}
+    \fi
+    \refstepcounter{axiom}
+    \setlength\parindent{0pt}
+    \ifblank{#2}{}{\vskip.5em #2\par}
+    \nopagebreak
+    \textbf{Aksiom \theaxiom.}
+}{
+}
+
 % ukaz za slovarsko geslo
 \newcommand{\geslo}[2]{\noindent\textbf{#1}\hspace*{3mm}\hangindent=\parindent\hangafter=1 #2\par}
 

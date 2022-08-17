@@ -1,34 +1,4 @@
 % LTeX: enabled=false
-\newtheorem{theorem}{Izrek}[section]
-\newtheorem{proposition}[theorem]{Trditev}
-\newtheorem{lemma}[theorem]{Lema}
-\newtheorem*{corrolary}{Posledica}
-
-\theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definicija}
-
-\newtheorem{example*}{Primer}[section]
-\newtheorem*{example}{Primer}
-\newtheorem*{examples}{Primeri}
-
-\theoremstyle{remark}
-\newtheorem*{remark}{Opomba}
-\newtheorem*{convention}{Dogovor}
-
-\newcounter{axiom}
-\setcounter{axiom}{0}
-\renewcommand\theaxiom{\Alph{axiom}}
-\newenvironment{axiom}[2][-1]{
-    \ifnum#1>0
-        \refsetcounter{axiom}{#1}
-    \fi
-    \refstepcounter{axiom}
-    \setlength\parindent{0pt}
-    \ifblank{#2}{}{\vskip.5em #2\par}
-    \textbf{Aksiom \theaxiom.}
-}{
-}
-
 \renewcommand{\d}{\;\mathrm d}
 \renewcommand{\hat}{\widehat}
 \renewcommand{\tilde}{\widetilde}
@@ -74,27 +44,27 @@
 \newcommand{\brat}[2]{\cat{Brat}{\arity{#1}{#2}}}
 
 \newcommand{\op}[1]{\textnormal{\sffamily#1}}
-\newcommand{\cmd}[1]{\textnormal{\sffamily#1}}
+\newcommand{\mor}[1]{\textnormal{\sffamily#1}}
 \newcommand{\eff}[1]{\textnormal{\sffamily\ul{#1}}}
 \newcommand{\enew}{\eff{new}{\p{}}}
 % \newcommand{\enew}[1]{\eff{new}{\p{#1}}}
 \newcommand{\eapply}[2]{\eff{apply}_{\g{#1}}{\p{#2}}}
 \newcommand{\emeasure}[1]{\eff{measure}{\p{#1}}}
 \newcommand{\ediscard}[1]{\eff{discard}{\p{#1}}}
-\newcommand{\tnew}[2]{\cmd{new}{\p{#1.\,#2}}}
-\newcommand{\tapply}[3]{\cmd{apply}_{\g{#1}}{\p{#2;#2.\,#3}}}
-\newcommand{\tapplyd}[3]{\cmd{apply}_{\D{#1}}{\p{#2;#2.\,#3}}}
-\newcommand{\tmeasure}[3]{\cmd{measure}{\p{#1;\,#2,#3}}}
-\newcommand{\tdiscard}[2]{\cmd{discard}{\p{#1;\,#2}}}
+\newcommand{\tnew}[2]{\op{new}{\p{#1.\,#2}}}
+\newcommand{\tapply}[3]{\op{apply}_{\g{#1}}{\p{#2;#2.\,#3}}}
+\newcommand{\tapplyd}[3]{\op{apply}_{\D{#1}}{\p{#2;#2.\,#3}}}
+\newcommand{\tmeasure}[3]{\op{measure}{\p{#1;\,#2,#3}}}
+\newcommand{\tdiscard}[2]{\op{discard}{\p{#1;\,#2}}}
 \newcommand{\new}[2]{\nu{#1}.\,#2}
 \newcommand{\apply}[3]{{\g{#1}}_{#2}{\p{#3}}}
 \newcommand{\applyd}[3]{{\D{#1}}_{#2}{\p{#3}}}
 \renewcommand{\measure}[3]{\p{#2} {\;?_{#1}\,} \p{#3}}
 \newcommand{\measureraw}[3]{#2 {\;?_{#1}\,} #3}
-\newcommand{\discard}[2]{\cmd{disc}_{#1}{\p{#2}}}
-\newcommand{\snew}[2]{\op{new}#1{\p{#2}}}
-\newcommand{\sapply}[2]{\op{apply}_{\g{#1}}{\p{#2}}}
-\newcommand{\smeasure}[3]{\op{measure}#1{\p{#2,#3}}}
+\newcommand{\discard}[2]{\op{disc}_{#1}{\p{#2}}}
+\newcommand{\snew}[2]{\mor{new}#1{\p{#2}}}
+\newcommand{\sapply}[2]{\mor{apply}_{\g{#1}}{\p{#2}}}
+\newcommand{\smeasure}[3]{\mor{measure}#1{\p{#2,#3}}}
 
 \newcommand{\type}[1]{\text{\ttfamily#1}}
 \newcommand{\unit}{\type{I}}
@@ -113,11 +83,11 @@
 % \newcommand{\brsem}[1]{⦅ #1 ⦆}
 \newcommand{\brsem}[1]{\left⦇ #1 \right⦈}
 \usepackage[nomessages]{fp}
-\newcommand{\opmap}[2]{% cf. https://tex.stackexchange.com/a/87423/64454
+\newcommand{\mormap}[2]{% cf. https://tex.stackexchange.com/a/87423/64454
   \def\nextitem{\def\nextitem{⊕}}% Separator
-  \forcsvlist\opmapitem{#2} → M_{\IfInteger{#1}{\FPeval\result{round(2^(#1):0)}\result}{2^{#1}}}{\p X}
+  \forcsvlist\mormapitem{#2} → M_{\IfInteger{#1}{\FPeval\result{round(2^(#1):0)}\result}{2^{#1}}}{\p X}
 }
-\newcommand{\opmapitem}[1]{%
+\newcommand{\mormapitem}[1]{%
   \nextitem
   \def\param{\detokenize{#1}}%
   \if\param…%
@@ -141,7 +111,7 @@
 }
 \newcommand{\abssemmap}[2]{% cf. https://tex.stackexchange.com/a/87423/64454
   \def\nextitem{\def\nextitem{×}}% Separator
-  \forcsvlist\abssemmapitem{#2} → (#1 • X)
+  \forcsvlist\abssemmapitem{#2} → #1 • X
 }
 \newcommand{\abssemmapitem}[1]{%
   \nextitem

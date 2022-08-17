@@ -1,7 +1,9 @@
 \section{Programski jezik}
+Definirajmo sedaj nek preprost programski jezik za delo s kvantnim računalnikom.
+Temeljil bo na linearnih tipih in algebrajskih učinkih.
+Kasneje bi ta jezik lahko razširilo še z ostalimi konstrukti, ki smo jih navajeni, kot so naravna števila, vsote, neskončni tipi (seznami), ipd., ampak je za teoretično obravnavo bolj praktično delati z majhno količino sintaktičnih elementov.
 
 \subsection{Sintaksa}
-
 Poznamo sledeče sintaktične elemente:\\
 %LTeX: enabled=false
 % \begin{tabular}{r l l}%imperative version
@@ -26,7 +28,7 @@ Poznamo sledeče sintaktične elemente:\\
 % \end{tabular}
 \begin{tabular}{r l l}
     izračun \(c\) \(::=\)& \(x\)                                              & spremenljivke\\
-                 \(\mid\)& \(()\) % \(\mid\) \qpl{true} \(\mid\) \qpl{false}
+                 \(\mid\)& \(()\) \(\mid\) \qpl{true} \(\mid\) \qpl{false}
                  \(\mid\) \(\ket{\mb0}\) \(\mid\) \(\ket{\mb1}\)              & konstante\\
                 %  \(\mid\)& \qpl{|\(b≔\)| true} \(\mid\) \qpl{|\(b≔\)| false}  & inicializacija bita\\
                  \(\mid\)& \qpl{|\(\enew\)|}                                  & inicializacija kubita\\
@@ -58,10 +60,10 @@ Dvojne oklepaje opuščamo.
 
 
 \subsubsection*{Funkcije}
-Glede na obliko tipa \(A\) lahko definiramo nekaj okrajšav:
+Glede na obliko tipa \(A\) (natančno to definiramo kasneje) lahko definiramo nekaj okrajšav:
 \begin{itemize}
-    \item Če je \(A = \unit\) pišemo \qpl{fun |\(f() ↦ c\)|}.
-    \item Če je \(A\) produkt, ga razpišemo kot \qpl{fun |\(f(x₁ : A₁, …, xₙ : Aₙ) ↦ c\)|}.
+    \item Če je \(A = \unit\) (torej funkcija ne sprejme argumentov) pišemo \qpl{fun |\(f() ↦ c\)|}.
+    \item Če je \(A\) produkt (torej funkcija sprejme več argumentov), ga razpišemo kot \qpl{fun |\(f(x₁ : A₁, …, xₙ : Aₙ) ↦ c\)|}.
 \end{itemize}
 Če funkcije ne želimo poimenovati lahko \(f\) tudi kar izpustimo.
 
@@ -74,7 +76,6 @@ Definiramo lahko tudi operacijo \(\eff{new}¹()\), inicializira kubit na \(\ket{
 
 \subsubsection*{Uporaba vrat}
 Vrata \(U\) morajo biti primerne velikosti, da jih lahko uporabimo na danem vektorju.
-Uporabi vrata \(U\) na danem vektorju.
 
 \subsubsection*{Meritev}
 Izmeri dani kubit in vrne rezultat meritve. To bo uničilo kubit, torej ga v nadaljevanju ne smemo uporabiti.
@@ -88,60 +89,59 @@ Uničenje je zgolj okrajšava za meritev, katere rezultat pozabimo, tako da upo�
 \begin{example*}\label{ex:1}
     Zgoraj smo omenili operacijo \(\eff{new}¹()\). Definiramo jo lahko znotraj jezika:
     \begin{center}
-        \qpl{fun |\(\eff{new}¹() ↦ \eapply{X}{\enew}\)|}
+        \qpl{fun |\(\eff{new}¹() ↦ \eapply{X}{\enew}\)|}.
     \end{center}
-    Operacijo \(\enew\) lahko potem označimo tudi z \(\eff{new}₀()\). 
+    Operacijo \(\enew\) lahko potem označimo tudi z \(\eff{new}⁰()\). 
 \end{example*}
 
 \begin{example*}\label{ex:2}
     S kvantnimi operacijami lahko modeliramo naključnost; definirajmo funkcijo \texttt{rand}, ki naključno vrne \(0\) ali \(1\):
     \begin{center}
-        \qpl{fun |\(\eff{rand}() ↦ \emeasure{\eapply{\had}{\enew}}\)|}
+        \qpl{fun |\(\eff{rand}() ↦ \emeasure{\eapply{\had}{\enew}}\)|}.
     \end{center}
 \end{example*}
 
 \begin{example*}\label{ex:3}
     Bellovo stanje \(\state{\ket{\mb{00}} + \ket{\mb{11}}}\) lahko definiramo tako:
     \begin{center}
-        \(\eff{apply}_{\ctl X}{\p{\eapply{\had}{\enew}, \enew}}\)
+        \(\eff{apply}_{\ctl X}{\p{\eapply{\had}{\enew}, \enew}}\).
     \end{center}
 \end{example*}
 
 \begin{example*}\label{ex:4}
     Kot v prvem primeru, bi tudi operacijo \(\eff{discard}\) lahko definirali izključno znotraj jezika:
     \begin{center}
-        \qpl{fun |\(\eff{discard}\p{q : \qbit} ↦\) let \(x ← \emeasure{q}\) in \(()\)|}
+        \qpl{fun |\(\eff{discard}\p{q : \qbit} ↦\) let \(x ← \emeasure{q}\) in \(()\)|}.
     \end{center}
     Tu \(()\) predstavlja edini element tipa \(\unit\).
-    Izkaže se, da je ta operacija bolj pomembna kot primer \ref{ex:1}, tako da jo vključimo neposredno v sintakso jezika.
+    Izkaže se, da je ta operacija bolj pomembna kot primer \ref{ex:1}, tako da jo vseeno vključimo neposredno v sintakso jezika.
 \end{example*}
 
 \begin{example*}\label{ex:5}
-    Oglejmo si zdaj še prejšnja dva primera, najprej projekcijo na \(z\)-os:
+    Oglejmo si zdaj še primera \ref{ex:proj-z} in \ref{ex:c-rot} iz prejšnjega razdelka, najprej projekcijo na \(z\)-os:
     \begin{center}
-        \qpl{fun |\(\eff{proj}(q : \qbit) ↦ \)| if |\(\emeasure{q}\)| then |\(\eff{new}₁()\)| else |\(\eff{new}₀()\)|}
+        \qpl{fun |\(\eff{proj}(q : \qbit) ↦ \)| if |\(\emeasure{q} = 0\)| then |\(\eff{new}¹()\)| else |\(\eff{new}⁰()\)|}.
     \end{center}
 \end{example*}
 
 \begin{example*}\label{ex:6}
     Drugi primer je bil naključna rotacija faze. Uporabimo primer \ref{ex:2}:
     \begin{center}
-        \qpl{fun |\(\eff{rot}(q : \qbit) ↦ \)| if |\(\eff{rand}()\)| then |\(\eapply{Z}{q}\)| else |\(q\)|}
+        \qpl{fun |\(\eff{c-rot}(q : \qbit) ↦ \)| if |\(\eff{rand}()\)| then |\(\eapply{Z}{q}\)| else |\(q\)|}.
     \end{center}
 \end{example*}
 
-
 \subsection{Teorija tipov}
-
 Tipe v našem jeziku ločimo na dve (glavni) vrsti, klasične in kvantne:\\
 \begin{tabular}{r l l}%TODO: format
-    klasični \(B\) \(::=\)& \(\type{0}\) \(\mid\) \(\unit\)                & osnovni klasični tipi\\
-                  \(\mid\)& \(B₁+B₂\)                                      & vsota\\
+    klasični \(B\) \(::=\)& \(\type{0}\) \(\mid\) \(\unit\)
+                  \(\mid\)  \(\bit\)                                       & osnovni klasični tipi\\
+                %   \(\mid\)& \(B₁+B₂\)                                      & vsota\\
                   \(\mid\)& \(B₁×B₂\)                                      & kartezični produkt\\
                   \(\mid\)& \(A₁ → A₂\)                                    & funkcijski tip\\
     kvantni \(Q\) \(::=\)&  \(\qbit\)                                      & tip kubitov\\
-                 \(\mid\)&  \(Q₁⊗Q₂\)                                     & tenzorski produkt\\
-    splošni \(A\) \(::=\)&  \(B\) \(\mid\) \(Q\)                           & ostali tipi\\
+                 \(\mid\)&  \(Q₁⊗Q₂\)                                      & tenzorski produkt\\
+    splošni \(A\) \(::=\)&  \(B\) \(\mid\) \(Q\)                           &\\
                  \(\mid\)&  \((B,Q)\)                                      & splošen produkt\\
 \end{tabular}
 \begin{remark}
@@ -150,35 +150,44 @@ Tipe v našem jeziku ločimo na dve (glavni) vrsti, klasične in kvantne:\\
     Splošen produkt razumemo kot kartezičen produkt.
     Definiramo lahko tudi operacije s splošnim produktom:
     \begin{align*}
-        B₁+(B,Q) &≔ (B₁+B,Q)\\
-        B₁×(B,Q) &≔ (B₁×B,Q)\\
-        Q₁⊗(B,Q) &≔ (B,Q₁⊗Q)
+        % B₁+(B,Q) &≔ (B₁+B,Q)\\
+        B₁×(B,Q) &≔ (B₁×B,Q) & (B,Q)×B₁ &≔ (B×B₁,Q)\\
+        Q₁⊗(B,Q) &≔ (B,Q₁⊗Q) & (B,Q)⊗Q₁ &≔ (B,Q⊗Q₁)
     \end{align*}
     Prvi komponenti splošnega produkta pravimo klasična, drugi pa kvantna.
     V nadaljevanju, ko se nanašamo na kvantne in klasične tipe, mislimo tudi na ustrezne komponente splošnega produkta.
 \end{remark}
 
-\begin{definition}
-    Označimo \(\bit ≔ \unit + \unit\) in \qpl{true} \(≔ ι₁()\), \qpl{false} \(≔ ι₂()\).
-\end{definition}
+% \begin{remark}
+%     Označimo \(\bit ≔ \unit + \unit\) in \qpl{true} \(≔ ι₁()\), \qpl{false} \(≔ ι₂()\).
+% \end{remark}
 
 \subsubsection{Linearnost}
-Kot linearnost razumemo pogoj, da se vsako hipotezo (tudi parameter, argument, predpostavko, surovino)
-uporabi natanko enkrat.
-Linearna logika nam torej formalizira razne procese, kjer iz ene stvari \airquotes{naredimo} drugo, in s tem prvo stvar \airquotes{porabimo}.
-Če potem iz linearne logike izpeljemo tako imenovano linearno teorijo tipov, se ta pogoj linearnosti naravno pretvori v pogoj, da moramo vsak argument funkciji uporabiti natanko enkrat.
+Kot linearnost razumemo pogoj, da se vsako hipotezo (rečemo tudi parameter, argument, predpostavko, surovino, …) uporabi natanko enkrat.
+Linearna logika nam torej na primer formalizira razne procese, kjer iz ene stvari \airquotes{naredimo} drugo, in s tem prvo stvar \airquotes{porabimo}.
+Na linearno logiko lahko tudi gledamo kot semantiko \airquotes{iger} ali \airquotes{interakcij}.
+Še bolj pomembno pa je, da na linearno logiko lahko gledamo kot \airquotes{pravo} obliko kvantne logike,
+ki nam pa dopušča tudi bistveno večjo splošnost.
+Že iz imena lahko sklepamo, da se kvantna logika uporablja namesto klasične logike prav tako, kot se kvantna fizika uporablja namesto klasične fizike.
+%TODO: citation in nlab quantum logic
 
 Spomnimo se, da z unitarnimi transformacijami (kvantnimi vrati) kubitov ne moremo niti klonirati, niti uničiti.
-To je pa ravno pogoj linearnosti!
-Pravimo, da je operacija \(\eff{apply}_{\g U}\) linearna, saj ohranja število kubitov.
-Poleg tega je tudi meritev linearna, saj porabi en kubit, ki ga nato ne moremo več uporabljati.
-Ker sta to edina načina s katerimi lahko vplivamo na stanja kubitov, morajo biti vse funkcije na kubitih tudi linearne.
-Ker pogoj linearnosti ne velja za klasične bite (te lahko kopiramo, kolikor hočemo) bomo rekli, da so funkcije linearne le na kvantnih tipih.
+To je natanko pogoj linearnosti.
+Operacija \(\eff{apply}_{\g U}\) je res linearna, saj deluje na vseh vhodnih kubitih, do njihove stare vrednosti pa ne moremo več dostopati.
+Prav tako je tudi meritev linearna, saj porabi en kubit, ki ga nato ne moremo več uporabljati.
+Ker sta to edina načina s katerimi lahko vplivamo na stanja kubitov, bodo tudi vse funkcije na kubitih linearne.
+Če torej iz linearne logike izpeljemo t.i. linearno teorijo tipov, se pogoj linearnosti naravno pretvori v pogoj, da moramo vsak argument funkciji uporabiti natanko enkrat, kar je natanko to, kar za funkcije na kubitih v fiziki res velja.
+Ker pogoj linearnosti ne velja za klasične bite (te lahko kopiramo, kolikor hočemo) bomo rekli, da so naše funkcije linearne le na \airquotes{kvantnih tipih}.
 
 %TODO: cite nlab+girard "Za natančno definicijo linearne logike si oglejte…"
 % Definiramo fragment linearne logike s sledečimi simboli: \(⊗, +, 0, 1, ⊸, !\).
 
 \subsubsection{Sistem tipov}
+Sistem tipov se v programske jezike pogosto uvede zaradi večje varnosti;
+preprečijo namreč pisanje veliko nesmiselnih programov.
+Pri nas pa tipi opravljajo še dodatno funkcijo:
+hranijo informacijo, katere spremenljivke moramo uporabljati linearno.
+To je prednost uporabe linearne teorije tipov namesto navadne teorije tipov za formalizacijo.
 
 \begin{definition}
     Kontekst naj bo seznam dodelitev tipov spremenljivkam.
@@ -191,18 +200,14 @@ Ker pogoj linearnosti ne velja za klasične bite (te lahko kopiramo, kolikor ho�
 %TODO: format
 %LTeX: enabled=false
 \begin{prooftree}[center=false]
-    \hypo{(x : A) ∈ Γ}
-  \infer1{\sseq{Γ}{x : A}}
-\end{prooftree}\quad
-\begin{prooftree}[center=false]
   \infer0{\sseq{Γ}{() : \unit}}
 \end{prooftree}\quad
-% \begin{prooftree}[center=false]
-%   \infer0{\sseq{Γ}{\qpl{true}: \bit}}
-% \end{prooftree}\quad
-% \begin{prooftree}[center=false]
-%   \infer0{\sseq{Γ}{\qpl{false}: \bit}}
-% \end{prooftree}\quad
+\begin{prooftree}[center=false]
+  \infer0{\sseq{Γ}{\qpl{true}: \bit}}
+\end{prooftree}\quad
+\begin{prooftree}[center=false]
+  \infer0{\sseq{Γ}{\qpl{false}: \bit}}
+\end{prooftree}\quad
 \begin{prooftree}[center=false]
   \infer0{\sseq{Γ}{\ket{\mb0} : \qbit}}
 \end{prooftree}\quad
@@ -210,14 +215,18 @@ Ker pogoj linearnosti ne velja za klasične bite (te lahko kopiramo, kolikor ho�
   \infer0{\sseq{Γ}{\ket{\mb1} : \qbit}}
 \end{prooftree}\\
 \begin{prooftree}[center=false]
+    \hypo{(x : A) ∈ Γ}
+  \infer1{\sseq{Γ}{x : A}}
+\end{prooftree}\quad
+\begin{prooftree}[center=false]
   \infer0{\sseq{Γ}{\eff{new} : \unit → \qbit}}
 \end{prooftree}\quad
 \begin{prooftree}[center=false]
   \infer0{\sseq{Γ}{\eff{measure} : \qbit → \bit}}
-\end{prooftree}\quad
+\end{prooftree}\\
 \begin{prooftree}[center=false]
   \infer0{\sseq{Γ}{\eff{discard} : \qbit → \unit}}
-\end{prooftree}\\
+\end{prooftree}\quad
 \begin{prooftree}[center=false]
     \hypo{n ∈ ℕ}
     \hypo{U ∈ \U[n]}
@@ -255,10 +264,11 @@ Ker pogoj linearnosti ne velja za klasične bite (te lahko kopiramo, kolikor ho�
 %LTeX: enabled=true
 
 \subsection{Algebrajski učinki}
-
-Diagrami so v rabi že dolgo časa, vendar pa so manipulacije teh diagramov nerodne;
-na naših programih raje izvajamo bolj matematične pristope, in zato na programe raje poglejmo iz bolj matematičnega vidika. Izkaže se, da lahko zelo dobro predstavimo naše programe z algebrajskimi izrazi.
-Vse naše operacije na kubitih lahko interpretiramo kot računske učinke nekih funkcij, katere pa lahko predstavimo z algebrajsko teorijo, po kateri lahko postopamo povsem matematično.
+% Diagrami so v rabi že dolgo časa, vendar pa so manipulacije teh diagramov nerodne;
+% na naših programih raje izvajamo bolj matematične pristope, in zato na programe raje poglejmo iz bolj matematičnega vidika. Izkaže se, da lahko zelo dobro predstavimo naše programe z algebrajskimi izrazi.
+Da lahko o našem programskem jeziku kaj dokažemo, ga moramo prevesti na neko matematično teorijo.
+Naše operacije na kubitih so dejansko računski učinki,
+izkaže pa se, da jih lahko predstavimo z algebrajsko teorijo.
 
 Z računskimi učinki se med programiranjem pogosto srečamo: globalno stanje spremenljivk, vhodno/izhodne naprave, naključnost, izjeme, nedeterminizem, ipd.
 
@@ -278,15 +288,15 @@ Večina zanimivih (in vseh zgoraj naštetih) učinkov je algebrajskih, tako da j
 
 Da lahko naše operacije lažje predstavimo z algebrajsko teorijo, jih bomo zapisali v obliki z nadaljevanji.
 Naj bo \(\op{op}\) neka operacija, ki se lahko nadaljuje na \(k\) načinov. Nadaljevanja označimo s \(tᵢ\), vsako od njih pa naj tudi pričakuje nekaj parametrov (in za preprostost naj vsa pričakujejo enako število parametrov \(m\)). To zapišemo kot \(b₁,…,bₘ.tᵢ\).
-Če operacija sama zahteva \(p\) parametrov, jo pišemo kot \(\op{op}{\p{a₁,…,aₚ; b₁,…,bₘ.t₁,…,b₁,…,bₘ.tₖ}}\).
+Če operacija sama zahteva \(p\) parametrov, jo pišemo kot \(\op{op}{\p{a₁,…,aₚ; b₁,…,bₘ.t₁,…,b₁,…,bₘ.tₖ}}\), kjer so parametri ločeni od nadaljevanj s podpičjem.
 
 Če se osredotočimo zgolj na kvantni del jezika, torej, če pozabimo na vse klasične konstrukte, lahko definiramo konstruktorje za algebrajske izraze:
 \begin{itemize}
     \item če je \(t\) izraz, ki pričakuje kubit \(a\), potem obstaja izraz \(\tnew{a}{t}\),
     ki dodeli nov kubit in ga shrani v \(a\), nato pa nadaljuje s \(t\),
-    \item če je \(t\) izraz, ki pričakuje kubite \(b₁,…,bₙ\) in so \(a₁,…,aₙ\) kubiti ter \(U\) unitarna vrata reda \(n\), potem obstaja izraz \(\cmd{apply}_{\g U}{\p{a₁,…,aₙ;\, b₁,…,bₙ.\,t}}\), ki najprej uporabi vrata \(U\) na kubitih \(a₁,…,aₙ\), nato pa shrani rezultat v \(b₁,…,bₙ\) in nadaljuje s \(t\). Ta operacija uniči kubite \(aᵢ\), tako da lahko nadaljevanje spet veže kubite \(aᵢ\) namesto \(bᵢ\) in bomo pisali kar \(\tapply{U}{a₁,…,aₙ}{t}\),
+    \item če je \(t\) izraz, ki pričakuje kubite \(b₁,…,bₙ\) in so \(a₁,…,aₙ\) kubiti ter \(U\) unitarna vrata reda \(n\), potem obstaja izraz \(\op{apply}_{\g U}{\p{a₁,…,aₙ;\, b₁,…,bₙ.\,t}}\), ki najprej uporabi vrata \(U\) na kubitih \(a₁,…,aₙ\), nato pa shrani rezultat v \(b₁,…,bₙ\) in nadaljuje s \(t\). Ta operacija uniči kubite \(aᵢ\), tako da lahko nadaljevanje spet veže kubite \(aᵢ\) namesto \(bᵢ\) in bomo pisali kar \(\tapply{U}{a₁,…,aₙ}{t}\),
     \item če sta \(t\) in \(u\) izraza, in je \(a\) kubit, potem obstaja izraz \(\tmeasure{a}{t}{u}\), ki izmeri \(a\) in nadaljuje v \(t\), če izmeri\(0\) in v \(u\), če izmeri \(1\). Ta operacija je linearna, torej \(t\) in \(u\) ne smeta uporabiti kubita \(a\); tega namreč meritev uniči,
-    \item če je \(t\) izraz in \(a\) kubit, potem obstaja izraz \(\tdiscard{a}{t}\), ki zavrže kubit \(a\). Kot zgoraj, \(t\) ne sme uporabiti kubita \(a\),
+    \item če je \(t\) izraz in \(a\) kubit, potem obstaja izraz \(\tnew{a}{t}\), ki zavrže kubit \(a\). Kot zgoraj, \(t\) ne sme uporabiti kubita \(a\),
     \item če je \(x\) neko nadaljevanje, ki pričakuje \(n\) kubitov (oznaka \(x : n\)) in so \(a₁,…,aₙ\) kubiti, je \(x(a₁,…,aₙ)\) izraz na \(n\) kubitih.
 \end{itemize}
 Čeprav je pogojni stavek klasičen konstrukt, ga v tem formalizmu ne pogrešamo, saj je \(\tmeasure{a}{t}{u}\) ekvivalenten \qpl{if |\(\emeasure{a} = 0\)| then |\(t\)| else |\(u\)|}, funkcije pa lahko razumemo kot poimenovana nadaljevanja.
@@ -294,24 +304,23 @@ Naj bo \(\op{op}\) neka operacija, ki se lahko nadaljuje na \(k\) načinov. Nada
 \begin{examples}
     Oglejmo si zgornje primere zapisane v algebrajskem jeziku:
     \begin{enumerate}
-        \item \(\cmd{new}¹(a.t) ≔ \tnew{a}{\tapply{X}{a}{t}}\),
-        \item \(\cmd{rand}(a.x(a)) ≔ x{\p{\tnew{a}{\tapply{\had}{a}{\tmeasure{a}{0}{1}}}}}\),
-        \item \(\cmd{bell}(a,b.y(a,b)) ≔ \tnew{a}{\tnew{b}{\tapply{\had}{a}{\tapply{\ctl{X}}{a,b}{y(a,b)}}}}\),
+        \item \(\op{new}¹(a.\,t) ≔ \tnew{a}{\tapply{X}{a}{t}}\),
+        \item \(\op{rand}(t,u) ≔ \tnew{a}{\tapply{\had}{a}{\tmeasure{a}{t}{u}}}\),
+        \item \(\op{bell}(a,b.\,t) ≔ \tnew{a}{\tnew{b}{\tapply{\had}{a}{\tapply{\ctl{X}}{a,b}{t}}}}\),
         \item \(\tdiscard{a}{t} ≔ \tmeasure{a}{t}{t}\),
-        \item \(\cmd{proj}(a;a.x(a)) ≔ \tmeasure{a}{\tnew{b}{x(b)}}{\tnew{b}{\tapply{X}{b}{x(b)}}}\),
-        \item \(\cmd{rot}(a;a.x(a)) ≔ \tnew{b}{\tapply{\had}{b}{\tmeasure{b}{x(a)}{\tapply{Z}{a}{x(a)}}}}\).
+        \item \(\op{proj}(a;a.\,t) ≔ \tmeasure{a}{\op{new}⁰{\p{b.\,t}}}{\op{new}¹{\p{b.\,t}}}\),
+        % \item \(\op{rot}(a;a.t) ≔ \tnew{b}{\tapply{\had}{b}{\tmeasure{b}{t}{\tapply{Z}{a}{t}}}}\).
+        \item \(\op{c-rot}(a;a.\,t) ≔ \op{rand}{\p{a.\,t, \tapply{Z}{a}{t}}}\).
     \end{enumerate}
-    Tu je \(x\) neko poljubno nadaljevanje, ki pričakuje en kubit,
-    \(y\) pa nadaljevanje, ki pričakuje dva nova kubita.
-    V diagramu bi torej bila \(x\) in \(y\) karkoli je potem po žicah desno na koncu primerov.
+    Tu sta \(t\) in \(u\) poljubna izraza, v diagramu pa predstavljata karkoli je potem po žicah desno na koncu primerov.
 
     Sicer obnašanje programov ni postalo nič bolj jasno, oziroma je na prvi pogled še težje videti kaj program dela, vendar pa lahko sedaj te izraze manipuliramo kot smo navajeni iz algebre.
     Ampak, da lahko z izrazi sploh karkoli naredimo potrebujemo nekaj enakosti med izbranimi osnovnimi izrazi, oziroma aksiome.
 \end{examples}
 
 Na podoben način kot za tipe, lahko zgornja pravila povzamemo z drevesi.
-Naj \(\sequent{Γ}{Δ}{t}\) predstavlja, da je \(t\) izraz na kubitih \(Δ\) v kontekstu \(Γ\),
-kjer je tokrat kontekst seznam nadaljevan, skupaj z njihovo členostjo (\(Γ = x₁ : m₁,…,xₖ : mₖ\)).
+Naj \(\sequent{Γ}{Δ}{t}\) predstavlja, da je \(t\) izraz v kontekstu \(Γ \mid Δ\),
+kjer je tokrat kontekst seznam nadaljevan z njihovo členostjo (\(Γ = x₁ : m₁,…,xₖ : mₖ\)), skupaj z naborom kubitov, ki so v izrazu prosti (\(Δ = a₁,…,aₚ\)).
 \[\begin{prooftree}
     \hypo{\sequent{Γ}{Δ, a}{         t }}
   \infer1{\sequent{Γ}{Δ   }{\tnew{a}{t}}}
@@ -335,71 +344,13 @@ kjer je tokrat kontekst seznam nadaljevan, skupaj z njihovo členostjo (\(Γ = x
 \end{prooftree}\]
 
 \subsection{Aksiomi}
-Izkaže se, da je nabor aksiomov, ki jih potrebujemo za polno karakterizacijo kvantnih programov majhen: potrebujemo jih \(12\) in kot bomo videli nismo žrtvovali preprostosti, da smo prišli do te številke.
+Izkaže se, da je nabor aksiomov, ki jih potrebujemo za polno karakterizacijo kvantnih programov relativno majhen: potrebujemo jih zgolj \(12\) in kot bomo videli nismo žrtvovali preprostosti, da smo prišli do te številke.
 
 Aksiome za enakost programov\cite{algeff-lin-qpl} lahko delimo na dva dela: prvih pet je glavnih, ostalih sedem pa bolj \airquotes{administrativnih} oziroma pomožnih.
-Slednji nam povejo zgolj, da se \(\eff{apply}\) strinja s strukturo unitarnih matrik,
-ter da stvari komutirajo, kolikor vezava spremenljivk (in vrstni red uporabe matrik) dopušča.
+Slednji nam povejo zgolj, da se \(\op{apply}\) strinja s strukturo unitarnih matrik,
+ter da operacije komutirajo, kolikor vezava spremenljivk (in vrstni red uporabe matrik) dopušča.
 
-\begin{axiom}{Kvantna negacija pred meritvijo je negacija po meritvi:}\label{ax:A}
-    \( \tapply{X}{a}{\tmeasure{a}{x}{y}} = \tmeasure{a}{y}{x} \).
-\end{axiom}
-
-\begin{axiom}{Kvantna kontrola je po meritvi kot klasična kontrola:}\label{ax:B}
-    \( \tapplyd{U, V}{a,b}{\tmeasure{a}{x(b)}{y(b)}}\\
-       \text{\hspace{7em}} = \tmeasure{a}{\tapply{U}{b}{x(b)}}{\tapply{V}{b}{y(b)}} \).
-\end{axiom}
-
-\begin{axiom}{Kvantna vrata uporabljena na zavrženih kubitih so odveč:}\label{ax:C}
-    \( \tapply{U}{a}{\tdiscard{a}{t}} = \tdiscard{a}{t} \).
-\end{axiom}
-
-% \begin{axiom}{Meritve novih kubitov so vedno \(0\):}\label{ax:4}
-\begin{axiom}{Novi kubiti so \( \ket{\mb0} \) glede na meritev:}\label{ax:D}
-    \( \tnew{a}{\tmeasure{a}{x}{y}} = x \).
-\end{axiom}
-
-% \begin{axiom}{Vrata kontrolirana z novimi kubiti se nikoli ne uporabijo:}\label{ax:E}
-\begin{axiom}{Novi kubiti so \( \ket{\mb0} \) glede na kontrolo:}\label{ax:E}
-    \( \tnew{a}{\tapplyd{U,V}{a,b}{x{\p{a,b}}}} = \tapply{U}{b}{\tnew{a}{x{\p{a,b}}}} \).
-\end{axiom}
-
-\begin{axiom}{Spoštovanje simetrične grupe \( \U[n] \):}\label{ax:F}
-    \( \tapply{swap}{a,b}{x{\p{a,b}}} = x{\p{b,a}} \),
-\end{axiom}
-
-\begin{axiom}{}\label{ax:G}
-    \( \tapply{I}{a}{x{\p a}} = x{\p a} \),
-\end{axiom}
-
-\begin{axiom}{}\label{ax:H}
-    \( \tapply{UV}{a}{x{\p a}} = \tapply{V}{a}{\tapply{U}{a}{x{\p a}}} \),
-\end{axiom}
-
-\begin{axiom}{}\label{ax:I}
-    \( \tapply{U⊗V}{a,b}{x{\p{a,b}}} = \tapply{U}{a}{\tapply{V}{b}{x{\p{a,b}}}} \).
-\end{axiom}
-
-\begin{axiom}{Komutativnost:}\label{ax:J}
-    \( \tmeasure{a}{\tmeasure{b}{u}{v}}{\tmeasure{b}{x}{y}}\\
-       \text{\hspace{7em}} = \tmeasure{b}{\tmeasure{a}{u}{x}}{\tmeasure{a}{v}{y}} \),
-\end{axiom}
-
-\begin{axiom}{}\label{ax:K}
-    \( \tnew{a}{\tnew{b}{x{\p{a,b}}}} = \tnew{b}{\tnew{a}{x{\p{a,b}}}} \),
-\end{axiom}
-
-\begin{axiom}{}\label{ax:L}
-    \( \tnew{a}{\tmeasure{b}{x{\p a}}{y{\p a}}}\\
-       \text{\hspace{7em}} = \tmeasure{b}{\tnew{a}{x{\p a}}}{\tnew{a}{y{\p a}}} \).
-\end{axiom}
-
-\subsection{Primeri}
-Uporabimo sedaj zgornje aksiome, da dokažemo, da sta primera \ref{ex:5} in \ref{ex:6} dejansko enaka.
-
-V dokazu bomo poleg aksiomov uporabili dve enakosti matrik, \(\ctl{X}⋅\swap⋅\ctl{X} \stackrel{(*)}{=} \swap⋅\ctl{X}⋅\swap\) in \(\swap⋅\ctl{X}⋅\swap \stackrel{(†)}{=} (\had⊗I)⋅\ctl{Z}⋅(\had⊗I)\).
-
-Definirajmo še okrajšan zapis za algebrajske izraze:
+Definirajmo najprej okrajšan zapis za algebrajske izraze:
 \begin{align*}
     \new{a}{t}           &≔ \tnew{a}{t}\\
     \apply{U}{a}{t}      &≔ \tapply{U}{a}{t}\\
@@ -407,20 +358,67 @@ Definirajmo še okrajšan zapis za algebrajske izraze:
     \discard{a}{t}       &≔ \tdiscard{a}{t}
 \end{align*}
 
-% \begin{align*}
-%     &\hspace{-3em}\measure{b}{\p{\new{a}{x(a)}}}{\p{\new{a}{\apply{X}{a}{x(a)}}}}&\\
-%     =&\new{a}{\measure{b}{x(a)}{\apply{X}{a}{x(a)}}}&\text{komutativnost}\\
-%     =&\new{a}{\apply{\ctl X}{b,a}{\measure{b}{x(a)}{x(a)}}}&{(2)}\\
-%     =&\new{a}{\apply{\ctl X}{b,a}{\discard{b}{x(a)}}}&\\
-%     =&\new{a}{\apply{\ctl X}{a,b}{\apply{\ctl X}{b,a}{\discard{a}{x(b)}}}}&\\
-%     =&\new{a}{\apply{\ctl X}{b,a}{\discard{a}{x(b)}}}&{(5)}\\
-%     =&\new{a}{\apply{\had}{a}{\apply{\ctl Z}{a,b}{\apply{\had}{a}{\discard{a}{x(b)}}}}}&\\
-%     =&\new{a}{\apply{\had}{a}{\apply{\ctl Z}{a,b}{\discard{a}{x(b)}}}}&{(3)}\\
-%     =&\new{a}{\apply{\had}{a}{\measure{a}{x(b)}{\apply{Z}{b}{x(b)}}}}&{(2)}
-% \end{align*}
+\begin{axiom}{Kvantna negacija pred meritvijo je negacija po meritvi:}\label{ax:A}
+    \( \apply{X}{a}{\measureraw{a}{x}{y}} = \measureraw{a}{y}{x} \).
+\end{axiom}
+
+\begin{axiom}{Kvantna kontrola je po meritvi kot klasična kontrola:}\label{ax:B}
+    \( \applyd{U, V}{a,b}{\measureraw{a}{x(b)}{y(b)}}
+       = \measure{a}{\apply{U}{b}{x(b)}}{\apply{V}{b}{y(b)}} \).
+\end{axiom}
+
+\begin{axiom}{Kvantna vrata uporabljena na zavrženih kubitih so odveč:}\label{ax:C}
+    \( \apply{U}{a}{\discard{a}{t}} = \discard{a}{t} \).
+\end{axiom}
+
+% \begin{axiom}{Meritve novih kubitov so vedno \(0\):}\label{ax:4}
+\begin{axiom}{Novi kubiti so \( \ket{\mb0} \) glede na meritev:}\label{ax:D}
+    \( \new{a}{\measureraw{a}{x}{y}} = x \).
+\end{axiom}
+
+% \begin{axiom}{Vrata kontrolirana z novimi kubiti se nikoli ne uporabijo:}\label{ax:E}
+\begin{axiom}{Novi kubiti so \( \ket{\mb0} \) glede na kontrolo:}\label{ax:E}
+    \( \new{a}{\applyd{U,V}{a,b}{x{\p{a,b}}}} = \apply{U}{b}{\new{a}{x{\p{a,b}}}} \).
+\end{axiom}
+
+\begin{axiom}{Spoštovanje simetrične grupe \( \U[n] \):}\label{ax:F}
+    \( \apply{swap}{a,b}{x{\p{a,b}}} = x{\p{b,a}} \),
+\end{axiom}
+
+\begin{axiom}{}\label{ax:G}
+    \( \apply{I}{a}{x{\p a}} = x{\p a} \),
+\end{axiom}
+
+\begin{axiom}{}\label{ax:H}
+    \( \apply{UV}{a}{x{\p a}} = \apply{V}{a}{\apply{U}{a}{x{\p a}}} \),
+\end{axiom}
+
+\begin{axiom}{}\label{ax:I}
+    \( \apply{U⊗V}{a,b}{x{\p{a,b}}} = \apply{U}{a}{\apply{V}{b}{x{\p{a,b}}}} \).
+\end{axiom}
+
+\begin{axiom}{Komutativnost:}\label{ax:J}
+    \( \measure{a}{\measureraw{b}{u}{v}}{\measureraw{b}{x}{y}}
+       = \measure{b}{\measureraw{a}{u}{x}}{\measureraw{a}{v}{y}} \),
+\end{axiom}
+
+\begin{axiom}{}\label{ax:K}
+    \( \new{a}{\new{b}{x{\p{a,b}}}} = \new{b}{\new{a}{x{\p{a,b}}}} \),
+\end{axiom}
+
+\begin{axiom}{}\label{ax:L}
+    \( \new{a}{\tmeasure{b}{x{\p a}}{y{\p a}}}\\
+       \text{\hspace{7em}} = \tmeasure{b}{\new{a}{x{\p a}}}{\new{a}{y{\p a}}} \).
+\end{axiom}
+
+\subsection{Primeri}
+Uporabimo sedaj zgornje aksiome, da dokažemo, da sta primera \ref{ex:5} in \ref{ex:6} dejansko enaka.
+
+V dokazu bomo poleg aksiomov uporabili dve enakosti matrik, \(\ctl{X}⋅\swap⋅\ctl{X} \stackrel{(*)}{=} \swap⋅\ctl{X}⋅\swap\) in \(\swap⋅\ctl{X}⋅\swap \stackrel{(†)}{=} (\had⊗I)⋅\ctl{Z}⋅(\had⊗I)\).
+
 \begin{align*}
      &\ \measure{b}{\new{a}{x(a)}}{\new{a}{\apply{X}{a}{x(a)}}}                 &\\
-    =&\ \new{a}{\measure{b}{x(a)}{\apply{X}{a}{x(a)}}}                          &(\ref{ax:L})\\
+    =&\ \new{a}{\measureraw{b}{x(a)}{\apply{X}{a}{x(a)}}}                          &(\ref{ax:L})\\
     =&\ \new{a}{\apply{\ctl X}{b,a}{\measureraw{b}{x(a)}{x(a)}}}                &(\ref{ax:B})\\
     =&\ \new{a}{\apply{\ctl X}{b,a}{\discard{b}{x(a)}}}                         &(\text{def.})\\
     =&\ \new{a}{\apply{\ctl X}{a,b}{\apply{\ctl X}{b,a}{\discard{a}{x(b)}}}}    &(*)\\

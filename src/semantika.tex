@@ -18,13 +18,12 @@
         \op{new}          : \arity{0}{1}\qquad
         \op{measure}      : \arity{1}{0, 0}\qquad
         \op{discard}      : \arity{1}{0}\qquad
-        \op{apply}_{\g U} : \arity{n}{n}
+        \op{apply}_{\g U} : \arity{n}{n}\qedhere
     \end{gather*}
 \end{example}
 
 \begin{definition}
     Aksiom v neki signaturi je par izrazov v istem kontekstu; pišemo \(\absseq{t=u}\).
-    Predstavitev teorije je signatura skupaj z množico aksiomov.
 \end{definition}
 
 \begin{definition}
@@ -53,7 +52,7 @@
         \item topološki prostori z zveznimi preslikavami,
         \item Hausdorffovi prostori z zveznimi preslikavami,
         \item vektorski prostori z linearnimi preslikavami,
-        \item …
+        \item …\qedhere
     \end{itemize}
 \end{examples}
 
@@ -82,8 +81,10 @@ Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi o
 \end{definition}
 
 \begin{definition}
-    Model za algebrajsko teorijo z linearnimi parametri je struktura za njeno signaturo, tako da sta za vsak aksiom \(\absseq{t=u}\) interpretacijska morfizma \(\sem{t}\) in \(\sem{u}\) enaka.
+    Model za algebrajsko teorijo z linearnimi parametri je struktura za njeno signaturo skupaj z množico aksiomov, tako da sta za vsak aksiom \(\absseq{t=u}\) interpretacijska morfizma \(\sem{t}\) in \(\sem{u}\) enaka.
 \end{definition}
+
+Na kratko je model torej neka množica in interpretacijska preslikava, ki je skladna z nekimi aksiomi.
 
 \begin{proposition}[Zdravost]
     Če lahko enakost izpeljemo v algebrajski teoriji, potem drži v vseh modelih.
@@ -155,8 +156,8 @@ Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi o
 \end{remark}
 
 \begin{example}
-    Množica kompleksnih \(n×n\) matrik \( \M[n] ≔ Mₙ(ℂ) \), kjer za normo vzamemo determinanto in za involucijo hermitsko transponiranje, je \(C^*\)-algebra.
-    Res, lastnosti (a) do (c) držijo (to vemo od prej), lastnost (d) je pa preprosto preveriti: \(\det{\p{A^{H}A}} = \p{\det{A^H}}\p{\det{A}} = \p{\det{A}}²\).
+    Množica kompleksnih \(n×n\) matrik \( \M[n] ≔ Mₙ(ℂ) \), kjer za normo vzamemo spektralno normo in za involucijo hermitsko transponiranje, je \(C^*\)-algebra.
+    Res, lastnosti (a) do (c) držijo (to vemo od prej), lastnost (d) je pa preprosto preveriti: \(σ₁{\p{A^{H}A}} = \sqrt{λ₁(A^{H}AA^{H}A)} = \sqrt{λ₁(A^{H}A)²} = λ₁(A^{H}A) = σ₁(A)²\), kjer \(λ₁(A)\) predstavlja največjo lastno vrednost matrike, \(σ₁(A)\) pa največjo singularno vrednost matrike.
 \end{example}
 
 \begin{definition}
@@ -185,9 +186,9 @@ Operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) želimo interpretirati z mor
 \subsubsection{Polnost za meritev}
 
 \begin{definition}
-    Meritev interpretiramo z \(*\)-homomorfizmi oblike \(\op{measure}{\p X} : \opmap{1}{0, 0}\) s predpisom \[\smeasure{\p X}{α}{β} = \p{\mat{α & 0 \\ 0 & β}},\].
+    Meritev interpretiramo z \(*\)-homomorfizmi oblike \(\mor{measure}{\p X} : \mormap{1}{0, 0}\) s predpisom \[ \smeasure{\p X}{α}{β} = \p{\mat{α & 0 \\ 0 & β}}. \]
 
-    Meritev na \(j\)-tem mestu izvajamo z \(\op{measure}ⱼ ≔ Mⱼ{\p{\op{measure}{\p X}}}\).
+    Meritev na \(j\)-tem mestu izvajamo z \(\mor{measure}ⱼ ≔ Mⱼ{\p{\mor{measure}{\p X}}}\).
 \end{definition}
 \begin{remark}
     Za \(X\) implicitno izberemo tak \(\M[k]\), da bo interpretacija prave dimenzije.
@@ -195,7 +196,7 @@ Operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) želimo interpretirati z mor
 \end{remark}
 
 \begin{definition}
-    Za \(U ∈ \U[p]\) interpretiramo operacijo \(\op{apply}_{\g U}\) z \(*\)-homomorfizmom \( \op{apply}_{\g U} : \semmap{p}{p}\) s predpisom \(A ↦ U^*AU.\)
+    Za \(U ∈ \U[p]\) interpretiramo operacijo \(\op{apply}_{\g U}\) z \(*\)-homomorfizmom \( \mor{apply}_{\g U} : \semmap{p}{p}\) s predpisom \(A ↦ U^*AU.\)
 \end{definition}
 \begin{remark}
     Pri interpretaciji uporabe vrat se zanašamo na uporabnika, da vrata \(U\) skonstruira tako, da delujejo na želenih kubitih, tako da ne bomo uvajali posebnega zapisa za delno uporabo vrat.
@@ -230,8 +231,9 @@ Operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) želimo interpretirati z mor
                       \measure{a}{\measureraw{b}{u}{v}}{\measureraw{b}{x}{y}}
                     = \measure{b}{\measureraw{a}{u}{x}}{\measureraw{a}{v}{y}}} \)
     \end{enumerate}
-    Enakost bomo izpeljali zgolj za prve tri aksiome, saj so aksiomi (\ref{ax:F})–(\ref{ax:J}) enostavne posledice definicij uporabe matrik.
-    Omenimo le pri aksiomu (\ref{ax:I}), da \(a,b\) v zapisu interpretiramo kot kvantni vektor, kjer \(a\) naslavlja prvi kubit, \(b\) pa drugega. Intuitivno si lahko predstavljamo \(a,b\) kot \(a⊗b\), ampak je vredno omeniti, da sta tu \(a\) in \(b\) lahko prepletena, torej vektorja, ki ga \(a,b\) predstavlja ne moremo nujno zapisati kot tenzorski produkt kubitov.
+    Enakost bomo izpeljali zgolj za prve tri aksiome, saj so aksiomi (\ref{ax:F}) – (\ref{ax:J}) enostavne posledice definicij uporabe matrik.
+    Omenimo le pri aksiomu (\ref{ax:I}), da \(a,b\) v zapisu spet interpretiramo kot kvantni vektor, kjer \(a\) naslavlja prvi kubit, \(b\) pa drugega.
+    Intuitivno si lahko predstavljamo \(a,b\) kot \(a⊗b\), ampak je vredno omeniti, da sta tu \(a\) in \(b\) lahko prepletena, torej vektorja, ki ga \(a,b\) predstavlja ne moremo nujno zapisati kot tenzorski produkt kubitov.
 
     Interpretirajmo aksiom (\ref{ax:A}). Naj bosta \(A₁,A₂ ∈ \M[1] = ℂ\).
     \begin{align*}
@@ -317,14 +319,14 @@ Označimo \(\cat{C} ≔ \semmap{p}{m₁,…,mₖ}\).
 \begin{proof}[Skica dokaza izreka \ref{th:partial}.]
     Najprej pokažemo direktno ekvivalenco med določenimi izrazi, zgrajenimi le iz \(\op{measure}\) in Brattelijevimi diagrami.
     Bolj natančno, izraz \(t\) interpretiramo kot \(\brsem{t}\), tako da velja \(μ\brsem{t} = \sem{f}\).
-    V obratni smeri pa definiramo \(\op{Measure}{\p s}\) tako, da je \(\op{Measure}{\brsem t} = t\) in \(\brsem{\op{Measure}{\p s}} = s\) po indukciji.
+    V obratni smeri pa definiramo \(\mor{Measure}{\p s}\) tako, da je \(\mor{Measure}{\brsem t} = t\) in \(\brsem{\mor{Measure}{\p s}} = s\) po indukciji.
 
     Potem naj bo pa \(f : \semmap{p}{m₁,…,mₖ}\) poljuben \(*\)-homomorfizem in \(s ≔ ρ(f)\).
-    Po zgornji lemi je \(f\) oblike \(U^*(μ(s))U\), torej je \(f = \sem{\tapply{U}{a}{\op{Measure}{\p s}}}\).
+    Po zgornji lemi je \(f\) oblike \(U^*(μ(s))U\), torej je \(f = \sem{\tapply{U}{a}{\mor{Measure}{\p s}}}\).
 
     S tem dokažemo prvi del, drugi del se pa dokaže v dveh korakih:
     \begin{enumerate}
-        \item definicija preslikave \(f ↦ \tapply{U}{a}{\op{Measure}{\p{ρ{\p f}}}}\) ni odvisna od \(U\) in
+        \item definicija preslikave \(f ↦ \tapply{U}{a}{\mor{Measure}{\p{ρ{\p f}}}}\) ni odvisna od \(U\) in
         \item preslikava je surjektivna.
     \end{enumerate}
 
@@ -333,7 +335,7 @@ Označimo \(\cat{C} ≔ \semmap{p}{m₁,…,mₖ}\).
     najprej uporabimo aksiom (\ref{ax:B}), da porinemo vse meritve v operacije \(\op{apply}\).
     Argumente meritvam uredimo kot zahteva ekvivalenca iz začetka dokaza z aksiomi (\ref{ax:A}), (\ref{ax:B}), (\ref{ax:F}), in (\ref{ax:J}),
     zaporedje operacij \(\op{apply}\) pa združimo v enega z aksiomi (\ref{ax:G}) – (\ref{ax:I}).
-    Tako je vsak izraz ekvivalenten izrazu oblike \(\tapply{U}{a}{\op{Measure}{\p{ρ{\p f}}}}\), tako da je preslikava res surjektivna.
+    Tako je vsak izraz ekvivalenten izrazu oblike \(\tapply{U}{a}{\mor{Measure}{\p{ρ{\p f}}}}\), tako da je preslikava res surjektivna.
 \end{proof}
 
 \subsubsection{Polnost v splošnem}
@@ -373,9 +375,9 @@ Definirajmo najprej še nekaj pojmov glede pozitivnosti in navedimo nekaj standa
 
 \begin{definition}
     Dodeljevanje novih kubitov interpretiramo s preslikavami oblike
-    \(\op{new}{\p X} : \opmap{0}{1}\) s predpisom \[\snew{\p X}{\mat{α₁₁ & α₁₂ \\ α₂₁ & α₂₂}} = α₁₁.\]
+    \(\mor{new}{\p X} : \mormap{0}{1}\) s predpisom \[\snew{\p X}{\mat{α₁₁ & α₁₂ \\ α₂₁ & α₂₂}} = α₁₁.\]
 
-    Dodelitev \(j\)-tega kubita izvajamo z \(\op{new}ⱼ ≔ Mⱼ{\p{\op{new}{\p X}}}\).
+    Dodelitev \(j\)-tega kubita izvajamo z \(\mor{new}ⱼ ≔ Mⱼ{\p{\mor{new}{\p X}}}\).
 \end{definition}
 \begin{remark}
     Za \(X\) spet implicitno izberemo tak \(\M[k]\), da bo interpretacija prave dimenzije.
@@ -383,11 +385,11 @@ Definirajmo najprej še nekaj pojmov glede pozitivnosti in navedimo nekaj standa
 
 %NOTE: maybe different notation operations and the interpretation morphisms
 \begin{proposition}
-    Preslikave \(\op{new}\) niso \(*\)-homomorfizmi.
+    Preslikave \(\mor{new}\) niso \(*\)-homomorfizmi.
 \end{proposition}
 
 \begin{proof}
-    Denimo, da je \(\op{new}₁\) \(*\)-homomorfizem. Potem je 
+    Denimo, da je \(\mor{new}₁\) \(*\)-homomorfizem. Potem je 
     \[0 = \snew₁{\mat{0&1\\0&0}}\snew₁{\mat{0&0\\1&0}}
         = \snew₁{\bmat{0&1\\0&0}⋅\bmat{0&0\\1&0}}
         = \snew₁{\mat{1&0\\0&0}}
@@ -396,11 +398,11 @@ Definirajmo najprej še nekaj pojmov glede pozitivnosti in navedimo nekaj standa
 \end{proof}
 
 \begin{proposition}
-    Preslikave \(\op{new}\) so popolnoma pozitivne in ohranjajo enoto.
+    Preslikave \(\mor{new}\) so popolnoma pozitivne in ohranjajo enoto.
 \end{proposition}
 
 \begin{proof}
-    Preverimo obe lastnosti za \(\op{new}{\p ℂ}\):
+    Preverimo obe lastnosti za \(\mor{new}{\p ℂ}\):
     \begin{itemize}
         \item \(\snew₁{\mat{1&0\\0&1}} = 1\),
         \item Naj bo \(x\) pozitiven element. Potem je \(x = y^*y\), za nek \(y ∈ \M[2]\).
@@ -504,7 +506,7 @@ Dokaza teh izrekov izpustimo, saj sta izven obsega tega dela.
 
 \begin{proof}[Dokaz izreka o polnosti.]
     Naj bo \(f : \semmap{p}{m₁,…,mₖ}\) kot v izreku. Potem lahko uporabimo Stinespringov izrek o dilaciji, skupaj z minimalnostjo, da \(f\) razcepimo na \(g : \mc A → \M[q]\), za nek \(q ≥ 2ᵖ\), kjer je \(\mc A = \M[2^{m₁}]⊗⋯⊗\M[2^{mₖ}]\).
-    Če je \(q\) potenca \(2\), je izrek praktično dokazan; \(g\) lahko definiramo po izreku \ref{th:partial}, skrčitev pa z zaporednimi \(\op{new}\) in premešavanjem koordinat.
+    Če je \(q\) potenca \(2\), je izrek praktično dokazan; \(g\) lahko definiramo po izreku \ref{th:partial}, skrčitev pa z zaporednimi \(\mor{new}\) in premešavanjem koordinat.
     % Drugi del sledi iz minimalnosti dilacije. % source?
     Vendar v splošnem \(q\) ni potenca \(2\). Kljub temu, pa lahko tudi \(g\) ustrezno faktoriziramo:
     % https://q.uiver.app/?q=WzAsNSxbMCwwLCJBIl0sWzMsMCwiMl57beG1on1cXGNkb3QgXFxNW3Fd4oqVKDJecS1xKVxcY2RvdFxcTVsyXntt4bWifV0iXSxbNCwwLCJcXE1bMl57beG1oitxfV0iXSxbNCwxLCJcXE1bcV0iXSxbNCwyLCJcXE1bMl5wXSJdLFswLDQsImYiLDJdLFswLDMsImciLDJdLFswLDEsIigyXntt4bWifVxcY2RvdCBnLCgyXmwtcSlcXGNkb3Qgz4DhtaIpIl0sWzEsMl0sWzIsM10sWzMsNF0sWzEsMywiz4DigoEiXV0=
@@ -522,7 +524,7 @@ Dokaza teh izrekov izpustimo, saj sta izven obsega tega dela.
     \end{tikzcd}\]
     Navpične preslikave so zožitve, vodoravne pa \(*\)-homomorfizmi, torej lahko kot prej definiramo izraz \(t\), da je \(\sem{t} = f\).
     Ostane nam še drugi del izreka, naj bosta \(t\) in \(u\) taka, da je \(\sem{t} = \sem{u}\).
-    Po iz aksiomov o komutativnosti lahko zapišemo \(t\) kot \(\tnew{a₁,…,aₗ}{t'}\) (in podobno za \(u\)). Iz aksioma \ref{ax:D} sledi \(\tnew{a}{\tdiscard{a}{x}} = x\), torej je BŠS število \(\op{new}\) na začetku \(t\) in \(u\) enako.
+    Po aksiomih o komutativnosti lahko zapišemo \(t\) kot \(\tnew{a₁,…,aₗ}{t'}\) (in podobno za \(u\)). Iz aksioma \ref{ax:D} sledi \(\tnew{a}{\tdiscard{a}{x}} = x\), torej je BŠS število \(\mor{new}\) na začetku \(t\) in \(u\) enako.
     Po izreku \ref{th:partial} imamo \(*\)-homomorfizma \(\sem{t'}, \sem{u'}: \mc A → \M[2ˡ]\), tako da velja \(\sem{t} = \mc A \xrightarrow{\sem{t'}} \M[2ˡ] → \M[2ᵖ]\) in \(\sem{u} = \mc A \xrightarrow{\sem{u'}} \M[2ˡ] → \M[2ᵖ]\).
     Po Stinespringovem izreku in minimalnosti spet sledi, da lahko \(\sem{t} = \sem{u}\) faktoriziramo skozi nek \(\M[q]\). Po minimalnosti (kjer za \(h\) vzamemo \(\sem{t'}\) in \(\sem{u'}\) ter \(r = 2ˡ\)) tudi obstajata \(2ˡ×2ˡ\) unitarni matriki \(U\) in \(V\), da spodnji diagram komutira.
     % https://q.uiver.app/?q=WzAsNyxbMCwyLCJBIl0sWzMsMCwiXFxNWzLLoV0iXSxbNCwxLCJcXE1bMsuhXSJdLFs1LDIsIlxcTVsyXnFdIl0sWzMsNCwiXFxNWzLLoV0iXSxbNCwzLCJcXE1bMsuhXSJdLFs3LDIsIlxcTVsy4bWWXSJdLFswLDEsIlxcc2Vte3QnfSJdLFsxLDIsIlUoLSlVXioiLDJdLFsyLDNdLFswLDQsIlxcc2Vte3UnfSJdLFs0LDUsIlYoLSlWXioiXSxbNSwzXSxbNCw2LCIiLDEseyJjdXJ2ZSI6M31dLFsxLDYsIiIsMSx7ImN1cnZlIjotM31dLFszLDZdXQ==
@@ -620,12 +622,12 @@ Dokaza teh izrekov izpustimo, saj sta izven obsega tega dela.
 
 Oglejmo si sedaj interpretacije nekaj od naših \(6\)-ih primerov:
 \begin{enumerate}
-    \item \(\sem{\cmd{new}¹(a.t)}(A) = \snew₁{X^*AX} = a₂₂\),
+    \item \(\sem{\mor{new}¹(a.\,t)}(A) = \snew₁{X^*AX} = a₂₂\),
     \addtocounter{enumi}{1}
-    \item \(\snew₁{\had^*⋅\snew₂{\ctl{X}^*⋅A⋅\ctl{X}}⋅\had} = \frac{a₁₁ + a₁₄ + a₄₁ + a₄₄}{2}\),
+    \item \(\sem{\mor{bell}(a,b.\,t)}(A) = \snew₁{\had^*⋅\snew₂{\ctl{X}^*⋅A⋅\ctl{X}}⋅\had} = \frac{a₁₁ + a₁₄ + a₄₁ + a₄₄}{2}\),
     \item \(\sem{\tdiscard{a}{t}} = \sem{t}(-)⋅I₂\),
-    \item \(\sem{\cmd{proj}}(A) = \pmat{\snew₁{A}&0\\0&\snew₁{X^*AX}} = \pmat{a₁₁&0\\0&a₂₂}\),
-    \item \(\sem{\cmd{rot}}(A) = \snew₂{(I⊗\had)^*\p{\smeasure₂{A}{Z^*AZ}}(I⊗\had)}\\
+    \item \(\sem{\mor{proj}(a;a.\,t)}(A) = \pmat{\snew₁{A}&0\\0&\snew₁{X^*AX}} = \pmat{a₁₁&0\\0&a₂₂}\),
+    \item \(\sem{\mor{c-rot}(a;a.\,t)}(A) = \snew₂{(I⊗\had)^*\p{\smeasure₂{A}{Z^*AZ}}(I⊗\had)}\\
         \hspace{7em}= \snew₂{\mat{a₁₁&0&0&0\\0&a₁₁&0&0\\0&0&a₂₂&0\\0&0&0&a₂₂}} = \pmat{a₁₁&0\\0&a₂₂}\).
 \end{enumerate}
 
@@ -634,7 +636,7 @@ Prej smo z aksiomi pokazali, da sta zadnja dva primera enaka, sedaj pa to lahko 
 \begin{remark}
     Pri primeru \((3)\) je vredno omeniti, kaj tisto število pomeni.
     Če pričakovano vrednost \airquotes{opazljivke} \(A\) v stanju \(u\) definiramo kot \(u^*Au\),
-    in če poračunamo pričakovano vrednost za \(a = ρ\p{\ket{\mb{00}} + \ket{\mb{11}}}\),
-    dobimo ravno \(\frac{a₁₁ + a₁₄ + a₄₁ + a₄₄}{2}\), torej si lahko predstavljamo, da interpretacijske funkcije delujejo na opazljivkah.
+    in če poračunamo pričakovano vrednost v stanju \(a = ρ\p{\ket{\mb{00}} + \ket{\mb{11}}}\),
+    dobimo ravno \(\frac{a₁₁ + a₁₄ + a₄₁ + a₄₄}{2}\), torej si lahko predstavljamo, da interpretacijske funkcije računajo (delno) pričakovano vrednost opazljivk.
     Sicer opazljivk v tem delu nismo definirali (predstavljajo merljive fizikalne količine), si pa lahko bolj podrobno obravnavo pogledate v \cite[razdelek 3]{ramšak-qm}.
 \end{remark}
