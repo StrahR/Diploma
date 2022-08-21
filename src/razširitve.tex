@@ -2,16 +2,15 @@
 Prednost uporabe algebrajskih teorij kot modele računanja je razširljivost;
 naš jezik lahko zelo preprosto razširimo in dokaz polnosti za razširitev bo ponavadi zgolj metoda, kako razširitev prevesti na osnovni model.
 
-Za primer si poglejte prejšnji razdelek, kjer lahko \(\op{new}\) smatramo kot razširitev.
+Za primer si poglejte prejšnji razdelek, kjer lahko dodeljevanje novih kubitov smatramo kot razširitev.
 Dokaz res poteka kot opisano: vsak morfizem faktoriziramo na \(*\)-homomorfizem in nek morfizem posebne oblike, ki ga lahko obravnavamo posebej.
 
 Brez dokaza navedimo še nekaj razširitev:
 
 \subsection{Nedefiniranost in rekurzija}
-Uvedemo lahko operacijo \(\op{undef} : \arity{0}{-}\), ki predstavlja nekakšno neizračunljivo stanje (npr. \(1/0\) ali neskončna zanka).
+Uvedemo lahko konstanto \(\op{undef} : \arity{0}{-}\), ki predstavlja nekakšno neizračunljivo stanje (npr. \(1/0\) ali neskončna zanka).
 
-Opisati moramo, kako nova operacija komutira z ostalimi, kar nam da nove aksiome, na primer \(\sequent{-}{a}{\tdiscard{a}{\op{undef}}} = \op{undef}\) in podobno za \(\op{new}\) in \(\op{apply}\).
-%TODO: measure?
+Opisati moramo, kako nova operacija komutira z ostalimi, kar nam da nove aksiome, na primer \(\sequent{-}{a}{\tdiscard{a}{\op{undef}}} = \op{undef}\) in podobno za ostale operacije (z meritvijo komutira le, če je \(\op{undef}\) na obeh vejah meritve).
 
 Operacijo interpretiramo z ničelno preslikavo \(\M[0] → \M[1]\), kjer je \(\M[0]\) množica \(0×0\) matrik, torej množica z enim elementom.
 Podobno kot za \(\op{measure}\) in \(\op{new}\) jo razširimo, tako da lahko veže poljubno mnogo kubitov (recimo v \(\tapply{U}{a}{\op{undef}} = \op{undef}\)).
@@ -20,7 +19,7 @@ Ta preslikava je popolnoma pozitivna, ampak ne ohranja enote (ker vse slika v \(
 Recimo kategoriji \(C^*\)-algeber in popolnoma pozitivnih preslikav, za katere je \(1-f(1)\) pozitivno, \(\cstarcat_{\textrm{CPSU}}\) (angl. \foreignlanguage{english}{Completely Positive Sub-Unital maps}).
 
 \begin{definition}
-    Model \(X\) je v kategoriji univerzalno poln, če v vseh kontekstih \(Γ \mid Δ ≔ x₁:m₁,…,xₖ:mₖ \mid a₁,…,aₚ\) velja:
+    Model \(X\) je v kategoriji \emph{univerzalno poln}, če v vseh kontekstih \(Γ \mid Δ ≔ x₁:m₁,…,xₖ:mₖ \mid a₁,…,aₚ\) velja:
     \begin{itemize}
         \item za vsak morfizem \(f : \abssemmap{p}{m₁,…,mₖ}\) obstaja izraz \(\absseq{t}\), tako da je \(\sem{t} = f\) in
         \item za vse izraze teorije \(\absseq{t,u}\), za katere velja \(\sem{t} = \sem{u}\) lahko izpeljemo \(\absseq{t=u}\).
@@ -37,7 +36,7 @@ Recimo kategoriji \(C^*\)-algeber in popolnoma pozitivnih preslikav, za katere j
 
 Dokaz sloni na dejstvu, da so te preslikave oblike \(X → Y\) natanko določene s popolnoma pozitivnimi preslikavami oblike \(X⊕ℂ → Y\), ki ohranjajo enoto.
 
-Isto teorijo je mogoče uporabiti tudi za modeliranje rekurzije\cite{selinger-qpl}.
+Isto teorijo je mogoče uporabiti tudi za modeliranje rekurzije~\cite{selinger-qpl}.
 
 \subsection{Nedeterminizem}
 Algebrajski teoriji dodajmo operacijo \(⦶ : \arity{0}{0,0}\), za katero veljajo enačbe
@@ -46,7 +45,7 @@ Algebrajski teoriji dodajmo operacijo \(⦶ : \arity{0}{0,0}\), za katero veljaj
 Naj še komutira z ostalimi operacijami (\(\op{new}\), \(\op{apply}\), in \(\op{measure}\)).
 
 Operacija \(⦶\) je zelo podobna nedeterminizmu, razen, da ne zahteva idempotence \(x⦶x = x\).
-Izkaže se, da ne obstaja nobena komutativna algebrajska teorija, ki kvantnemu računalništvu doda nedeterminizem.\cite[razdelek 6.1]{algeff-lin-qpl}
+Izkaže se, da ne obstaja nobena komutativna algebrajska teorija, ki kvantnemu računalništvu doda nedeterminizem.~\cite[razdelek 6.1]{algeff-lin-qpl}
 
 Interpretacijski morfizem \(⦶ : \semmap{0}{0,0}\) naj bo \(⦶(α,β) = α + β\) (posplošen kot ponavadi).
 Ta morfizem je popolnoma pozitiven, ampak ne ohranja enote.
@@ -72,17 +71,17 @@ dobimo model klasičnega računalništva:
 
 Omenimo še, da je ta aksiom nekonsistenten s kvantnim računalništvom:
 \begin{align*}
-    x &= \new{a}{\measureraw{a}{x}{y}}\\
-      &= \new{a}{\apply{\had}{a}{\apply{\had}{a}{\measureraw{a}{x}{y}}}}\\
-      &= \new{a}{\apply{\had}{a}{\measure{a}{
-            \new{a}{\apply{\had}{a}{             \measureraw{a}{x}{y}}}}{
-            \new{a}{\apply{\had}{a}{\apply{X}{A}{\measureraw{a}{x}{y}}}}
+    x &= \new{a}{\measure{a}{x}{y}}\\
+      &= \new{a}{\apply{\had}{a}{\apply{\had}{a}{\measure{a}{x}{y}}}}\\
+      &= \new{a}{\apply{\had}{a}{\measurebr{a}{
+            \new{a}{\apply{\had}{a}{             \measure{a}{x}{y}}}}{
+            \new{a}{\apply{\had}{a}{\apply{X}{A}{\measure{a}{x}{y}}}}
         }}}\\
-      &= \new{a}{\apply{\had}{a}{\measure{a}{
-            \new{a}{\apply{\had}{a}{             \measureraw{a}{y}{x}}}}{
-            \new{a}{\apply{\had}{a}{\apply{X}{A}{\measureraw{a}{y}{x}}}}
+      &= \new{a}{\apply{\had}{a}{\measurebr{a}{
+            \new{a}{\apply{\had}{a}{             \measure{a}{y}{x}}}}{
+            \new{a}{\apply{\had}{a}{\apply{X}{A}{\measure{a}{y}{x}}}}
         }}}\\
-      &= \new{a}{\measureraw{a}{y}{x}}\\
+      &= \new{a}{\measure{a}{y}{x}}\\
       &= y \contradiction
 \end{align*}
 \begin{remark}

@@ -1,0 +1,215 @@
+\section{Algebrajski učinki}
+% Diagrami so v rabi že dolgo časa, vendar pa so manipulacije teh diagramov nerodne;
+% na naših programih raje izvajamo bolj matematične pristope, in zato na programe raje poglejmo iz bolj matematičnega vidika. Izkaže se, da lahko zelo dobro predstavimo naše programe z algebrajskimi izrazi.
+% Da lahko o našem programskem jeziku, kaj dokažemo, ga moramo prevesti na neko matematično teorijo.
+% Naše operacije na kubitih so dejansko računski učinki,
+% izkaže pa se, da jih lahko predstavimo z algebrajsko teorijo.
+
+Z računskimi učinki se med programiranjem pogosto srečamo: globalno stanje spremenljivk, vhodno/izhodne naprave, naključnost, izjeme, nedeterminizem, ipd,
+v kvantnem računalništvu se pa pojavijo v obliki izvedenih operacij na kubitih, torej dodeljevanje novih kubitov, meritev, in uporaba vrat.
+
+\begin{definition}
+    Če ima funkcija ali operacija še kak navzven viden učinek poleg vrnjene vrednosti, slednjemu pravimo \emph{računski učinek} (učinek računanja).
+\end{definition}
+
+\begin{definition}
+    Računskim učinkom, ki jih lahko modeliramo z neko algebrajsko teorijo, pravimo \emph{algebrajski učinki}.
+\end{definition}
+
+Večina zanimivih (in vseh zgoraj naštetih) učinkov je algebrajskih, tako da je pristop v tem delu uporaben tudi bolj v splošnem.
+
+Kot bomo videli v naslednjem podrazdelku, so tudi naši kvantni učinki algebrajski.
+% TODO: fill out with some theory on algebraic effects and how they work in our particular example
+
+\subsection{Algebrajski izrazi}
+
+Naš programski jezik lahko zapišemo tudi z algebrajskimi izrazi:
+\begin{align*}
+    &\tnew{a}{t}        ≔ \new{a}{t}\\
+    &\tapply{U}{a}{t}   ≔ \apply{U}{a}{t}\\
+    &\tmeasure{a}{t}{u} ≔ \measure{a}{t}{u}\\
+    &\tdiscard{a}{t}    ≔ \discard{a}{t}
+\end{align*}
+To so sedaj operacije, zapisane v načinu z nadaljevanji.
+V splošnem naj bo \(\op O\) neka operacija, ki se lahko nadaljuje na \(k\) načinov. Nadaljevanja označimo s \(tᵢ\), vsako od njih pa naj tudi pričakuje nekaj parametrov (in za preprostost naj vsa pričakujejo enako število parametrov \(m\)). To zapišemo kot \(b₁,…,bₘ.\,tᵢ\).
+Če operacija sama zahteva \(p\) parametrov, jo pišemo kot \(\op{O}{\p{a₁,…,aₚ;\, b₁,…,bₘ.t₁,…,b₁,…,bₘ.tₖ}}\), kjer so parametri ločeni od nadaljevanj s podpičjem.
+
+% Če se osredotočimo zgolj na kvantni del jezika, torej, če pozabimo na vse klasične konstrukte, lahko definiramo konstruktorje za algebrajske izraze:
+% \begin{itemize}
+%     \item če je \(t\) izraz, ki pričakuje kubit \(a\), potem obstaja izraz \(\tnew{a}{t}\),
+%     ki dodeli nov kubit in ga shrani v \(a\), nato pa nadaljuje s \(t\),
+%     \item če je \(t\) izraz, ki pričakuje kubite \(b₁,…,bₙ\) in so \(a₁,…,aₙ\) kubiti ter \(U\) unitarna vrata reda \(n\), potem obstaja izraz \(\op{apply}_{\g U}{\p{a₁,…,aₙ;\, b₁,…,bₙ.\,t}}\), ki najprej uporabi vrata \(U\) na kubitih \(a₁,…,aₙ\), nato pa shrani rezultat v \(b₁,…,bₙ\) in nadaljuje s \(t\). Ta operacija uniči kubite \(aᵢ\), tako da lahko nadaljevanje spet veže kubite \(aᵢ\) namesto \(bᵢ\) in bomo pisali kar \(\tapply{U}{a₁,…,aₙ}{t}\),
+%     \item če sta \(t\) in \(u\) izraza, in je \(a\) kubit, potem obstaja izraz \(\tmeasure{a}{t}{u}\), ki izmeri \(a\) in nadaljuje v \(t\), če izmeri\(0\) in v \(u\), če izmeri \(1\). Ta operacija je linearna, torej \(t\) in \(u\) ne smeta uporabiti kubita \(a\); tega namreč meritev uniči,
+%     \item če je \(t\) izraz in \(a\) kubit, potem obstaja izraz \(\tnew{a}{t}\), ki zavrže kubit \(a\). Kot zgoraj, \(t\) ne sme uporabiti kubita \(a\),
+%     \item če je \(x\) neko nadaljevanje, ki pričakuje \(n\) kubitov (oznaka \(x : n\)) in so \(a₁,…,aₙ\) kubiti, je \(x(a₁,…,aₙ)\) izraz na \(n\) kubitih.
+% \end{itemize}
+% Čeprav je pogojni stavek klasičen konstrukt, ga v tem formalizmu ne pogrešamo, saj je \(\tmeasure{a}{t}{u}\) ekvivalenten \qpl{if |\(\emeasure{a} = 0\)| then |\(t\)| else |\(u\)|}, funkcije pa lahko razumemo kot poimenovana nadaljevanja.
+
+\begin{examples}
+    Oglejmo si zgornje primere zapisane v algebrajskem jeziku:
+    \begin{enumerate} %TODO: fix syntax for shorthand: decide on a.t vs x vs x(a) etc
+        \item \(\op{new}¹(a.\,t) ≔ \tnew{a}{\tapply{X}{a}{t}}\),
+        \item \(\op{rand}(t,u) ≔ \tnew{a}{\tapply{\had}{a}{\tmeasure{a}{t}{u}}}\),
+        \item \(\op{bell}(a,b.\,t) ≔ \tnew{a}{\tnew{b}{\tapply{\had}{a}{\tapply{\ctl{X}}{a,b}{t}}}}\),
+        \item \(\tdiscard{a}{t} ≔ \tmeasure{a}{t}{t}\),
+        \item \(\op{proj}(a;a.\,t) ≔ \tmeasure{a}{\op{new}⁰{\p{b.\,t}}}{\op{new}¹{\p{b.\,t}}}\),
+        \item \(\op{c-rot}(a;a.\,t) ≔ \op{rand}{\p{a.\,t, \tapply{Z}{a}{t}}}\).\qedhere
+    \end{enumerate}
+\end{examples}
+
+% Na podoben način kot za tipe, lahko zgornja pravila povzamemo z drevesi.
+% Naj \(\sequent{Γ}{Δ}{t}\) predstavlja, da je \(t\) izraz v kontekstu \(Γ \mid Δ\),
+% kjer je tokrat kontekst seznam nadaljevan z njihovo členostjo (\(Γ = x₁ : m₁,…,xₖ : mₖ\)), skupaj z naborom kubitov, ki so v izrazu prosti (\(Δ = a₁,…,aₚ\)).
+% \[\begin{prooftree}
+%     \hypo{\sequent{Γ}{Δ, a}{         t }}
+%   \infer1{\sequent{Γ}{Δ   }{\tnew{a}{t}}}
+% \end{prooftree}\qquad
+% \begin{prooftree}
+%     \hypo{\sequent{Γ}{Δ, a₁, …, aₚ}{              t }}
+%   \infer1{\sequent{Γ}{Δ, a₁, …, aₚ}{\tapply{U}{a}{t}}}
+% \end{prooftree}\]
+% \[\begin{prooftree}
+%     \hypo{\sequent{Γ}{Δ   }{             t    }}
+%     \hypo{\sequent{Γ}{Δ   }{                u }}
+%   \infer2{\sequent{Γ}{Δ, a}{\tmeasure{a}{t}{u}}}
+% \end{prooftree}\quad
+% \begin{prooftree}
+%     \hypo{\sequent{Γ}{Δ           }{             t }}
+%   \infer1{\sequent{Γ}{Δ, a₁, …, aₚ}{\tdiscard{a}{t}}}
+% \end{prooftree}\quad
+% \begin{prooftree}
+%     \hypo{(x : p) ∈ Γ}
+%   \infer1{\sequent{Γ}{a₁, …, aₚ}{x(a)}}
+% \end{prooftree}\]
+
+\subsection{Modeli algebrajskih teorij z linearnimi parametri}
+% \subsubsection{Algebrajska teorija z linearnimi parametri}
+
+\begin{definition}
+    \emph{Členost}, \(\arity{p}{m₁, …, mₖ}\), je naravno število \(p\) skupaj s seznamom naravnih števil \(mᵢ\).
+    \emph{Signatura z linearnimi parametri} je množica operacij s členostmi.
+    Neformalno to pove, da operacija \(\op O\) sprejme \(p\) parametrov in \(k\) računskih spremenljivk, kjer \(i\)-ta veže \(mᵢ\) parametrov.
+    Pišemo \(\op O : \arity{p}{m₁, …, mₖ}\).
+\end{definition}
+\begin{definition}
+    Zapis oblike \(\absseq{t}\) pomeni, da je izraz \(t\) veljaven v kontekstu \(Γ \mid Δ\),
+    kjer je \(Γ\) seznam računskih spremenljivk označenih s številom parametrov, ki jih vežejo, \(Δ\) pa seznam parametrov.
+    Pišemo tudi \(x₁ : m₁, …, xₖ : mₖ \mid a₁,…,aₚ\).
+\end{definition}
+
+Podobno kot za tipe, imamo pravila za tvorjenje izrazov:
+%LTeX: enabled=off
+\begin{table}[H]
+\vspace{-1em}
+\begin{mathpar}
+    \inferrule{ }{\sequent{Γ}{a₁,…,aₚ}{x{\p{a₁,…,aₚ}}}}
+    \and
+    \inferrule
+        {\sequent{Γ}{a₁,…,aₚ}{t}}
+        {\sequent{Γ}{a_{σ(1)},…,a_{σ(p)}}{t}}
+    \p{σ ∈ Sₚ}
+    \and
+    \inferrule
+        {\sequent{Γ}{Δ,b₁,…,b_{m₁}}{t₁} … \sequent{Γ}{Δ,b₁,…,b_{mₖ}}{tₖ} \\ \op{O} : \arity{p}{m₁,…,mₖ}}
+        {\sequent{Γ}{Δ,a₁,…,aₚ}{\op{O}{\p{a₁,…,aₚ;\, b₁,…,b_{m₁}.\,t₁,…,b₁,…,b_{mₖ}.\,tₖ}}}}
+\end{mathpar}
+\caption{Pravila za tvorjenje izrazov}
+\vspace{-1em}
+\end{table}
+%LTeX: enabled=on
+
+\begin{example}
+    Členosti operacij našega jezika so sledeče:
+    \begin{gather*}
+        \op{new}          : \arity{0}{1}\qquad
+        \op{apply}_{\g U} : \arity{p}{p}\qquad
+        \op{measure}      : \arity{1}{0,0}\qquad
+        \op{discard}      : \arity{1}{0}
+    \end{gather*}
+    Opazimo, da členosti beležijo zgolj spremenjene kubite: vrata reda \(p\) spremenijo \(p\) kubitov, meritev odstrani en kubit, dodajanje novih kubitov pa doda en kubit.
+\end{example}
+
+\begin{definition}
+    \emph{Aksiom} v neki signaturi je par izrazov v istem kontekstu. Pišemo \(\absseq{t=u}\).
+\end{definition}
+
+\begin{example}
+    Aksiomi (\ref{ax:A}) – (\ref{ax:L}) iz prejšnjega razdelka so natanko primeri aksimov v signaturi.
+    Zapišimo jih par v novi sintaksi:
+    \begin{enumerate}[(A)]
+        \item \( \tapply{X}{a}{\tmeasure{a}{x}{y}} = \tmeasure{a}{y}{x} \),
+        \addtocounter{enumi}{2}
+        \item \( \tnew{a}{\tmeasure{a}{x}{y}} = x \).\qedhere
+    \end{enumerate}
+\end{example}
+
+\begin{definition}
+    \emph{Kategorija} je sestavljena iz
+    \begin{itemize}
+        \item nabora objektov (ponavadi označeni z \(X,Y,Z,…\)) in
+        \item nabora morfizmov (ponavadi označeni s \(f,g,h,…\)),
+    \end{itemize}
+    tako da
+    \begin{itemize}
+        \item ima vsak morfizem dva objekta, ki jima pravimo domena in kodomena (označimo \(f : X → Y\), kjer je \(X\) domena in \(Y\) kodomena),
+        \item ima vsak objekt \(X\) identiteto \(1_X : X → X\),
+        \item ima vsak par morfizmov \(f\) in \(g\), tako da je kodomena \(f\) enaka domeni \(g\), kompozitum \(g∘f\), ki ima domeno enako \(f\) in kodomeno enako \(g\),
+    \end{itemize}
+    in veljata naslednja aksioma:
+    \begin{itemize}
+        \item za vsak \(f : X → Y\) velja \(1_Y∘f = f = f∘1_X\) in
+        \item za vsake \(f,g,h : X → Y → Z → W\) velja \(h∘(g∘f) = (h∘g)∘f\).
+    \end{itemize}
+\end{definition}
+
+\begin{examples}
+    Poznamo mnogo primerov kategorij, nekaj bolj znanih naštejmo spodaj:
+    \begin{itemize}
+        \item grupe s homomorfizmi,
+        \item topološki prostori z zveznimi preslikavami,
+        \item Hausdorffovi prostori z zveznimi preslikavami,
+        \item vektorski prostori z linearnimi preslikavami,
+        \item …\qedhere
+    \end{itemize}
+\end{examples}
+
+Intuitivno lahko gledamo na kategorije kot neke splošne strukture, v katerih imajo objekti neko svojo strukturo, ki jo morfizmi spoštujejo.
+
+So pa kategorije bistveno bolj splošnejši pojem od tega, na primer delno urejene množice lahko predstavimo kot kategorije:
+\begin{example}
+    Naj bo \(\p{P, ≤}\) delno urejena množica.
+    Vzemimo za objekte kategorije elemente množice \(P\), morfizem med objekti \(x\) in \(y\) pa naj obstaja natanko tedaj, ko je \(x ≤ y\).
+    Tokrat morfizmi niso funkcije, vendar zgolj formalni objekti, ampak vseeno zadoščajo vsem pogojem kategorije.
+\end{example}
+
+Omejimo se na kategorije, kjer za vsak objekt \(X\) in vsako naravno število \(n\) obstaja nek objekt \(n•X\), tako da velja \(1•X = X\) in \(n•\p{m•X} = \p{n+m}•X\).
+Operacijo \(•\) lahko razumemo kot delovanje naravnih števil na dano kategorijo.
+Tedaj lahko morfizme \(X → n•Y\) interpretiramo kot morfizme \(X → Y\) z \(n\) parametri.
+Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi oblike \( \abssemmap{p}{m₁,…,mₖ}\).
+
+\begin{definition}
+    \emph{Interpretacija za signaturo} je objekt \(X\) skupaj z morfizmom oblike \(\abssemmap{p}{m₁,…,mₖ}\) za vsako operacijo \(\op{O} : \arity{p}{m₁,…,mₖ}\). Označimo ga z \(\sem{\op{O}}\).
+\end{definition}
+
+\begin{definition}
+    Vsakemu izrazu \(\seq{t}\) definiramo njegov \emph{interpretacijski morfizem} \(\sem{t}\) z indukcijo na strukturi členov na sledeč način:
+    \[ \sem{\op{O}{\p{a₁,…,aₚ; b₁,…,b_{m₁}.t₁, …, b₁,…,b_{mₖ}.tₖ}}}
+      = \sem{\op{O}}{\p{\sem{t₁}{\p -},…,\sem{tₖ}{\p -}}},\]
+    kjer \(\op{O}\) interpretiramo z morfizmom iz signature, \(tᵢ\) pa po indukciji.
+\end{definition}
+
+\begin{definition}
+    \emph{Model za algebrajsko teorijo z linearnimi parametri} je interpretacija njene signature skupaj z množico aksiomov, tako da sta za vsak aksiom \(\absseq{t=u}\) interpretacijska morfizma \(\sem{t}\) in \(\sem{u}\) enaka.
+\end{definition}
+
+Na kratko je model torej nek objekt in interpretacijska preslikava, ki vsakemu izrazu, skladno z aksiomi, dodeli morfizem.
+
+\begin{proposition}[Zdravost]
+    Če lahko enakost izpeljemo v algebrajski teoriji, potem drži v vseh modelih.
+\end{proposition}
+
+\begin{proof}
+    Dokaz poteka po indukciji. Naj bo \(\absseq{t=u}\).
+    Brez škode za splošnost je lahko veriga enakosti prek aksiomov dolga zgolj en člen, saj je enakost tranzitivna.
+    Tedaj lahko ta aksiom uporabimo na dva načina: prvi je, da ga uporabimo na podizrazih, kar pomeni, da sta interpretacijska morfizma enaka po indukciji, drugi je pa, da aksiom uporabimo neposredno na celih izrazih, iz česar pa enakost morfizmov sledi neposredno iz definicije modela.
+\end{proof}

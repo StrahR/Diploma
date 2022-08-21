@@ -23,6 +23,7 @@
 \newcommand{\mat}[1]{\begin{matrix} #1 \end{matrix}}
 \newcommand{\pmat}[1]{\left(\mat{#1}\right)}
 \newcommand{\bmat}[1]{\left[\mat{#1}\right]}
+\let\oldvec\vec
 \renewcommand{\vec}[1]{\bmat{\StrSubstitute[0]{#1}{,}{\\}}}
 \newcommand{\state}[1]{\left\{ {#1} \right\}}
 
@@ -56,12 +57,17 @@
 \newcommand{\tapplyd}[3]{\op{apply}_{\D{#1}}{\p{#2;#2.\,#3}}}
 \newcommand{\tmeasure}[3]{\op{measure}{\p{#1;\,#2,#3}}}
 \newcommand{\tdiscard}[2]{\op{discard}{\p{#1;\,#2}}}
-\newcommand{\new}[2]{\nu{#1}.\,#2}
+\newcommand{\new}[2]{ν{#1}.\,#2}
 \newcommand{\apply}[3]{{\g{#1}}_{#2}{\p{#3}}}
 \newcommand{\applyd}[3]{{\D{#1}}_{#2}{\p{#3}}}
-\renewcommand{\measure}[3]{\p{#2} {\;?_{#1}\,} \p{#3}}
-\newcommand{\measureraw}[3]{#2 {\;?_{#1}\,} #3}
+\renewcommand{\measure}[3]{#2 {\;?_{#1}\,} #3}
+\newcommand{\measurebr}[3]{\measure{#1}{\p{#2}}{\p{#3}}}
 \newcommand{\discard}[2]{\op{disc}_{#1}{\p{#2}}}
+\newcommand{\lam}[2]{λ{#1}.\,#2}
+\newcommand{\plet}[3]{\qpl{let |\(#1 ≔ #2\)| in |\(#3\)|}}
+\newcommand{\pseq}[2]{\qpl{|\(#1\)|;|\(#2\)|}}
+\newcommand{\pret}[1]{\qpl{return |\(#1\)|}}
+% \newcommand{\pret}[1]{#1}
 \newcommand{\snew}[2]{\mor{new}#1{\p{#2}}}
 \newcommand{\sapply}[2]{\mor{apply}_{\g{#1}}{\p{#2}}}
 \newcommand{\smeasure}[3]{\mor{measure}#1{\p{#2,#3}}}

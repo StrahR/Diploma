@@ -60,9 +60,9 @@
   \usetikzlibrary{babel}
   \usetikzlibrary{angles,quotes}
 \RequirePackage{quiver}
-\RequirePackage{ebproof}
+\RequirePackage{mathpartir}
 \RequirePackage{minted}
-\RequirePackage{enumerate}
+\RequirePackage[shortlabels]{enumitem}
 
 \ifthenelse{\boolean{@english}}{
   \RequirePackage[style=english]{csquotes}

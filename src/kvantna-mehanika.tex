@@ -1,5 +1,5 @@
 \section{Kvantna mehanika in kvantno računalništvo}
-V tem razdelku povzamemo nekaj standardnih definicij in rezultatov kvantne mehanike\cite{ess-qc,ramšak-qm,selinger-qpl}.
+V tem razdelku povzamemo nekaj standardnih definicij in rezultatov kvantne mehanike~\cite{ess-qc,ramšak-qm,selinger-qpl}.
 % Vsebujejo osnovne definicije (in primere) matematičnih osnov kvantne mehanike,
 % ki jih potrebujemo za definicije želenih operacij nad kubiti.
 % Te se nahajajo na prvih nekaj straneh.
@@ -21,57 +21,60 @@ Vseskozi to delo bomo uporabljali naslednje oznake:
 
 \subsection{Kvantni biti}
 Klasični biti zavzamejo dve vrednosti: \(\mb{0}\) in \(\mb{1}\).
-Te lahko posplošimo na kvantne bite (oziroma kubite) kot formalne kompleksne linearne kombinacije klasičnih stanj, t.j. vsak kubit \(q\) je oblike \(α\mb{0} + β\mb{1}\),
-za \(α,β ∈ ℂ\), kjer nista oba 0. Številoma \(α\) in \(β\) pravimo amplitudi.
+Te lahko posplošimo na \emph{kvantne bite} (oziroma \emph{kubite}) kot formalne kompleksne linearne kombinacije klasičnih stanj, t.j. vsak kubit \(q\) je oblike \(α\mb{0} + β\mb{1}\), za \(α,β ∈ ℂ\), kjer nista oba 0. Številoma \(α\) in \(β\) pravimo \emph{amplitudi}.
 Tu \(\mb0\) in \(\mb1\) razumemo kot formalna simbola, ki predstavljata klasični stanji.
 V splošnem stanje kubita ni odvisno od skalarnega večkratnika,
-tako da kubita \(α\mb0 + β\mb1\) in \(α'\mb0 + β'\mb1\) predstavljata isto kvantno stanje
+tako da kubita \(α\mb0 + β\mb1\) in \(α'\mb0 + β'\mb1\) predstavljata isto \emph{kvantno stanje}
 čim obstaja kak neničelen \(γ ∈ ℂ\), tako da je \(α = γα'\) in \(β = γβ'\).
 Iz praktičnih razlogov se amplitude pogosto normalizira, torej jih pomnožimo s takim skalarjem,
 da velja \(|α|² + |β|² = c ≤ 1\), kjer za \(c\) ponavadi vzamemo kar \(1\).
 Ta normalizacija nam amplitud še vedno ne definira enolično;
 \(α\) in \(β\) sta določeni zgolj do množenja s kompleksno enoto natančno.
 
-Klasični stanji \(\mb0\) in \(\mb1\) lahko torej identificiramo z baznima vektorjema prostora \(ℂ²\), \(e₀\) in \(e₁\), te pa pogosto označujemo v t.i. \airquotes{ket} zapisu
-kot \(\ket{0} ≔ e₀\) in \(\ket{1} ≔ e₁\).
-Za kvantna stanja, ki niso klasična pravimo, da so kvantna superpozicija \(\ket0\) in \(\ket1\).
+Klasični stanji \(\mb0\) in \(\mb1\) lahko torej identificiramo z baznima vektorjema prostora \(ℂ²\), \(e₀\) in \(e₁\), ta pa pogosto označujemo v t.i. \emph{\airquotes{ket} zapisu} kot \(\ket{\mb0} ≔ e₀\) in \(\ket{\mb1} ≔ e₁\).
+Za kvantna stanja, ki niso klasična pravimo, da so \emph{kvantna superpozicija} \(\ket{\mb0}\) in \(\ket{\mb1}\).
 
 \subsection{Kvantni vektorji}
-Ko želimo kubite posplošiti na kvantne vektorje, je naš prvi instinkt, da vzamemo \(n\)-terice kubitov, vendar se izkaže, da to ne ustreza fizikalnim pojavom.
+Ko želimo kubite posplošiti na kvantne vektorje, je naš prvi instinkt, da vzamemo kar \(n\)-terice kubitov, vendar se izkaže, da to ne ustreza fizikalnim pojavom.
 Ampak vseeno nismo daleč od resnice, le da moramo namesto \(n\)-kratnega kartezičnega produkta
 vzeti \(n\)-kratni tenzorski produkt.
 
 Začnimo s točnimi definicijami vseh gornjih pojmov.
 
 \begin{definition}\label{binv}
-    Binarni vektorji so elementi prostora \( \B[n] ≔ \{ 0, 1 \}ⁿ \) in jih pišemo kot nize v binarnem zapisu.
-    % Za nas predstavljajo svet v katerem se odvijajo klasični programi.
+    \emph{Binarni vektorji} so elementi množice \( \B[n] ≔ \{ 0, 1 \}ⁿ \) in jih pišemo kot nize v binarnem zapisu.
 \end{definition}
 
 \begin{example}
     Nize urejamo leksikografsko. V dveh dimenzijah so binarni vektorji sledeči: 
     \( \B[2] = \{\mb{00}, \mb{01}, \mb{10}, \mb{11}\} \).
+    Binarne vektorje pišemo odebeljeno, da jih ločimo od števil (npr. število \(11\) in vektor \(\mb{11}\), ki ga dejansko želimo identificirati s številom \(3\)).
 \end{example}
 \begin{remark}
     Niza \(\mb1\) in \(\mb{01}\) predstavljata različna vektorja.
 \end{remark}
 
-\begin{definition}[Hilbertov prostor]\label{hilb-sp}
-    Elementom prostora \( \H[n] ≔ ℂ^{2ⁿ} \) pravimo kvantni vektorji (v nadaljevanju kar vektorji), elementom \(\H ≔ \H[1]\) pa kubiti.  Prostoru \(\H[n]\) torej pravimo prostor kvantnih vektorjev reda \(n\), njegovo standardno bazo pa označimo z \(\{eⱼ\}ⱼ\).
-    % Tu se izvajajo kvantni programi.
+\begin{definition}
+    Elementom prostora \( \H[n] ≔ ℂ^{2ⁿ} \) pravimo \emph{kvantni vektorji} (v nadaljevanju kar vektorji), elementom \(\H ≔ \H[1]\) pa \emph{kubiti}.  Prostoru \(\H[n]\) torej pravimo \emph{prostor kvantnih vektorjev reda \(n\)}, njegovo standardno bazo pa označimo z \(\{eⱼ\}ⱼ\).
 \end{definition}
 
-\begin{definition}[Ket zapis]\label{ket}
+\begin{definition}
+    Izkaže se, da več kvantnih vektorjev predstavlja isto fizično stanje.
+    Definiramo ekvivalenčno relacijo z \(a \sim b :\iff \exist{γ ∈ ℂ}{a = γb}\),
+    ekvivalenčnim razredom pa pravimo \emph{stanja vektorjev}.
+\end{definition}
+
+\begin{definition}[Ket zapis]
     Naj bo \(j ∈ ℕₙ\), ter \( \hat{\jmath} ∈ \B[n] \) pripadajoč vektor v binarnem zapisu. Potem je \( \ket j = \ket{\hat{\jmath}} ≔ eⱼ \).
 \end{definition}
 \begin{remark}
-    \airquotes{ket} zapis je del \airquotes{braket} (izvira iz angl. \foreignlanguage{english}{bracket}) zapisa, kjer \airquotes{bra} igra vlogo dualnega vektorja in ga pišemo \(\bra{φ}\).
+    \airquotes{Ket} zapis je del \airquotes{braket} zapisa (izvira iz angl. \foreignlanguage{english}{bracket}), kjer \airquotes{bra} igra vlogo dualnega vektorja in ga pišemo \(\bra{φ}\).
 \end{remark}
 \begin{remark}
     Po definiciji je torej \( \H[n] = \L[ℂ]{\set{\ket j}{j ∈ \B[n]}} \).
 \end{remark}
 
-Ker so matematično kvantni vektorji zgolj navadni vektorji, jih tudi lahko pišemo kot vektorje.
+Ker so matematično kvantni vektorji zgolj navadni vektorji, jih tudi lahko tako tudi zapišemo.
 Ekvivalenca med zapisoma je prikazana na naslednjih primerih:
 \begin{example}[\( n = 1 \)]
     \[ a = \vec{a₀, a₁}
@@ -90,37 +93,36 @@ Ekvivalenca med zapisoma je prikazana na naslednjih primerih:
     Vektor, ki ima na vseh mestih enico (modulo skalarni večkratnik),
     se izkaže za zelo pomembnega. Kasneje bomo videli, kakšne raznolike uporabe ima, od vira naključnosti do bistva dokaza izreka o ne-kloniranju.
     \[ \hh ≔ ρ\vec{1,1} = ρ\p{\ket{\mb0} + \ket{\mb1}},\quad
-        \hh[n] ≔ ρⁿ∑_{j ∈ \B[n]} \ket j,\quad
-        ρ ≔ \frac{1}{\sqrt2}.\qedhere
+       \hh[n] ≔ ρⁿ∑_{j ∈ \B[n]} \ket j,\quad
+       ρ ≔ \frac{1}{\sqrt2}.\qedhere
     \]
 \end{example}
-
-\begin{definition}
-    Stanje kubita \(q\) označimo s \(\state{q}\).
-\end{definition}
 
 \subsection{Blochova sfera}
 Spomnimo se, da so stanja kubitov določena zgolj do skalarja natančno, torej dejansko živijo v projektivnem prostoru.  Formalno to zajamemo v naslednji trditvi:
 
 \begin{proposition}
-    Stanji dveh kubitov, ki se razlikujeta zgolj za (kompleksen) faktor, sta enaki.
+    % Stanji dveh kubitov, ki se razlikujeta zgolj za (kompleksen) faktor, sta enaki.
     % V fizičnem svetu sta dva kubita, ki se razlikujeta zgolj za (kompleksen) faktor, enaka.
-    Matematično to pomeni, da stanja kubitov živijo v \( \mathbf{P}ℂ¹ ≅ 𝕊² \) in jih lahko zapišemo v naslednji obliki:
+    % Matematično to pomeni, da stanja kubitov živijo v \( \mathbf{P}ℂ¹ ≅ 𝕊² \) in jih lahko zapišemo v naslednji obliki:
+    Za vsako stanje kubita lahko izberemo predstavnika ekvivalenčnega razreda oblike
     % To pomeni, da lahko vsak kubit zapišemo kot točko v \( \S² \):
-    \[ \state{a} = \state{\textstyle\cos\frac{θ}{2}\ket{\mb0}
-                            + e^{iφ}\sin\frac{θ}{2}\ket{\mb1}},\quad
+    \[ \textstyle\cos\frac{θ}{2}\ket{\mb0} + e^{iφ}\sin\frac{θ}{2}\ket{\mb1},\quad
         φ ∈ [0, 2π), θ ∈ [0, π]. \]
-    Temu prostoru pravimo Blochova sfera.
 \end{proposition}
 \begin{proof}
     Naj bo \( a = a₀\ket{\mb0} + a₁\ket{\mb1} = r₀e^{iφ₀}\ket{\mb0} + r₁e^{iφ₁}\ket{\mb1} \).
     Če označimo
     \[ r ≔ \sqrt{r₀² + r₁²}\text{, }φ ≔ φ₁ - φ₀\text{, }θ ≔ 2\arccos{\frac{r₀}{r}}, \]
     je potem \[ \hat a ≔ \frac{a}{re^{iφ₀}} = \frac{r₀}{r}\ket{\mb0} + \frac{r₁}{r}e^{iφ}\ket{\mb1} = \cos\frac{θ}{2}\ket{\mb0} + e^{iφ}\sin\frac{θ}{2}\ket{\mb1}\]
-    in velja \(\{a\} = \{\hat a\}\) po konstrukciji.
+    in predstavlja enako stanje kot \(a\).
+    Ker je \(a\) poljuben, lahko za vsako stanje izberemo predstavnika ustrezne oblike.
 \end{proof}
 
-\begin{figure}[h]
+Če te predstavnike zberemo v prostor, dobimo tako imenovano Blochovo sfero,
+tako da si lahko predstavljamo, da stanja kubitov dejansko živijo v prostoru \(𝕊²\).
+
+\begin{figure}[ht]
 \centering
 \begin{tikzpicture}[baseline=(current bounding box.north)]
     % Define radius
@@ -154,7 +156,7 @@ Spomnimo se, da so stanja kubitov določena zgolj do skalarja natančno, torej d
 \subsection{Tenzorski produkt}
 
 \begin{definition}\label{tensorprod}
-    Tenzorski produkt prostorov \(\H[n]\) in \(\H[m]\) je enak \(\H[n+m]\).
+    \emph{Tenzorski produkt prostorov} \(\H[n]\) in \(\H[m]\) je enak \(\H[n+m]\).
     Pišemo \(\H[n]⊗\H[m]\).
     % Če sta \(a ∈ \H[n]\) in \(b ∈ \H[m]\) je \(a⊗b ∈ \H[n]⊗\H[m]\).
 \end{definition}
@@ -163,31 +165,31 @@ Spomnimo se, da so stanja kubitov določena zgolj do skalarja natančno, torej d
 \end{remark}
 
 \begin{definition}
-    Tenzorski produkt vektorjev \(a ∈ \H[n]\) in \(b ∈ \H[m]\) živi v prostoru \(\H[n]⊗\H[m]\)
+    \emph{Tenzorski produkt vektorjev} \(a ∈ \H[n]\) in \(b ∈ \H[m]\) živi v prostoru \(\H[n]⊗\H[m]\)
     in je enak \(a⊗b = \displaystyle∑_{\substack{j ∈ \B[n],\\k ∈ \B[m]}} aⱼbₖ\ket{j}⊗\ket{k}.\)
-\end{definition}
-\begin{example}[Tenzorski produkt baznih vektorjev]
-    Pišemo ga lahko na različne ekvivalentne načine:
+
+    Tenzorski produkt baznih vektorjev lahko pišemo na različne ekvivalentne načine:
     \[ \ket j ⊗ \ket k = \ket j \ket k = \ket{jk} = \ket{j₁\dots jₙk₁\dots kₘ}.\qedhere \]
-\end{example}
+\end{definition}
 \begin{example}[\(n = m = 1\)]
     Naj bosta \(a, b ∈ \H\). Tedaj je \(a⊗b = a₀b₀\ket{\mb{00}} + a₀b₁\ket{\mb{01}} + a₁b₀\ket{\mb{10}} + a₁b₁\ket{\mb{11}}\). Kot vektor to napišemo tako:
     \[ \vec{a₀, a₁}⊗\vec{b₀, b₁} = \vec{a₀b₀, a₀b₁, a₁b₀, a₁b₁}.\qedhere \]
 \end{example}
-\begin{examples}[Tenzorski eksponent]
-    \begin{align*}
-        &\hh[n] = \hh^{⊗n}
-        = ρⁿ\underbrace{(\ket{\mb0} + \ket{\mb1}) ⊗ ⋯ ⊗ \p{\ket{\mb0} + \ket{\mb1}}}_n,\\
-        &\H[n] = \H^{⊗n} = \underbrace{\H ⊗ ⋯ ⊗ \H}_n.\qedhere
-    \end{align*}
-\end{examples}
+
+Tenzorski produkt \(n\)-tih enakih vektorjev ali prostorov zapišemo kot eksponent \((-)^{⊗n}\).
+Hadamardove vektorje in prostor vektorjev reda \(n\) lahko torej zapišemo z eksponenti.
+\begin{align*}
+    &\hh[n] = \hh^{⊗n}
+    = ρⁿ\underbrace{(\ket{\mb0} + \ket{\mb1}) ⊗ ⋯ ⊗ \p{\ket{\mb0} + \ket{\mb1}}}_n,\\
+    &\H[n] = \H^{⊗n} = \underbrace{\H ⊗ ⋯ ⊗ \H}_n.\qedhere
+\end{align*}
 
 \begin{definition}
-    Če lahko \(a ∈ \H[n]\) zapišemo kot \( ⨂_{j=1}^{n} aⱼ \) za neke \(aⱼ ∈ \H\) pravimo, da je enostaven ali separabilen, sicer je pa sestavljen oziroma kvantno prepleten.
+    Če lahko \(a ∈ \H[n]\) zapišemo kot \( ⨂_{j=1}^{n} aⱼ \) za neke \(aⱼ ∈ \H\) pravimo, da je \emph{enostaven} ali \emph{separabilen}, sicer je pa \emph{sestavljen} oziroma \emph{kvantno prepleten}.
 \end{definition}
 
 \begin{example}
-    Vektor \(\ket{\mb{00}} + \ket{\mb{10}}\) je separabilen, saj je enak \(\p{\ket{\mb0} + \ket{\mb1}}⊗\ket{\mb0}\) in \(\ket{\mb{00}} + \ket{\mb{11}}\) je prepleten, saj ga ne moremo zapisati kot tenzorski produkt dveh kubitov. Res, če je \(a₀b₁ = 0\) mora biti vsaj en izmed \(a₀\) in \(b₁\) enak \(0\), vendar je to v nasprotju z eno od enačb \(a₀b₀ = a₁b₁ = 1\).
+    Vektor \(\ket{\mb{00}} + \ket{\mb{10}}\) je separabilen, saj je enak \(\p{\ket{\mb0} + \ket{\mb1}}⊗\ket{\mb0}\) in \(\ket{\mb{00}} + \ket{\mb{11}}\) je prepleten, saj ga ne moremo zapisati kot tenzorski produkt dveh kubitov. Res, če je \(a₀b₁ = 0\) mora biti vsaj en izmed \(a₀\) in \(b₁\) enak \(0\), vendar je to v nasprotju z enakostmi \(a₀b₀ = a₁b₁ = 1\).
 \end{example}
 
 \begin{definition}
@@ -198,11 +200,11 @@ Spomnimo se, da so stanja kubitov določena zgolj do skalarja natančno, torej d
 \subsection{Kvantne preslikave}
 
 \begin{definition}%[Unitarna vrata]
-    Prostor unitarnih vrat reda \(n\) je \( \U[n] ≔ \U{\p{2ⁿ}} \), prostor unitarnih \(2ⁿ×2ⁿ\) matrik.
-    V literaturi se jim tudi reče unitarne transformacije.
+    \emph{Prostor unitarnih vrat reda \(n\)} je \( \U[n] ≔ \U{\p{2ⁿ}} \), prostor unitarnih \(2ⁿ×2ⁿ\) matrik.
+    V literaturi se jim tudi reče \emph{unitarne transformacije}.
 \end{definition}
 \begin{definition}
-    Tenzorski produkt vrat \( U⊗V ≔ [u_{jk}V]_{j,k} \) je običajen Kroneckerjev produkt matrik.
+    \emph{Tenzorski produkt vrat} \( U⊗V ≔ [u_{jk}V]_{j,k} \) je običajen Kroneckerjev produkt matrik.
     Produkt \(U⊗V\) uporabljen na \(a⊗b\) je enak \(Ua⊗Vb\).
 \end{definition}
 
@@ -217,7 +219,7 @@ Spomnimo se, da so stanja kubitov določena zgolj do skalarja natančno, torej d
 
 \begin{proof}
     Naj bodo \(U\) taka vrata, da za vsak \(a ∈ \H\) velja \(U{\p{a⊗\ket{\mb0}}} = a⊗a\).
-    Potem za \( \hh⊗\ket{\mb0} = ρ(\ket{\mb{00}} + \ket{\mb{10}}) \) po definiciji \(U\) velja
+    Potem za \( \hh⊗\ket{\mb0} = ρ(\ket{\mb{00}} + \ket{\mb{10}}) \) po predpostavki velja
     \( U{\p{\hh⊗\ket{\mb0}}} = \hh[2]. \)
     Vendar, če upoštevamo, da je \(U\) linearna lahko zapišemo tudi
     \[ U{\p{ρ\p{\ket{\mb{00}} + \ket{\mb{10}}}}}
@@ -230,13 +232,15 @@ Spomnimo se, da so stanja kubitov določena zgolj do skalarja natančno, torej d
     %     \end{cases}
     % \]
     kar je protislovje, saj \(ρ\p{\ket{\mb{00}} + \ket{\mb{11}}}\) niti ni separabilen (za razliko od \(\hh[2]\)).
+    Sledi, da taka vrata ne morejo obstajati.
 \end{proof}
+\begin{remark}
+    Podoben izrek velja tudi v obratni smeri: ne obstajajo vrata reda \(2\), ki vsak vektor oblike \(a⊗a ∈ \H⊗\H\) slikajo v \(a⊗\ket{\mb0}\).
+    Reče se mu izrek o neizbrisu, in sledi neposredno iz gornjega izreka, saj za taka vrata njihov dual ravno klonira kubite. 
+\end{remark}
 
-Ker so stanja kubitov predstavljena z njihovo lokacijo na Blochovi sferi, bi želeli tudi unitarna vrata izraziti z operacijami neposredno na Blochovi sferi.
-Izkaže se, da vsakim vratom pripada natanko ena rotacija na Blochovi sferi.
-
-\begin{definition}[Paulijeve matrike]
-    To so matrike rotacije za pol kroga okrog osi na Blochovi sferi:
+\begin{definition}
+    \emph{Paulijeve matrike} so matrike rotacije za pol kroga okrog osi na Blochovi sferi:
     \[ I₂ = \bmat{1 &  0 \\ 0 &  1},\quad
        X  = \bmat{0 &  1 \\ 1 &  0},\quad
        Y  = \bmat{0 & -i \\ i &  0},\quad
@@ -251,52 +255,32 @@ Izkaže se, da vsakim vratom pripada natanko ena rotacija na Blochovi sferi.
     Velja tudi \(Y = iXZ\).
 \end{remark}
 
-\begin{definition}[Hadamardova vrata]
+\begin{definition}
     Namesto kanonične baze \(\ket{\mb0}\) in \(\ket{\mb1}\) bi lahko vzeli tudi kakšno drugo bazo.
-    Definirajmo Hadamardovo bazo \(\ket{+} ≔ ρ(\ket{\mb0} + \ket{\mb1})\) in \(\ket{-} ≔ ρ(\ket{\mb0} - \ket{\mb1})\).
-    Potem prehodni matriki iz kanonične v Hadamardovo bazo pravimo Hadamardova vrata:
+    Definirajmo \emph{Hadamardovo bazo} \(\ket{+} ≔ ρ(\ket{\mb0} + \ket{\mb1})\) in \(\ket{-} ≔ ρ(\ket{\mb0} - \ket{\mb1})\).
+    Potem prehodni matriki iz kanonične v Hadamardovo bazo pravimo \emph{Hadamardova vrata}:
     \[ \had = ρ\bmat{1&1\\1&-1},\quad
        \had\ket{\mb{0}} = \hh = \ket{+},\quad
        \had\ket{\mb{1}} = \ket{-}.\]
     Hadamardova matrika tudi predstavlja rotacijo okrog \(z=x\) osi na Blochovi sferi, ki zamenja osi \(x\) in \(z\).
 \end{definition}
 
-\begin{definition}%[Bločno-diagonalna matrika]
-    Za matrike \( U₁, …, Uₛ \) označimo njihovo bločno-diagonalno matriko z \( D{\p{U₁,…,Uₛ}} \).
-\end{definition}
-
-% \begin{example}[Fazni zamik]
-%     \begin{align*}
-%         &S_α = \bmat{1&0\\0&e^{iα}}
-%         \text{, posebej označimo } S ≔ S_{\newfrac{π}{2}}, T ≔ S_{\newfrac{π}{4}}, \\
-%         &S_α\p{a₀\ket{\mb0} + a₁\ket{\mb1}} = a₀\ket{\mb0} + a₁e^{iα}\ket{\mb1}.
-%     \end{align*}
-% \end{example}
-
-
-\subsection{Kvantna meritev}
+\subsection{Meritev}
 V klasičnem računalništvu poznamo pogojne stavke. To lahko na kubite posplošimo na dva načina,
 prvi z direktno meritvijo kubita (in uporabo klasičnih pogojnih stavkov),
 drugi pa z uporabo kvantne prepletenosti.
 Izkaže se, da če po vseh operacijah zmerimo kubite, se je drugi način obnašal enako kot prvi.
 
 \begin{definition}
-    Meritev kubita \(a = a_0\ket{\mb0} + a_1\ket{\mb1}\) označimo \(M{\p{a}}\) in je \(0\) z verjetnostjo \(|a₀|^2\) ter \(1\) z verjetnostjo \(|a₁|^2\).
-    Po izvedeni meritvi, se \(a\) spremeni v \(a₀\ket{\mb0}\) ali \(a₁\ket{\mb1}\), odvisno od rezultata meritve.  Temu pravimo kolaps prepletenega stanja.
-    V praksi to pomeni, da \(a\) po meritvi izgubi vse svoje kvantne lastnosti, tako da bi alternativno lahko meritev definirali tako, da se kubit \(a\) po meritvi kar uniči.
+    \emph{Meritev kubita} \(a = a_0\ket{\mb0} + a_1\ket{\mb1}\) označimo \(M{\p{a}}\) in je \(0\) z verjetnostjo \(|a₀|^2\) ter \(1\) z verjetnostjo \(|a₁|^2\).
+    Po izvedeni meritvi se \(a\) spremeni v \(a₀\ket{\mb0}\) ali \(a₁\ket{\mb1}\), odvisno od rezultata meritve.  Temu pravimo \emph{kolaps prepletenega stanja}.
+    V praksi to pomeni, da je vsa informacija o izmerjenem kubitu že zajeta v rezultatu meritve, tako da izmerjenega kubita sploh ne rabimo več.
+    To pomeni, da bi alternativno lahko meritev definirali tako, da se kubit \(a\) po meritvi kar uniči, in do njega ne bomo mogli več dostopati.
 
-    V fizikalnih in matematičnih delih bomo uporabljali prvotno definicijo, v računalniških delih pa se izkaže, da je alternativna definicija bolj praktična, tako da bomo uporabljali to.
-\end{definition}
+    Te definiciji sta ekvivalentni, kot bomo natančno dokazali v izreku \ref{th:is-eq-measurement}.
+    V fizikalnih in matematičnih delih bomo uporabljali prvotno definicijo, v računalniških delih pa se izkaže, da je alternativna definicija bolj praktična.
 
-\begin{proposition}\label{th:is-eq-measurement}
-    V kvantnem računalništvu je meritev definirana s kolapsom ekvivalentna meritvi definirani z uničenjem kubita.
-\end{proposition}
-
-Dokaz pustimo za malo kasneje, ko definiramo še nekaj potrebnih orodij kvantnega računalništva.
-
-\begin{definition}
-    % Naj \(αₖ\) označujejo tiste amplitude, ki se nahajajo pred keti, ki imajo na \(j\)-tem mestu \(\mb{0}\), in \(βₖ\) tiste, ki se nahajajo pred keti, ki imajo na \(j\)-tem mestu \(\mb{1}\).
-    Meritev vektorja \(a\) na \(i\)-tem mestu označimo \(Mᵢ{\p{a}}\) in je \(0\) z verjetnostjo \(∑ₖ|aₖ|²\) ter \(1\) z verjetnostjo \(∑ₗ|aₗ|²\), kjer \(k\) teče po \(j₁⋯\mb0⋯jₙ\), \(l\) pa po \(j₁⋯\mb1⋯jₙ\).
+    \emph{Meritev vektorja} \(a\) na \(i\)-tem mestu označimo \(Mᵢ{\p{a}}\) in je \(0\) z verjetnostjo \(∑ₖ|aₖ|²\) ter \(1\) z verjetnostjo \(∑ₗ|aₗ|²\), kjer \(k\) teče po \(j₁⋯\mb0⋯jₙ\), \(l\) pa po \(j₁⋯\mb1⋯jₙ\).
     Po meritvi bo \(a\) enak bodisi \(∑ₖ aₖ\ket{k}\) bodisi \(∑ₗ aₗ\ket{l}\) (glede na rezultat meritve).
 \end{definition}
 
@@ -326,12 +310,12 @@ Dokaz pustimo za malo kasneje, ko definiramo še nekaj potrebnih orodij kvantneg
         \end{itemize}
     \end{itemize}
     Skupaj je verjetnost, da na koncu izmerimo \(\ket{\mb{00}}\) enaka \(p₀p₀₀ = |α|²\), verjetnost, da izmerimo \(\ket{\mb{01}}\) je \(p₀p₀₁ = |β|²\), itd.
-    Omenili smo, da ponavadi normaliziramo na \(1\), vendar se izkaže, da je bolj praktično, če normaliziramo na skupno verjetnost, da pristanemo v tem vektorju.
+    Omenili smo, da ponavadi normaliziramo na \(1\), vendar se izkaže, da je bolj praktično, če normaliziramo na skupno verjetnost, da je vektor v tem stanju.
     Ena prednost tega pristopa je, da po meritvi ne rabimo normalizirati kubita.
 \end{example}
 
 \begin{convention}
-    Če ne piše drugače naj bodo vektorji normalizirani kot piše zgoraj.
+    Če ne piše drugače, naj bodo vektorji normalizirani kot piše zgoraj.
 \end{convention}
 
 \begin{remark}
@@ -351,10 +335,11 @@ Dokaz pustimo za malo kasneje, ko definiramo še nekaj potrebnih orodij kvantneg
             \ket j &;\quad jᵣ = \mb1
         \end{cases}
     \end{align*}
-    Takim vratom pravimo kontrolirana (\airquotes{na ena} in \airquotes{na nič}).
+    Takim vratom pravimo \emph{kontrolirana} (\airquotes{na ena} in \airquotes{na nič}).
     Posebej označimo
     \[ \ctl  U ≔ C_{1,2}{\p U} = D\p{I₂, U},\quad
-       \ctlo U ≔ \overline{C}_{1,2}{\p U} = D\p{U, I₂}. \]
+       \ctlo U ≔ \overline{C}_{1,2}{\p U} = D\p{U, I₂}, \]
+    kjer \( D{\p{U₁,…,Uₛ}} \) predstavlja bločno-diagonalno matriko matrik \( U₁, …, Uₛ \).
 \end{definition}
 
 \begin{example}
@@ -382,17 +367,10 @@ Dokaz pustimo za malo kasneje, ko definiramo še nekaj potrebnih orodij kvantneg
 
     Naj bosta \(a\) in \(b\) kubita in \(U(a⊗b) = α\ket{\mb{00}} + β\ket{\mb{01}} + γ\ket{\mb{10}} + δ\ket{\mb{11}}\).
     Potem si sicer lahko predstavljamo, da je \(a = \sqrt{|α|²+|β|²}\ket{\mb0} + \sqrt{|γ|²+|δ|²}\ket{\mb1}\) in \(b = \sqrt{|α|²+|γ|²}\ket{\mb0} + \sqrt{|β|²+|δ|²}\ket{\mb1}\) (in meritve po prvem in drugem kubitu bodo ravno enake meritvam \(a\) in \(b\)),
-    ampak, če želimo \(a\) kako spremeniti (bodisi z meritvijo, bodisi z unitarno transformacijo) moramo upoštevati, da je del vektorja, in da moramo vse operacije izvajati na celotnem vektorju (torej se bo spremenil tudi \(b\)).
+    ampak, če želimo \(a\) kako spremeniti (bodisi z meritvijo, bodisi z unitarno transformacijo) moramo upoštevati, da je del vektorja, in da moramo vse operacije izvajati na celotnem vektorju.
 
     Fizikalno kubita \(a\) in \(b\) sicer obstajata, vendar nista neodvisna tako da ju (posamezno) ne moremo predstaviti z našimi matematičnimi kubiti, lahko pa ju predstavimo s (prepletenim) vektorjem.
 \end{example}
-% \begin{example}[Prepleteni pari kubitov]
-%     Kontrolirana vrata prepletejo pare kubitov. Na primer
-%     \( \eapply{\ctl X}{a, b} \) se obnaša kot
-%     \qpl[breaklines]{if |\(\emeasure{a} = 0\)| then |\(\p{a, b}\)| else |\(\p{a, \lnot b}\)|},
-%     vendar vemo, da drugi izraz ni veljaven (ker meritev uniči kubit a),
-%     ampak je zato kontrola ravno tisto orodje, s katerim želimo nadomestiti pogojne stavke.
-% \end{example}
 
 Kot smo omenili se kvantna kontrola in meritev obnašata enako\footnote{po meritvi},
 torej zakaj bi sploh želeli uporabljati kontrolirana vrata?
@@ -402,18 +380,17 @@ Torej za učinkovitost želimo meritve premakniti čim bolj proti koncu naših p
 Kot bomo videli kasneje, veljajo določeni zakoni, ki nam to dopuščajo.
 
 \begin{remark}
-    Obstaja tudi relativno moderen pristop k formalizaciji kvantnega računalništva iz 2007, račun meritev\cite{measurement-calculus}, ki kot glavno orodje kvantnega računalništva vzame zgolj meritve namesto kombinacije unitarnih vrat in meritev.
-    Čeprav ne modelira kvantnega računalništva popolnoma, ima močne rezultate glede prepisovanja izrazov.
+    Obstaja tudi relativno moderen pristop k formalizaciji kvantnega računalništva iz 2007, račun meritev~\cite{measurement-calculus}, ki kot glavno orodje kvantnega računalništva vzame zgolj meritve namesto kombinacije unitarnih vrat in meritev.
+    % Čeprav ne modelira kvantnega računalništva popolnoma, ima močne rezultate glede prepisovanja izrazov.
 \end{remark}
     
 \subsection{Kvantna vezja}
 Kvantne programe lahko predstavimo kot diagrame vezja, ki jih beremo od leve proti desni.
 Po enojnih žicah \airquotes{tečejo} kubiti, po dvojnih pa klasični biti.
 Škatle (z imenom) predstavljajo uporabo unitarnih vrat na vhodnih kubitih (povezave na levi).
-% Kontrolirana vrata imajo še piko in iz nje navpično črto;
 Kontrolirana vrata imajo še navpično žico, ki se s piko priklopi na druge žice;
 če je pika polna so vrata kontrolirana \airquotes{na ena}, če je pa prazna pa \airquotes{na nič}.
-Meritev bomo predstavili s škatlo, ki ima v sebi \airquotes{merilec}.\cite{ess-qc}. %TODO: maybe expand
+Meritev bomo predstavili s škatlo, ki ima v sebi merilec.~\cite{ess-qc}. %TODO: maybe expand
 
 Spodaj sta dva primera kvantnih programov, opisana z besedami in diagrami, ki ju bomo srečali tudi še kasneje.
 
@@ -437,15 +414,12 @@ Spodaj sta dva primera kvantnih programov, opisana z besedami in diagrami, ki ju
     \]
 \end{example*}
 
-Spomnimo se zdaj trditve \ref{th:is-eq-measurement} o ekvivalenci definicij meritev:
+% Spomnimo se zdaj trditve \ref{th:is-eq-measurement} o ekvivalenci definicij meritev:
+Spomnimo se zdaj obeh definicij meritev:
 
-\begingroup
-\def\thetheorem{\ref{th:is-eq-measurement}}
-\begin{proposition}
+\begin{proposition}\label{th:is-eq-measurement}
     V kvantnem računalništvu je meritev definirana s kolapsom ekvivalentna meritvi definirani z uničenjem kubita.
 \end{proposition}
-\addtocounter{theorem}{-1}
-\endgroup
 
 \begin{proof}
     Očitno je prva definicija močnejša od druge, tako da moramo dokazati zgolj, da lahko iz druge definicije simuliramo obnašanje prve.
@@ -458,7 +432,7 @@ Stanje kubita pred projekcijo znamo napisati: \(\state{a₀\ket{\mb0} + a₁\ket
 Ampak stanja kubita \(b\) na koncu pa ne. Kubit je namreč v tako imenovanem mešanem stanju med stanji \(\state{a₀\ket{\mb0}}\) in \(\state{a₁\ket{\mb1}}\). Zapišimo to stanje torej kot \(|a₀|²\state{\ket{\mb0}} + |a₁|²\state{\ket{\mb1}}\).
 
 \begin{definition}
-    Naj je za vsak \(i ∈ \{1,…,m\}\) kvantni sistem z verjetnostjo \(λᵢ\) v stanju \(\state{uᵢ}\), kjer so \(uᵢ\) enotski vektorji. To je diskretna verjetnostna porazdelitev, ki jo bomo pisali kot \(λ₁\state{u₁} + ⋯ + λₘ\state{uₘ}\). Če je \(m = 1\) takemu stanju pravimo čisto stanje, sicer pa mešano stanje.
+    Naj je za vsak \(i ∈ \{1,…,m\}\) kvantni sistem z verjetnostjo \(λᵢ\) v stanju \(\state{uᵢ}\), kjer so \(uᵢ\) enotski vektorji. To je diskretna verjetnostna porazdelitev, ki jo bomo pisali kot \(λ₁\state{u₁} + ⋯ + λₘ\state{uₘ}\). Če je \(m = 1\) takemu stanju pravimo \emph{čisto stanje}, sicer pa \emph{mešano stanje}.
     Stanjem \(\state{uᵢ}\) pravili tudi čiste komponente mešanega stanja.
 
     Normalizacijo mešanega stanja opravljamo na vsakem stanju posebej, vendar morajo biti normalizirani na isto vrednost.
@@ -488,7 +462,7 @@ Izkaže se, da lahko poljubno stanje izrazimo z določenimi matrikami,
 ki jim pravimo gostotne matrike.
 
 \begin{definition}
-    Gostotna matrika je neničelna pozitivno semi-definitna hermitska matrika, ki ima sled manjšo ali enako \(1\).
+    \emph{Gostotna matrika} je neničelna pozitivno semi-definitna hermitska matrika, ki ima sled manjšo ali enako \(1\).
 \end{definition}
 
 Res, naj bo \(a\) nek vektor.
@@ -498,7 +472,7 @@ Opazimo, da je \(\tr{\p{aa^*}} = ∑ᵢ|aᵢ|² ≕ b²\).
 Hkrati pa, če je \(γ\) neka kompleksna enota \(\p{|γ| = 1}\) je matrika prirejena stanju \(\state{γa}\) enaka \(γ\bar{γ}aa^* = aa^*\), torej lahko vsakemu stanju določimo natanko eno (normalizirano) gostotno matriko.
 
 \begin{definition}
-    Gostotna matrika \(A\) je normalizirana na \(c ≤ 1\), če je \(\tr{A} = c² ≤ 1\).
+    Gostotna matrika \(A\) je \emph{normalizirana na \(c ≤ 1\)}, če je \(\tr{A} = c² ≤ 1\).
 \end{definition}
 \begin{remark}
     Normalizacija matrike se ujema z normalizacijo vektorjev, torej bomo gostotne matrike normalizirali na enak princip kot normaliziramo vektorje.
@@ -532,14 +506,14 @@ Izkaže se, da je to spet gostotna matrika, saj je sled te matrike enaka \(λ₁
 \end{example}
 
 \begin{definition}
-    Gostotna matrika je čista, če je ranga \(1\).
+    Gostotna matrika je \emph{čista}, če je ranga \(1\).
 \end{definition}
 
 \begin{proposition}
     Vsaka čista gostotna matrika predstavlja neko čisto stanje.
 \end{proposition}
 \begin{proof}
-    Naj bo \(A\) gostotna matrika. Ker je ranga \(1\) je oblike \(aa^*\) za nek vektor \(a\), torej pripada stanju \(\state{a}\).
+    Naj bo \(A\) gostotna matrika. Ker je ranga \(1\) je oblike \(\ket a \bra a\) za nek vektor \(a\), torej pripada stanju \(\state{a}\).
 \end{proof}
 
 \begin{proposition}
@@ -550,7 +524,7 @@ Izkaže se, da je to spet gostotna matrika, saj je sled te matrike enaka \(λ₁
     Ker je hermitska ima realne lastne vrednosti in ker je pozitivno semi-definitna so te lastne vrednosti nenegativne.
 
     Potem lahko \(A\) diagonaliziramo z \(UDU^*\), kjer je \(D\) diagonalna matrika lastnih vrednosti \(λᵢ\), \(U\) pa neka unitarna matrika.
-    Sledi, da je \(A = ∑ᵢλᵢuᵢuᵢ^*\), kjer so \(uᵢ = Ueᵢ\).
+    Sledi, da je \(A = ∑ᵢλᵢ\ket{uᵢ}\bra{uᵢ}\), kjer so \(uᵢ = Ueᵢ\).
     Lastne vrednosti so nenegativne, njihova vsota je pa enaka \(\tr{A} ≤ 1\), torej so ustrezne za koeficiente stanja \(∑ᵢλᵢ\state{uᵢ}\).
 \end{proof}
 
@@ -559,7 +533,7 @@ Poznamo dve, meritev in unitarne transformacije, in izkaže se, da lahko obe def
 
 \begin{definition}
     Naj bo \(a\) nek vektor in \(U\) kvantna vrata primernega reda.
-    Potem je gostotna matrika stanja \(\state{Ua}\) enaka \(Uaa^*U^*\),
+    Potem je gostotna matrika stanja \(\state{Ua}\) enaka \(\ket{Ua}\bra{Ua} = U\ket a \bra aU^*\),
     kar lahko linearno razširimo tudi na mešana stanja, torej lahko kvantna vrata na gostotni matriki uporabimo s predpisom \(A ↦ UAU^*\).
 \end{definition}
 
@@ -567,8 +541,8 @@ Poznamo dve, meritev in unitarne transformacije, in izkaže se, da lahko obe def
     Naj bo \(a\) nek vektor. Za preprostost definirajmo meritev le na prvem kubitu, saj je v splošnem ideja enaka.
     Razdelimo vektor na zgornjo in spodnjo polovico, \(a₀\) in \(a₁\).
     % Potem je \(aᵢ ≔ ∑ⱼaᵢⱼ\ket{ij}\)
-    Potem je gostotna matrika za \(a\) enaka \(\pmat{a₀a₀^*&a₀a₁^*\\a₁a₀^*&a₁a₁^*}\).
-    Po meritvi na prvem mestu je \(a\) v stanju ene od polovic (dopolnjenih z ničlami na koncu ali začetku), gostotna matrika pa je enaka eni od \(\pmat{a₀a₀^*&0\\0&0}\) ali \(\pmat{0&0\\0&a₁a₁^*}\), odvisno od rezultata meritve.
+    Potem je gostotna matrika za \(a\) enaka \(\pmat{\ket{a₀}\bra{a₀}&\ket{a₀}\bra{a₁}\\\ket{a₁}\bra{a₀}&\ket{a₁}\bra{a₁}}\).
+    Po meritvi na prvem mestu je \(a\) v stanju ene od polovic (dopolnjenih z ničlami na koncu ali začetku), gostotna matrika pa je enaka eni od \(\pmat{\ket{a₀}\bra{a₀}&0\\0&0}\) ali \(\pmat{0&0\\0&\ket{a₁}\bra{a₁}}\), odvisno od rezultata meritve.
     Opazimo, da je sled teh gostotnih matrik enaka verjetnosti, da ta gostotna matrika ustreza kolapsiranemu vektorju, torej lahko dogovor o normalizaciji uporabljamo tudi za gostotne matrike.
 \end{definition}
 
