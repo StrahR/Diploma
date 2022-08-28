@@ -27,8 +27,8 @@ Naš programski jezik lahko zapišemo tudi z algebrajskimi izrazi:
 \begin{align*}
     &\tnew{a}{t}        ≔ \new{a}{t}\\
     &\tapply{U}{a}{t}   ≔ \apply{U}{a}{t}\\
-    &\tmeasure{a}{t}{u} ≔ \measure{a}{t}{u}\\
-    &\tdiscard{a}{t}    ≔ \discard{a}{t}
+    &\tmeasure{a}{t}{u} ≔ \measure{a}{t}{u}
+    % &\tdiscard{a}{t}    ≔ \discard{a}{t}
 \end{align*}
 To so sedaj operacije, zapisane v načinu z nadaljevanji.
 V splošnem naj bo \(\op O\) neka operacija, ki se lahko nadaljuje na \(k\) načinov. Nadaljevanja označimo s \(tᵢ\), vsako od njih pa naj tudi pričakuje nekaj parametrov (in za preprostost naj vsa pričakujejo enako število parametrov \(m\)). To zapišemo kot \(b₁,…,bₘ.\,tᵢ\).
@@ -47,7 +47,7 @@ V splošnem naj bo \(\op O\) neka operacija, ki se lahko nadaljuje na \(k\) nač
 
 \begin{examples}
     Oglejmo si zgornje primere zapisane v algebrajskem jeziku:
-    \begin{enumerate} %TODO: fix syntax for shorthand: decide on a.t vs x vs x(a) etc
+    \begin{enumerate}
         \item \(\op{new}¹(a.\,t) ≔ \tnew{a}{\tapply{X}{a}{t}}\),
         \item \(\op{rand}(t,u) ≔ \tnew{a}{\tapply{\had}{a}{\tmeasure{a}{t}{u}}}\),
         \item \(\op{bell}(a,b.\,t) ≔ \tnew{a}{\tnew{b}{\tapply{\had}{a}{\tapply{\ctl{X}}{a,b}{t}}}}\),
@@ -97,7 +97,7 @@ V splošnem naj bo \(\op O\) neka operacija, ki se lahko nadaljuje na \(k\) nač
     Pišemo tudi \(x₁ : m₁, …, xₖ : mₖ \mid a₁,…,aₚ\).
 \end{definition}
 
-Podobno kot za tipe, imamo pravila za tvorjenje izrazov:
+Splošna pravila za tvorjenje izrazov so torej sledeča:
 %LTeX: enabled=off
 \begin{table}[H]
 \vspace{-1em}
@@ -123,8 +123,8 @@ Podobno kot za tipe, imamo pravila za tvorjenje izrazov:
     \begin{gather*}
         \op{new}          : \arity{0}{1}\qquad
         \op{apply}_{\g U} : \arity{p}{p}\qquad
-        \op{measure}      : \arity{1}{0,0}\qquad
-        \op{discard}      : \arity{1}{0}
+        \op{measure}      : \arity{1}{0,0}%\qquad
+        % \op{discard}      : \arity{1}{0}
     \end{gather*}
     Opazimo, da členosti beležijo zgolj spremenjene kubite: vrata reda \(p\) spremenijo \(p\) kubitov, meritev odstrani en kubit, dodajanje novih kubitov pa doda en kubit.
 \end{example}
@@ -142,6 +142,8 @@ Podobno kot za tipe, imamo pravila za tvorjenje izrazov:
         \item \( \tnew{a}{\tmeasure{a}{x}{y}} = x \).\qedhere
     \end{enumerate}
 \end{example}
+
+Da lahko modele definiramo v splošnosti, ki jo potrebujemo, moramo definirati koncept kategorij. Bralce spodbujamo, da si popolno obravnavo ogledajo v~\cite{eriehl}, od kjer je vzeta tudi naslednja definicja.
 
 \begin{definition}
     \emph{Kategorija} je sestavljena iz
@@ -185,17 +187,28 @@ So pa kategorije bistveno bolj splošnejši pojem od tega, na primer delno ureje
 Omejimo se na kategorije, kjer za vsak objekt \(X\) in vsako naravno število \(n\) obstaja nek objekt \(n•X\), tako da velja \(1•X = X\) in \(n•\p{m•X} = \p{n+m}•X\).
 Operacijo \(•\) lahko razumemo kot delovanje naravnih števil na dano kategorijo.
 Tedaj lahko morfizme \(X → n•Y\) interpretiramo kot morfizme \(X → Y\) z \(n\) parametri.
-Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi oblike \( \abssemmap{p}{m₁,…,mₖ}\).
+Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi oblike \( \abssemmap{p}{m₁,…,mₖ}\), torej kot preslikave, ki \(k\) nadaljevanj pretvorijo v eno operacijo s \(p\) parametri.
+
+\begin{example}
+    V kategoriji \(\cat{Set}\) množic in preslikav med njimi, lahko vzamemo \(n•X ≔ Xⁿ\), kjer potenca predstavlja \(n\)-kratni kartezični produkt množic.
+
+    Lahko pa vzamemo tudi \(n•X ≔ M_{2ᵐ}{(X)}\), množico \(2ᵐ×2ᵐ\) matrik z vrednostmi v \(X\).
+\end{example}
 
 \begin{definition}
     \emph{Interpretacija za signaturo} je objekt \(X\) skupaj z morfizmom oblike \(\abssemmap{p}{m₁,…,mₖ}\) za vsako operacijo \(\op{O} : \arity{p}{m₁,…,mₖ}\). Označimo ga z \(\sem{\op{O}}\).
 \end{definition}
 
 \begin{definition}
-    Vsakemu izrazu \(\seq{t}\) definiramo njegov \emph{interpretacijski morfizem} \(\sem{t}\) z indukcijo na strukturi členov na sledeč način:
-    \[ \sem{\op{O}{\p{a₁,…,aₚ; b₁,…,b_{m₁}.t₁, …, b₁,…,b_{mₖ}.tₖ}}}
-      = \sem{\op{O}}{\p{\sem{t₁}{\p -},…,\sem{tₖ}{\p -}}},\]
-    kjer \(\op{O}\) interpretiramo z morfizmom iz signature, \(tᵢ\) pa po indukciji.
+    Vsakemu izrazu \(\seq{t}\) definiramo njegov \emph{interpretacijski morfizem} (označimo \(\sem{\absseq{t}}\) ali \(\sem{t}\), če je kontekst razviden iz konteksta) z rekurzijo na izpeljavi izraza na sledeč način:
+    \begin{enumerate}
+        \item če je \(mᵢ = p\) in \(t = xᵢ(a₁,…,aₚ)\) je \(\sem{xᵢ(a₁,…,aₚ)}(A₁,…,Aₖ) = Aᵢ\),
+        \item \(\sem{\sequent{Γ}{a_{σ(1)},…,a_{σ(p)}}{t}}(A₁,…,Aₚ) = \sem{\sequent{Γ}{a₁,…,aₚ}{t}}(A_{σ(1)},…,A_{σ(p)})\),\\kjer je \(σ\) permutacija,
+        \item \(\sem{\op{O}{\p{a₁,…,aₚ; b₁,…,b_{m₁}.t₁, …, b₁,…,b_{mₖ}.tₖ}}}
+        = \sem{\op{O}}{\p{\sem{t₁}{\p -},…,\sem{tₖ}{\p -}}}\),\\
+        kjer \(\op{O}\) interpretiramo z morfizmom iz signature, \(tᵢ\)-je pa rekurzivno.
+    \end{enumerate}
+    Oklepajem \(\sem{}\) pravimo semantični oklepaji.
 \end{definition}
 
 \begin{definition}

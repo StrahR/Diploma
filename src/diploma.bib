@@ -9,22 +9,40 @@
   volume     = {50},
   number     = {1},
   issn       = {0362-1340},
-  url        = {https://doi.org/10.1145/2775051.2676999},
+  url        = {https://www.cs.ox.ac.uk/people/samuel.staton/papers/popl2015.pdf},
   doi        = {10.1145/2775051.2676999},
-  abstract   = {We develop a new framework of algebraic theories with linear parameters, and use it to analyze the equational reasoning principles of quantum computing and quantum programming languages. We use the framework as follows: we present a new elementary algebraic theory of quantum computation, built from unitary gates and measurement;we provide a completeness theorem or the elementary algebraic theory by relating it with a model from operator algebra; we extract an equational theory for a quantum programming language from the algebraic theory;we compare quantum computation with other local notions of computation by investigating variations on the algebraic theory.},
   journal    = {SIGPLAN Not.},
   month      = {01},
   pages      = {395–406},
   numpages   = {12},
   keywords   = {monads., quantum computation, algebraic effects},
 }
-
-@inproceedings{ess-qc,
-  title  = {Mathematical Essentials of Quantum Computing},
-  author = {Juanjo Rué, Sebastian Xambó},
-  year   = {2011},
+@article{cstar-by-example,
+  title     = {C*-algebras by Example},
+  author    = {Davidson, K.R.},
+  isbn      = {9780821871898},
+  series    = {Fields Institute for Research in Mathematical Sciences Toronto: Fields Institute monographs},
+  year      = {1996},
+  publisher = {American Mathematical Society},
 }
 
+@book{eriehl,
+  title     = {Category Theory in Context},
+  author    = {Riehl, E.},
+  isbn      = {9780486809038},
+  lccn      = {2016498457},
+  series    = {Aurora: Dover Modern Math Originals},
+  url       = {http://www.math.jhu.edu/~eriehl/context.pdf},
+  year      = {2016},
+  publisher = {Dover Publications},
+}
+
+
+@misc{ess-qc,
+  title  = {Mathematical Essentials of Quantum Computing},
+  author = {Rué, Juanjo and Xambó, Sebastian},
+  year   = {2011},
+}
 @article{feynman-1981,
   author  = {Feynman, Richard},
   year    = {1982},
@@ -35,18 +53,92 @@
   journal = {International Journal of Theoretical Physics},
 }
 
+
+@article{girard-linear-logic-1987,
+  title   = {Linear logic},
+  journal = {Theoretical Computer Science},
+  volume  = {50},
+  number  = {1},
+  pages   = {1-101},
+  year    = {1987},
+  issn    = {0304-3975},
+  doi     = {10.1016/0304-3975(87)90045-4},
+  author  = {Jean-Yves Girard},
+}
+
+@inbook{girard-linear-logic-1995,
+  place      = {Cambridge},
+  series     = {London Mathematical Society Lecture Note Series},
+  title      = {Linear Logic: its syntax and semantics},
+  doi        = {10.1017/CBO9780511629150.002},
+  booktitle  = {Advances in Linear Logic},
+  publisher  = {Cambridge University Press},
+  author     = {Girard, J.-Y.},
+  year       = {1995},
+  pages      = {1–42},
+  chapter    = {1},
+  collection = {London Mathematical Society Lecture Note Series},
+}
+
 @article{measurement-calculus,
   author  = {Danos, Vincent and Kashefi, Elham and Panangaden, Prakash},
   year    = {2005},
   month   = {01},
-  pages   = {},
   title   = {The Measurement Calculus},
   volume  = {54},
   journal = {Journal of the ACM},
   doi     = {10.1145/1219092.1219096},
 }
 
-@inbook{paulsen_2003,
+@misc{nlab:linear_logic,
+  author = {{nLab authors}},
+  title  = {linear logic},
+  url    = {http://ncatlab.org/nlab/revision/linear%20logic/104},
+  month  = {08},
+  year   = {2022},
+}
+
+@misc{nlab:linear_logic-ql,
+  author = {{nLab authors}},
+  title  = {linear logic},
+  url    = {http://ncatlab.org/nlab/revision/linear%20logic/104#quantum_logic},
+  month  = {08},
+  year   = {2022},
+}
+
+@misc{nlab:quantum_logic,
+  author = {{nLab authors}},
+  title  = {quantum logic},
+  url    = {http://ncatlab.org/nlab/revision/quantum%20logic/42},
+  month  = {08},
+  year   = {2022},
+}
+
+@article{ola-bratteli,
+  issn      = {00029947},
+  url       = {http://www.jstor.org/stable/1996380},
+  doi       = {10.2307/1996380},
+  author    = {Ola Bratteli},
+  journal   = {Transactions of the American Mathematical Society},
+  pages     = {195--234},
+  publisher = {American Mathematical Society},
+  title     = {Inductive Limits of Finite Dimensional C*-Algebras},
+  urldate   = {2022-08-27},
+  volume    = {171},
+  year      = {1972},
+}
+
+@book{pa-fillmore,
+  title     = {A User's Guide to Operator Algebras},
+  author    = {Fillmore, P.A. and Canadian Mathematical Society},
+  isbn      = {9780471311355},
+  lccn      = {95038340},
+  series    = {A Wiley interscience publication},
+  year      = {1996},
+  publisher = {Wiley},
+}
+
+@book{paulsen_2003,
   place      = {Cambridge},
   series     = {Cambridge Studies in Advanced Mathematics},
   title      = {Dilation Theorems},
@@ -55,7 +147,6 @@
   publisher  = {Cambridge University Press},
   author     = {Paulsen, Vern},
   year       = {2003},
-  pages      = {43–57},
   collection = {Cambridge Studies in Advanced Mathematics},
 }
 
@@ -98,7 +189,6 @@
   isbn      = {364215204X},
   publisher = {Springer-Verlag},
   address   = {Berlin, Heidelberg},
-  abstract  = {We extend universal algebra and its equational logic from first to second order as follows. 1. We consider second-order equational presentations as specified by identities between second-order terms, with both variables and parameterised metavariables over signatures of variable-binding operators. 2. We develop an algebraic model theory for second-order equational presentations, generalising the semantics of (first-order) algebraic theories and of (untyped and simply-typed) lambda calculi. 3. We introduce a deductive system, Second-Order Equational Logic, for reasoning about the equality of second-order terms. Our development is novel in that this equational logic is synthesised from the model theory. Hence it is necessarily sound. 4. Second-Order Equational Logic is shown to be a conservative extension of Birkhoff's (First-Order) Equational Logic. 5. Two completeness results are established: the semantic completeness of equational derivability, and the derivability completeness of (bidirectional) Second-Order Term Rewriting.},
   booktitle = {Proceedings of the 24th International Conference/19th Annual Conference on Computer Science Logic},
   pages     = {320–335},
   numpages  = {16},
@@ -115,9 +205,10 @@
   pages   = {527 - 586},
 }
 
-@thesis{tdj,
-  title  = {ZX-račun},
-  author = {Tadej Petrič},
+@misc{tdj,
+  title  = {{ZX-račun : delo diplomskega seminarja}},
+  url    = {https://repozitorij.uni-lj.si/IzpisGradiva.php?lang=slv&id=138809},
+  author = {Petrič, Tadej},
   year   = {2022},
 }
 

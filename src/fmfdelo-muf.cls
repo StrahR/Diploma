@@ -52,9 +52,9 @@
 \RequirePackage{unicode-math}
 
 \RequirePackage{polyglossia}
-\RequirePackage[backend=biber,bibencoding=utf8,backref=true]{biblatex}
+\RequirePackage[backend=biber,bibencoding=utf8]{biblatex}
 
-\RequirePackage[braket]{qcircuit}
+\RequirePackage{qcircuit}
 \RequirePackage{tikz}
   \usetikzlibrary{cd}
   \usetikzlibrary{babel}

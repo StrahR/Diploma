@@ -1,7 +1,7 @@
 \section{Programski jezik}
 Definirajmo sedaj nek preprost programski jezik za delo s kvantnim računalnikom.
 % Temeljil bo na linearnih tipih in algebrajskih učinkih.
-Kasneje bi ta jezik lahko razširili še z ostalimi konstrukti, ki smo jih navajeni, kot so naravna števila, vsote, neskončni tipi (seznami), ipd., ampak je za teoretično obravnavo bolj praktično delati s čim preprostejšim jezikom.
+Kasneje bi ta jezik lahko razširili še z ostalimi konstrukti, ki smo jih navajeni, kot so naravna števila, vsote, tipi, ipd., ampak je za teoretično obravnavo bolj praktično delati s čim preprostejšim jezikom.
 
 \subsection{Sintaksa}
 Poznamo sledeče sintaktične elemente:
@@ -12,8 +12,8 @@ Poznamo sledeče sintaktične elemente:
     t ∷=&\ x{\p{a₁,…,aₚ}}                                   && \text{nadaljevanje}\\
     \mid&\ \new{a}{t}                                       && \text{inicializacija kubita}\\
     \mid&\ \apply{U}{\oldvec{a}}{t}                         && \text{uporaba vrat}\\
-    \mid&\ \measure{a}{t₀}{t₁}                              && \text{meritev}\\
-    \mid&\ \discard{a}{t}                                   && \text{uničenje}
+    \mid&\ \measure{a}{t₀}{t₁}                              && \text{meritev}
+    % \mid&\ \discard{a}{t}                                   && \text{uničenje}
     % \mid&\ \lam{a}{t}                                       && \text{lambda abstrakcija}
 \end{align*}
 \vspace{-1em}
@@ -32,18 +32,20 @@ Izraz \(t\) je lahko poljuben izraz s prostim kubitom \(a\), \(\new{a}{t}\) pa i
 
 \subsubsection*{Uporaba vrat}
 V zapisu \(\apply{U}{\oldvec{a}}{t}\) je \(\oldvec{a}\) nek vektor kubitov, ki ga bomo pisali kot \(a₁,…,aₚ\), kjer so \(aᵢ\) posamezni kubiti.
+Vrata se uporabljajo ustrezno z interpretacijo z gostotnimi matrikami.
 
 \subsubsection*{Meritev}
 Ukaz \(?ₐ\) izmeri kubit \(a\), in nato glede na rezultat nadaljuje z izvajanjem bodisi \(t₀\) bodisi \(t₁\), glede na rezultat meritve. To bo uničilo kubit, torej ga v nadaljevanju ne smemo uporabiti.
 Če je kubit del prepletenega stanja, moramo to meritev interpretirati ustrezno z definicijo meritve vektorja na primernem mestu.
 
-\subsubsection*{Uničenje}
-Ker je uničenje zgolj okrajšava za meritev, po kateri nadaljujemo na isti način ne glede na rezultat, upošteva vsa gornja pravila.
+% \subsubsection*{Uničenje}
+% Ker je uničenje zgolj okrajšava za meritev, po kateri nadaljujemo na isti način ne glede na rezultat, upošteva vsa gornja pravila.
 
 % \subsubsection*{Lambda abstrakcija}
 % Lambda abstrakcijo bomo uporabili za tvorjenje operacij na nadaljevanjih (recimo primera \ref{ex:5} in \ref{ex:6} spodaj).
 
 \subsection{Primeri}
+Naj \(t\) in \(u\) predstavljata poljubna izraza v jeziku, \(x\) pa naj bo nadaljevanje, ki pričakuje primerno količino kubitov.
 \begin{example*}\label{ex:1}
     Definiramo lahko analog ukazu \(ν\), ki kubit nastavi na \(\ket{\mb1}\) namesto \(\ket{\mb0}\):
     \[ \new{₁a}{t} ≔ \new{a}{\apply{X}{a}{t}}. \]
@@ -61,9 +63,9 @@ Ker je uničenje zgolj okrajšava za meritev, po kateri nadaljujemo na isti nač
 \end{example*}
 
 \begin{example*}\label{ex:4}
-    Kot v prvem primeru, bi tudi ukaz \(\op{disc}\) lahko definirali izključno znotraj jezika:
-    \[ \discard{a}{t} ≔ \measure{a}{t}{t}. \]
-    Izkaže se, da je ta operacija bolj pomembna kot primer \ref{ex:1}, tako da jo vseeno vključimo neposredno v sintakso jezika.
+    Kljub temu, da velja izrek o neizbrisu, lahko vseeno definiramo operacijo \(\op{disc}\):
+    \[ \discard{a}{t} ≔ \measure{a}{t}{t}, \]
+    ki kubit uniči tako, da ga izmeri in nato pozabi rezultat meritve.
 \end{example*}
 
 \begin{example*}\label{ex:5}
@@ -76,64 +78,64 @@ Ker je uničenje zgolj okrajšava za meritev, po kateri nadaljujemo na isti nač
     \[ \op{c-rot}{\p{a;\,x}} ≔ \op{rand}{\p{x(a), \apply{Z}{a}{x(a)}}}. \]
 \end{example*}
 
-\subsection{Teorija tipov}
-Sistem tipov se v programske jezike pogosto uvede zaradi večje varnosti;
-preprečijo namreč pisanje veliko nesmiselnih programov.
-Pri nas pa tipi opravljajo še dodatno funkcijo:
-skrbijo, da spremenljivke uporabljamo \airquotes{linearno}.
-To je prednost uporabe linearne teorije tipov namesto navadne teorije tipov za formalizacijo kvantnega računalništva.
+% \subsection{Teorija tipov}
+% Sistem tipov se v programske jezike pogosto uvede zaradi večje varnosti;
+% preprečijo namreč pisanje veliko nesmiselnih programov.
+% Pri nas pa tipi opravljajo še dodatno funkcijo:
+% skrbijo, da spremenljivke uporabljamo \airquotes{linearno}.
+% To je prednost uporabe linearne teorije tipov namesto navadne teorije tipov za formalizacijo kvantnega računalništva.
 
-\subsubsection{Linearnost}
+\subsection{Linearna logika}
 Kot linearnost razumemo pogoj, da se vsako hipotezo (rečemo tudi parameter, argument, predpostavko, surovino, …) uporabi natanko enkrat.
-Linearna logika nam torej na primer formalizira razne procese, kjer iz ene stvari \airquotes{naredimo} drugo, in s tem prvo stvar \airquotes{porabimo}.
+Linearna logika nam torej formalizira razne procese, kjer iz ene stvari \airquotes{naredimo} drugo, in s tem prvo stvar \airquotes{porabimo}.
 Na linearno logiko lahko tudi gledamo kot semantiko \airquotes{iger} ali \airquotes{interakcij}.
-Še bolj pomembno pa je, da na linearno logiko lahko gledamo kot \airquotes{pravo} obliko kvantne logike,
+Še bolj pomembno pa je, da na linearno logiko lahko gledamo kot \airquotes{pravo} obliko kvantne logike~\cite{nlab:linear_logic-ql},
 ki nam pa dopušča tudi bistveno večjo splošnost.
-Že iz imena lahko sklepamo, da se kvantna logika uporablja namesto klasične logike prav tako, kot se kvantna fizika uporablja namesto klasične fizike.
-%TODO: citation in nlab quantum logic
+Že iz imena lahko sklepamo, da se kvantna logika uporablja namesto klasične logike prav tako, kot se kvantna fizika uporablja namesto klasične fizike~\cite{nlab:quantum_logic}.
 
 Spomnimo se, da z unitarnimi transformacijami (kvantnimi vrati) kubitov ne moremo niti klonirati, niti uničiti.
 To je natanko pogoj linearnosti.
 Uporaba vrat je res linearna, saj deluje na vseh vhodnih kubitih, do njihove stare vrednosti pa ne moremo več dostopati.
 Prav tako je tudi meritev linearna, saj porabi en kubit, ki ga nato ne moremo več uporabljati.
 Ker sta to edina načina s katerimi lahko vplivamo na stanja (obstoječih) kubitov, bodo tudi vse funkcije na kubitih linearne.
-Če torej iz linearne logike izpeljemo t.i. linearno teorijo tipov, se pogoj linearnosti naravno pretvori v pogoj, da moramo vsak argument funkciji uporabiti natanko enkrat, kar je natanko to, kar za funkcije na kubitih v fiziki res velja.
-Ker pogoj linearnosti ne velja za klasične bite (te lahko kopiramo, kolikor hočemo) bomo rekli, da so naše funkcije linearne le na \airquotes{kvantnih tipih}.
+% Če torej iz linearne logike izpeljemo t.i. linearno teorijo tipov, se pogoj linearnosti naravno pretvori v pogoj, da moramo vsak argument funkciji uporabiti natanko enkrat, kar je natanko to, kar za funkcije na kubitih v fiziki res velja.
+% Ker pogoj linearnosti ne velja za klasične bite (te lahko kopiramo, kolikor hočemo) bomo rekli, da so naše funkcije linearne le na \airquotes{kvantnih tipih}.
 
 %TODO: cite nlab+girard "Za natančno definicijo linearne logike si oglejte…"
+Podrobnejšo definicijo linearne logike si lahko ogledate v~\cite{girard-linear-logic-1987,girard-linear-logic-1995, nlab:linear_logic}.
 
-\subsubsection{Sistem tipov}
-Naš sistem tipov zgradimo iz dela linearne logike imenovanega multiplikativna intuitionistična linearna logika.
-Ta vsebuje zgolj tri simbole \(⊗, \mb1, ⊸\), katerim bomo pa dodali še eno konstanto (kubite).
-%TODO: explain intuitionistic logic?
-%TODO: inferrence rules for MILL?
+% \subsubsection{Sistem tipov}
+% Naš sistem tipov zgradimo iz dela linearne logike imenovanega multiplikativna intuitionistična linearna logika.
+% Ta vsebuje zgolj tri simbole \(⊗, \mb1, ⊸\), katerim bomo pa dodali še eno konstanto (kubite).
+% %TODO: explain intuitionistic logic?
+% %TODO: inferrence rules for MILL?
 
-Pripadajoče tipe lahko potem zgradimo s sledečimi konstruktorji:
-\begin{table}[H]
-\vspace{-1em}
-\begin{align*}
-    A,B ∷=&\ \unit                                      && \text{tip z enim elementom } ()\\
-      \mid&\ \qbit                                      && \text{tip kubitov}\\
-      \mid&\ A⊗B                                        && \text{tenzorski produkt}\\
-      \mid&\ A ⊸ B                                      && \text{funkcijski tip}
-\end{align*}
-\vspace{-1em}
-\caption{Sistem tipov}
-\end{table}
-\begin{remark}
-    Edini možni tipi v našem jeziku so \(\qbit^{⊗n}\) ali \(\qbit^{⊗m} ⊸ \qbit^{⊗n}\), kjer sta \(m,n ∈ ℕ\) poljubna.
-    To sledi iz enakosti \(A ⊸ (B ⊸ C) = A⊗B ⊸ C\).
-    Tipi oblike \((A ⊸ B) ⊸ C\) so sicer veljavni, vendar elementov teh tipov v našem jeziku ne moremo tvoriti.
-\end{remark}
-\begin{remark}
-    Ker je \(\unit\) enota za tenzorski produkt, velja \(\qbit^{⊗0} = \unit\).
-\end{remark}
+% Pripadajoče tipe lahko potem zgradimo s sledečimi konstruktorji:
+% \begin{table}[H]
+% \vspace{-1em}
+% \begin{align*}
+%     A,B ∷=&\ \unit                                      && \text{tip z enim elementom } ()\\
+%       \mid&\ \qbit                                      && \text{tip kubitov}\\
+%       \mid&\ A⊗B                                        && \text{tenzorski produkt}\\
+%       \mid&\ A ⊸ B                                      && \text{funkcijski tip}
+% \end{align*}
+% \vspace{-1em}
+% \caption{Sistem tipov}
+% \end{table}
+% \begin{remark}
+%     Edini možni tipi v našem jeziku so \(\qbit^{⊗n}\) ali \(\qbit^{⊗m} ⊸ \qbit^{⊗n}\), kjer sta \(m,n ∈ ℕ\) poljubna.
+%     To sledi iz enakosti \(A ⊸ (B ⊸ C) = A⊗B ⊸ C\).
+%     Tipi oblike \((A ⊸ B) ⊸ C\) so sicer veljavni, vendar elementov teh tipov v našem jeziku ne moremo tvoriti.
+% \end{remark}
+% \begin{remark}
+%     Ker je \(\unit\) enota za tenzorski produkt, velja \(\qbit^{⊗0} = \unit\).
+% \end{remark}
 
 \begin{definition}
-    Naj zapis oblike \(\sseq{Γ}{x : A}\) pomeni, da ima \emph{\(x\) tip \(A\) v kontekstu \(Γ\)}.
-    Kontekst \(Γ\) je seznam dodelitev tipov spremenljivkam.
-    V našem primeru, bomo za \(Γ\) pisali \(x₁:m₁,…,xₖ:mₖ \mid a₁,…,aₚ\),
-    kjer so \(xᵢ\) nadaljevanja (oziroma računske spremenljivke) tipa \(\qbit^{⊗mᵢ} ⊸ Aᵢ\), \(aᵢ\) pa kubiti (torej tipa \(\qbit\)).
+    Naj zapis oblike \(\sequent{Γ}{Δ}{t}\) pomeni, da je \emph{\(t\) program v kontekstu \(Γ \mid Δ\)}, kjer \(Δ\) predstavlja seznam parametrov, \(Γ\) pa seznam računskih spremenljivk, skupaj z njihovo valenco.
+
+    % V našem primeru, bomo za \(Γ\) pisali \(x₁:m₁,…,xₖ:mₖ \mid a₁,…,aₚ\),
+    % kjer so \(xᵢ\) nadaljevanja (oziroma računske spremenljivke) tipa \(\qbit^{⊗mᵢ} ⊸ Aᵢ\), \(aᵢ\) pa kubiti (torej tipa \(\qbit\)).
 \end{definition}
 
 Pravila za določitev tipov programom našega jezika so torej takšna:
@@ -141,46 +143,47 @@ Pravila za določitev tipov programom našega jezika so torej takšna:
 \begin{table}[H]
 \begin{mathpar}
     \inferrule
-        {(x:m)∈Γ \\ x : \qbit^{⊗m} ⊸ A}
-        {\sequent{Γ}{a₁,…,aₘ}{x(a₁, …, aₘ) : A}}
+        {(x:m)∈Γ}
+        {\sequent{Γ}{a₁,…,aₘ}{x(a₁,…,aₘ)}}
     \and
     \inferrule
-        {\sequent{Γ}{Δ,a}{        t  : A}}
-        {\sequent{Γ}{Δ  }{\new{a}{t} : A}}
+        {\sequent{Γ}{a₁,…,aₚ}{t}}
+        {\sequent{Γ}{a_{σ(1)},…,a_{σ(p)}}{t}}
+    \p{σ ∈ Sₚ}
     \and
     \inferrule
-        {\sequent{Γ}{Δ,\oldvec{a}}{                      t  : A} \\ U ∈ \U[p]}
-        {\sequent{Γ}{Δ,\oldvec{a}}{\apply{U}{\oldvec{a}}{t} : A}}
+        {\sequent{Γ}{Δ,a}{        t }}
+        {\sequent{Γ}{Δ  }{\new{a}{t}}}
     \and
     \inferrule
-        {\sequent{Γ}{Δ}{t₀ : A}\\
-         \sequent{Γ}{Δ}{t₁ : A}}
-        {\sequent{Γ}{Δ, a}{\measure{a}{t₀}{t₁} : A}}
+        {\sequent{Γ}{Δ,\oldvec{a}}{                      t } \\ p =  \\ U ∈ \U[|\oldvec a|]}
+        {\sequent{Γ}{Δ,\oldvec{a}}{\apply{U}{\oldvec{a}}{t}}}
     \and
     \inferrule
-        {\sequent{Γ}{Δ  }{            t  : A}}
-        {\sequent{Γ}{Δ,a}{\discard{a}{t} : A}}
+        {\sequent{Γ}{Δ}{t₀}\\
+         \sequent{Γ}{Δ}{t₁}}
+        {\sequent{Γ}{Δ, a}{\measure{a}{t₀}{t₁}}}
     % \and
     % \inferrule
-    %     {\sequent{Γ}{Δ,a}{t : A}}
-    %     {\sequent{Γ}{Δ}{\lam{a}{t} : \qbit ⊸ A}}
-    % \and
-    % \inferrule
-    %     {\sequent{Γ}{-}{x : \qbit^{⊗m} ⊸ A}}
-    %     {\sequent{Γ,x:m}{a₁,…,aₚ}{t : B}}
-    % \and
-    % \inferrule
-    %     {(x:n)∈Γ}
-    %     {\sequent{Γ}{Δ}{x : \qbit^{⊗n} ⊸ A}}
-    %TODO: one more rule?
-    %TODO: simultaneous substitution rule?
+    %     {\sequent{Γ}{Δ  }{            t }}
+    %     {\sequent{Γ}{Δ,a}{\discard{a}{t}}}
 \end{mathpar}
-\caption{Pravila za dodeljevanje tipov}
+\caption{Pravila za tvorjenje programov}
 \end{table}
 %LTeX: enabled=true
 
-Pravil za tvorjenje elementov tipa \(A ⊸ B\) sicer nimamo, ampak vseeno z njimi označimo nadaljevanja.
-%TODO: is this right?
+\begin{example}
+    Izpeljimo pravilnost programa iz primera~\ref{ex:1}.
+    %LTeX: enabled=false
+    \[  \inferrule
+        {\inferrule
+        {\inferrule
+            { }
+            {\sequent{x:1}{a}{x(a)}}}
+            {\sequent{x:1}{a}{\apply{X}{a}{x(a)}}}}
+            {\sequent{x:1}{-}{\new{a}{\apply{X}{a}{x(a)}}}}\qedhere\]
+    %LTeX: enabled=true
+\end{example}
 
 \subsection{Aksiomi}
 Izkaže se, da je nabor aksiomov, ki jih potrebujemo za polno karakterizacijo kvantnih programov relativno majhen: potrebujemo jih zgolj \(12\) in kot bomo videli nismo žrtvovali preprostosti, da smo prišli do te številke.

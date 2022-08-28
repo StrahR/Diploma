@@ -1,11 +1,11 @@
 \section{Semantika}
-Naš cilj v tem delu je dokazati nekaj o kvantnem programiranju.
-Programski in algebrajski jezik smo že definirali, ostane nam torej le še definicija konkretne interpretacije.
+Lotimo se sedaj modeliranja kvantnega računalništva. Najprej definirajmo matematične objekte, s katerimi bomo sploh interpretirali naše programe.
 
 \subsection{\texorpdfstring{\(C^*\)-algebre}{C*-algebre}}
-%TODO: cite standard literature
 Kvantno računalništvo je standardno modelirati z operatorskimi algebrami.
 V našem primeru ga bomo modelirali s \(C^*\)-algebrami.
+% Standardne definicije in izreke povzamemo po
+%TODO: cite standard literature
 
 %TODO: citations
 \begin{definition} %TODO: cite vidav
@@ -75,7 +75,7 @@ V našem primeru ga bomo modelirali s \(C^*\)-algebrami.
 \end{example}
 
 \begin{proposition}
-    Velja \(Mₙ(\M[k]) ≅ \M[nk]\).
+    Velja \(Mₙ(\M[k]) ≅ \M[nk]\). Posebej je \(M_{2ᵐ}{\p{\M[2ⁿ]}} = \M[2ᵐ⁺ⁿ]\).
 \end{proposition}
 
 \begin{proposition}
@@ -83,113 +83,97 @@ V našem primeru ga bomo modelirali s \(C^*\)-algebrami.
 \end{proposition}
 
 \subsection{Interpretacija programskega jezika}
-Operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) želimo interpretirati z morfizmom iz \(\semmap{p}{m₁,…,mₖ}\).
-Za naš jezik to pomeni, da želimo morfizme iz \(\semmap{1}{0,0}\), \(\semmap{p}{p}\), in \(\semmap{0}{1}\).
-% Za \(\op{measure}\) in \(\op{apply}\) to ni problem, saj \(*\)-homomorfizmi iz \(\semmap{1}{0,0}\) in \(\semmap{p}{p}\) obstajajo, vendar problem nastane pri \(\op{new}\).
-% Želeli bi \(*\)-homomorfizem oblike \(\semmap{0}{1}\), vendar ta ne obstaja. Problem rešimo tako, da najprej dokažemo izrek zgolj za meritve in uporabo vrat, kasneje pa razvijemo orodje, s katerim lahko interpretiramo \(\op{new}\), in potem poskusimo izraze z \(\op{new}\) prevesti na ustrezne izraze brez \(\op{new}\).
-Za inspiracijo se spomnimo operacij na gostotnih matrikah.
-Tam lahko operacije zapišemo takole:
-\begin{align*}
-    \text{meritev:}      && \pmat{A&B\\C&D} &↦\p{\bmat{A&0\\0&0}, \bmat{0&0\\0&D}} : \M[2]→\M[2]⊕\M[2]\\
-    \text{uporaba vrat:} &&               A &↦ UAU^* : \M[p] → \M[p]\\
-    \text{novi kubit:}   &&               A &↦ \pmat{A&0\\0&0} : \M[1] → \M[2]
-\end{align*}
-Meritev gostotne matrike je verjetnostna porazdelitev, ki jo predstavimo z mešanim stanjem,
-ki je (utežena) vsota čistih stanj, tega pa lahko zapišemo kar kot par.
-Če pri meritvi desni matriki identificiramo kar z \(A\) in \(D\), je potem preslikava oblike \(\M[2]→\M[1]⊕\M[1]\).
+Za nosilce našega modela kvantnega računalništva bomo vzeli kompleksna števila, operacijo \(n•ℂ\) pa definiramo kot \(\M[2ⁿ]\).
+Sledi, da operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) interpretiramo z morfizmom iz \(\semmap{p}{m₁,…,mₖ}\).
+Za naš jezik to pomeni, da za \(\op{new}\), \(\op{apply}\), in \(\op{measure}\) želimo morfizme iz \(\semmap{0}{1}\), \(\semmap{p}{p}\), in \(\semmap{1}{0,0}\).
 
-Najraje bi za interpretacije vzeli kar te preslikave, vendar pa grejo preslikave v napačno smer.
-Problem lahko rešimo, tako da vzamemo nekakšne inverze vseh teh operacij.
-Za meritev lahko ta \airquotes{inverz} zapišemo kot \(\p{A,D} ↦ \pmat{A&0\\0&D}\),
-za uporabo vrat lahko izračunamo dejanski inverz, ki je \(A ↦ U^*AU\), za nove kubite pa vzamemo nekaj podobnega projekciji na prvo komponento.
+Spomnimo se sedaj transformacij opazljivk, ki jih omenimo v razdelku~\ref{sec:observables}.
+Dodelitev kubita in uporabo vrat že znamo izraziti z operacijami na opazljivkah, meritve kubita pa še ne.
+Oglejmo si še enkrat (prirejen) primer~\ref{ex:proj-z}:
+\[ \Qcircuit @C=1em @R=.7em {
+    & \mbox{A} && \hspace{-2em}\mbox{B} & \mbox{C}\\
+    &\lstick{a} & \meter & \cctrl{1}\\
+    \lstick{b} & \qw & \qw & \gate{\g X} & \rstick{\hat{b}} \qw
+}
+\]
+Predstavljamo si lahko, da se po meritvi univerza razveji, in smo v univerzi, kjer izmerimo \(1\), vrata \(X\) uporabili, v univerzi, kjer izmerimo \(0\) pa ne.
+To tudi pomeni, da imamo glede na rezultat meritve dve različni opazljivki (v tem primeru \(B₀ ≔ C\) in \(B₁ ≔ X^*CX\)), ki ju moramo združiti, da se lahko premaknemo bolj levo.
+Izkaže se, da je \(A\) enak \(\pmat{B₀&0\\0&B₁}\).
 
-Te interpretacije meritve in dodeljevanja še vedno niso zadovoljive, saj delujejo zgolj na enem kubitu.
-% Želimo torej najti neko (standardno) razširitev, da bomo lahko operacije izvajali na poljubnih kubitih.
-Problem rešimo v dveh korakih:
-prvi korak je, da lahko obe preslikavi smatramo, kot da delujeta na bločnih matrikah, saj ne delujeta na dejanskih elementih, ampak zgolj na strukturi matrike.
-Tako smo preslikave razširili, da delujejo na začetku vektorja.
+Natančno torej definiramo interpretacije takole:
+\begin{itemize}
+    \item \(\snew{}{\mat{A₁₁&A₁₂\\A₂₁&A₂₂}} ≔ \sem{\op{new}}{\p{\mat{A₁₁&A₁₂\\A₂₁&A₂₂}}} =  A₁₁\),
+    \item \(\sapply{U}{A} ≔ \sem{\op{apply}_{\g U}}(A) = U^*AU\),
+    \item \(\smeasure{}{A₁}{A₂} ≔ \sem{\op{measure}}{\p{A₁,A₂}} = \pmat{A₁ & 0 \\ 0 & A₂}\).
+\end{itemize}
 
-Drugi korak pa je, da se spomnimo, da je za vsak \(f\) tudi \(Mₖ(f)\), definirana na elementih matrike, neka preslikava.
-Izkaže se, da nam \(Mₖ(f)\) predstavlja ravno delovanje \(f\) na zadnjem (od \(k\)) kubitu.
-% Izkaže se, da nam morfizmi oblike \(Mₖ(f)\) delujejo ravno na zadnjem (oziroma \(k\)-tem) kubitu.
-Če zdaj \(Mₖ(f)\) razširimo z bločnimi matrikami do \(n\) kubitov, dobimo natanko interpretacijo operacije \(f\) izvedene na \(k\)-tem (od \(n\)-tih) kubitu.
+Če želimo interpretirati operacije, ki delujejo na poljubnih kubitih, lahko najprej kubite permutiramo na konec, tam izvedemo operacijo s pomočjo konstrukcije \(Mₚ(f)\), in nato spravimo kubite v prvotni vrstni red.
+Pri meritvi na \(j\)-tem je to permutacija \((p,…,j)\) pred operacijo, in identiteta po njej,
+pri uporabi vrat kubite, na katerih želimo uporabiti vrata, premaknemo na konec (v želenem vrstnem redu), uporabimo vrata \(I⊗U\) na vseh kubitih, in jih nato ponovno permutiramo kubite nazaj,
+dodelitev \(j\)-tega kubita pa zgleda kot dodelitev kubita na zadnje mesto in nato permutacija oblike \((j,…,p+1)\).
+% Če želimo interpretirati operacije, ki delujejo na poljubnih kubitih, lahko najprej kubite permutiramo na začetek, tam izvedemo operacijo, in nato spravimo kubite v prvotni vrstni red.
+% Pri meritvi na \(j\)-tem je to permutacija \((1,…,j)\) pred operacijo, in identiteta po njej,
+% pri uporabi vrat kubite, na katerih želimo uporabiti vrata, premaknemo na začetek (v želenem vrstnem redu), uporabimo vrata \(U⊗I\) na vseh kubitih, in jih nato ponovno permutiramo nazaj,
+% dodelitev \(j\)-tega kubita pa zgleda kot dodelitev kubita na prvo mesto in nato permutacija oblike \((j,…,1)\).
 
-Natančno definiramo interpretacije takole:%TODO: maybe abstract the extension out?
-\begin{definition}
-    Meritev interpretiramo z \(*\)-homomorfizmi oblike \(\mor{measure}{\p X} : \mormap{1}{0, 0}\) s predpisom \[ \smeasure{\p X}{α}{β} = \p{\mat{α & 0 \\ 0 & β}}. \]
-
-    Meritev na \(j\)-tem mestu izvajamo z \(\mor{measure}ⱼ ≔ Mⱼ{\p{\mor{measure}{\p X}}}\).
-\end{definition}
-\begin{remark}
-    Za \(X\) implicitno izberemo tak \(\M[k]\), da bo interpretacija prave dimenzije.
-    V praksi bo \(k\) ponavadi kar \(p-j\), kjer je \(p\) število kubitov v sistemu.
-\end{remark}
-
-\begin{definition}
-    Za \(U ∈ \U[p]\) interpretiramo uporabo vrat z \(*\)-homomorfizmom \( \mor{apply}_{\g U} : \semmap{p}{p}\) s predpisom \(A ↦ U^*AU.\)
-\end{definition}
-\begin{remark}
-    Pri interpretaciji uporabe vrat se zanašamo na uporabnika, da vrata \(U\) skonstruira tako, da delujejo na želenih kubitih, tako da ne bomo uvajali posebnega zapisa za delno uporabo vrat.
-\end{remark}
-
-\begin{definition}
-    Dodeljevanje novih kubitov interpretiramo s preslikavami oblike
-    \(\mor{new}{\p X} : \mormap{0}{1}\) s predpisom \[\snew{\p X}{\mat{α₁₁ & α₁₂ \\ α₂₁ & α₂₂}} = α₁₁.\]
-
-    Dodelitev \(j\)-tega kubita izvajamo z \(\mor{new}ⱼ ≔ Mⱼ{\p{\mor{new}{\p X}}}\).
-\end{definition}
-\begin{remark}
-    Za \(X\) spet implicitno izberemo tak \(\M[k]\), da bo interpretacija prave dimenzije.
-\end{remark}
+Označimo z \(\mor{measure}ⱼ\) meritev na \(j\)-tem mestu in z \(\mor{new}ⱼ\) dodelitev \(j\)-tega kubita.
 
 \begin{proposition}
-    Preslikave \(\mor{new}\) niso \(*\)-homomorfizmi.
+    Preslikavi \(\mor{measure}\) in \(\mor{apply}\) sta \(*\)-homomorfizma.
 \end{proposition}
 
 \begin{proof}
-    Denimo, da je \(\mor{new}₁\) \(*\)-homomorfizem. Potem je 
-    \[0 = \snew₁{\mat{0&1\\0&0}}\snew₁{\mat{0&0\\1&0}}
-        = \snew₁{\bmat{0&1\\0&0}⋅\bmat{0&0\\1&0}}
-        = \snew₁{\mat{1&0\\0&0}}
+    Preslikavi sta obe linearni. Preverimo še ostale lastnosti.\\
+    \((\mor{measure})\):
+    \nopagebreak
+    \begin{itemize}
+        \item \(\smeasure{}{A}{B}\smeasure{}{C}{D} = \pmat{AC&0\\0&BD} = \smeasure{}{AC}{BD}\),
+        \item \(\smeasure{}{Iₖ}{Iₖ} = \pmat{Iₖ&0\\0&Iₖ} = I₂ₖ\),
+        \item \(\smeasure{}{A}{B}^* = \pmat{A^*&0\\0&B^*} = \smeasure{}{A^*}{B^*}\).
+    \end{itemize}
+    \((\mor{apply})\):
+    \begin{itemize}
+        \item \(\sapply{U}{A}\sapply{U}{B} = U^*AUU^*BU = U^*ABU = \sapply{U}{AB}\),
+        \item \(\sapply{U}{Iₖ} = U^*IₖU = U^*U = Iₖ\),
+        \item \(\sapply{U}{A}^* = \p{U^*AU}^* = U^*A^*U = \sapply{U}{A^*}\).\qedhere
+    \end{itemize}
+\end{proof}
+
+\begin{proposition}
+    Preslikava \(\mor{new}\) ni \(*\)-homomorfizem.
+\end{proposition}
+
+\begin{proof}
+    Denimo, da je \(\mor{new}\) \(*\)-homomorfizem. Potem je 
+    \[0 = \snew{}{\mat{0&1\\0&0}}\snew{}{\mat{0&0\\1&0}}
+        = \snew{}{\bmat{0&1\\0&0}⋅\bmat{0&0\\1&0}}
+        = \snew{}{\mat{1&0\\0&0}}
         = 1 \contradiction\qedhere
     \]
 \end{proof}
 
 \begin{remark}
-    Vredno je omeniti, da je standarden pristop k modeliranju kvantnega računalništva dejansko s preslikavami na gostotnih matrikah, torej v nasprotni smeri (oziroma kategoriji) od naše.
-    Standard tokrat zaobidemo, saj obliko \(\semmap{p}{m₁,…,mₖ}\) nujno potrebujemo za dokaz polnosti, ki sledi kasneje.
-    To pa žal pomeni, da se bodo matrike komponirale v obratni smeri, kot se izvajajo operacije.
+    Vredno je omeniti, da je standarden pristop k modeliranju kvantnega računalništva dejansko s preslikavami na gostotnih matrikah, ki pa delujejo v nasprotni smeri (oziroma kategoriji) od naše~\cite{selinger-qpl}.
+    Standardni pristop tokrat zaobidemo, saj obliko morfizmov \(\semmap{p}{m₁,…,mₖ}\) nujno potrebujemo za dokaz polnosti, ki sledi kasneje.
+    To pa žal pomeni, da se bodo matrike komponirale v obratni smeri, kot se izvajajo operacije, saj opazljivke preslikavamo od konca programa proti začetku.
 \end{remark}
 
 \subsubsection{Primeri interpretacij}
 Oglejmo si sedaj interpretacije nekaj od naših \(6\)-ih primerov:
 \begin{enumerate}
-    \item \(\sem{\op{new}¹(a.\,t)}(A) = \snew₁{X^*AX} = a₂₂\),
-    % \addtocounter{enumi}{1} %TODO: interpret this exmaple
-    \item \(\sem{\op{rand}(t,u)}(A₁,A₂) = \snew₁{\had^*\bmat{A₁&0\\0&A₂}\had}
+    \item \(\sem{\op{new}¹(a.\,x(a))}(A) = \snew₁{X^*AX} = a₂₂\),
+    \item \(\sem{\op{rand}(x,y)}(A₁,A₂) = \snew₁{\had^*\bmat{A₁&0\\0&A₂}\had}
     % = \snew₁{\frac{1}{2}\mat{A₁+A₂&A₁-A₂\\A₁-A₂&A₁+A₂}}
     = \frac{1}{2}A₁ + \frac{1}{2}A₂\).
-    \item \(\sem{\op{bell}(a,b.\,t)}(A) = \snew₁{\had^*⋅\snew₂{\ctl{X}^*⋅A⋅\ctl{X}}⋅\had} = \frac{a₁₁ + a₁₄ + a₄₁ + a₄₄}{2}\),
-    \item \(\sem{\tdiscard{a}{t}} = \sem{t}(-)⋅I₂\),
-    \item \(\sem{\op{proj}(a;a.\,t)}(A) = \pmat{\snew₁{A}&0\\0&\snew₁{X^*AX}} = \pmat{a₁₁&0\\0&a₂₂}\),
+    \item \(\sem{\op{bell}(a,b.\,x(a,b))}(A) = \snew₁{\had^*\snew₂{\ctl{X}^*A\ctl{X}}\had} = \frac{a₁₁ + a₁₄ + a₄₁ + a₄₄}{2}\),
+    \item \(\sem{\tdiscard{a}{x}}(A) = I₂⊗A\),
+    \item \(\sem{\op{proj}(a;a.\,x(a))}(A) = \pmat{\snew₁{A}&0\\0&\snew₁{X^*AX}} = \pmat{a₁₁&0\\0&a₂₂}\),
     % \item \(\sem{\op{c-rot}(a;a.\,t)}(A) = \snew₂{(I⊗\had)^*\p{\smeasure₂{A}{Z^*AZ}}(I⊗\had)}\\
-    \item \(\sem{\op{c-rot}(a;a.\,t)}(A) = \sem{\op{rand}(t,u)}{\p{A,Z^*AZ}} = \frac{A + Z^*AZ}{2} = \pmat{a₁₁&0\\0&a₂₂}\).
+    \item \(\sem{\op{c-rot}(a;a.\,x(a))}(A) = \frac{1}{2}A + \frac{1}{2}Z^*AZ = \pmat{a₁₁&0\\0&a₂₂}\).
 \end{enumerate}
 
 Prej smo z aksiomi pokazali, da sta zadnja dva primera enaka, sedaj pa lahko opazimo, da sta tudi nuni interpretaciji enaki.
 Kasneje bomo dokazali, da je to dejansko zadosten pogoj za enakost programov.
-
-\begin{remark}
-    Pri primeru \((3)\) je vredno omeniti, kaj tisto število pomeni.
-    Če pričakovano vrednost \airquotes{opazljivke} \(A\) v stanju \(u\) definiramo kot \(\bra{u}A\ket{u}\), in če poračunamo pričakovano vrednost \(A ∈ \M[4]\) v stanju \(a = ρ\p{\ket{\mb{00}} + \ket{\mb{11}}}\), dobimo ravno \(\frac{a₁₁ + a₁₄ + a₄₁ + a₄₄}{2}\), torej si lahko predstavljamo, da interpretacijske funkcije računajo (delno) pričakovano vrednost opazljivk.
-    Sicer opazljivk v tem delu nismo definirali (predstavljajo merljive fizikalne količine), si pa lahko bolj podrobno obravnavo pogledate v~\cite[razdelek 3]{ramšak-qm}.
-
-    Prav tako lahko v primeru \((2)\) opazimo, da nam interpretacija \(\op{rand}\) ravno slika dve gostotni matriki v (enako porazdeljeno) mešano stanje teh dveh matrik.
-\end{remark}
-
-% \begin{definition}
-%     Definirajmo še interpretacijo za \(\op{discard}\): \[\op{discard}(α) ≔ \op{measure}(α,α).\]
-% \end{definition}
 
 \subsection{Polnost za meritev}
 Ker dodeljevanja kubitov ne moremo interpretirati zgolj z \(*\)-homomorfizmi, bomo najprej dokazali izrek le za meritev in uporabo vrat, nato pa bomo ta izrek uporabili v dokazu splošnega izreka.
@@ -265,13 +249,14 @@ Ker dodeljevanja kubitov ne moremo interpretirati zgolj z \(*\)-homomorfizmi, bo
 
 Navedimo najprej nekaj pomožnih izrekov in definicij, ki se uporabijo v dokazu.
 \begin{proposition}
-    Naj bo \(n ≥ k\) in \(f : \M[k] → \M[n]\) \(*\)-homomorfizem, ki ne (nujno) ohranja enote. Tedaj obstaja unitarna preslikava \(U ∈ \M[n]\), tako da je \(f\) oblike \(A ↦ UD{(A,…,A,0)}U^*\), kjer se \(A\) na diagonali pojavi \(m\)-krat, \(0\) je \(r×r\) ničelna matrika, in velja \(n = m⋅k + r\). Številu \(m\) pravimo \emph{kratnost} \(*\)-homomorfizma.
+    Naj bo \(n ≥ k\) in \(f : \M[k] → \M[n]\) \(*\)-homomorfizem, ki ne (nujno) ohranja enote. Tedaj obstaja~\cite{pa-fillmore} unitarna preslikava \(U ∈ \M[n]\), tako da je \(f\) oblike \(A ↦ UD{(A,…,A,0)}U^*\), kjer se \(A\) na diagonali pojavi \(m\)-krat, \(0\) je \(r×r\) ničelna matrika, in velja \(n = m⋅k + r\). Številu \(m\) pravimo \emph{kratnost} \(*\)-homomorfizma.
     Če \(f\) ohranja enoto je \(r = 0\) in \(n = m⋅k\).
 \end{proposition}
 
+Dokaz v bistveno drugačnem jeziku najdemo v~\cite[izrek I.10.8]{cstar-by-example}.
+
 Označimo \(\cat{C} ≔ \semmap{p}{m₁,…,mₖ}\).
 
-%TODO: cite P. A. Fillmore
 \begin{definition}
     % Za preslikavo \(f : A → B\), kjer je \(A = \M[k₁]⊕⋯⊕\M[kᵣ]\) in \(B = \M[n₁]⊕⋯⊕\M[nₛ]\) je Brattelijev diagram multigraf z dvema vrsticama vozlišč označenih s \(kᵢ\) in \(nⱼ\), skupaj z \(mᵢⱼ\) povezavami med \(kᵢ\) in \(nⱼ\), kjer je \(mᵢⱼ\) kratnost preslikave \(πⱼ∘f∘ιᵢ\).
     Za \(m₁,…,mₖ,p ∈ ℕ₊\) so elementi množice \emph{Brattelijevih diagramov} \(\cat{B} ≔ \brat{2ᵖ}{2^{m₁},…,2^{mₖ}}\) \(k\)-terice naravnih števil \(\p{s₁,…,sₖ}\), tako da je \(∑ᵢsᵢ2^{mᵢ} = 2ᵖ\).
@@ -284,7 +269,7 @@ Označimo \(\cat{C} ≔ \semmap{p}{m₁,…,mₖ}\).
 \end{lemma}
 
 \begin{proof}
-    Pokažimo lemo zgolj v obratni smeri.
+    Pokažimo lemo zgolj v obratni smeri. Celoten dokaz lahko bralec najde v~\cite{pa-fillmore,ola-bratteli}.
 
     Naj bosta \(f,g : \semmap{p}{m₁,…,mₖ}\) taka \(*\)-homomorfizma, da velja \(f = U^*g{(-)}U\).
 
@@ -305,9 +290,11 @@ Označimo \(\cat{C} ≔ \semmap{p}{m₁,…,mₖ}\).
 \end{proof}
 
 \begin{proof}[Skica dokaza izreka \ref{th:partial}.]
+    Povzamemo dokaz opisan v~\cite[trditev 9]{algeff-lin-qpl}.
+
     Najprej pokažemo direktno ekvivalenco med določenimi izrazi, zgrajenimi le iz meritev in Brattelijevimi diagrami.
-    Bolj natančno, izraz \(t\) interpretiramo kot \(\brsem{t}\), tako da velja \(μ\brsem{t} = \sem{f}\).
-    V obratni smeri pa definiramo \(\mor{Measure}{\p s}\) tako, da je \(\mor{Measure}{\brsem t} = t\) in \(\brsem{\mor{Measure}{\p s}} = s\) po indukciji.
+    Bolj natančno, izraz \(t\) interpretiramo z Brattelijevim diagramom \(\brsem{t}\), tako da velja \(μ\brsem{t} = \sem{f}\).
+    V obratni smeri pa definiramo \(\mor{Measure}{\p s}\) tako, da je \(\mor{Measure}{\brsem t} = t\) in \(\brsem{\mor{Measure}{\p s}} = s\) z rekurzijo.
 
     Potem naj bo pa \(f : \semmap{p}{m₁,…,mₖ}\) poljuben \(*\)-homomorfizem in \(s ≔ ρ(f)\).
     Po zgornji lemi je \(f\) oblike \(U^*(μ(s))U\), torej je \(f = \sem{\tapply{U}{a}{\mor{Measure}{\p s}}}\).
@@ -328,8 +315,7 @@ Označimo \(\cat{C} ≔ \semmap{p}{m₁,…,mₖ}\).
 
 \subsection{Polnost v splošnem}
 Za dokaz v splošnem bomo potrebovali bolj splošne morfizme.
-Definirajmo najprej še nekaj pojmov glede pozitivnosti in navedimo nekaj standardnih rezultatov.
-%TODO: cite book on positive maps
+Definirajmo najprej še nekaj pojmov glede pozitivnosti in navedimo nekaj standardnih rezultatov. Povzeto po~\cite{paulsen_2003}.
 
 \begin{definition}
     Element \(x\) \(C^*\)-algebre je \emph{pozitiven}, če obstaja kak element \(y\), da je \(x = y^*y\).
@@ -347,6 +333,8 @@ Definirajmo najprej še nekaj pojmov glede pozitivnosti in navedimo nekaj standa
         \item \(f\) je popolnoma pozitivna.
     \end{enumerate}
 \end{proposition}
+
+Dokaz lahko najdete v~\cite[izreka 3.9 in 3.11]{paulsen_2003}.
 
 % \begin{proof}
 %     Trditvi \((2)\) in \((3)\) sta ekvivalentni po definiciji in očitno \((2) ⇒ (1)\).
@@ -366,7 +354,7 @@ Definirajmo najprej še nekaj pojmov glede pozitivnosti in navedimo nekaj standa
 \end{proposition}
 
 \begin{proof}
-    Preverimo obe lastnosti za \(\mor{new}{\p ℂ}\): %TODO: is this sufficient?
+    Preverimo obe lastnosti za \(\mor{new}\):
     \begin{itemize}
         \item \(\snew₁{\mat{1&0\\0&1}} = 1\),
         \item Naj bo \(x\) pozitiven element. Potem je \(x = y^*y\), za nek \(y ∈ \M[2]\).
@@ -466,9 +454,11 @@ Navedimo najprej ključni izrek, ki ga uporabimo v dokazu.
     \end{tikzcd}\]
 \end{theorem}
 
-Dokaza teh izrekov izpustimo, saj sta izven obsega tega dela.
+Dokaza teh izrekov izpustimo, saj sta izven obsega tega dela, najdete pa ju v~\cite[poglavje 4]{paulsen_2003}.
 
 \begin{proof}[Dokaz izreka o polnosti.]
+    Predstavimo dokaz iz~\cite[trditev 11]{algeff-lin-qpl}.
+
     Naj bo \(f : \semmap{p}{m₁,…,mₖ}\) kot v izreku. Potem lahko uporabimo Stinespringov izrek o dilaciji, skupaj z minimalnostjo, da \(f\) razcepimo na \(g : \mc A → \M[q]\), za nek \(q ≥ 2ᵖ\), kjer je \(\mc A = \M[2^{m₁}]⊗⋯⊗\M[2^{mₖ}]\).
     Če je \(q\) potenca \(2\), je izrek praktično dokazan; \(g\) lahko definiramo po izreku \ref{th:partial}, skrčitev pa z zaporednimi \(\mor{new}\) in premešavanjem koordinat.
     % Drugi del sledi iz minimalnosti dilacije. % source?
@@ -477,7 +467,7 @@ Dokaza teh izrekov izpustimo, saj sta izven obsega tega dela.
     \[\begin{tikzcd}
         \mc{A} &&& {2^{mᵢ}\cdot \M[q]⊕(2^q-q)\cdot\M[2^{mᵢ}]} & {\M[2^{mᵢ+q}]} \\
         &&&& {\M[q]} \\
-        &&&& {\M[2^p]}
+        &&&& {\M[2^p]},
         \arrow["f"',                                from=1-1, to=3-5]
         \arrow["g"',                                from=1-1, to=2-5]
         \arrow["{(2^{mᵢ}\cdot g,(2^q-q)\cdot πᵢ)}", from=1-1, to=1-4]
@@ -486,6 +476,8 @@ Dokaza teh izrekov izpustimo, saj sta izven obsega tega dela.
         \arrow[                                     from=2-5, to=3-5]
         \arrow["{π₁}",                              from=1-4, to=2-5]
     \end{tikzcd}\]
+    kjer zapis \(n⋅\M[l]\) predstavlja \(n\)-kratno direktno vsoto \(C^*\)-algeber \(\M[l]\).
+
     Navpične preslikave so zožitve, vodoravne pa \(*\)-homomorfizmi, torej lahko kot prej definiramo izraz \(t\), da je \(\sem{t} = f\).
     Ostane nam še drugi del izreka, naj bosta \(t\) in \(u\) taka, da je \(\sem{t} = \sem{u}\).
     Po aksiomih o komutativnosti lahko zapišemo \(t\) kot \(\tnew{a₁,…,aₗ}{t'}\) (in podobno za \(u\)). Iz aksioma \ref{ax:D} sledi \(\tnew{a}{\tdiscard{a}{x}} = x\), torej je BŠS število \(\mor{new}\) na začetku \(t\) in \(u\) enako.
@@ -539,13 +531,13 @@ Dokaza teh izrekov izpustimo, saj sta izven obsega tega dela.
     \begin{lemma}
         Če sta \(f\) in \(g\) taka \(*\)-homomorfizma, da spodnji diagram komutira
         \[\begin{tikzcd}
-            \mc{A} \\
-            {\M[p+q]} & {\M[p]}
+            {\mc{A}} \\
+            {\M[p+q]} & {\M[p]},
             \arrow[      from=2-1, to=2-2]
             \arrow["f"', from=1-1, to=2-1]
             \arrow["g",  from=1-1, to=2-2]
         \end{tikzcd}\]
-        kjer je vodoravna preslikava zožitev, lahko preslikavo \(f\) faktoriziramo skozi bločno-diagonalno preslikavo \(\M[p]⊕\M[q] → \M[p+q]\) (meritev).
+        kjer je vodoravna preslikava zožitev, lahko preslikavo \(f\) faktoriziramo skozi bločno-diagonalno preslikavo \(\M[p]⊕\M[q] → \M[p+q]\).
     \end{lemma}
 
     Iz te leme dobimo preslikave \(f\), \(f'\), \(g\), \(h\) in lahko z njimi razširimo naš diagram.

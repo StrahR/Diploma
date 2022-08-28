@@ -26,6 +26,29 @@
 \let\oldvec\vec
 \renewcommand{\vec}[1]{\bmat{\StrSubstitute[0]{#1}{,}{\\}}}
 \newcommand{\state}[1]{\left\{ {#1} \right\}}
+% \newcommand{\mixstate}[2]{%
+%   \StrSubstitute[0]{#1}{…}{⋯}[\A]%
+%   \StrSubstitute[0]{#2}{…}{⋯}[\B]%
+%   \pmat{\StrSubstitute[0]{\A}{,}{&}\\\StrSubstitute[0]{\B}{,}{&}}%
+% }
+\usepackage{pgffor}
+\newcommand{\mixstate}[2]{% cf. https://tex.stackexchange.com/a/87423/64454
+  \foreach \A [count=\ai] in {#1} {%
+  \foreach \B [count=\bi] in {#2} {
+    \ifnum\ai=\bi%
+      \ifnum\ai>1 {+} \fi
+      \if\A… {⋯} \else {\A \state{\B}} \fi
+    \fi%
+  }}
+}
+\newcommand{\bra}[1]{\left\langle #1 \right\rvert}
+\newcommand{\ket}[1]{\left\lvert #1 \right\rangle}
+\newcommand{\braket}[2]{\left\langle #1 \middle\vert \mathopen{}#2 \right\rangle}
+\newcommand{\density}[1]{\left\lvert #1 \middle\rangle\middle\langle \mathopen{}#1 \right\rvert}
+\newcommand{\ketbra}[2]{\left\lvert #1 \middle\rangle\middle\langle \mathopen{}#2 \right\rvert}
+% \newcommand{\expval}[2]{\left\langle #2 \middle\vert #1 \middle\vert #2 \right\rangle}
+\newcommand{\expval}[2]{{\left\langle #1 \right\rangle}_{\!#2}}
+\newcommand{\matelt}[3]{\left\langle #1 \middle\vert #2 \middle\vert #3 \right\rangle}
 
 \newcommand{\had}{\mathtt{Had}}
 \newcommand{\swap}{\mathtt{swap}}
@@ -44,7 +67,7 @@
 \newcommand{\cstar}[2]{\cat{Cstar}{\arity{#1}{#2}}}
 \newcommand{\brat}[2]{\cat{Brat}{\arity{#1}{#2}}}
 
-\newcommand{\op}[1]{\textnormal{\sffamily#1}}
+\newcommand{\op}[1]{\textnormal{\ttfamily#1}}
 \newcommand{\mor}[1]{\textnormal{\sffamily#1}}
 \newcommand{\eff}[1]{\textnormal{\sffamily\ul{#1}}}
 \newcommand{\enew}{\eff{new}{\p{}}}
