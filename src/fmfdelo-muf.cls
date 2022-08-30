@@ -52,7 +52,12 @@
 \RequirePackage{unicode-math}
 
 \RequirePackage{polyglossia}
-\RequirePackage[backend=biber,bibencoding=utf8]{biblatex}
+% \RequirePackage[backend=biber,bibencoding=utf8,style=numeric]{biblatex}
+\RequirePackage{doi}
+% \def\printbibliography{%
+%   \bibliographystyle{fmf-sl}
+%   \bibliography{diploma}
+% }
 
 \RequirePackage{qcircuit}
 \RequirePackage{tikz}
@@ -89,7 +94,7 @@
 }{
   \setmainlanguage{slovene}
   \setotherlanguage{english}
-  \DeclareLanguageMapping{slovenian}{slovene}
+  % \DeclareLanguageMapping{slovenian}{slovene}
 }
 
 \hypersetup{%
@@ -240,4 +245,5 @@ Ljubljana, \@letnica}
 {\bf Ključne besede:} \@kljucnebesede \\[1mm]
 {\bf Keywords:} \@keywords
 \pagebreak
+\setcounter{page}{1}
 }

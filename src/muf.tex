@@ -2,7 +2,8 @@
 \renewcommand{\d}{\;\mathrm d}
 \renewcommand{\hat}{\widehat}
 \renewcommand{\tilde}{\widetilde}
-% \renewcommand{\bar}{\overline}
+\let\oldbar\bar
+\renewcommand{\bar}{\overline}
 \newcommand{\subs}{\subseteq}
 \newcommand{\nin}{\not\in}
 \newcommand{\contradiction}{\,\,\lightning}
@@ -61,7 +62,7 @@
 \newcommand{\D}[1]{D{\p{\g{#1}}}}
 \newcommand{\U}[1][]{\mathbf{U}_{#1}}
 \newcommand{\ctl}[1]{\g{c#1}}
-\newcommand{\ctlo}[1]{\g{\bar c} \g #1}
+\newcommand{\ctlo}[1]{\g{\oldbar c} \g{#1}}
 \newcommand{\cstarcat}{\cat{Cstar}}
 \newcommand{\cstarcpucat}{\cat{Cstar}_{\textrm{CPU}}}
 \newcommand{\cstar}[2]{\cat{Cstar}{\arity{#1}{#2}}}
@@ -186,5 +187,5 @@
 \makeatother
 
 \renewcommand{\for}[2]{\forall#1.\;#2}
-\newcommand{\exist}[2]{\exists#1\smallni:\;#2}
-\newcommand{\existi}[2]{\exists!#1\smallni:\;#2}
+\newcommand{\exist}[2]{\exists#1.\;#2}
+\newcommand{\existi}[2]{\exists!#1.\;#2}

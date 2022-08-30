@@ -8,13 +8,9 @@
 Z računskimi učinki se med programiranjem pogosto srečamo: globalno stanje spremenljivk, vhodno/izhodne naprave, naključnost, izjeme, nedeterminizem, ipd,
 v kvantnem računalništvu se pa pojavijo v obliki izvedenih operacij na kubitih, torej dodeljevanje novih kubitov, meritev, in uporaba vrat.
 
-\begin{definition}
-    Če ima funkcija ali operacija še kak navzven viden učinek poleg vrnjene vrednosti, slednjemu pravimo \emph{računski učinek} (učinek računanja).
-\end{definition}
+Če ima funkcija ali operacija še kak navzven viden učinek poleg vrnjene vrednosti, slednjemu pravimo \emph{računski učinek} (učinek računanja).
 
-\begin{definition}
-    Računskim učinkom, ki jih lahko modeliramo z neko algebrajsko teorijo, pravimo \emph{algebrajski učinki}.
-\end{definition}
+Računskim učinkom, ki jih lahko modeliramo z neko algebrajsko teorijo, pravimo \emph{algebrajski učinki}.
 
 Večina zanimivih (in vseh zgoraj naštetih) učinkov je algebrajskih, tako da je pristop v tem delu uporaben tudi bolj v splošnem.
 
@@ -22,17 +18,21 @@ Kot bomo videli v naslednjem podrazdelku, so tudi naši kvantni učinki algebraj
 % TODO: fill out with some theory on algebraic effects and how they work in our particular example
 
 \subsection{Algebrajski izrazi}
-
-Naš programski jezik lahko zapišemo tudi z algebrajskimi izrazi:
+%TODO: matija: To bi dal kot prvi primer, za definicijo izrazov
+Izraze našega jezika lahko zapišemo tudi z gornjimi algebrajskimi izrazi:
 \begin{align*}
-    &\tnew{a}{t}        ≔ \new{a}{t}\\
-    &\tapply{U}{a}{t}   ≔ \apply{U}{a}{t}\\
-    &\tmeasure{a}{t}{u} ≔ \measure{a}{t}{u}
-    % &\tdiscard{a}{t}    ≔ \discard{a}{t}
+    &\tnew{a}{t}                ≔ \new{a}{t}\\
+    &\tapply{U}{\oldvec a}{t}   ≔ \apply{U}{\oldvec a}{t}\\
+    &\tmeasure{a}{t}{u}         ≔ \measure{a}{t}{u}
 \end{align*}
+\begin{remark}
+    Pri \(\tapply{U}{a}{t}\) bi namesto drugega \(a\) morali dejansko pisati \(b\).
+    Potem je \(a\) začetno stanje, \(b\) pa končno stanje, vendar lahko zaradi linearnosti uporabljamo oznako \(a\) kar za oba.
+\end{remark}
+
 To so sedaj operacije, zapisane v načinu z nadaljevanji.
-V splošnem naj bo \(\op O\) neka operacija, ki se lahko nadaljuje na \(k\) načinov. Nadaljevanja označimo s \(tᵢ\), vsako od njih pa naj tudi pričakuje nekaj parametrov (in za preprostost naj vsa pričakujejo enako število parametrov \(m\)). To zapišemo kot \(b₁,…,bₘ.\,tᵢ\).
-Če operacija sama zahteva \(p\) parametrov, jo pišemo kot \(\op{O}{\p{a₁,…,aₚ;\, b₁,…,bₘ.t₁,…,b₁,…,bₘ.tₖ}}\), kjer so parametri ločeni od nadaljevanj s podpičjem.
+V splošnem naj bo \(\op O\) neka operacija, ki se lahko nadaljuje na \(k\) načinov. Nadaljevanja označimo s \(tᵢ\), vsako od njih pa naj tudi pričakuje \(mᵢ\) parametrov. To zapišemo kot \(b₁,…,b_{mᵢ}.tᵢ\).
+Če operacija sama zahteva \(p\) parametrov, jo pišemo kot \(\op{O}{\p{a₁,…,aₚ;\,b₁,…,b_{m₁}.t₁,…,b₁,…,b_{mₖ}.tₖ}}\), kjer so parametri ločeni od nadaljevanj s podpičjem.
 
 % Če se osredotočimo zgolj na kvantni del jezika, torej, če pozabimo na vse klasične konstrukte, lahko definiramo konstruktorje za algebrajske izraze:
 % \begin{itemize}
@@ -92,8 +92,7 @@ V splošnem naj bo \(\op O\) neka operacija, ki se lahko nadaljuje na \(k\) nač
     Pišemo \(\op O : \arity{p}{m₁, …, mₖ}\).
 \end{definition}
 \begin{definition}
-    Zapis oblike \(\absseq{t}\) pomeni, da je izraz \(t\) veljaven v kontekstu \(Γ \mid Δ\),
-    kjer je \(Γ\) seznam računskih spremenljivk označenih s številom parametrov, ki jih vežejo, \(Δ\) pa seznam parametrov.
+    Zapis oblike \(\absseq{t}\) pomeni, da je \emph{izraz \(t\) veljaven v kontekstu \(Γ \mid Δ\)}, kjer je \(Γ\) seznam računskih spremenljivk označenih s številom parametrov, ki jih vežejo, \(Δ\) pa seznam parametrov.
     Pišemo tudi \(x₁ : m₁, …, xₖ : mₖ \mid a₁,…,aₚ\).
 \end{definition}
 
@@ -110,7 +109,7 @@ Splošna pravila za tvorjenje izrazov so torej sledeča:
     \p{σ ∈ Sₚ}
     \and
     \inferrule
-        {\sequent{Γ}{Δ,b₁,…,b_{m₁}}{t₁} … \sequent{Γ}{Δ,b₁,…,b_{mₖ}}{tₖ} \\ \op{O} : \arity{p}{m₁,…,mₖ}}
+        {\sequent{Γ}{Δ,b₁,…,b_{m₁}}{t₁} \\ … \\ \sequent{Γ}{Δ,b₁,…,b_{mₖ}}{tₖ} \\ \op{O} : \arity{p}{m₁,…,mₖ}}
         {\sequent{Γ}{Δ,a₁,…,aₚ}{\op{O}{\p{a₁,…,aₚ;\, b₁,…,b_{m₁}.\,t₁,…,b₁,…,b_{mₖ}.\,tₖ}}}}
 \end{mathpar}
 \caption{Pravila za tvorjenje izrazov}
@@ -119,7 +118,36 @@ Splošna pravila za tvorjenje izrazov so torej sledeča:
 %LTeX: enabled=on
 
 \begin{example}
-    Členosti operacij našega jezika so sledeče:
+    Za trenutek pozabimo na linearnost in si oglejmo primer signature in pravil za veljavnost izrazov v teoriji grup. Operacije so sledeče:
+    \begin{gather*}
+        \op{e}         : \arity{0}{1}\qquad
+        \op{i}         : \arity{1}{1}\qquad
+        \op{m}         : \arity{2}{1},
+    \end{gather*}
+    kjer \(\op{e}\), \(\op{i}\), in \(\op{m}\) predstavljajo enoto, inverz, in množenje.
+    Pravila za tvorjenje izrazov za operacije zgledajo torej tako:
+    %LTeX: enabled=off
+    \begin{mathpar}
+        \inferrule
+            {\sequent{Γ}{Δ,b}{t}}
+            {\sequent{Γ}{Δ}{\op{e}{\p{b.\,t}}}}
+        \and
+        \inferrule
+            {\sequent{Γ}{Δ,a,b}{t}}
+            {\sequent{Γ}{Δ,a}{\op{i}{\p{a;\, b.\,t}}}}
+        \and
+        \inferrule
+            {\sequent{Γ}{Δ,a₁,a₂,b}{t}}
+            {\sequent{Γ}{Δ,a₁,a₂}{\op{m}{\p{a₁,a₂;\, b.\,t}}}}
+    \end{mathpar}
+    %LTeX: enabled=on
+
+    Opazimo, da tu parametre operacijam podvojimo tudi v kontekstu notranjih izrazov.
+    Tu se torej točno vidi, kje se v definiciji veljavnosti izrazov skriva linearnost.
+\end{example}
+\begin{example}
+    Vrnimo se sedaj na linerne operacije v obliki našega jezika iz prejšnjega razdelka.
+    Členosti operacij so sledeče:
     \begin{gather*}
         \op{new}          : \arity{0}{1}\qquad
         \op{apply}_{\g U} : \arity{p}{p}\qquad
@@ -133,6 +161,14 @@ Splošna pravila za tvorjenje izrazov so torej sledeča:
     \emph{Aksiom} v neki signaturi je par izrazov v istem kontekstu. Pišemo \(\absseq{t=u}\).
 \end{definition}
 
+% \begin{example}
+%     Vrnimo se na zgornji primer iz teorije grup.
+%     Vemo, da za grupe veljajo aksiomi, kot so \(x⋅x⁻¹ = 1\) ipd. Zapišimo jih v jeziku algebrajskih teorij:
+%     \begin{align*}
+%         \sequent{x:1}{a₁,a₂,a₃}{\op{m}{\p{a₁,a₂;\,b₁.\op{m}{\p{b₁,a₃;\,b₂.x(b₂)}}}} = \op{m}{\p{a₂,a₃;\,b₁.\op{m}{\p{a₁,b₁;\,b₂.x(b₂)}}}}}\\
+%         s
+%     \end{align*}
+% \end{example}
 \begin{example}
     Aksiomi (\ref{ax:A}) – (\ref{ax:L}) iz prejšnjega razdelka so natanko primeri aksimov v signaturi.
     Zapišimo jih par v novi sintaksi:
@@ -143,7 +179,8 @@ Splošna pravila za tvorjenje izrazov so torej sledeča:
     \end{enumerate}
 \end{example}
 
-Da lahko modele definiramo v splošnosti, ki jo potrebujemo, moramo definirati koncept kategorij. Bralce spodbujamo, da si popolno obravnavo ogledajo v~\cite{eriehl}, od kjer je vzeta tudi naslednja definicja.
+Do sedaj smo definirali zgolj sintakso, radi bi jo pa povezali tudi z matematičnimi pojmi.
+Bralce spodbujamo, da si popolno obravnavo kategorij ogledajo v~\cite{eriehl}, od kjer je vzeta tudi naslednja definicja.
 
 \begin{definition}
     \emph{Kategorija} je sestavljena iz
@@ -177,22 +214,23 @@ Da lahko modele definiramo v splošnosti, ki jo potrebujemo, moramo definirati k
 
 Intuitivno lahko gledamo na kategorije kot neke splošne strukture, v katerih imajo objekti neko svojo strukturo, ki jo morfizmi spoštujejo.
 
-So pa kategorije bistveno bolj splošnejši pojem od tega, na primer delno urejene množice lahko predstavimo kot kategorije:
-\begin{example}
-    Naj bo \(\p{P, ≤}\) delno urejena množica.
-    Vzemimo za objekte kategorije elemente množice \(P\), morfizem med objekti \(x\) in \(y\) pa naj obstaja natanko tedaj, ko je \(x ≤ y\).
-    Tokrat morfizmi niso funkcije, vendar zgolj formalni objekti, ampak vseeno zadoščajo vsem pogojem kategorije.
-\end{example}
+% So pa kategorije bistveno bolj splošnejši pojem od tega, na primer delno urejene množice lahko predstavimo kot kategorije:
+% \begin{example}
+%     Naj bo \(\p{P, ≤}\) delno urejena množica.
+%     Vzemimo za objekte kategorije elemente množice \(P\), morfizem med objekti \(x\) in \(y\) pa naj obstaja natanko tedaj, ko je \(x ≤ y\).
+%     Tokrat morfizmi niso funkcije, vendar zgolj formalni objekti, ampak vseeno zadoščajo vsem pogojem kategorije.
+% \end{example}
 
-Omejimo se na kategorije, kjer za vsak objekt \(X\) in vsako naravno število \(n\) obstaja nek objekt \(n•X\), tako da velja \(1•X = X\) in \(n•\p{m•X} = \p{n+m}•X\).
+Omejimo se na kategorije, kjer za vsak objekt \(X\) in vsako naravno število \(n\) obstaja nek objekt \(n•X\), tako da velja \(0•X = X\) in \(n•\p{m•X} = \p{n+m}•X\).
 Operacijo \(•\) lahko razumemo kot delovanje naravnih števil na dano kategorijo.
 Tedaj lahko morfizme \(X → n•Y\) interpretiramo kot morfizme \(X → Y\) z \(n\) parametri.
 Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi oblike \( \abssemmap{p}{m₁,…,mₖ}\), torej kot preslikave, ki \(k\) nadaljevanj pretvorijo v eno operacijo s \(p\) parametri.
 
 \begin{example}
-    V kategoriji \(\cat{Set}\) množic in preslikav med njimi, lahko vzamemo \(n•X ≔ Xⁿ\), kjer potenca predstavlja \(n\)-kratni kartezični produkt množic.
+    % V kategoriji \(\cat{Set}\) množic in preslikav med njimi, lahko vzamemo \(n•X ≔ Xⁿ\), kjer potenca predstavlja \(n\)-kratni kartezični produkt množic.
 
-    Lahko pa vzamemo tudi \(n•X ≔ M_{2ᵐ}{(X)}\), množico \(2ᵐ×2ᵐ\) matrik z vrednostmi v \(X\).
+    % Lahko pa vzamemo tudi \(n•X ≔ M_{2ⁿ}{(X)}\), množico \(2ⁿ×2ⁿ\) matrik z vrednostmi v \(X\).
+    Za operacijo \(n•X\) lahko vzamemo množico \(2ⁿ×2ⁿ\) matrik z vrednostmi v \(X\), \(M_{2ⁿ}{(X)}\).
 \end{example}
 
 \begin{definition}
@@ -201,14 +239,23 @@ Operacije \(\op{O} : \arity{p}{m₁,…,mₖ}\) bomo interpretirali z morfizmi o
 
 \begin{definition}
     Vsakemu izrazu \(\seq{t}\) definiramo njegov \emph{interpretacijski morfizem} (označimo \(\sem{\absseq{t}}\) ali \(\sem{t}\), če je kontekst razviden iz konteksta) z rekurzijo na izpeljavi izraza na sledeč način:
-    \begin{enumerate}
-        \item če je \(mᵢ = p\) in \(t = xᵢ(a₁,…,aₚ)\) je \(\sem{xᵢ(a₁,…,aₚ)}(A₁,…,Aₖ) = Aᵢ\),
-        \item \(\sem{\sequent{Γ}{a_{σ(1)},…,a_{σ(p)}}{t}}(A₁,…,Aₚ) = \sem{\sequent{Γ}{a₁,…,aₚ}{t}}(A_{σ(1)},…,A_{σ(p)})\),\\kjer je \(σ\) permutacija,
-        \item \(\sem{\op{O}{\p{a₁,…,aₚ; b₁,…,b_{m₁}.t₁, …, b₁,…,b_{mₖ}.tₖ}}}
-        = \sem{\op{O}}{\p{\sem{t₁}{\p -},…,\sem{tₖ}{\p -}}}\),\\
-        kjer \(\op{O}\) interpretiramo z morfizmom iz signature, \(tᵢ\)-je pa rekurzivno.
-    \end{enumerate}
-    Oklepajem \(\sem{}\) pravimo semantični oklepaji.
+    \begin{align*}
+        &\sem{xᵢ(a₁,…,a_{mᵢ})}(A₁,…,Aₖ) = Aᵢ\\
+        &\sem{\sequent{Γ}{a_{σ(1)},…,a_{σ(p)}}{t}}(A₁,…,Aₚ)
+            = \sem{\sequent{Γ}{a₁,…,aₚ}{t}}(A₁^{σ},…,Aₚ^{σ})\\
+        &\sem{\sequent{Γ}{Δ,a₁,…,aₚ}{\op{O}{\p{a₁,…,aₚ; b₁,…,b_{m₁}.t₁, …, b₁,…,b_{mₖ}.tₖ}}{\p{\oldvec A}}}}\\
+        &\hspace{3em}= \sem{\op{O}}{\p{\sem{\sequent{Γ}{Δ,b₁,…,b_{m₁}}{t₁{\p{\oldvec A}}}},…,\sem{\sequent{Γ}{Δ,b₁,…,b_{mₖ}}{tₖ{\p{\oldvec A}}}}}}
+    \end{align*}
+    Tu je \(σ\) permutacija, \(A^σ\) pa predstavlja permutacije vrstic in stolpcev matrike na ustreznih mestih.
+    % \begin{enumerate}
+    %     \item če je \(mᵢ = p\) in \(t = xᵢ(a₁,…,aₚ)\) je \(\sem{xᵢ(a₁,…,aₚ)}(A₁,…,Aₖ) = Aᵢ\),
+    %     \item \(\sem{\sequent{Γ}{a_{σ(1)},…,a_{σ(p)}}{t}}(A₁,…,Aₚ) = \sem{\sequent{Γ}{a₁,…,aₚ}{t}}(A_{σ(1)},…,A_{σ(p)})\),\\kjer je \(σ\) permutacija,
+    %     \item \(\sem{\op{O}{\p{a₁,…,aₚ; b₁,…,b_{m₁}.t₁, …, b₁,…,b_{mₖ}.tₖ}}}
+    %     = \sem{\op{O}}{\p{\sem{t₁}{\p -},…,\sem{tₖ}{\p -}}}\),\\
+    %     kjer \(\op{O}\) interpretiramo z morfizmom iz signature, \(tᵢ\)-je pa rekurzivno.
+    % \end{enumerate}
+
+    Oklepajem \(\sem{}\) pravimo \emph{semantični oklepaji}.
 \end{definition}
 
 \begin{definition}
@@ -223,6 +270,6 @@ Na kratko je model torej nek objekt in interpretacijska preslikava, ki vsakemu i
 
 \begin{proof}
     Dokaz poteka po indukciji. Naj bo \(\absseq{t=u}\).
-    Brez škode za splošnost je lahko veriga enakosti prek aksiomov dolga zgolj en člen, saj je enakost tranzitivna.
-    Tedaj lahko ta aksiom uporabimo na dva načina: prvi je, da ga uporabimo na podizrazih, kar pomeni, da sta interpretacijska morfizma enaka po indukciji, drugi je pa, da aksiom uporabimo neposredno na celih izrazih, iz česar pa enakost morfizmov sledi neposredno iz definicije modela.
+    Brez škode za splošnost je lahko veriga enakosti dolga zgolj en člen, saj je enakost tranzitivna.
+    Tedaj lahko to enakost uporabimo na dva načina: prvi je, da ga uporabimo na podizrazih, kar pomeni, da sta interpretacijska morfizma enaka po indukciji, drugi je pa, da enakost uporabimo neposredno na celih izrazih, torej je enakost aksiom, iz česar pa enakost morfizmov sledi neposredno iz definicije modela.
 \end{proof}

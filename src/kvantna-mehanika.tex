@@ -60,7 +60,7 @@ Začnimo s točnimi definicijami vseh gornjih pojmov.
 
 \begin{definition}
     Izkaže se, da več kvantnih vektorjev predstavlja isto fizično stanje.
-    Definiramo ekvivalenčno relacijo z \(a \sim b :\iff \exist{γ ∈ ℂ}{a = γb}\),
+    Definiramo ekvivalenčno relacijo z \(a \sim b \iff \exist{γ ∈ ℂ}{a = γb}\),
     ekvivalenčnim razredom pa pravimo \emph{stanja vektorjev}.
 \end{definition}
 
@@ -68,7 +68,7 @@ Začnimo s točnimi definicijami vseh gornjih pojmov.
     Naj bo \(j ∈ ℕₙ\), ter \( \hat{\jmath} ∈ \B[n] \) pripadajoč vektor v binarnem zapisu. Potem je \( \ket j = \ket{\hat{\jmath}} ≔ eⱼ \).
 \end{definition}
 \begin{remark}
-    \airquotes{Ket} zapis je del \airquotes{braket} zapisa (izvira iz angl. \foreignlanguage{english}{bracket}), kjer \airquotes{bra} igra vlogo dualnega vektorja in ga pišemo \(\bra{φ}\).
+    \airquotes{Ket} zapis je del \airquotes{braket} zapisa (izvira iz angl. \foreignlanguage{english}{\emph{bracket}}), kjer \airquotes{bra} igra vlogo dualnega vektorja in ga pišemo \(\bra{φ}\).
 \end{remark}
 \begin{remark}
     Po definiciji je torej \( \H[n] = \L[ℂ]{\set{\ket j}{j ∈ \B[n]}} \).
@@ -84,7 +84,7 @@ Ekvivalenca med zapisoma je prikazana na naslednjih primerih:
 \end{example}
 \begin{example}[\( n = 2 \)]
     \[ a = \vec{a₀,  a₁,  a₂,  a₃}
-         = \vec{a₀₀, a₀₁, a₁₀, a₁₁}
+         = \vec{a\mb{₀₀}, a\mb{₀₁}, a\mb{₁₀}, a\mb{₁₁}}
          = a₀₀\ket{\mb{00}} + a₀₁\ket{\mb{01}} + a₁₀\ket{\mb{10}} + a₁₁\ket{\mb{11}}.\qedhere
     \]
 \end{example}
@@ -155,6 +155,8 @@ tako da si lahko predstavljamo, da stanja kubitov dejansko živijo v prostoru \(
 
 \subsection{Tenzorski produkt}
 
+%TODO: fix definition
+% matija: To ni definicija tenzorskega produkta. To je kvečjemu trditev, da je Hn x Hm = H(n+m). Raje bi pisal: tenzorski produkt definiramo z linearnimi kombinacijami tenzorskih produktov vektorjev. Pa mogoče tega ne bi dal za definicijo. Potem pa poveš tisto z ekvivalentnimi zapisi, iz česar lahko sklepamo to o tenzorskem produktu Hn in Hm.
 \begin{definition}\label{tensorprod}
     \emph{Tenzorski produkt prostorov} \(\H[n]\) in \(\H[m]\) je enak \(\H[n+m]\).
     Pišemo \(\H[n]⊗\H[m]\).
@@ -206,7 +208,6 @@ Hadamardove vektorje in prostor vektorjev reda \(n\) lahko torej zapišemo z eks
 \end{definition}
 \begin{definition}
     \emph{Tenzorski produkt vrat} \( U⊗V ≔ [u_{jk}V]_{j,k} \) je običajen Kroneckerjev produkt matrik.
-    Produkt \(U⊗V\) uporabljen na \(a⊗b\) je enak \(Ua⊗Vb\).
 \end{definition}
 
 \begin{example}[Tenzorski produkt vrat]
@@ -214,7 +215,12 @@ Hadamardove vektorje in prostor vektorjev reda \(n\) lahko torej zapišemo z eks
     \[ \bmat{a₀₀ & a₀₁ \\ a₁₀ & a₁₁}⊗B = \bmat{a₀₀ B & a₀₁ B \\ a₁₀ B & a₁₁ B}.\qedhere \]
 \end{example}
 
-\begin{theorem}[o nekloniranju]\label{no-cloning}
+\begin{example}
+    Naj bodo \(a ∈ \H[m]\), \(b ∈ \H[n]\), \(U ∈ \U[m]\), in \(V ∈ \U[n]\).
+    Tedaj je \(U⊗V(a⊗b) = Ua⊗Vb\).
+\end{example}
+
+\begin{theorem}[o nekloniranju]\label{th:no-cloning}
     Ne obstajajo vrata reda \(2\), ki vsak vektor oblike \(a⊗\ket{\mb0} ∈ \H⊗\H\) slikajo v \(a⊗a\).
 \end{theorem}
 
@@ -237,7 +243,7 @@ Hadamardove vektorje in prostor vektorjev reda \(n\) lahko torej zapišemo z eks
 \end{proof}
 \begin{remark}
     Podoben izrek velja tudi v obratni smeri: ne obstajajo vrata reda \(2\), ki vsak vektor oblike \(a⊗a ∈ \H⊗\H\) slikajo v \(a⊗\ket{\mb0}\).
-    Reče se mu izrek o neizbrisu, in sledi neposredno iz gornjega izreka, saj za taka vrata njihov dual ravno klonira kubite. 
+    Reče se mu izrek o neizbrisu, in sledi neposredno iz gornjega izreka, saj za taka vrata njihov inverz ravno klonira kubite. 
 \end{remark}
 
 \begin{definition}
@@ -275,14 +281,17 @@ Izkaže se, da če po vseh operacijah zmerimo kubite, se je drugi način obnaša
 \begin{definition}
     \emph{Meritev kubita} \(a = a_0\ket{\mb0} + a_1\ket{\mb1}\) označimo \(M{\p{a}}\) in je \(0\) z verjetnostjo \(|a₀|^2\) ter \(1\) z verjetnostjo \(|a₁|^2\).
     Po izvedeni meritvi se \(a\) spremeni v \(a₀\ket{\mb0}\) ali \(a₁\ket{\mb1}\), odvisno od rezultata meritve.  Temu pravimo \emph{kolaps prepletenega stanja}.
-    V praksi to pomeni, da je vsa informacija o izmerjenem kubitu že zajeta v rezultatu meritve, tako da izmerjenega kubita sploh ne rabimo več.
-    To pomeni, da bi lahko meritev definirali tudi tako, da se kubit \(a\) po meritvi kar uniči, in do njega ne bomo mogli več dostopati.
+\end{definition}
 
-    Te definiciji sta ekvivalentni, kot bomo natančno dokazali v izreku \ref{th:is-eq-measurement}.
-    V fizikalnih in matematičnih delih bomo uporabljali prvotno definicijo, v računalniških delih pa se izkaže, da je alternativna definicija bolj praktična.
+V praksi to pomeni, da je vsa informacija o izmerjenem kubitu že zajeta v rezultatu meritve, tako da izmerjenega kubita sploh ne rabimo več.
+To pomeni, da bi lahko meritev definirali tudi tako, da se kubit \(a\) po meritvi kar uniči, in do njega ne bomo mogli več dostopati.
 
-    \emph{Meritev vektorja} \(a\) na \(i\)-tem mestu označimo \(Mᵢ{\p{a}}\) in je \(0\) z verjetnostjo \(∑ₖ|aₖ|²\) ter \(1\) z verjetnostjo \(∑ₗ|aₗ|²\), kjer \(k\) teče po \(j₁⋯\mb0⋯jₙ\), \(l\) pa po \(j₁⋯\mb1⋯jₙ\).
-    Po meritvi bo \(a\) enak bodisi \(∑ₖ aₖ\ket{k}\) bodisi \(∑ₗ aₗ\ket{l}\) (glede na rezultat meritve).
+Te definiciji sta ekvivalentni, kot bomo bolje videli v primeru~\ref{ex:proj-z}.
+V fizikalnih in matematičnih delih bomo uporabljali prvotno definicijo, v računalniških delih pa se izkaže, da je alternativna definicija bolj praktična.
+
+\begin{definition}
+    \emph{Meritev vektorja} \(a\) na \(i\)-tem mestu označimo \(Mᵢ{\p{a}}\) in je \(0\) z verjetnostjo \(∑_{jᵢ = \mb0}|aⱼ|²\) ter \(1\) z verjetnostjo \(∑_{jᵢ = \mb1} |aⱼ|²\).
+    Po meritvi bo \(a\) enak bodisi \(∑_{jᵢ = \mb0} aⱼ\ket{j}\) bodisi \(∑_{jᵢ = \mb1} aⱼ\ket{j}\) (glede na rezultat meritve).
 \end{definition}
 
 \begin{example}
@@ -292,12 +301,12 @@ Izkaže se, da če po vseh operacijah zmerimo kubite, se je drugi način obnaša
         \item \(0\) z verjetnostjo \(|α|² + |β|²\) in \(a = α\ket{\mb{00}} + β\ket{\mb{01}}\),
         \item \(1\) z verjetnostjo \(|γ|² + |δ|²\) in \(a = γ\ket{\mb{10}} + δ\ket{\mb{11}}\).
     \end{itemize}
-    Če namesto po prvem kubitu merimo po drugem, je rezultat sledeč:
+    Če namesto po prvem kubitu merimo po drugem, je rezultat \(M₂{\p a}\) sledeč:
     \begin{itemize}
         \item \(0\) z verjetnostjo \(|α|² + |γ|²\) in \(a = α\ket{\mb{00}} + γ\ket{\mb{10}}\),
         \item \(1\) z verjetnostjo \(|β|² + |δ|²\) in \(a = β\ket{\mb{01}} + δ\ket{\mb{11}}\).
     \end{itemize}
-    Če po meritvi po prvem kubitu izvedemo še meritev po drugem, je rezultat sledeč:
+    Če po meritvi po prvem kubitu izvedemo še meritev po drugem, je rezultat \(M₂{\p a}\) sledeč:
     \begin{itemize}
         \item Če je bil \(M₁{\p a} = 0\) označimo \(p₀ = |α|² + |β|²\)
         \begin{itemize}
@@ -332,8 +341,8 @@ Izkaže se, da če po vseh operacijah zmerimo kubite, se je drugi način obnaša
     \end{align*}
     Takim vratom pravimo \emph{kontrolirana} (\airquotes{na ena} in \airquotes{na nič}).
     Posebej označimo
-    \[ \ctl  U ≔ C_{1,2}{\p U} = D\p{I₂, U},\quad
-       \ctlo U ≔ \overline{C}_{1,2}{\p U} = D\p{U, I₂}, \]
+    \[ \ctl {}U ≔ C_{1,2}{\p U} = D\p{I₂, U},\quad
+       \ctlo{}U ≔ \overline{C}_{1,2}{\p U} = D\p{U, I₂}, \]
     kjer \( D{\p{U₁,…,Uₛ}} \) predstavlja bločno-diagonalno matriko matrik \( U₁, …, Uₛ \).
 \end{definition}
 
@@ -387,6 +396,7 @@ Spodaj sta dva primera kvantnih programov, opisana z besedami in diagrami, ki ju
             \lstick{a} & \meter & \cctrl{-1}
         }
     \]
+    Kubit \(b\) je na koncu ravno v takem stanju, kot je \(a\) po meritvi, tako da kubita \(a\) res ne rabimo več, zato lahko \(a\) po meritvi zavržemo.
 \end{example*}
 
 \begin{example*}[Naključna rotacija faze]\label{ex:c-rot}
@@ -401,34 +411,34 @@ Spodaj sta dva primera kvantnih programov, opisana z besedami in diagrami, ki ju
 
 Spomnimo se zdaj obeh definicij meritev:
 
-\begin{proposition}\label{th:is-eq-measurement}
-    V kvantnem računalništvu je meritev definirana s kolapsom ekvivalentna meritvi definirani z uničenjem kubita.
-\end{proposition}
+% \begin{proposition}\label{th:is-eq-measurement}
+%     V kvantnem računalništvu je meritev definirana s kolapsom ekvivalentna meritvi definirani z uničenjem kubita.
+% \end{proposition}
 
-\begin{proof}
-    Očitno je prva definicija močnejša od druge, tako da moramo dokazati zgolj, da lahko iz druge definicije simuliramo obnašanje prve.
-    Ampak, če pogledamo prvi primer zgoraj, projekcijo na \(z\)-os, je to natanko to, kar potrebujemo. Izmerimo kubit \(a\) in dobimo klasični bit \(M{\p a}\), s katerim potem nov kubit nastavimo bodisi na \(\ket{\mb0}\) bodisi na \(\ket{\mb1}\), kar je pa natanko vrednost kubita \(a\) po meritvi v skladu s prvo definicijo.
-\end{proof}
+% \begin{proof}
+%     Očitno je prva definicija močnejša od druge, tako da moramo dokazati zgolj, da lahko iz druge definicije simuliramo obnašanje prve.
+%     Ampak, če pogledamo prvi primer zgoraj, projekcijo na \(z\)-os, je to natanko to, kar potrebujemo. Izmerimo kubit \(a\) in dobimo klasični bit \(M{\p a}\), s katerim potem nov kubit nastavimo bodisi na \(\ket{\mb0}\) bodisi na \(\ket{\mb1}\), kar je pa natanko vrednost kubita \(a\) po meritvi v skladu s prvo definicijo.
+% \end{proof}
 
 \subsection{Opazljivke in stanja}
 \label{sec:observables}
 V našem trenutnem formalizmu smo omejeni na meritve glede na standardno bazo, vendar bi lahko definirali meritev bolj v splošnem.
 To se izkaže kot glavna ideja pri interpretacij vezij in programov, saj lahko namesto stanja spreminjamo kar bazo meritve.
+To storimo z uporabo opazljivk, ki so poljubne fizikalne količine, ki jih lahko izmerimo.
 Bolj natančno fizikalno obravnavo opazljivk najdete v~\cite[razdelek 3]{ramšak-qm} in~\cite[razdelek 9]{ess-qc}.
 
 \begin{definition}
-    \emph{Opazljivka} je fizikalna količina, ki jo lahko izmerimo.
-    Predstavili jih bomo s sebi-adjungiranimi operatorji na prostorih \(\H[n]\) oziroma \(2ⁿ×2ⁿ\) hermitskimi matrikami.
+    \emph{Opazljivka} je sebi-adjungiran operator na prostoru \(\H[n]\) oziroma \(2ⁿ×2ⁿ\) hermitska matrika.
 \end{definition}
 \begin{definition}
     Naj bo \(A\) opazljivka in naj bodo \(λⱼ\) njene lastne vrednosti, \(P_{λⱼ}\) pa projekcije na pripadajoče lastne podprostore.
     Opazljivko \(A\) lahko potem zapišemo kot vsoto \(∑ⱼλⱼP_{λⱼ}\).
-    Rezultati \emph{meritve opazljivke v stanju \(u\)} je ena od lastnih vrednosti \(λⱼ\) z verjetnostjo \(Pᵤ(λⱼ) = |P_{λⱼ}u|²\), stanje \(u\) se pa po meritvi spremeni v izmerjeno stanje, torej \(P_{λⱼ}u\).
-    \emph{Pričakovana vrednost opazljivke v stanju \(u\)} je definirana kot \(\expval{A}{u} ≔ \matelt{u}{A}{u} = ∑ⱼ λⱼPᵤ(λⱼ)\).
+    Rezultati \emph{meritve opazljivke v stanju \(u\)} je ena od lastnih vrednosti \(λⱼ\) z verjetnostjo \(|P_{λⱼ}u|²\), stanje \(u\) se pa po meritvi spremeni v izmerjeno stanje, torej \(P_{λⱼ}u\).
+    \emph{Pričakovana vrednost opazljivke v stanju \(u\)} je definirana kot \(\expval{A}{u} ≔ \matelt{u}{A}{u} = ∑ⱼ |P_{λⱼ}u|²λⱼ\).
 \end{definition}
 
-Opazljivka, ki jo merimo v naši prvi definiciji je enaka \(L ≔ D{\p{0,1,2,3,…,2ⁿ}}\), kjer je \(n\) število kubitov, ki jih merimo (če jih merimo hkrati),
-torej nam opazljivke res posplošijo pojem meritev.
+Opazljivka, ki jo merimo v definiciji meritve kubitov je enaka \(L ≔ D{\p{0,1}}\).
+Omenimo še, da lahko zaporedne meritve \(n\)-tih kubitov izvedemo hkrati z opazljivko \(Lₙ ≔ D{\p{0, 1, 2, 3, …, 2ⁿ-1}}\), torej nam opazljivke res posplošijo pojem meritve.
 
 Lahko si predstavljamo, da nam opazljivke hranijo informacije o preostanku vezja na desni,
 na primer~\ref{ex:proj-z} lahko s kubitom \(b\) še kaj dela.
@@ -443,9 +453,9 @@ Oznake \(A\), \(B\), \(C\), in \(D\) označujejo opazljivke, ki predstavljajo pr
 
 Zanima nas, kako je opazljivka \(C\) povezana z opazljivko \(D\).
 Izkaže se, da je \(C = \ctl{X}^* D \ctl{X}\).
-To velja v splošnem, namesto da izmerimo opazljivko \(A\) v stanju \(Ua\), lahko izmerimo opazljivko \(U^*AU\) v stanju \(a\)~\cite[razdelek 3.5]{ramšak-qm}.
+To velja v splošnem, namesto da izmerimo opazljivko \(Q\) v stanju \(Ua\), lahko izmerimo opazljivko \(U^*QU\) v stanju \(a\)~\cite[razdelek 3.5]{ramšak-qm}.
 Podobno lahko izpeljemo \(B = \pmat{c₁₁&c₁₃\\c₃₁&c₃₃}\), kjer so \(cᵢⱼ\) elementi matrike \(C\), in \(A = \had^* B\, \had\).
-Če se pomaknemo še za eno mesto v desno, pretvorimo \(A\) v \(a₁₁\), torej dobimo opazljivko, ki je konstantno \(a₁₁ = \frac{d₁₁ + d₁₄ + d₄₁ + d₄₄}{2}\).
+Če se pomaknemo še za eno mesto v levo, pretvorimo \(A\) v \(a₁₁\), torej dobimo opazljivko, ki je konstantno \(a₁₁ = \frac{d₁₁ + d₁₄ + d₄₁ + d₄₄}{2}\).
 Izračunajmo sedaj še pričakovano vrednost opazljivke \(D\) v Bellovem stanju \(a\):
 \[\expval{D}{a} = \frac12\bmat{1&0&0&1}\bmat{d₁₁&d₁₂&d₁₃&d₁₄\\d₂₁&d₂₂&d₂₃&d₂₄\\d₃₁&d₃₂&d₃₃&d₃₄\\d₄₁&d₄₂&d₄₃&d₄₄}\vec{1,0,0,1} = \frac{d₁₁ + d₁₄ + d₄₁ + d₄₄}{2},\]
 kar je natanko gornji rezultat!
@@ -456,7 +466,7 @@ kar je natanko gornji rezultat!
 
 \subsubsection{Čista in mešana stanja}
 Še enkrat si oglejmo primer~\ref{ex:proj-z}, projekcijo na \(z\)-os.
-Stanje kubita \(a\) lahko predstavimo z našim formalizmom kot \(a₀\ket{\mb0} + a₁\ket{\mb1}\),
+Začetno stanje kubita \(a\) lahko predstavimo z našim formalizmom kot \(a₀\ket{\mb0} + a₁\ket{\mb1}\),
 stanja kubita \(b\) na koncu pa ne.
 To je problem, saj to pomeni, da opazljivk ne moremo meriti v stanju \(b\).
 Preden se lahko lotimo tega problema moramo najprej razviti nek poenoten pogled na taka stanja.
@@ -478,10 +488,20 @@ ki ji pravimo \emph{mešano stanje} in jo lahko zapišemo kot \(|a₀|²\state{\
 
 Kvantna vrata lahko uporabimo tudi na mešanih stanjih, tako da jih uporabimo na vsaki čisti komponenti posebej.
 
-\begin{example}
-    Oglejmo si motivacijski primer bolj podrobno:
-    naj bo \(a = α\ket{\mb0} + β\ket{\mb1}\) kubit, ki ga izmerimo. Potem je \(a\) enak enemu od \(α\ket{\mb0}\) in \(β\ket{\mb1}\). Če sedaj \airquotes{pozabimo}, kakšen je bil rezultat meritve, je \(a\) (iz naše perspektive) v mešanem stanju \(\state{α\ket{\mb0}} + \state{β\ket{\mb1}} = |α|²\state{\ket{\mb0}} + |β|²\state{\ket{\mb1}}\).
-\end{example}
+Mešana stanja smo motivirali na primeru, ko je bil nek kubit verjetnostno porazdeljen med več stanji, vendar mešana stanja lahko nastanejo tudi na drug način.
+Naj bo \(a = a₀\ket{\mb{00}} + a₁\ket{\mb{11}}\), čisto stanje sestavljeno iz dveh kubitov.
+Označimo prvi kubit s \(b\).
+Spet nas mika, da \(b\) predstavimo s čistim stanjem \(a₀\ket{\mb0} + a₁\ket{\mb1}\), ampak
+se ponovno izkaže, da je \(b\) v mešanem stanju \(a₀\state{\ket{\mb0}} + a₁\state{\ket{\mb1}}\). Kasneje bomo preverili, da sta kubita \(b\) v obeh primerih res enaka.
+% Tedaj je gostotna matrika prirejena \(b\) enaka \(\pmat{|a₀|²&0\\0&|a₁|²}\),
+% ki predstavlja mešano stanje \(a₀\state{\ket{\mb0}} + a₁\state{\ket{\mb1}}\).
+% \(\mixstate{a₀,a₁}{\ket{\mb0},\ket{\mb1}}\).
+% \(\mixstate{a₀,\ket{\mb0},a₁,\ket{\mb1}}\)
+% To stanje je enako stanju kubita \(b\) iz primera~\ref{ex:proj-z}.
+
+Mešana stanja si lahko torej predstavljamo kot zapis informacije o nekem zunanjem vplivu.
+V prvem primeru je bil zunanji vpliv klasičen (rezultat meritve), v tem primeru je pa vpliv kvantni (prepletenost).
+
 
 \subsubsection{Gostotne matrike}
 Sedaj imamo dve vrsti stanj, čista in mešana, vendar bi radi imeli nek poenoten način za njihovo obravnavo.
@@ -546,41 +566,35 @@ V splošnem naj za normalizirane vektorje \(uᵢ\) stanju \(∑ᵢλᵢ\state{u�
 Zdaj, ko imamo karakterizacijo stanj z gostotnimi matrikami, bi želeli na njih tudi neposredno izvajati kvantne operacije.
 Poznamo dve, meritev in unitarne transformacije, in izkaže se, da lahko obe definiramo na preprost način.
 
+Naj bo \(a\) nek vektor in \(U\) kvantna vrata primernega reda.
+Potem je gostotna matrika stanja \(\state{Ua}\) enaka \(\density{Ua} = U\density{a}U^*\),
+kar lahko linearno razširimo tudi na mešana stanja.
 \begin{definition}
-    Naj bo \(a\) nek vektor in \(U\) kvantna vrata primernega reda.
-    Potem je gostotna matrika stanja \(\state{Ua}\) enaka \(\density{Ua} = U\density{a}U^*\),
-    kar lahko linearno razširimo tudi na mešana stanja, torej lahko kvantna vrata na gostotni matriki uporabimo s predpisom \(A ↦ UAU^*\).
+    Kvantna vrata lahko na gostotni matriki uporabimo s predpisom \(A ↦ UAU^*\).
 \end{definition}
 
 \begin{definition}
-    Naj bo \(a\) nek vektor. Za preprostost definirajmo meritev le na prvem kubitu, saj je v splošnem ideja enaka.
-    Razdelimo vektor na zgornjo in spodnjo polovico, \(a₀\) in \(a₁\).
+    Naj bo \(a = a₀\ket{\mb0} + a₁\ket{\mb1}\) nek kubit. Za preprostost definirajmo meritev le na enem kubitu, saj je v splošnem ideja enaka.
     % Potem je \(aᵢ ≔ ∑ⱼaᵢⱼ\ket{ij}\)
-    Potem je gostotna matrika za \(a\) enaka \(\pmat{\density{a₀}&\ketbra{a₀}{a₁}\\\ketbra{a₁}{a₀}&\density{a₁}}\).
-    Po meritvi na prvem mestu je \(a\) v stanju ene od polovic (dopolnjenih z ničlami na koncu ali začetku), gostotna matrika pa je enaka eni od \(\pmat{\density{a₀}&0\\0&0}\) ali \(\pmat{0&0\\0&\density{a₁}}\), odvisno od rezultata meritve.
+    Potem je gostotna matrika za \(a\) enaka \(\pmat{|a₀|²&a₀^*a₁\\a₁^*a₀&|a₁|²}\).
+    Po meritvi na prvem mestu je \(a\) v stanju ene od polovic (dopolnjenih z ničlami na koncu ali začetku), gostotna matrika pa je enaka eni od \(\pmat{1&0\\0&0}\) ali \(\pmat{0&0\\0&1}\), odvisno od rezultata meritve.
 
     Če na rezultat meritve nato pozabimo, je matrika mešanega stanja, ki nastane potem enaka \(\pmat{\density{a₀}&0\\0&\density{a₁}}\).
 \end{definition}
 
 Ker sta meritev in uporaba kvantnih vrat edini operaciji, ki jih lahko izvajamo na kubitih, in jih lahko izvajamo neposredno na gostotnih matrikah, to natanko pomeni, da če imata dve stanji enako gostotno matriko, ju ne moremo ločiti.
 
-Mešana stanja smo motivirali na primeru, ko je bil nek kubit verjetnostno porazdeljen med več stanji, vendar mešana stanja lahko nastanejo tudi na drug način.
-Naj bo \(a = a₀\ket{\mb{00}} + a₁\ket{\mb{11}}\) Bellovo stanje, ki je čisto stanje, sestavljeno iz dveh kubitov.
-Označimo prvi kubit z \(b\).
-Tedaj je gostotna matrika prirejena \(b\) enaka \(\pmat{|a₀|²&0\\0&|a₁|²}\),
-ki predstavlja mešano stanje \(a₀\state{\ket{\mb0}} + a₁\state{\ket{\mb1}}\).
-% \(\mixstate{a₀,a₁}{\ket{\mb0},\ket{\mb1}}\).
-% \(\mixstate{a₀,\ket{\mb0},a₁,\ket{\mb1}}\)
-To stanje je enako stanju kubita \(b\) iz primera~\ref{ex:proj-z}.
-
-Mešana stanja si lahko torej predstavljamo kot zapis informacije o nekem zunanjem vplivu.
-V prvem primeru je bil zunanji vpliv klasičen (rezultat meritve), v tem primeru je pa vpliv kvantni (prepletenost).
+\begin{example}
+    Naj bodo \(a₁ = α\ket{\mb0} + β\ket{\mb1}\) in \(a₂ = α\ket{\mb{00}} + β\ket{\mb{11}}\)
+    Naj bo \(b₁\) projekcija \(a₁\), kot v primeru~\ref{ex:proj-z}, \(b₂\) pa prvi kubit vektorja \(a₂\).
+    Gostotna matrika, ki pripada vektorju \(a₂\) je \(ρ ≔ \pmat{|α|²&0&0&α^*β\\0&0&0&0\\0&0&0&0\\αβ^*&0&0&|β|²}\), gostotno matriko \(b₂\) pa lahko izračunamo kot delno sled \(\tr{₂ρ} = \pmat{|α|²&0\\0&|β|²}\)~\cite[stran 230]{ramšak-qm}, kar je pa enako gostotni matriki \(b₁\), torej je \(b₁ = b₂\),
+    torej nam mešana stanja res predstavljajo dele čistih stanj.
+\end{example}
 
 Vrnimo se sedaj na problem meritve opazljivk v mešanem stanju.
 Naj bo \(ρ\) gostotna matrika  in \(A = ∑ⱼλⱼP_{λⱼ}\) neka opazljivka.
-Tedaj je rezultat \emph{meritve opazljivke \(A\) v stanju predstavljenim z \(ρ\)} spet ena od lastnih vrednosti \(λ\) z verjetnostjo \(P_ρ(λ) = \tr{\p{ρP_λ}}\), gostotna matrika \(ρ\) pa se spremeni v \(P_λρP_λ\).
-
-Spomnimo se, da je pričakovana vrednost \(\expval{A}{ρ}\) enaka \(∑ⱼ λⱼP_ρ(λⱼ)\).
-V našem primeru je \(P_ρ(λⱼ) = \tr{\p{ρP_{λⱼ}}}\), torej je \(\expval{A}{ρ} = ∑ⱼ λⱼ\tr{\p{ρP_{λⱼ}}} = \tr{\p{ρA}}\).
+Tedaj je rezultat \emph{meritve opazljivke \(A\) v stanju predstavljenim z \(ρ\)} spet ena od lastnih vrednosti \(λ\) z verjetnostjo \(\tr{\p{ρP_λ}}\), gostotna matrika \(ρ\) pa se spremeni v \(P_λρP_λ\).
+Izrazimo lahko tudi pričakovano vrednost opazljivke \(A\) kot
+\(\expval{A}{ρ} = ∑ⱼ \tr{\p{ρP_{λⱼ}}}λⱼ = \tr{\p{ρ∑ⱼ λⱼP_{λⱼ}}} = \tr{\p{ρA}}\).
 
 Lahko si torej mislimo, da so vse operacije izvedene na kubitih dejansko izvedene na primerni gostotni matriki, ki predstavlja njihovo (mešano) stanje.

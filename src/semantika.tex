@@ -4,11 +4,9 @@ Lotimo se sedaj modeliranja kvantnega računalništva. Najprej definirajmo matem
 \subsection{\texorpdfstring{\(C^*\)-algebre}{C*-algebre}}
 Kvantno računalništvo je standardno modelirati z operatorskimi algebrami.
 V našem primeru ga bomo modelirali s \(C^*\)-algebrami.
-% Standardne definicije in izreke povzamemo po
-%TODO: cite standard literature
+Standardne definicije in izreke povzamemo po~\cite{cstar-vidav,cstar-by-example,paulsen_2003,pa-fillmore}.
 
-%TODO: citations
-\begin{definition} %TODO: cite vidav
+\begin{definition}
     Za polje \(k\) je množica \(A\) \emph{\(k\)-algebra}, če je
     \begin{enumerate}
         \item \(k\)-vektorski prostor,
@@ -20,7 +18,7 @@ V našem primeru ga bomo modelirali s \(C^*\)-algebrami.
 \begin{definition}
     \(k\)-algebra \(A\) je \emph{normirana}, če ima normo in za poljubna \(a,b ∈ A\) velja \(\|ab\| ≤ \|a\|\|b\|\).
 \end{definition}
-\begin{definition} %TODO: cite vidav
+\begin{definition}
     Involucija je operacija \(x ↦ x^*\) na elementih algebre, za katero velja:
     \begin{enumerate}
         \item \(\for{a,b ∈ A}{(a+b)^* = a^* + b^*}\),
@@ -83,8 +81,8 @@ V našem primeru ga bomo modelirali s \(C^*\)-algebrami.
 \end{proposition}
 
 \subsection{Interpretacija programskega jezika}
-Za nosilce našega modela kvantnega računalništva bomo vzeli kompleksna števila, operacijo \(n•ℂ\) pa definiramo kot \(\M[2ⁿ]\).
-Sledi, da operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) interpretiramo z morfizmom iz \(\semmap{p}{m₁,…,mₖ}\).
+Za nosilce našega modela kvantnega računalništva bomo vzeli kompleksna števila, operacijo \(n•X\) pa definiramo kot \(M_{2ⁿ}(X)\).
+Operacijo s členostjo \(\arity{p}{m₁,…,mₖ}\) torej interpretiramo z morfizmom iz \(\semmap{p}{m₁,…,mₖ}\).
 Za naš jezik to pomeni, da za \(\op{new}\), \(\op{apply}\), in \(\op{measure}\) želimo morfizme iz \(\semmap{0}{1}\), \(\semmap{p}{p}\), in \(\semmap{1}{0,0}\).
 
 Spomnimo se sedaj transformacij opazljivk, ki jih omenimo v razdelku~\ref{sec:observables}.

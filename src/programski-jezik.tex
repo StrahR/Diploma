@@ -1,7 +1,6 @@
-\section{Programski jezik}
-Definirajmo sedaj nek preprost programski jezik za delo s kvantnim računalnikom.
-% Temeljil bo na linearnih tipih in algebrajskih učinkih.
-Kasneje bi ta jezik lahko razširili še z ostalimi konstrukti, ki smo jih navajeni, kot so naravna števila, vsote, tipi, ipd., ampak je za teoretično obravnavo bolj praktično delati s čim preprostejšim jezikom.
+\section{Aksiomi kvantnega računalništva}
+Definirajmo sedaj nek preprost jezik za opis kvantnega računalništva.
+Kasneje lahko iz tega jezik razvijemo dejanski programski jezik, opremljen z ostalimi konstrukti, ki smo jih navajeni, kot so naravna števila, vsote, tipi, ipd., ampak je za teoretično obravnavo bolj praktično delati s čim preprostejšim jezikom.
 
 \subsection{Sintaksa}
 Poznamo sledeče sintaktične elemente:
@@ -9,7 +8,7 @@ Poznamo sledeče sintaktične elemente:
 \begin{table}[H]
 \vspace{-1em}
 \begin{align*}
-    t ∷=&\ x{\p{a₁,…,aₚ}}                                   && \text{nadaljevanje}\\
+    t ∷=&\ x{\p{a₁,…,aₚ}}                                   && \text{računska spremenljivka}\\
     \mid&\ \new{a}{t}                                       && \text{inicializacija kubita}\\
     \mid&\ \apply{U}{\oldvec{a}}{t}                         && \text{uporaba vrat}\\
     \mid&\ \measure{a}{t₀}{t₁}                              && \text{meritev}
@@ -21,21 +20,22 @@ Poznamo sledeče sintaktične elemente:
 \end{table}
 %LTeX: enabled=true
 
-\subsubsection*{Nadaljevanje}
-Naj bo \(x\) poljubno nadaljevanje, \(a₁,…,aₚ\) pa vektor kubitov.
+\subsubsection*{Računska spremenljivka}
+Naj bo \(x\) poljuben program na \(p\) kubitih (pišemo \(x : p\)), \(a₁,…,aₚ\) pa vektor kubitov.
 Potem je \(x{\p{a₁,…,aₚ}}\) izraz, ki nadaljuje izvajanje v \(x\) s kubiti \(a₁,…,aₚ\).
 
 \subsubsection*{Inicializacija kubita}
-Ukaz \(\new{a}{}\) se obnaša podobno kot \(∀a.\), \(∃a.\), ali \(λa.\);
-karkoli je po piki (do zaklepaja ali enačaja) vzame kot del izraza \(t\).
-Izraz \(t\) je lahko poljuben izraz s prostim kubitom \(a\), \(\new{a}{t}\) pa interpretiramo, kot da najprej kubit \(a\) nastavimo na \(\ket{\mb0}\) in nato izvedemo \(t\).
+Izraz \(\new{a}{t}\) interpretiramo, kot da najprej kubit \(a\) nastavimo na \(\ket{\mb0}\) in nato izvedemo \(t\). Spremenljivka \(a\) je v izrazu \(t\) prosta, v izrazu \(\new{a}{t}\) pa vezana.
+% \(\new{a}{}\) se obnaša podobno kot \(∀a.\), \(∃a.\), ali \(λa.\);
+% karkoli je po piki (do zaklepaja ali enačaja) vzame kot del izraza \(t\).
+% Izraz \(t\) je lahko poljuben izraz s prostim kubitom \(a\), \(\new{a}{t}\) pa interpretiramo, kot da najprej kubit \(a\) nastavimo na \(\ket{\mb0}\) in nato izvedemo \(t\).
 
 \subsubsection*{Uporaba vrat}
 V zapisu \(\apply{U}{\oldvec{a}}{t}\) je \(\oldvec{a}\) nek vektor kubitov, ki ga bomo pisali kot \(a₁,…,aₚ\), kjer so \(aᵢ\) posamezni kubiti.
-Vrata se uporabljajo ustrezno z interpretacijo z gostotnimi matrikami.
+Izraz \(\apply{U}{\oldvec a}{t}\) predstavlja uporabo vrat \(U\) na kubitih \(\oldvec a\), ki jim sledi nadaljevanje \(t\).
 
 \subsubsection*{Meritev}
-Ukaz \(?ₐ\) izmeri kubit \(a\), in nato glede na rezultat nadaljuje z izvajanjem bodisi \(t₀\) bodisi \(t₁\), glede na rezultat meritve. To bo uničilo kubit, torej ga v nadaljevanju ne smemo uporabiti.
+Izraz \(\measure{a}{t₀}{t₁}\) izmeri kubit \(a\), in nato glede na rezultat nadaljuje z izvajanjem bodisi \(t₀\) bodisi \(t₁\), glede na rezultat meritve. To bo uničilo kubit, torej ga v nadaljevanju ne smemo uporabiti.
 Če je kubit del prepletenega stanja, moramo to meritev interpretirati ustrezno z definicijo meritve vektorja na primernem mestu.
 
 % \subsubsection*{Uničenje}
@@ -47,9 +47,9 @@ Ukaz \(?ₐ\) izmeri kubit \(a\), in nato glede na rezultat nadaljuje z izvajanj
 \subsection{Primeri}
 Naj \(t\) in \(u\) predstavljata poljubna izraza v jeziku, \(x\) pa naj bo nadaljevanje, ki pričakuje primerno količino kubitov.
 \begin{example*}\label{ex:1}
-    Definiramo lahko analog ukazu \(ν\), ki kubit nastavi na \(\ket{\mb1}\) namesto \(\ket{\mb0}\):
+    Definiramo lahko analog izrazu \(ν\), ki kubit nastavi na \(\ket{\mb1}\) namesto \(\ket{\mb0}\):
     \[ \new{₁a}{t} ≔ \new{a}{\apply{X}{a}{t}}. \]
-    Ukaz \(ν\) lahko potem označimo tudi z \(ν₀\). 
+    Izraz \(ν\) lahko potem označimo tudi z \(ν₀\). 
 \end{example*}
 
 \begin{example*}\label{ex:2}
@@ -58,7 +58,7 @@ Naj \(t\) in \(u\) predstavljata poljubna izraza v jeziku, \(x\) pa naj bo nadal
 \end{example*}
 
 \begin{example*}\label{ex:3}
-    Bellovo stanje \(\state{\ket{\mb{00}} + \ket{\mb{11}}}\) lahko definiramo tako:
+    Bellovo stanje \(ρ\p{\ket{\mb{00}} + \ket{\mb{11}}}\) lahko programu \(x\) podamo tako:
     \[ \op{bell}{\p{x}} ≔ \new{a}{\new{b}{\apply{\had}{a}{\apply{\ctl X}{a,b}{x(a,b)}}}}. \]
 \end{example*}
 
@@ -85,15 +85,19 @@ Naj \(t\) in \(u\) predstavljata poljubna izraza v jeziku, \(x\) pa naj bo nadal
 % skrbijo, da spremenljivke uporabljamo \airquotes{linearno}.
 % To je prednost uporabe linearne teorije tipov namesto navadne teorije tipov za formalizacijo kvantnega računalništva.
 
-\subsection{Linearna logika}
-Kot linearnost razumemo pogoj, da se vsako hipotezo (rečemo tudi parameter, argument, predpostavko, surovino, …) uporabi natanko enkrat.
+\subsection{Linearnost}
+Želimo se izogniti nesmiselnim izrazom, torej izrazom, ki ne predstavljajo nobenega dejanskega programa, ki ga lahko izvedemo.
+% Ker iz izreka~\ref{th:no-cloning} vemo, da lahko kubite uporabimo zgolj enkrat, upoštevati moramo tudi to.
+Upoštevati moramo recimo, da lahko kubite uporabimo zgolj enkrat, kot smo videli v izreku~\ref{th:no-cloning}.
+
+Kot \emph{linearnost} razumemo pogoj, da se vsako hipotezo (rečemo tudi parameter, argument, predpostavko, surovino, …) uporabi natanko enkrat.
 Linearna logika nam torej formalizira razne procese, kjer iz ene stvari \airquotes{naredimo} drugo, in s tem prvo stvar \airquotes{porabimo}.
 Na linearno logiko lahko tudi gledamo kot semantiko \airquotes{iger} ali \airquotes{interakcij}.
 Še bolj pomembno pa je, da na linearno logiko lahko gledamo kot \airquotes{pravo} obliko kvantne logike~\cite{nlab:linear_logic-ql},
 ki nam pa dopušča tudi bistveno večjo splošnost.
 Že iz imena lahko sklepamo, da se kvantna logika uporablja namesto klasične logike prav tako, kot se kvantna fizika uporablja namesto klasične fizike~\cite{nlab:quantum_logic}.
 
-Spomnimo se, da z unitarnimi transformacijami (kvantnimi vrati) kubitov ne moremo niti klonirati, niti uničiti.
+Vemo, da lahko kubite uporabimo največ enkrat, neuporabljene kubite pa lahko na koncu preprosto izmerimo kot v~\ref{ex:4}, torej lahko rečemo, da kubite uporabimo natanko enkrat.
 To je natanko pogoj linearnosti.
 Uporaba vrat je res linearna, saj deluje na vseh vhodnih kubitih, do njihove stare vrednosti pa ne moremo več dostopati.
 Prav tako je tudi meritev linearna, saj porabi en kubit, ki ga nato ne moremo več uporabljati.
@@ -101,14 +105,12 @@ Ker sta to edina načina s katerimi lahko vplivamo na stanja (obstoječih) kubit
 % Če torej iz linearne logike izpeljemo t.i. linearno teorijo tipov, se pogoj linearnosti naravno pretvori v pogoj, da moramo vsak argument funkciji uporabiti natanko enkrat, kar je natanko to, kar za funkcije na kubitih v fiziki res velja.
 % Ker pogoj linearnosti ne velja za klasične bite (te lahko kopiramo, kolikor hočemo) bomo rekli, da so naše funkcije linearne le na \airquotes{kvantnih tipih}.
 
-%TODO: cite nlab+girard "Za natančno definicijo linearne logike si oglejte…"
 Podrobnejšo definicijo linearne logike si lahko ogledate v~\cite{girard-linear-logic-1987,girard-linear-logic-1995, nlab:linear_logic}.
+Omenimo zgolj, da je del linearne logike, ki ga potrebujemo imenovan multiplikativna intuitionistična linearna logika, ki pa vsebuje zgolj simbole \(⊗\), \(\mb1\), in \(⊸\).
 
 % \subsubsection{Sistem tipov}
 % Naš sistem tipov zgradimo iz dela linearne logike imenovanega multiplikativna intuitionistična linearna logika.
 % Ta vsebuje zgolj tri simbole \(⊗, \mb1, ⊸\), katerim bomo pa dodali še eno konstanto (kubite).
-% %TODO: explain intuitionistic logic?
-% %TODO: inferrence rules for MILL?
 
 % Pripadajoče tipe lahko potem zgradimo s sledečimi konstruktorji:
 % \begin{table}[H]
@@ -132,13 +134,13 @@ Podrobnejšo definicijo linearne logike si lahko ogledate v~\cite{girard-linear-
 % \end{remark}
 
 \begin{definition}
-    Naj zapis oblike \(\sequent{Γ}{Δ}{t}\) pomeni, da je \emph{\(t\) program v kontekstu \(Γ \mid Δ\)}, kjer \(Δ\) predstavlja seznam parametrov, \(Γ\) pa seznam računskih spremenljivk, skupaj z njihovo valenco.
+    Naj zapis oblike \(\sequent{Γ}{Δ}{t}\) pomeni, da je \emph{\(t\) izraz v kontekstu \(Γ \mid Δ\)}, kjer \(Δ\) predstavlja seznam parametrov, \(Γ\) pa seznam računskih spremenljivk, označenih s številom parametrov.
 
     % V našem primeru, bomo za \(Γ\) pisali \(x₁:m₁,…,xₖ:mₖ \mid a₁,…,aₚ\),
     % kjer so \(xᵢ\) nadaljevanja (oziroma računske spremenljivke) tipa \(\qbit^{⊗mᵢ} ⊸ Aᵢ\), \(aᵢ\) pa kubiti (torej tipa \(\qbit\)).
 \end{definition}
 
-Pravila za določitev tipov programom našega jezika so torej takšna:
+Pravila za določitev veljavnosti izrazov našega jezika so torej takšna:
 %LTeX: enabled=false
 \begin{table}[H]
 \begin{mathpar}
@@ -156,7 +158,7 @@ Pravila za določitev tipov programom našega jezika so torej takšna:
         {\sequent{Γ}{Δ  }{\new{a}{t}}}
     \and
     \inferrule
-        {\sequent{Γ}{Δ,\oldvec{a}}{                      t } \\ p =  \\ U ∈ \U[|\oldvec a|]}
+        {\sequent{Γ}{Δ,\oldvec{a}}{                      t } \\ U ∈ \U[|\oldvec a|]}
         {\sequent{Γ}{Δ,\oldvec{a}}{\apply{U}{\oldvec{a}}{t}}}
     \and
     \inferrule
@@ -168,12 +170,20 @@ Pravila za določitev tipov programom našega jezika so torej takšna:
     %     {\sequent{Γ}{Δ  }{            t }}
     %     {\sequent{Γ}{Δ,a}{\discard{a}{t}}}
 \end{mathpar}
-\caption{Pravila za tvorjenje programov}
+\caption{Pravila za veljavnost izrazov}
 \end{table}
 %LTeX: enabled=true
 
+Linearnost programov nam zagotavljata dve stvari. Prva je, da pri uporabi vrat kubite, na katerih vrata uporabimo zamenjamo z novimi. V pravilu so kubiti \(\oldvec a\) spodaj tisti \emph{pred} uporabo vrat, zgoraj so pa \emph{po} uporabi vrat, tako da ne pride do nobenega podvajanja.
+Poleg tega v pravilu meritve kubitov izmerjenega kubita ne moremo uporabiti v podizrazih \(tᵢ\).
+Pri dodeljevanju novih kubitov pa moramo zgolj paziti, da kubita \(a\) ni že v \(Δ\) (na kar moramo paziti tudi pri ostalih pravilih).
+
+Druga stvar, ki nam zagotavlja linearnost so pa operacije same. Uporaba vrat do kubitov dostopa zgolj enkrat, ko uporabi vrata na njih. Prav tako meritev dostopa do merjenega kubita zgolj enkrat, ostalih kubitov se pa ne dotakne, dodeljevanje kubitov pa sploh ne uporabi nobenega kubita. Tako so tudi operacije \emph{same} linearne, torej lahko res rečemo, da je naš jezik linearen.
+
+Naš jezik podpira poleg kubitov tudi računske spremenljivke, za katere pa ne zahtevamo linearnosti, saj so zgolj sintaktični element, ki nam predstavlja nek neznan program, za katerega lahko zamenjamo poljuben izraz v jeziku.
+
 \begin{example}
-    Izpeljimo pravilnost programa iz primera~\ref{ex:1}.
+    Izpeljimo veljavnost izraza iz primera~\ref{ex:1}.
     %LTeX: enabled=false
     \[  \inferrule
         {\inferrule
@@ -186,6 +196,8 @@ Pravila za določitev tipov programom našega jezika so torej takšna:
 \end{example}
 
 \subsection{Aksiomi}
+%TODO: intro
+% matija: Tu bi dodal še malo uvoda, torej. Kvantno računalništvo bomo opisali z enačbami med dvema izrazoma, ki sta veljavna v istem kontekstu. Mogoče ne bi bilo slabo aksiomov opremiti s kontekstom, da se ga malo navadimo.
 Izkaže se, da je nabor aksiomov, ki jih potrebujemo za polno karakterizacijo kvantnih programov relativno majhen: potrebujemo jih zgolj \(12\) in kot bomo videli nismo žrtvovali preprostosti, da smo prišli do te številke.
 
 Aksiome za enakost programov~\cite{algeff-lin-qpl} lahko delimo na dva dela: prvih pet je glavnih, ostalih sedem pa bolj \airquotes{administrativnih} oziroma pomožnih.
@@ -226,7 +238,7 @@ ter da operacije komutirajo, kolikor vezava spremenljivk (in vrstni red uporabe 
 \end{axiom}
 
 \begin{axiom}{}\label{ax:I}
-    \( \apply{U⊗V}{a,b}{x{\p{a,b}}} = \apply{U}{a}{\apply{V}{b}{x{\p{a,b}}}} \).
+    \( \apply{(U⊗V)}{a,b}{x{\p{a,b}}} = \apply{U}{a}{\apply{V}{b}{x{\p{a,b}}}} \).
 \end{axiom}
 
 \begin{axiom}{Komutativnost:}\label{ax:J}
