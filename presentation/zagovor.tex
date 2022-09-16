@@ -1,0 +1,1241 @@
+%LTeX: enabled=false
+% \documentclass[handout, slovene]{beamer}
+\documentclass[slovene]{beamer}
+
+% \usetheme{boxes} % see http://www.deic.uab.es/~iblanes/beamer_gallery/ for lots of examples
+\usetheme{metropolis}
+\usecolortheme{rose}
+% \useinnertheme{circles}
+% \useoutertheme{split}
+% \setbeamertemplate{blocks}[rounded][shadow=true]
+
+\setbeamertemplate{navigation symbols}{} % remove navigation symbols
+\setbeamertemplate{footline}{} % remove title, too long
+
+% %next set colors - not needed
+% \setbeamercolor{title}{fg=black!70!black}
+% \setbeamercolor{frametitle}{fg=blue!70!black}
+% \setbeamercolor{framesubtitle}{fg=green!30!black}
+% \setbeamercolor{author}{fg=red!70!black}
+% \setbeamercolor{institute}{fg=green!30!black}
+% \setbeamercolor{date}{fg=blue!50!black}
+
+% \usepackage[T1]{fontenc}        % kodiranje znakov v .pdf
+% \usepackage[utf8]{inputenc}     % kodiranje znakov v .tex
+% \usepackage[slovene]{babel}     % nastavimo slovenščino
+% \usepackage{stmaryrd}
+
+\usepackage{fontspec}
+\usepackage{unicode-math}
+
+% \setmainfont{Latin Modern Sans}
+\setmathfont{Asana Math}
+\setmathfont{Latin Modern Math}
+\setmathfont{Asana Math}[range={scr}]
+\setmathfont{STIX Two Math-Regular}[range={bb,"1D538-"1D56B,"0211D}]
+\setmathfont{STIX Two Math-Regular}[range={"2102,"210D,"2115,"2119,"211A,"211D,"2124}]
+% \setmathfont{Asana Math}[range={"007B,"007D}]  % {}
+\setmathfont{Asana Math}[range={8709,"29B6,"2987,"2988}]  % U+2205, emptyset, ⦶, ⦇, ⦈
+
+\usepackage{qcircuit}
+\usepackage{tikz}
+\usetikzlibrary{babel}
+\usetikzlibrary{angles,quotes}
+\usetikzlibrary{cd}
+\usepackage{mathpartir}
+\usepackage{quiver}
+
+\usepackage{minted}
+
+\usepackage{ulem}
+\renewcommand{\ULdepth}{1.8pt}
+\newcommand{\ul}[1]{\uline{#1}}
+\usepackage[style=german]{csquotes}
+\usepackage{stmaryrd}
+
+\newtheorem{izrek}[theorem]{Izrek}
+\newtheorem{trditev}[theorem]{Trditev}
+\newtheorem{posledica}[theorem]{Posledica}
+\newtheorem{vprasanje}[theorem]{Vprašanje}
+\newtheorem{domneva}[theorem]{Domneva}
+\newtheorem{lema}{Lema}
+\newtheorem{definicija}{Definicija}
+{\theoremstyle{example}
+    \newtheorem{zgled}{Zgled}
+    \newtheorem{primer}{Primer}
+    \newtheorem{primeri}{Primeri}
+}
+% \newtheorem{theorem}{Izrek}
+% \newtheorem{statement}{Trditev}
+% \newtheorem{lemma}{Lema}
+% \newtheorem*{corrolary}{Posledica}
+
+% \theoremstyle{definicija}
+% \newtheorem{definicija}{Definicija}
+
+% \newtheorem*{example}{Primer}
+% \newtheorem*{example*}{Primer}
+% \newtheorem*{examples}{Primeri}
+
+% \theoremstyle{remark}
+% \newtheorem*{remark}{Opomba}
+
+% \newcounter{axiom}
+% \setcounter{axiom}{0}
+% \renewcommand\theaxiom{\Alph{axiom}}
+% \newenvironment{axiom}[2][-1]{
+%     \ifnum#1>0
+%         \refsetcounter{axiom}{#1}
+%     \fi
+%     \refstepcounter{axiom}
+%     \setlength\parindent{0pt}
+%     \ifblank{#2}{}{\vskip.5em #2\par}
+%     \textbf{Aksiom \theaxiom.}
+% }{
+% }
+
+% \beamertemplatetransparentcovereddynamic
+
+\title{Kvantni algebrajski učinki}
+\author{Luna Strah}
+\institute{mentor: doc. dr. Matija Pretnar}
+\date{9.~9.~2022}
+
+% LTeX: enabled=false
+\renewcommand{\d}{\;\mathrm d}
+\renewcommand{\hat}{\widehat}
+\renewcommand{\tilde}{\widetilde}
+\let\oldbar\bar
+\renewcommand{\bar}{\overline}
+\newcommand{\subs}{\subseteq}
+\newcommand{\nin}{\not\in}
+\newcommand{\contradiction}{\,\,\lightning}
+
+\newcommand{\p}[1]{\left( {#1} \right)}
+\newcommand{\set}[2]{\left\{ #1 \mid #2 \right\}}
+\newcommand{\newfrac}[2]{{}^{#1}\!/_{\!#2}}
+\newcommand{\smallfrac}[2]{{\textstyle\frac{#1}{#2}}}
+\newcommand{\im}[1]{\mathrm{im}{\p{#1}}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\cat}[1]{\mathbf{#1}}
+\newcommand{\tr}[1]{\textrm{tr}{#1}}
+\newcommand{\rang}[1]{\textrm{rang}{\p{#1}}}
+
+\usepackage{xstring}
+\newcommand{\mat}[1]{\begin{matrix} #1 \end{matrix}}
+\newcommand{\pmat}[1]{\left(\mat{#1}\right)}
+\newcommand{\bmat}[1]{\left[\mat{#1}\right]}
+\let\oldvec\vec
+\renewcommand{\vec}[1]{\bmat{\StrSubstitute[0]{#1}{,}{\\}}}
+\newcommand{\state}[1]{\left\{ {#1} \right\}}
+% \newcommand{\mixstate}[2]{%
+%   \StrSubstitute[0]{#1}{…}{⋯}[\A]%
+%   \StrSubstitute[0]{#2}{…}{⋯}[\B]%
+%   \pmat{\StrSubstitute[0]{\A}{,}{&}\\\StrSubstitute[0]{\B}{,}{&}}%
+% }
+\usepackage{pgffor}
+\newcommand{\mixstate}[2]{% cf. https://tex.stackexchange.com/a/87423/64454
+  \foreach \A [count=\ai] in {#1} {%
+  \foreach \B [count=\bi] in {#2} {
+    \ifnum\ai=\bi%
+      \ifnum\ai>1 {+} \fi
+      \if\A… {⋯} \else {\A \state{\B}} \fi
+    \fi%
+  }}
+}
+\newcommand{\bra}[1]{\left\langle #1 \right\rvert}
+\newcommand{\ket}[1]{\left\lvert #1 \right\rangle}
+\newcommand{\braket}[2]{\left\langle #1 \middle\vert \mathopen{}#2 \right\rangle}
+\newcommand{\density}[1]{\left\lvert #1 \middle\rangle\middle\langle \mathopen{}#1 \right\rvert}
+\newcommand{\ketbra}[2]{\left\lvert #1 \middle\rangle\middle\langle \mathopen{}#2 \right\rvert}
+% \newcommand{\expval}[2]{\left\langle #2 \middle\vert #1 \middle\vert #2 \right\rangle}
+\newcommand{\expval}[2]{{\left\langle #1 \right\rangle}_{\!#2}}
+\newcommand{\matelt}[3]{\left\langle #1 \middle\vert #2 \middle\vert #3 \right\rangle}
+
+\newcommand{\had}{\mathtt{Had}}
+\newcommand{\swap}{\mathtt{swap}}
+\newcommand{\hh}[1][]{\mathbf{h}_{#1}}
+\newcommand{\B}[1][]{\mathbf{B}_{#1}}
+\newcommand{\M}[1][]{\mathbf{M}_{#1}}
+\renewcommand{\H}[1][]{\mathbf{H}_{#1}}
+\renewcommand{\L}[2][]{\mathcal{L}_{#1}{\p{#2}}}
+\newcommand{\g}[1]{\mathtt{#1}}
+\newcommand{\D}[1]{D{\p{\g{#1}}}}
+\newcommand{\U}[1][]{\mathbf{U}_{#1}}
+\newcommand{\ctl}[1]{\g{c#1}}
+\newcommand{\ctlo}[1]{\bar{\g{c}} \g{#1}}
+\newcommand{\cstarcat}{\cat{Cstar}}
+\newcommand{\cstarcpucat}{\cat{Cstar}_{\textrm{CPU}}}
+\newcommand{\cstar}[2]{\cat{Cstar}{\arity{#1}{#2}}}
+\newcommand{\brat}[2]{\cat{Brat}{\arity{#1}{#2}}}
+
+\newcommand{\op}[1]{\textnormal{\ttfamily#1}}
+\newcommand{\mor}[1]{\textnormal{\sffamily#1}}
+\newcommand{\eff}[1]{\textnormal{\sffamily\ul{#1}}}
+\newcommand{\enew}{\eff{new}{\p{}}}
+% \newcommand{\enew}[1]{\eff{new}{\p{#1}}}
+\newcommand{\eapply}[2]{\eff{apply}_{\g{#1}}{\p{#2}}}
+\newcommand{\emeasure}[1]{\eff{measure}{\p{#1}}}
+\newcommand{\ediscard}[1]{\eff{discard}{\p{#1}}}
+\newcommand{\tnew}[2]{\op{new}{\p{#1.\,#2}}}
+\newcommand{\tapply}[3]{\op{apply}_{\g{#1}}{\p{#2;#2.\,#3}}}
+\newcommand{\tapplyd}[3]{\op{apply}_{\D{#1}}{\p{#2;#2.\,#3}}}
+\newcommand{\tmeasure}[3]{\op{measure}{\p{#1;\,#2,#3}}}
+\newcommand{\tdiscard}[2]{\op{discard}{\p{#1;\,#2}}}
+\newcommand{\new}[2]{ν{#1}.\,#2}
+\newcommand{\apply}[3]{{\g{#1}}_{#2}{\p{#3}}}
+\newcommand{\applyd}[3]{{\D{#1}}_{#2}{\p{#3}}}
+\renewcommand{\measure}[3]{#2 {\;?_{#1}\,} #3}
+\newcommand{\measurebr}[3]{\measure{#1}{\p{#2}}{\p{#3}}}
+\newcommand{\discard}[2]{\op{disc}_{#1}{\p{#2}}}
+\newcommand{\lam}[2]{λ{#1}.\,#2}
+\newcommand{\plet}[3]{\qpl{let |\(#1 ≔ #2\)| in |\(#3\)|}}
+\newcommand{\pseq}[2]{\qpl{|\(#1\)|;|\(#2\)|}}
+\newcommand{\pret}[1]{\qpl{return |\(#1\)|}}
+% \newcommand{\pret}[1]{#1}
+\newcommand{\snew}[2]{\mor{new}#1{\p{#2}}}
+\newcommand{\sapply}[2]{\mor{apply}_{\g{#1}}{\p{#2}}}
+\newcommand{\smeasure}[3]{\mor{measure}#1{\p{#2,#3}}}
+
+\newcommand{\type}[1]{\text{\ttfamily#1}}
+\newcommand{\unit}{\type{I}}
+\newcommand{\bit}{\type{bit}}
+\newcommand{\qbit}{\type{qbit}}
+
+\newcommand{\arity}[2]{\p{#1 \mid #2}}
+% \newcommand{\arity}[2]{\p{#1 \mid \StrSubstitute[0]{#2}{,}{\ }}}
+
+\newcommand{\sequent}[3]{#1 \mid #2 ⊢ #3}
+\newcommand{\sseq}[2]{#1 ⊢ #2}
+\newcommand{\seq}[1]{\sequent{x₁:m₁,…,xₖ:mₖ}{a₁,…,aₚ}{#1}}
+\newcommand{\absseq}[1]{\sequent{\Gamma}{\Delta}{#1}}
+\newcommand{\sem}[1]{\left⟦ #1 \right⟧}
+% \newcommand{\brsem}[1]{⟬ #1 ⟭}
+% \newcommand{\brsem}[1]{⦅ #1 ⦆}
+\newcommand{\brsem}[1]{\left⦇ #1 \right⦈}
+\usepackage[nomessages]{fp}
+\newcommand{\mormap}[2]{% cf. https://tex.stackexchange.com/a/87423/64454
+  \def\nextitem{\def\nextitem{⊕}}% Separator
+  \forcsvlist\mormapitem{#2} → M_{\IfInteger{#1}{\FPeval\result{round(2^(#1):0)}\result}{2^{#1}}}{\p X}
+}
+\newcommand{\mormapitem}[1]{%
+  \nextitem
+  \def\param{\detokenize{#1}}%
+  \if\param…%
+    ⋯%
+  \else%
+    M_{\IfInteger{\param}{\FPeval\result{round(2^(\param):0)}\result}{2^{\param}}}{\p X}\!%
+  \fi
+}
+\newcommand{\semmap}[2]{% cf. https://tex.stackexchange.com/a/87423/64454
+  \def\nextitem{\def\nextitem{⊕}}% Separator
+  \forcsvlist\semmapitem{#2} → \M[\IfInteger{#1}{\FPeval\result{round(2^(#1):0)}\result}{2^{#1}}]
+}
+\newcommand{\semmapitem}[1]{%
+  \nextitem
+  \def\param{\detokenize{#1}}%
+  \if\param…%
+    ⋯%
+  \else%
+    \M[\IfInteger{\param}{\FPeval\result{round(2^(\param):0)}\result}{2^{\param}}]\!%
+  \fi
+}
+\newcommand{\abssemmap}[2]{% cf. https://tex.stackexchange.com/a/87423/64454
+  \def\nextitem{\def\nextitem{×}}% Separator
+  \forcsvlist\abssemmapitem{#2} → #1 • X
+}
+\newcommand{\abssemmapitem}[1]{%
+  \nextitem
+  \def\param{\detokenize{#1}}%
+  \if\param…%
+    ⋯%
+  \else%
+    (\param • X)\!%
+  \fi
+}
+\newcommand{\semhom}[2]{
+  \def\nextitem{\def\nextitem{⊕}}% Separator
+  \cstar{\p{\forcsvlist\semhomitem{#2}, \M[\IfInteger{#1}{\FPeval\result{round(2^(#1):0)}\result}{2^{#1}}]}}
+}
+\newcommand{\semhomitem}[1]{%
+  \nextitem
+  \def\param{\detokenize{#1}}%
+  \if\param…%
+    ⋯%
+  \else%
+    \M[\IfInteger{\param}{\FPeval\result{round(2^(\param):0)}\result}{2^{\param}}]\!%
+  \fi
+}
+
+\newcommand{\airquotes}[1]{\enquote{#1}}
+
+\newminted[qplcode]{ocaml}{escapeinside=||, autogobble}
+\newmintinline[qpl]{ocaml}{escapeinside=||, autogobble}
+
+\makeatletter
+\newcommand{\oset}[3][0ex]{%
+  \mathrel{\mathop{#3}\limits^{
+    \vbox to#1{\kern-2\ex@
+    \hbox{$\scriptstyle#2$}\vss}}}}
+\makeatother
+
+\makeatletter
+\newcommand{\listintertext}{\@ifstar\listintertext@\listintertext@@}
+\newcommand{\listintertext@}[1]{% \listintertext*{#1}
+  \hspace*{-\@totalleftmargin}#1}
+\newcommand{\listintertext@@}[1]{% \listintertext{#1}
+  \hspace{-\leftmargin}#1}
+\makeatother
+
+\newcommand{\for}[2]{\forall#1.\;#2}
+\newcommand{\exist}[2]{\exists#1.\;#2}
+\newcommand{\existi}[2]{\exists!#1.\;#2}
+
+\setbeameroption{hide notes} % Only slides
+% \setbeameroption{show only notes} % Only notes
+% \setbeameroption{show notes} % Both
+% \setbeameroption{show notes on second screen=right} % Both
+%LTeX: enabled=true
+
+
+\begin{document}
+%%%%%
+\frame{\titlepage}
+%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Intro
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{Motivacija}
+
+    \pause
+    Kvantno programiranje
+    \begin{itemize}
+        \item Enakost programov
+        \pause
+        \item Novi problemi za teorijo programskih jezikov
+        % \begin{itemize}
+        %     \item Linearnost
+        %     \item Učinki
+        % \end{itemize}
+    \end{itemize}
+
+    \note[item]{
+        Dva izziva:
+        \begin{itemize}
+            \item Strojna oprema
+            \item Programska oprema
+        \end{itemize}
+    }
+    \note[item]{
+        Kloniranje
+        \begin{itemize}
+            \item Linearnost
+        \end{itemize}
+    }
+\end{frame}
+%%%%%
+\begin{frame}
+    \frametitle{Pregled}
+
+    \begin{enumerate}
+        \item Kvantno računalništvo
+        \item Interpretacije operacij
+        \item Polnost
+    \end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Quantum mechanics
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{Kvantni vektorji}
+
+    \begin{definicija}[Binarni vektorji]
+        Binarni vektorji so elementi množice \( \B[n] ≔ \{0, 1\}ⁿ \) in jih pišemo kot nize.
+    \end{definicija}
+    Primer: \( \B[2] = \{\mb{00}, \mb{01}, \mb{10}, \mb{11}\} \).
+
+    \pause
+    \begin{definicija}[Kvantni prostor]
+        Kvantni vektorji (nadaljnje vektorji) so elementi prostora \( \H[n] ≔ ℂ^{2ⁿ} \).
+        Kubiti so elementi \( \H ≔ \H[1] \).\\
+        Če je \( \{eⱼ\} \) standardna baza \( \H[n] \) pišemo \( \ket j ≔ eⱼ \).
+    \end{definicija}
+    Očitno je \( \H[n] = \L[ℂ]{\set{ \ket j }{ j∈\B[n]} } \).
+    % \pause
+    % \begin{definicija}[Kvantna vrata]
+    %     Kvantna vrata reda \(n\) so unitarne matrike dimenzije \(2ⁿ\).
+    %     % Tenzorski produkt \( U \otimes V = [u_{jk}V]_{j,k} \) uporabljen na \(a\otimes b\) je enak \( Ua \otimes Vb \).
+    % \end{definicija}
+
+\end{frame}
+%%%%%
+\begin{frame}
+    \frametitle{Primeri}
+
+    \begin{primer}[\( n = 1 \)]
+        \[ a = \vec{a₀, a₁}
+             = a₀\vec{1,0} + a₁\vec{0,1}
+             = a₀\ket{\mb0} + a₁\ket{\mb1}.
+        \]
+    \end{primer}
+
+    \pause
+    \begin{primer}[\( n = 2 \)]
+        \( a = \vec{a₀,  a₁,  a₂,  a₃}
+             = \vec{a\mb{₀₀}, a\mb{₀₁}, a\mb{₁₀}, a\mb{₁₁}}
+             = a₀₀\ket{\mb{00}} + a₀₁\ket{\mb{01}} + a₁₀\ket{\mb{10}} + a₁₁\ket{\mb{11}}.
+        \)
+    \end{primer}
+
+    \pause
+    \begin{primer}
+        \vspace{-1pt}
+        \begin{center}
+            \( \hh ≔ ρ\vec{1,1} = ρ\p{\ket{\mb0} + \ket{\mb1}},\quad
+                \hh[n] ≔ ρⁿ{\displaystyle∑_{j ∈ \B[n]} \ket j,\quad
+                ρ ≔ \frac{1}{\sqrt2}}.
+            \)
+        \end{center}
+        \vspace{-1pt}
+    \end{primer}
+
+\end{frame}
+%%%%%
+\begin{frame}
+    \frametitle[tenzorji]{Tenzorski produkt}
+
+    \begin{definicija}[Tenzorski produkt]
+        Tenzorski produkt prostorov \(\H[m]\) in \(\H[n]\) je enak \( \H[m+n] \).\\
+        Če sta \( a ∈ \H[m] \) in \( b ∈ \H[n] \) je \( a⊗b ∈ \H[m]⊗\H[n] = \H[m+n] \).
+    \end{definicija}
+
+    \pause
+    \begin{primer}[\(n=m=1\)]
+        \[ \vec{a₀, a₁}⊗\vec{b₀, b₁} = \vec{a₀b₀, a₀b₁, a₁b₀, a₁b₁} \]
+    \end{primer}
+    \begin{posledica}
+        \[ \ket j⊗\ket k = \ket j \ket k = \ket{jk},\quad
+           a⊗b = ∑_{\substack{j∈\B[n],\\k∈\B[m]}} aⱼbₖ\ket{jk}
+        \]
+    \end{posledica}
+
+\end{frame}
+%%%%%
+% \begin{frame}
+%     \begin{definicija}
+%         Če lahko vektor \(a∈\H[n]\) zapišemo kot \(⨂_{j=1}^{n} aⱼ\) z \(aⱼ∈\H\) pravimo, da je enostaven ali separabilen, sicer je pa sestavljen ali kvantno prepleten.
+%     \end{definicija}
+% \end{frame}
+%%%%%
+\begin{frame}
+    \frametitle{Unitarna vrata}
+
+    \begin{definicija}[Unitarna vrata]
+        Unitarna vrata reda \(n\) so unitarne matrike dimenzije \(2ⁿ\).
+        \pause
+        Tenzorski produkt \( U ⊗ V = [uⱼₖV]_{j,k} \) uporabljen na \(a⊗b\) je enak \(Ua⊗Vb\).
+    \end{definicija}
+    % \begin{definicija}[Bločno-diagonalna matrika] % lahko spustim?
+    %     Za unitarne matrike \(U₁,… ,Uₙ\) označimo njihovo bločno-diagnoalno matriko z \(D{\p{Uₙ,…, Uₙ}}\).
+    % \end{definicija}
+
+    \begin{primer}[Tenzorski produkt unitarnih vrat]
+        \[
+            \begin{bmatrix}
+                a₀₀ & a₀₁ \\ a₁₀ & a₁₁
+            \end{bmatrix} ⊗ B
+            =
+            \begin{bmatrix}
+                a₀₀ B & a₀₁ B \\ a₁₀ B & a₁₁ B
+            \end{bmatrix}.
+        \]
+    \end{primer}
+
+    % \pause
+    % \begin{izrek}[No cloning]
+    %     Ne obstajajo vrata (reda \(2\)), ki vsak \(a⊗\ket0 ∈ \H[2]\) slika v \(a⊗a\).
+    % \end{izrek}
+
+\end{frame}
+%%%%%
+\begin{frame}
+    \frametitle{Blochova sfera}
+
+    \parbox{.4\textwidth}{
+        Kubit \(a\) predstavimo kot točko v \(𝕊²\) z identifikacijo:
+        \[a = \cos\smallfrac{θ}{2}\ket{\mb0} + e^{iφ}\sin\smallfrac{θ}{2}\ket{\mb1}\]
+    }\hfill\parbox{.5\textwidth}{
+        \begin{tikzpicture}
+            % Define radius
+            \def\r{9}
+            \def\q{\r/4}
+            
+            % Bloch vector
+            \draw (0,0) node[circle,fill,inner sep=1] (orig) {} -- (\q/3,\q/2) node[circle,fill,inner sep=0.7,label=above:\(a\)] (a) {};
+            \draw[dashed] (orig) -- (\q/3,-\q/5) node (phi) {} -- (a);
+            
+            % Sphere
+            \draw               (orig) circle  (\q);
+            \draw[dashed, gray] (orig) ellipse ({\q} and {\q/3});
+            
+            % Axes
+            \draw[->           ] (orig) -- ++(-\q/5, -\q/3) node[below] (x) {\(x\)};
+            \draw[->           ] (orig) -- ++( \q  ,   0  ) node[right] (y) {\(y\)};
+            \draw[->           ] (orig) -- ++(  0  ,  \q  ) node[above] (z) {\(z=\ket{\mb0}\)};
+            \draw[->, draw=gray] (orig) -- ++(  0  , -\q  ) node[below] (s) {\(\ket{\mb1}\)};
+            
+            %Angles
+            \pic[draw=gray,->,"\(φ\)",angle eccentricity=0.6] {angle=x--orig--phi};
+            \pic[draw=gray,<-,"\(θ\)",angle eccentricity=1.6] {angle=a--orig--z};
+        \end{tikzpicture}
+    }
+
+\end{frame}
+%%%%%
+\begin{frame}
+    \frametitle{Primeri}
+
+    \begin{primer}[Paulijeve matrike]
+        To so matrike rotacije okrog osi na Blochovi sferi:
+        \[
+            I₂ = \begin{bmatrix} 1 &  0 \\ 0 &  1 \end{bmatrix}\text{, }
+            X  = \begin{bmatrix} 0 &  1 \\ 1 &  0 \end{bmatrix}\text{, }
+            Y  = \begin{bmatrix} 0 & -i \\ i &  0 \end{bmatrix}\text{, }
+            Z  = \begin{bmatrix} 1 &  0 \\ 0 & -1 \end{bmatrix}\text.
+        \]
+        Velja \(X² = Y² = Z² = I₂\).
+    \end{primer}
+
+    \pause
+    \begin{primer}[Paulijeve matrike]
+        \[ \Qcircuit @C=1em @R=.7em {
+                & \gate{\g X} & \qw && \gate{\g Z} & \qw && \gate{\g{I₂}} & \qw
+            }
+        \]
+        \[ \Qcircuit @C=1em @R=.7em {
+                & \gate{\g Z} & \gate{\g X} & \qw
+                &        =    &
+                & \gate{\g{XZ}} & \qw
+                &        =    &
+                & \gate{-i\g Y} & \qw
+            }
+        \]
+        % \[ \Qcircuit @C=1em @R=.7em {
+        %     & \gate{\had} & \gate{\g Z} & \gate{\had} & \qw \\
+        %     &             &      =      &             &     \\
+        %     & \qw         & \gate{\g X} & \qw         & \qw
+        %     }
+        % \]
+        % \[ \Qcircuit @C=1em @R=.7em {
+        %     & \gate{\had} & \gate{\g Z} & \gate{\had} & \qw
+        %     &                      =    &
+        %     &               \gate{\g X} & \qw
+        %     }
+        % \]
+    \end{primer}
+
+\end{frame}
+%%%%%
+% \begin{frame}
+%     \frametitle{Primeri}
+
+%     % \begin{primer}[Fazni zamik]
+%     %     \begin{gather*}
+%     %         S_α = \begin{bmatrix} 1 & 0 \\ 0 & e^{iα}\end{bmatrix}
+%     %         \text{, posebej označimo } S = S_{\frac{π}{2}}; S² = X,\\
+%     %         S_α(a₀\ket 0 + a₁\ket 1) = a₀\ket 0 + a₁e^{iα}\ket 1
+%     %     \end{gather*}
+%     % \end{primer}
+
+%     \begin{primer}[Hadamardova matrika]
+%         Predstavlja rotacijo okrog \(x = z, y=0\) premice.
+%         \[
+%             \had = \rho\begin{bmatrix}1&1\\1&-1\end{bmatrix}\text{, }
+%             % \had^{\otimes n}(\ket{0^n}) = \hh[n]
+%             \had(\ket{\mb0}) = \hh
+%         \]
+%     \end{primer}
+
+%     \pause
+%     \begin{primer}[Hadamardova matrika]
+%         \[ \Qcircuit @C=1em @R=.7em {
+%                 & \gate{\had} & \gate{\g Z} & \gate{\had} & \qw \\
+%                 &             &      =      &             &     \\
+%                 & \qw         & \gate{\g X} & \qw         & \qw
+%             }
+%         \]
+%         % \[ \Qcircuit @C=1em @R=.7em {
+%         %     & \gate{\had} & \gate{\g Z} & \gate{\had} & \qw
+%         %     &                      =    &
+%         %     &               \gate{\g X} & \qw
+%         %     }
+%         % \]
+%     \end{primer}
+
+% \end{frame}
+%%%%%
+\begin{frame}[fragile]
+    \frametitle{Kvantna meritev}
+
+    \begin{definicija}[Kvantna meritev]
+        Meritev kubita \(a = a_0\ket{\mb0} + a_1\ket{\mb1}\) označimo \(M(a)\) in je \(0\) z verjetnostjo \(|a_0|^2\) in \(1\) z verjetnostjo \(|a_1|^2\). To \airquotes{uniči} kubit \(a\).
+    \end{definicija}
+    \pause
+    \begin{primer}[Pogojna uporaba vrat]
+        \[ \Qcircuit @C=1em @R=.7em {
+                \lstick{a} & \meter & \cctrlo{1}  & \cctrl{1}\\
+                \lstick{b} & \qw    & \gate{\g V} & \gate{\g U} & \rstick{b'} \qw
+            }
+        \]
+        \center\qpl{if |\(\emeasure{a} = 0\)| then |\( Ub \)| else |\( Vb \)|}
+    \end{primer}
+
+    % \begin{primer}[Projekcija na Z os in naključna rotacija faze]
+    %     \[ \Qcircuit @C=1em @R=.7em {
+    %             \lstick{a} & \meter & \cctrl{1} &&&&
+    %             &&& \lstick{\ket0} & \gate{\had} & \meter & \cctrl{1}\\
+    %             & \lstick{\ket0} & \gate{\g X} & \rstick{a'} \qw &&&&
+    %             \lstick{a} & \qw & \qw & \qw & \qw & \gate{\g Z} & \rstick{a'}\qw
+    %         }
+    %     \]
+    % \end{primer}
+
+\end{frame}
+%%%%%
+\begin{frame}[fragile]
+    \frametitle{Kvantna kontrola}
+
+    \begin{definicija}
+        Kontrola \airquotes{na ena}.
+        \begin{align*}
+            C_{r,s}{\p U}\ket j &= \begin{cases}
+                \ket j &;\quad jᵣ = 0\\
+                \ket{j₁\dots}\ket{U{jₛ}}\ket{\dots jₙ} &;\quad jᵣ = 1
+            % \end{cases}\\
+            % \overline{C}_{r,s}{\p U}\ket j &= \begin{cases}
+            %     \ket{j₁\dots}\ket{U{jₛ}}\ket{\dots jₙ} &;\quad jᵣ = 0\\
+            %     \ket j &;\quad jᵣ = 1
+            \end{cases}
+        \end{align*}
+    \end{definicija}
+    Posebej za \( U ∈ \mathrm{U}₂ \) označimo \(\ctl{}U ≔ C_{1,2}{\p U} = \D{I₂, U}.\)
+    % \[ \ctl{}  U ≔ C_{1,2}{\p U} = \D{I₂, U},\quad
+    %    \ctlo{} U ≔ \overline{C}_{1,2}{\p U} = \D{U, I₂}. \]
+    \begin{primer}[Pogojna uporaba vrat]
+        \[ \Qcircuit @C=1em @R=.7em {
+                \lstick{a} & \ctrlo{1}   & \ctrl{1}    & \rstick{a}  \qw\\
+                \lstick{b} & \gate{\g V} & \gate{\g U} & \rstick{b'} \qw
+            }
+        \]
+        \center\qpl{if |\(\emeasure{a} = 0\)| then |\( (a,Ub) \)| else |\( (a,Vb) \)|}
+    \end{primer}
+\end{frame}
+%%%%%
+% \begin{frame}[fragile]
+%     \frametitle{Primeri}
+
+%     \begin{primer}
+%         \[ \Qcircuit @C=1em @R=.7em {
+%                 \lstick{a} & \meter & \cctrlo{1}  & \cctrl{1}                    \\
+%                 \lstick{b} & \qw    & \gate{\g U} & \gate{\g V} & \rstick{b'} \qw\\
+%                 \lstick{a} & \qw    & \ctrlo{1}   & \ctrl{1}    & \rstick{a}  \qw\\
+%                 \lstick{b} & \qw    & \gate{\g U} & \gate{\g V} & \rstick{b'} \qw
+%             }
+%         \]
+%         \center\qpl{if |\(\emeasure{a} = 0\)| then |\( \p{a, Ub} \)| else |\( \p{a, Vb} \)|}
+%     \end{primer}
+
+%     \pause
+%     \begin{primer}[Prepleteni pari kubitov]
+%         \[ \ctl{X}(a⊗\ket 0) = \text{\airquotes{\(a⊗b\)}}
+%            \onslide<3->{= a₀\ket{00} + a₁\ket{11}} \]
+%         \vspace{-2em}
+%         \[ \Qcircuit @C=1em @R=.7em {
+%                 \lstick{a}          & \ctrl{1}    & \rstick{a} \qw \\
+%                 \lstick{\ket0}      & \targ       & \rstick{b} \qw
+%             }
+%         \]
+%     \end{primer}
+%     % \begin{primer}[Projekcija na Z os]
+%     %     \[ \Qcircuit @C=1em @R=.7em {
+%     %             \lstick{a} & \meter & \cctrl{1}   &                &&&&
+%     %             \lstick{a}          & \ctrl{1}    & \rstick{a} \qw &&&&
+%     %             \lstick{a}          & \ctrl{1}    & \rstick{a} \qw \\
+%     %             &\lstick{\ket0}     & \gate{\g X} & \rstick{b} \qw &&&&
+%     %             \lstick{\ket0}      & \gate{\g X} & \rstick{b} \qw &&&&
+%     %             \lstick{\ket0}      & \targ       & \rstick{b} \qw
+%     %         }
+%     %     \]
+%     % \end{primer}
+
+% \end{frame}
+%%%%%
+\begin{frame}
+    \frametitle{Opazljivke}
+
+    \begin{definicija}
+        Opazljivka je sebi-adjungiran operator na prostoru \(\H[n]\) oziroma \(2ⁿ×2ⁿ\) hermitska matrika.
+    \end{definicija}
+
+    \pause
+    \begin{definicija}
+        Rezultati meritve opazljivke v stanju \(u\) je ena od lastnih vrednosti \(λⱼ\) z verjetnostjo \(|P_{λⱼ}u|²\), stanje \(u\) se pa po meritvi spremeni v izmerjeno stanje, torej \(P_{λⱼ}u\).
+
+        % \emph{Pričakovana vrednost opazljivke v stanju \(u\)} je definirana kot \(\expval{A}{u} ≔ \matelt{u}{A}{u} = ∑ⱼ |P_{λⱼ}u|²λⱼ\).
+    \end{definicija}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Effects
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}
+%     \frametitle{Algebrajski učinki}
+
+%     \begin{definicija}[Računski učinki]
+%         Če ima funkcija ali operacija še kak navzven viden učinek poleg vrnjene vrednosti temu pravimo računski učinek (učinek računanja).
+%     \end{definicija}
+%     \pause
+%     \begin{definicija}[Algebrajski učinki]
+%         So računski učinki, ki jih lahko predstavimo z algebrajsko teorijo.
+%     \end{definicija}
+
+%     \begin{primeri}
+%         Vhod in izhod, izjeme, nedeterminizem, spomin, %TODO: More examples
+%     \end{primeri}
+
+% \end{frame}
+%%%%%
+% \begin{frame}[fragile]
+%     \frametitle{Programski jezik}
+
+%     \begin{itemize}
+%         \item Tip kubitov \texttt{qubit}.
+%             \pause Funkcije dostopanja:
+%         \begin{itemize}
+%             \item \(\eff{new}\): Dodeli nov kubit, z začetno vrednostjo \(\ket 0\)
+%             \item \(\eff{apply}_{\g V}\): Uporabi vrata \(U\) na danem vektorju
+%             \item \(\eff{measure}\): Izvede meritev na kubitu, vrne element tipa \texttt{bit}
+%         \end{itemize}
+%         \pause
+%         \item Za tipa \(A\) in \(B\) obstaja tip \(A⊗B\) prepletenih parov.
+%     \end{itemize}
+%     \begin{primer}[Prepleteni pari kubitov]
+%         \[ \ctl{X}(a⊗\ket 0) = \text{\airquotes{\(a⊗b\)}} = a₀\ket{00} + a₁\ket{11} \]
+%         \[ \Qcircuit @C=1em @R=.7em {
+%                 \lstick{a}          & \ctrl{1}    & \rstick{a} \qw \\
+%                 \lstick{\ket0}      & \targ       & \rstick{b} \qw
+%             }
+%         \]
+%     \end{primer}
+
+% \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Algebraic theory
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}[fragile]
+%     \frametitle{Algebrajski jezik}
+
+%     \begin{itemize}
+%         \item Tip kubitov \texttt{qubit}.
+%             \pause Funkcije dostopanja:
+%         \begin{itemize}
+%             \item \(\tnew{a}{t}\): Dodeli nov kubit, z začetno vrednostjo \(\ket 0\)
+%             \item \(\tapply{U}{a}{b.t}\): Uporabi vrata \(U\) na danem vektorju
+%             \item \(\tmeasure{a}{t}{u}\): Izmeri kubit, nadaljuje v \(t\) ali \(u\)
+%             \item \(\tdiscard{a}{t} ≔ \tmeasure{a}{t}{t}\)
+%         \end{itemize}
+%         \pause
+%         \item Za tipa \(A\) in \(B\) obstaja tip \(A⊗B\) prepletenih parov.
+%     \end{itemize}
+
+% \end{frame}
+%%%%%
+% \begin{frame}[fragile]
+%     \frametitle{Pretvorba v algebrajske izraze}
+
+%     \begin{primer}[Projekcija na Z os in naključna rotacija faze]
+%         \begin{enumerate}
+%             \item \begin{minted}[escapeinside=||,autogobble]{ocaml}
+%                 if |\(\eff{measure}(a) = 0\)| then |$\eff{new}()$| else |\(\eff{apply}_{\g{X}}(\eff{new}())\)|
+%             \end{minted}
+%             \item \begin{minted}[escapeinside=||,autogobble]{ocaml}
+%                 if |\(\eff{measure}(\eff{apply}_{\had}(\eff{new}())) = 0\)| then |$a$| else |\(\eff{apply}_{\g{Z}}(a)\)|
+%             \end{minted}
+%         \end{enumerate}
+%     \end{primer}
+%     \pause
+%     \begin{itemize}
+%         \item \(\tnew{a}{t} ≔\) \qpl{let |\(a ← \enew\)| in |\(t\)|}
+%         \item \(\tapply{U}{a}{a.t} ≔\) \qpl{|\(\eapply{\g V}{a}\)|; |\(t\)|}
+%         \item \(\tmeasure{a}{u}{v} ≔\) \qpl{if |\(\emeasure{a} = 0\)| then |\(u\)| else |\(v\)|}
+%         \item \(\tdiscard{a}{u} ≔ \tmeasure{a}{u}{u}\)
+%     \end{itemize}
+%     \note{\(a\) je vektor različnih kubitov}
+%     \pause
+%     \begin{primer}[Projekcija na Z os in naključna rotacija faze]
+%         \begin{enumerate}
+%             \item \(\tmeasure{a}{\tnew{b}{t}}{\tnew{b}{\tapply{X}{b}{t}}}\)
+%             \item \(\tnew{b}{\tapply{\had}{b}{\tmeasure{b}{t}{\tapply{Z}{a}{t}}}}\)
+%         \end{enumerate}
+%     \end{primer}
+% \end{frame}
+%%%%%
+% \begin{frame}
+%     \frametitle{Aksiomi}
+
+%     \begin{enumerate}[(A)]
+%         \item Kvantna negacija pred meritvijo je negacija po meritvi.
+%             \begin{mathpar}
+%                 %LTeX: enabled=false
+%                 \inferrule{}{\Qcircuit @C=1em @R=.7em {
+%                         & \gate{\g X} & \meter & \cw
+%                 }}
+%                 \and=\and
+%                 \inferrule{}{\Qcircuit @C=1em @R=.7em {
+%                     & \meter & \gate{\g X} & \cw
+%                 }}
+%                 %LTeX: enabled=true
+%             \end{mathpar}
+%         \item Kvantna kontrola je po meritvi kot klasična kontrola.
+%             \begin{mathpar}
+%                 %LTeX: enabled=false
+%                 \inferrule{}{\Qcircuit @C=1em @R=.7em {
+%                     & \meter & \cctrlo{1}  & \cctrl{1}   & \cw\\
+%                     & \qw    & \gate{\g U} & \gate{\g V} & \qw
+%                 }}
+%                 \and=\and
+%                 \inferrule{}{\Qcircuit @C=1em @R=.7em {
+%                     & \ctrlo{1}   & \ctrl{1}    & \meter & \cw\\
+%                     & \gate{\g U} & \gate{\g V} & \qw    & \qw
+%                 }}
+%                 %LTeX: enabled=true
+%             \end{mathpar}
+%         \item Kvantna vrata uporabljena na zavrženih kubitih so odveč.
+%         \item Novi kubiti so \( \ket{\mb0} \) glede na meritev.
+%             \begin{mathpar}
+%                 %LTeX: enabled=false
+%                 \inferrule{}{\Qcircuit @C=1em @R=.7em {
+%                     \lstick{\ket{\mb0}} & \meter & \cw
+%                 }}
+%                 \and=\and
+%                 \inferrule{}{\Qcircuit @C=1em @R=.7em {
+%                     \lstick{0} & \cw & \cw & \cw
+%                 }}
+%                 %LTeX: enabled=true
+%             \end{mathpar}
+%         \item Novi kubiti so \( \ket{\mb0} \) glede na kontrolo.
+%             \begin{mathpar}
+%                 %LTeX: enabled=false
+%                 \inferrule{}{\Qcircuit @C=1em @R=.7em {
+%                     & \lstick{\ket{\mb0}} & \ctrlo{1}   & \ctrl{1}    & \qw\\
+%                     & \qw                 & \gate{\g U} & \gate{\g V} & \qw
+%                 }}
+%                 \and=\and
+%                 \inferrule{}{\Qcircuit @C=1em @R=.7em {
+%                     &             &     & \lstick{\ket{\mb0}} & \qw\\
+%                     & \gate{\g U} & \qw & \qw                 & \qw
+%                 }}
+%                 %LTeX: enabled=true
+%             \end{mathpar}
+%         \item[(…)] Plus še sedem manj zanimivih akisomov.
+%     \end{enumerate}
+
+%     % \note{Lahko prestavim malo kasneje}
+%     % \note[item]{Kvantna negacija in kontrola se obnašata kot klasični verziji.}
+%     % \note[item]{\(\op{discard}\) dela kot pričakujemo.}
+%     % \note[item]{Novi kubiti so vedno \(\ket0\) glede na meritev in kontrolo.}
+%     % \note[item]{Sklopa sta
+%     %     \begin{enumerate}
+%     %         \item \(\op{apply}\) se razume z matrikami.
+%     %         \item Stvari komutirajo, kolikor lahko, do vezave spremenljivk.
+%     %     \end{enumerate}
+%     % }
+
+% \end{frame}
+%%%%%
+% \begin{frame}
+%     \frametitle{Formalna pravila algebrajskega jezika}
+
+%     \note{Kaj s tem?}  %TODO: figure out
+
+%     %TODO: add judgement rules
+%     %TODO: add examples
+
+% \end{frame}
+%%%%%
+% \begin{frame}
+%     \frametitle{Aksiomi}
+    
+%     Osnovni aksiomi na kratko:
+%     \begin{enumerate}
+%         \item Kvantna negacija pred meritvijo je negacija po meritvi.
+%         \item Kvantna kontrola je po meritvi kot klasična kontrola.
+%         \item Kvantna vrata uporabljena na zavrženih kubitih so odveč.
+%         \item Meritve novih kubitov so vedno \(0\).
+%         \item Vrata kontrolirana z novimi kubiti se nikoli ne uporabijo.
+%     \end{enumerate}
+%     … Plus še sedem manj zanimivih akisomov.
+% \end{frame}
+%%%%%
+\begin{frame}
+    \frametitle{Jezik}
+
+    % \begin{itemize}
+    %     \item \(\tnew{a}{t}\): Dodeli nov kubit, z začetno vrednostjo \(\ket 0\)
+    %     \item \(\tapply{U}{a}{t}\): Uporabi vrata \(U\) na danem vektorju
+    %     \item \(\tmeasure{a}{t}{u}\): Izmeri kubit, nadaljuje v \(t\) ali \(u\)
+    %     \item \(\tdiscard{a}{t} ≔ \tmeasure{a}{t}{t}\)
+    % \end{itemize}
+    
+    % \pause
+    \begin{definicija} %NOTE: na tablo?
+        Členost je oblike \(\arity{p}{m₁, …, mₖ}\), kjer so \(p, mᵢ ∈ ℕ\).
+
+        % Signatura z linearnimi parametri je množica operacij s členostmi.
+        Neformalno členost pove, da operacija \(\op O\) sprejme \(p\) parametrov in \(k\) računskih spremenljivk, kjer \(i\)-ta sprejme \(mᵢ\) parametrov.
+        Pišemo \(\op O : \arity{p}{m₁, …, mₖ}\).
+    \end{definicija}
+
+    \pause
+    \begin{definicija}
+        Interpretacija operacije s členostjo \(\arity{p}{m₁, …, mₖ}\) je preslikava oblike \(\semmap{p}{m₁, …, mₖ}\).
+    \end{definicija}
+
+    % \pause
+    % \vspace{-2em}
+    \note{\begin{gather*}
+        % \op{O}            : \arity{p}{m₁, …, mₖ}\\
+        \op{new}          : \arity{0}{1}\qquad
+        \op{measure}      : \arity{1}{0, 0}\qquad
+        \op{apply}_{\g U} : \arity{n}{n}
+    \end{gather*}}
+
+    % \pause
+    % \vspace{-2em}
+    % \[\begin{prooftree}
+    %       \hypo{\sequent{Γ}{Δ, a}{         t } }
+    %     \infer1{\sequent{Γ}{Δ   }{\tnew{a}{t}} }
+    % \end{prooftree}\quad
+    % \begin{prooftree}
+    %       \hypo{\sequent{Γ}{Δ   }{             t    } }
+    %       \hypo{\sequent{Γ}{Δ   }{                u } }
+    %     \infer2{\sequent{Γ}{Δ, a}{\tmeasure{a}{t}{u}} }
+    % \end{prooftree}\]
+    % \[\begin{prooftree}
+    %       \hypo{\sequent{Γ}{Δ, a₁, …, aₙ}{                      t }}
+    %     \infer1{\sequent{Γ}{Δ, a₁, …, aₙ}{\tapply{U}{a₁, …, aₙ}{t}}}
+    % \end{prooftree}\]
+  
+\end{frame}
+%%%%%
+% \begin{frame}
+%     \frametitle{Sequents?}
+
+%     \begin{definicija}
+%         Za sezname računskih spremenljivk \(Γ\), sezname parametrov \(Δ\), in izraze \(t\) definiramo relacijo \(\seq{t}\) kot najmanjšo relacijo zaprto za naslednja pravila.
+%     \end{definicija}
+
+%     \[\begin{prooftree}
+%           \hypo{ - }
+%         \infer1{\sequent{Γ, x:p, Γ'}{a₁, …, aₚ}{x{\p{a₁, …, aₚ}}}}
+%     \end{prooftree}\]
+%     \[\begin{prooftree}
+%           \hypo                         {\sequent{Γ}{a₁      , …, aₚ      }{t}}
+%         \infer1[(σ \text{ permutacija})]{\sequent{Γ}{a_{σ(1)}, …, a_{σ(p)}}{t}}
+%     \end{prooftree}\]
+%     \[\begin{prooftree}
+%           \hypo{\sequent{Γ}{Δ, bᵢ₁, …, b_{im₁}}{tᵢ}}\delims{\left(}{\right)_{i∈\{1,…,k\}}}
+%           \hypo{\op O : \arity{p}{m₁, …, mₖ}}
+%         \infer2{\sequent{Γ}{Δ, a₁, …, aₚ}{\op O{\p{a₁, …, aₚ; b₁₁…b_{1m₁}.t₁,…, bₖ₁…b_{kmₖ}.tₖ}}}}
+%     \end{prooftree}\]
+
+% \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% C*-algebras and unitary matrices
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{\(C^*\)-algebre}
+
+    \begin{definicija}
+        Množica \(A\) je \(C^*\)-algebra, če:
+        \begin{enumerate}[(a)]
+            \item je Banachova \(ℂ\)-algebra z enoto,
+            \item ima involucijo \((-)^*\),
+            \item za vsak \(a ∈ A\) velja \(\|a\|² = \|a^*a\|\).
+        \end{enumerate}
+    \end{definicija}
+
+    \begin{primer}
+        Množice \(\M[n] ≔ M_{n}(ℂ)\) so \(C^*\)-algebre.
+    \end{primer}
+    % Za nas so \(\M[n] ≔ M_{n}(ℂ)\) unitarne \(n×n\) matrike.
+
+    % \note[item]{Involucija je hermitsko transponiranje}
+
+    \begin{definicija}
+        Preslikava \(f : A → B\) je \(*\)-homomorfizem, če je linearna in ohranja množenje, enoto, ter involucijo.
+    \end{definicija}
+
+\end{frame}
+%%%%%
+% \begin{frame}
+%     \frametitle{Matrike}
+
+%     \begin{trditev}
+%         % Velja \(Mₙ(\M[p]) = \M[np]\) \note{\(Mₙ(X)\) predstavlja \(n\) prepletenih parov \(X\)}
+
+%         Vsaka linearna preslikava \(f : X → Y\) se naravno razširi do \(Mₙ(f) : Mₙ(X) → Mₙ(Y)\).
+
+%         Velja \(Mₙ(X⊕Y) ≅ Mₙ(X)⊕Mₙ(Y)\)
+%     \end{trditev}
+
+%     \pause
+%     \begin{trditev}
+%         Izraze algebrajske teorije interpretiramo z unitarnimi matrikami:
+%         Izraz \(\sequent{x₁ : m₁, …, xₖ : mₖ}{a₁, …, aₚ}{t}\) interpretiramo kot linearno preslikavo \(\sem{t} : \semmap{p}{m₁, …, mₖ}\).
+%     \end{trditev}
+
+% \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Our model
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{Osnovne operacije}
+
+    \begin{definicija}
+        Meritev in uporabo vrat interpretiramo z \(*\)-homomorfizmoma
+        \( \mor{measure} : \semmap{1}{0, 0} \) in \( \mor{apply}_{\g U} : \semmap{p}{p}\),
+        s predpisoma \[\smeasure{}{α}{β} = \p{\mat{α & 0 \\ 0 & β}}\qquad \sapply{U}{A} = U^*AU.\]
+    \end{definicija}
+
+    % \pause
+    % \vspace{-2em}
+    % \begin{gather*}
+    %     % \op{O}            : \arity{p}{m₁, …, mₖ}\\
+    %     % \op{new}          : \arity{0}{1}\qquad
+    %     \op{measure}      : \arity{1}{0, 0}\qquad
+    %     \op{apply}_{\g U} : \arity{p}{p}
+    % \end{gather*}
+
+
+\end{frame}
+%%%%%
+\begin{frame}[fragile]
+    \frametitle{Polnost}
+
+    \begin{izrek}[Polnost v posebnem]
+        \begin{enumerate}
+            \item Za vsak \(*\)-homomorfizem \(f : \semmap{p}{m₁,…,mₖ}\) obstaja izraz v algebrajski teoriji, ki ne vsebuje operacije \(\op{new}\), tako da je
+            \(\seq{t}\) in \(\sem{t} = f\).
+            % \(t : \arity{p}{m₁, …, mₖ}\) in \(\sem{t} = f\).
+            \item Če \(\absseq{t, u}\) ne vsebujeta \(\op{new}\) in \(\sem{t} = \sem{u}\) lahko izpeljemo \(\absseq{t = u}\).
+        \end{enumerate}
+    \end{izrek}
+
+\end{frame}
+%%%%%
+% \begin{frame}
+%     \frametitle{Dokaz}
+
+%     \begin{definicija}
+%         Množica Bratelijevih diagram za signaturo \(\arity{p}{m₁,…,mₖ}\) je množica \(k\)-teric \((sᵢ)ᵢ\), tako da velja \( ∑_{i=1}^k sₖmₖ = p \).
+%     \end{definicija}
+
+%     \pause
+%     \begin{izrek}
+%         \(*\)-homomorfizmi \(\M[k] → \M[n]\) so oblike \(A ↦ U^*D(A,…,A,0)U\) za neko unitarno matriko \(U\). \note[item]{\(k ≤ n\), \(n = mk + r\)}
+%     \end{izrek}
+
+%     \begin{izrek}
+%         \( μ : \brat{p}{m₁, …, mₖ} ↔ \semhom{p}{m₁, …, mₖ} : ρ \)
+%         obstajata in \(ρμ = \id\).
+%         \note[item]{\( μ(s₁,…,sₖ)(A₁,…,Aₖ) = D(A₁,…,A₁,A₂,…,Aₖ) \).}
+
+%         Enakost \(ρ(f) = ρ(g)\) velja natanko tedaj, ko obstaja unitarna matrika \(U\), tako da za vsak \(\underline{A}\) velja \(f(\underline A) = U^*g(\underline A)U\).
+%     \end{izrek}
+
+%     % \note[item]{Dokaz: znamo prehajat med \(\bf{Brat}\) in \(\cstarcat\), želimo iz \(T\) v \(\cstarcat\), gremo prek \(\bf{Brat}\), znamo v \(\bf{Brat}\), iz \(\bf{Brat}\) gremo z \(\op{measure}\)}
+
+%     % \note[item]{Tako dobimo točno, kar želimo (obliko \(\op{apply}(\op{measure}(…))\))}
+
+%     % \note[item]{Ostane pokazati, da je to surjekcija, sledi, ker lahko uporabimo aksiome, da preuredimo vsak izraz v tako obliko, te pa dobimo vse}
+
+% \end{frame}
+%%%%%%
+\begin{frame}
+    \frametitle{Dodeljevanje novih kubitov}
+
+    \begin{definicija}
+        Dodeljevanje novih kubitov interpretiramo kot linearno preslikavo
+        \(\mor{new} : \semmap{0}{1}\), s predpisom \[\snew{}{\mat{α₁₁ & α₁₂ \\ α₂₁ & α₂₂}} = α₁₁.\]
+    \end{definicija}
+
+    % \note{Dokaz, da ni \(*\)-homomorfizem:
+    % \(\bmat{0&1\\0&0}\bmat{0&0\\1&0} = \bmat{1&0\\0&0}\)}
+
+    \pause
+    \begin{definicija}
+        Element \(x\) \(C^*\)-algebre je pozitiven, če obstaja kak element \(y\), da je \(x = y^*y\).
+    \end{definicija}
+
+    \begin{definicija}
+        Preslikava \(f\) je popolnoma pozitivna, če za vsak \(k ∈ ℕ\) preslikava \(Mₖ(f)\) ohranja pozitivnost elementov.
+    \end{definicija}
+\end{frame}
+%%%%%
+\begin{frame}
+    \frametitle{Polnost 2: Electric boogaloo}
+
+    \begin{izrek}[Polnost v splošnem]
+        \begin{enumerate}
+            \item Za vsako linearno preslikavo \(f : \semmap{p}{m₁,…,mₖ}\), ki je popolnoma pozitivna in enotska, obstaja izraz v algebrajski teoriji, tako da je
+            % \(\sequent{x₁ : m₁, …, xₖ : mₖ}{a₁, …, aₚ}{t}\) in \(\sem{t} = f\).
+            \(t : \arity{p}{m₁, …, mₖ}\) in \(\sem{t} = f\).
+            \item Če \(\absseq{t, u}\) in \(\sem{t} = \sem{u}\) lahko izpeljemo \(\absseq{t=u}\).
+        \end{enumerate}
+    \end{izrek}
+
+\end{frame}
+%%%%%
+\begin{frame}[fragile]
+    \frametitle{Dokaz}
+
+    \begin{izrek}[Stinespringov izrek o dilaciji]
+        Naj bo \(f : \mc A → \M[p]\) popolnoma pozitivna in naj ohranja enoto. Tedaj obstaja \(q ≥ p\) in \(*\)-homomorfizem \(g : \mc A → \M[q]\), tako da je \(f(A) = g(A)|ₚ\).
+        \[\begin{tikzcd}
+            A \\
+            {\M[q]} & {\M[p]}
+            \arrow[from=2-1, to=2-2]
+            \arrow["g"', from=1-1, to=2-1]
+            \arrow["f", from=1-1, to=2-2]
+        \end{tikzcd}\]
+    \end{izrek}
+
+    % \pause
+    % \begin{izrek}[o minimalnosti dilacije]
+    %     Lahko izberemo minimalno dilacijo; če je \(r ≥ p\) in \( h : \mc A → \M[p] \) \(*\)-homomorfizem tak, da je \( h(-)|ₚ = f(-) \) je \(r ≥ q\) in \(g(-) = Uh(-)U^*|_q\).
+    % \end{izrek}
+
+\end{frame}
+%%%%%
+
+% \begin{frame}[fragile]
+%     \frametitle{Pretvorba v algebrajske izraze}
+
+%     \begin{primer}[Projekcija na Z os in naključna rotacija faze]
+%         \begin{enumerate}
+%             \item \(\tmeasure{a}{\tnew{b}{x(b)}}{\tnew{b}{\tapply{X}{b}{x(b)}}}\)
+%             \item \(\tnew{b}{\tapply{\had}{b}{\tmeasure{b}{x(a)}{\tapply{Z}{a}{x(a)}}}}\)
+%         \end{enumerate}
+%     \end{primer}
+%     \pause
+%     \begin{itemize}
+%         \item \(\new{a}{t} \coloneq \tnew{a}{t}\)
+%         \item \(\apply{U}{a}{t} \coloneq \tapply{U}{a}{t}\)
+%         \item \(\measure{a}{t}{u} \coloneq \tmeasure{a}{t}{u}\)
+%         \item \(\discard{a}{t} \coloneq \tdiscard{a}{t}\)
+%     \end{itemize}
+%     \pause
+%     \begin{primer}[Projekcija na Z os in naključna rotacija faze]
+%         \begin{enumerate}
+%             \item \(\measure{b}{\p{\new{a}{x(a)}}}{\p{\new{a}{\apply{X}{a}{x(a)}}}}\)
+%             \item \(\new{a}{\apply{\had}{a}{\measure{a}{x(b)}{\apply{Z}{b}{x(b)}}}}\)
+%         \end{enumerate}
+%     \end{primer}
+% \end{frame}
+%%%%%
+\begin{frame}
+    \frametitle{Aksiomi}
+
+    \begin{enumerate}[(A)]
+        \item Kvantna negacija pred meritvijo je negacija po meritvi.
+            \begin{mathpar}
+                %LTeX: enabled=false
+                \inferrule{}{\Qcircuit @C=1em @R=.7em {
+                        & \gate{\g X} & \meter & \cw
+                }}
+                \and=\and
+                \inferrule{}{\Qcircuit @C=1em @R=.7em {
+                    & \meter & \gate{\g X} & \cw
+                }}
+                %LTeX: enabled=true
+            \end{mathpar}
+        \item Kvantna kontrola je po meritvi kot klasična kontrola.
+            \begin{mathpar}
+                %LTeX: enabled=false
+                \inferrule{}{\Qcircuit @C=1em @R=.7em {
+                    & \meter & \cctrlo{1}  & \cctrl{1}   & \cw\\
+                    & \qw    & \gate{\g U} & \gate{\g V} & \qw
+                }}
+                \and=\and
+                \inferrule{}{\Qcircuit @C=1em @R=.7em {
+                    & \ctrlo{1}   & \ctrl{1}    & \meter & \cw\\
+                    & \gate{\g U} & \gate{\g V} & \qw    & \qw
+                }}
+                %LTeX: enabled=true
+            \end{mathpar}
+        \item Kvantna vrata uporabljena na zavrženih kubitih so odveč.
+        \item Novi kubiti so \( \ket{\mb0} \) glede na meritev.
+            \begin{mathpar}
+                %LTeX: enabled=false
+                \inferrule{}{\Qcircuit @C=1em @R=.7em {
+                    \lstick{\ket{\mb0}} & \meter & \cw
+                }}
+                \and=\and
+                \inferrule{}{\Qcircuit @C=1em @R=.7em {
+                    \lstick{0} & \cw & \cw & \cw
+                }}
+                %LTeX: enabled=true
+            \end{mathpar}
+        \item Novi kubiti so \( \ket{\mb0} \) glede na kontrolo.
+            \begin{mathpar}
+                %LTeX: enabled=false
+                \inferrule{}{\Qcircuit @C=1em @R=.7em {
+                    & \lstick{\ket{\mb0}} & \ctrlo{1}   & \ctrl{1}    & \qw\\
+                    & \qw                 & \gate{\g U} & \gate{\g V} & \qw
+                }}
+                \and=\and
+                \inferrule{}{\Qcircuit @C=1em @R=.7em {
+                    &             &     & \lstick{\ket{\mb0}} & \qw\\
+                    & \gate{\g U} & \qw & \qw                 & \qw
+                }}
+                %LTeX: enabled=true
+            \end{mathpar}
+        \item[(…)] Plus še sedem manj zanimivih akisomov.
+    \end{enumerate}
+
+    % \note{Lahko prestavim malo kasneje}
+    % \note[item]{Kvantna negacija in kontrola se obnašata kot klasični verziji.}
+    % \note[item]{\(\op{discard}\) dela kot pričakujemo.}
+    % \note[item]{Novi kubiti so vedno \(\ket0\) glede na meritev in kontrolo.}
+    % \note[item]{Sklopa sta
+    %     \begin{enumerate}
+    %         \item \(\op{apply}\) se razume z matrikami.
+    %         \item Stvari komutirajo, kolikor lahko, do vezave spremenljivk.
+    %     \end{enumerate}
+    % }
+
+\end{frame}
+%%%%%
+\frame{
+    \frametitle{Uporaba}
+
+    \begin{align*}
+        &\hspace{-3em}\measure{b}{\p{\new{a}{x(a)}}}{\p{\new{a}{\apply{X}{a}{x(a)}}}}&\\
+        =&\new{a}{\measure{b}{x(a)}{\apply{X}{a}{x(a)}}}&\text{komutativnost}\\
+        =&\new{a}{\apply{\ctl X}{b,a}{\measure{b}{x(a)}{x(a)}}}&{(2)}\\
+        =&\new{a}{\apply{\ctl X}{b,a}{\discard{b}{x(a)}}}&\\
+        =&\new{a}{\apply{\ctl X}{a,b}{\apply{\ctl X}{b,a}{\discard{a}{x(b)}}}}&\\
+        =&\new{a}{\apply{\ctl X}{b,a}{\discard{a}{x(b)}}}&{(5)}\\
+        =&\new{a}{\apply{\had}{a}{\apply{\ctl Z}{a,b}{\apply{\had}{a}{\discard{a}{x(b)}}}}}&\\
+        =&\new{a}{\apply{\had}{a}{\apply{\ctl Z}{a,b}{\discard{a}{x(b)}}}}&{(3)}\\
+        =&\new{a}{\apply{\had}{a}{\measure{a}{x(b)}{\apply{Z}{b}{x(b)}}}}&{(2)}
+    \end{align*}
+}
+%%%%%
+
+\end{document}
