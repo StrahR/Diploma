@@ -1,9 +1,9 @@
 \section{Razširitve}
-Prednost uporabe algebrajskih teorij kot modele računanja je razširljivost;
+Prednost uporabe algebrajskih teorij kot modelov računanja je razširljivost;
 naš jezik lahko zelo preprosto razširimo in dokaz polnosti za razširitev bo ponavadi zgolj metoda, kako razširitev prevesti na osnovni model.
 
-Za primer si poglejte prejšnji razdelek, kjer lahko dodeljevanje novih kubitov smatramo kot razširitev.
-Dokaz res poteka kot opisano: vsak morfizem faktoriziramo na \(*\)-homomorfizem in nek morfizem posebne oblike, ki ga lahko obravnavamo posebej.
+Za primer si poglejmo prejšnji razdelek, kjer lahko dodeljevanje novih kubitov smatramo kot razširitev.
+Dokaz res poteka, kot je opisano: vsak morfizem faktoriziramo na \(*\)-homomorfizem in nek morfizem posebne oblike, ki ga lahko obravnavamo posebej.
 
 Brez dokazov navedimo še nekaj razširitev:
 
@@ -42,27 +42,27 @@ Isto teorijo je mogoče uporabiti tudi za modeliranje rekurzije~\cite{selinger-q
 Algebrajski teoriji dodajmo operacijo \(⦶ : \arity{0}{0,0}\), za katero veljajo enačbe
 \[(x⦶y)⦶z = x⦶(y⦶z) \qquad x⦶y = y⦶x \qquad \op{undef}⦶x = x.\]
 
-Naj še komutira z ostalimi operacijami (\(\op{new}\), \(\op{apply}\), in \(\op{measure}\)).
+Naj komutira še z ostalimi operacijami (\(\op{new}\), \(\op{apply}\), in \(\op{measure}\)).
 
-Operacija \(⦶\) je zelo podobna nedeterminizmu, razen, da ne zahteva idempotence \(x⦶x = x\).
+Operacija \(⦶\) je zelo podobna nedeterminizmu, le da ne zahteva idempotence \(x⦶x = x\).
 Izkaže se, da ne obstaja nobena komutativna algebrajska teorija, ki kvantnemu računalništvu doda nedeterminizem.~\cite[razdelek 6.1]{algeff-lin-qpl}
 
 Interpretacijski morfizem \(⦶ : \semmap{0}{0,0}\) naj bo \(⦶(α,β) = α + β\) (posplošen kot ponavadi).
 Ta morfizem je popolnoma pozitiven, ampak ne ohranja enote.
 
 \begin{proposition}
-    V kategoriji \(C^*\)-algeber in popolnoma pozitivnih preslikav, tvorijo kompleksna števila univerzalno poln model kvantnega računalništva, razširjenega z \(\op{undef}\) in \(⦶\).
+    V kategoriji \(C^*\)-algeber in popolnoma pozitivnih preslikav tvorijo kompleksna števila univerzalno poln model kvantnega računalništva, razširjenega z \(\op{undef}\) in \(⦶\).
 \end{proposition}
 
 \begin{proof}[Skica dokaza.]
     Definiramo operacijo enostranske meritve \(\op{m}₀(a;x) : \arity{1}{0}\) s predpisom \(\op{m}₀(a;x) ≔ \tmeasure{a}{x}{\op{undef}}\).
-    Potem je \[ \tmeasure{a}{x}{y} = \op{m}₀(a;x)⦶\sapply{a}{\op{m}₀(a;y)}, \]
-    torej bo interpretacijski morfizem vsota takih operatorjev, kot zahteva Choiev izrek, tako da je popolnoma pozitiven.
+    Potem je \[ \tmeasure{a}{x}{y} = \op{m}₀(a;x)⦶\tapply{X}{a}{\op{m}₀(a;y)} \]
+    in bo interpretacijski morfizem vsota pozitivnih operatorjev, tako da bo tudi sam pozitiven.
 \end{proof}
 
 \subsection{Klasično računalništvo}
 Naša definicija vrat se ne zanaša preveč na njihovo strukturo, torej jih lahko zamenjamo s kakšno drugo skupino matrik.
-Če vzamemo za matrike zgolj unitarne matrike z vrednostmi v \(\{0,1\}\) in dodamo nov aksiom \(x(a) = \tmeasure{a}{\snew⁰{a.\,x(a)}}{\snew¹{a.\,x(a)}}\) (kolaps)
+Če vzamemo za matrike zgolj unitarne matrike z vrednostmi v \(\{0,1\}\) in dodamo nov aksiom \(x(a) = \tmeasure{a}{\snew⁰{a.\,x(a)}}{\snew¹{a.\,x(a)}}\) (kolaps),
 dobimo model klasičnega računalništva:
 
 \begin{proposition}
@@ -82,8 +82,8 @@ Omenimo še, da je ta aksiom nekonsistenten s kvantnim računalništvom:
             \new{a}{\apply{\had}{a}{\apply{X}{A}{\measure{a}{y}{x}}}}
         }}}\\
       &= \new{a}{\measure{a}{y}{x}}\\
-      &= y \contradiction
+      &= y
 \end{align*}
 \begin{remark}
-    Zgornji rezultat pokaže, da je ta aksiom nekonsistenten z \emph{vsemi} konsistentnimi modeli kvantnega računalništva, ne le našim, saj protislovje sledi neposredno iz aksiomov.
+    Zgornji rezultat pokaže, da je ta aksiom nekonsistenten z \emph{vsemi} modeli kvantnega računalništva (razen s trivialnim modelom, kjer so vsi izrazi enaki), ne le z našim, saj protislovje sledi neposredno iz aksiomov.
 \end{remark}

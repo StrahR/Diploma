@@ -1,9 +1,9 @@
 \section{Aksiomi kvantnega računalništva}
-Definirajmo sedaj nek preprost jezik za opis kvantnega računalništva.
-Kasneje lahko iz tega jezik razvijemo dejanski programski jezik, opremljen z ostalimi konstrukti, ki smo jih navajeni, kot so naravna števila, vsote, tipi, ipd., ampak je za teoretično obravnavo bolj praktično delati s čim preprostejšim jezikom.
+Definirajmo zdaj nek preprost jezik za opis kvantnega računalništva.
+Kasneje lahko iz tega jezika razvijemo dejanski programski jezik, opremljen z ostalimi konstrukti, ki smo jih vajeni, kot so naravna števila, vsote, tipi, ipd. Za teoretično obravnavo je bolj praktično uporabljati čim preprostejši jezik.
 
 \subsection{Sintaksa}
-Poznamo sledeče sintaktične elemente:
+Poznamo naslednje sintaktične elemente:
 %LTeX: enabled=false
 \begin{table}[H]
 \vspace{-1em}
@@ -25,7 +25,7 @@ Naj bo \(x\) poljuben program na \(p\) kubitih (pišemo \(x : p\)), \(a₁,…,a
 Potem je \(x{\p{a₁,…,aₚ}}\) izraz, ki nadaljuje izvajanje v \(x\) s kubiti \(a₁,…,aₚ\).
 
 \subsubsection*{Inicializacija kubita}
-Izraz \(\new{a}{t}\) interpretiramo, kot da najprej kubit \(a\) nastavimo na \(\ket{\mb0}\) in nato izvedemo \(t\). Spremenljivka \(a\) je v izrazu \(t\) prosta, v izrazu \(\new{a}{t}\) pa vezana.
+Izraz \(\new{a}{t}\) interpretiramo, kot da kubit \(a\) najprej nastavimo na \(\ket{\mb0}\) in nato izvedemo \(t\). Spremenljivka \(a\) je v izrazu \(t\) prosta, v izrazu \(\new{a}{t}\) pa vezana.
 % \(\new{a}{}\) se obnaša podobno kot \(∀a.\), \(∃a.\), ali \(λa.\);
 % karkoli je po piki (do zaklepaja ali enačaja) vzame kot del izraza \(t\).
 % Izraz \(t\) je lahko poljuben izraz s prostim kubitom \(a\), \(\new{a}{t}\) pa interpretiramo, kot da najprej kubit \(a\) nastavimo na \(\ket{\mb0}\) in nato izvedemo \(t\).
@@ -35,7 +35,7 @@ V zapisu \(\apply{U}{\oldvec{a}}{t}\) je \(\oldvec{a}\) nek vektor kubitov, ki g
 Izraz \(\apply{U}{\oldvec a}{t}\) predstavlja uporabo vrat \(U\) na kubitih \(\oldvec a\), ki jim sledi nadaljevanje \(t\).
 
 \subsubsection*{Meritev}
-Izraz \(\measure{a}{t₀}{t₁}\) izmeri kubit \(a\), in nato glede na rezultat nadaljuje z izvajanjem bodisi \(t₀\) bodisi \(t₁\), glede na rezultat meritve. To bo uničilo kubit, torej ga v nadaljevanju ne smemo uporabiti.
+Izraz \(\measure{a}{t₀}{t₁}\) izmeri kubit \(a\), in nato glede na rezultat nadaljujemo z izvajanjem bodisi \(t₀\) bodisi \(t₁\), odvisno od rezultata meritve. To bo uničilo kubit, torej ga v nadaljevanju ne smemo uporabiti.
 Če je kubit del prepletenega stanja, moramo to meritev interpretirati ustrezno z definicijo meritve vektorja na primernem mestu.
 
 % \subsubsection*{Uničenje}
@@ -63,7 +63,7 @@ Naj \(t\) in \(u\) predstavljata poljubna izraza v jeziku, \(x\) pa naj bo nadal
 \end{example*}
 
 \begin{example*}\label{ex:4}
-    Kljub temu, da velja izrek o neizbrisu, lahko vseeno definiramo operacijo \(\op{disc}\):
+    Čeprav velja izrek o neizbrisu, lahko vseeno definiramo operacijo \(\op{disc}\):
     \[ \discard{a}{t} ≔ \measure{a}{t}{t}, \]
     ki kubit uniči tako, da ga izmeri in nato pozabi rezultat meritve.
 \end{example*}
@@ -92,21 +92,20 @@ Upoštevati moramo recimo, da lahko kubite uporabimo zgolj enkrat, kot smo videl
 
 Kot \emph{linearnost} razumemo pogoj, da se vsako hipotezo (rečemo tudi parameter, argument, predpostavko, surovino, …) uporabi natanko enkrat.
 Linearna logika nam torej formalizira razne procese, kjer iz ene stvari \airquotes{naredimo} drugo, in s tem prvo stvar \airquotes{porabimo}.
-Na linearno logiko lahko tudi gledamo kot semantiko \airquotes{iger} ali \airquotes{interakcij}.
-Še bolj pomembno pa je, da na linearno logiko lahko gledamo kot \airquotes{pravo} obliko kvantne logike~\cite{nlab:linear_logic-ql},
-ki nam pa dopušča tudi bistveno večjo splošnost.
+Na linearno logiko lahko gledamo tudi kot na semantiko \airquotes{iger} ali \airquotes{interakcij}.
+Še pomembneje pa je, da na linearno logiko lahko gledamo kot na \airquotes{pravo} obliko kvantne logike~\cite{nlab:linear_logic-ql}, ki nam pa dopušča tudi bistveno večjo splošnost.
 Že iz imena lahko sklepamo, da se kvantna logika uporablja namesto klasične logike prav tako, kot se kvantna fizika uporablja namesto klasične fizike~\cite{nlab:quantum_logic}.
 
-Vemo, da lahko kubite uporabimo največ enkrat, neuporabljene kubite pa lahko na koncu preprosto izmerimo kot v~\ref{ex:4}, torej lahko rečemo, da kubite uporabimo natanko enkrat.
+Vemo, da kubite lahko uporabimo največ enkrat, neuporabljene kubite pa lahko na koncu preprosto izmerimo kot v~\ref{ex:4}, torej lahko rečemo, da kubite uporabimo natanko enkrat.
 To je natanko pogoj linearnosti.
 Uporaba vrat je res linearna, saj deluje na vseh vhodnih kubitih, do njihove stare vrednosti pa ne moremo več dostopati.
 Prav tako je tudi meritev linearna, saj porabi en kubit, ki ga nato ne moremo več uporabljati.
-Ker sta to edina načina s katerimi lahko vplivamo na stanja (obstoječih) kubitov, bodo tudi vse funkcije na kubitih linearne.
+Ker sta to edina načina, s katerima lahko vplivamo na stanja (obstoječih) kubitov, bodo tudi vse funkcije na kubitih linearne.
 % Če torej iz linearne logike izpeljemo t.i. linearno teorijo tipov, se pogoj linearnosti naravno pretvori v pogoj, da moramo vsak argument funkciji uporabiti natanko enkrat, kar je natanko to, kar za funkcije na kubitih v fiziki res velja.
 % Ker pogoj linearnosti ne velja za klasične bite (te lahko kopiramo, kolikor hočemo) bomo rekli, da so naše funkcije linearne le na \airquotes{kvantnih tipih}.
 
 Podrobnejšo definicijo linearne logike si lahko ogledate v~\cite{girard-linear-logic-1987,girard-linear-logic-1995, nlab:linear_logic}.
-Omenimo zgolj, da je del linearne logike, ki ga potrebujemo imenovan multiplikativna intuitionistična linearna logika, ki pa vsebuje zgolj simbole \(⊗\), \(\mb1\), in \(⊸\).
+Omenimo zgolj to, da je del linearne logike, ki ga potrebujemo, imenovan multiplikativna intuicionistična linearna logika, ki pa vsebuje zgolj simbole \(⊗\), \(\mb1\), in \(⊸\).
 
 % \subsubsection{Sistem tipov}
 % Naš sistem tipov zgradimo iz dela linearne logike imenovanega multiplikativna intuitionistična linearna logika.
@@ -174,13 +173,13 @@ Pravila za določitev veljavnosti izrazov našega jezika so torej takšna:
 \end{table}
 %LTeX: enabled=true
 
-Linearnost programov nam zagotavljata dve stvari. Prva je, da pri uporabi vrat kubite, na katerih vrata uporabimo zamenjamo z novimi. V pravilu so kubiti \(\oldvec a\) spodaj tisti \emph{pred} uporabo vrat, zgoraj so pa \emph{po} uporabi vrat, tako da ne pride do nobenega podvajanja.
-Poleg tega v pravilu meritve kubitov izmerjenega kubita ne moremo uporabiti v podizrazih \(tᵢ\).
-Pri dodeljevanju novih kubitov pa moramo zgolj paziti, da kubita \(a\) ni že v \(Δ\) (na kar moramo paziti tudi pri ostalih pravilih).
+Linearnost programov nam zagotavljata dve stvari. Prva je, da pri uporabi vrat kubite, na katerih vrata uporabimo, zamenjamo z novimi. V pravilu so kubiti \(\oldvec a\) spodaj tisti \emph{pred} uporabo vrat, zgoraj pa so \emph{po} uporabi vrat, tako da ne pride do nobenega podvajanja.
+Poleg tega po pravilu meritve kubitov izmerjenega kubita ne moremo uporabiti v podizrazih \(tᵢ\).
+Pri dodeljevanju novih kubitov pa moramo zgolj paziti, da kubita \(a\) ni že v \(Δ\) (na kar moramo paziti tudi pri drugih pravilih).
 
-Druga stvar, ki nam zagotavlja linearnost so pa operacije same. Uporaba vrat do kubitov dostopa zgolj enkrat, ko uporabi vrata na njih. Prav tako meritev dostopa do merjenega kubita zgolj enkrat, ostalih kubitov se pa ne dotakne, dodeljevanje kubitov pa sploh ne uporabi nobenega kubita. Tako so tudi operacije \emph{same} linearne, torej lahko res rečemo, da je naš jezik linearen.
+Druga stvar, ki nam zagotavlja linearnost, pa so operacije same. Uporaba vrat do kubitov dostopa zgolj enkrat, ko uporabi vrata na njih. Prav tako meritev dostopa do merjenega kubita zgolj enkrat, drugih kubitov pa se ne dotakne, dodeljevanje kubitov pa sploh ne uporabi nobenega kubita. Tako so tudi operacije \emph{same} linearne, torej res lahko rečemo, da je naš jezik linearen.
 
-Naš jezik podpira poleg kubitov tudi računske spremenljivke, za katere pa ne zahtevamo linearnosti, saj so zgolj sintaktični element, ki nam predstavlja nek neznan program, za katerega lahko zamenjamo poljuben izraz v jeziku.
+Naš jezik podpira poleg kubitov tudi računske spremenljivke, za katere pa ne zahtevamo linearnosti, saj so zgolj sintaktični element. Te nam predstavljajo neke neznane programe in jih lahko zamenjamo s poljubnim izrazom v jeziku.
 
 \begin{example}
     Izpeljimo veljavnost izraza iz primera~\ref{ex:1}.
@@ -196,65 +195,72 @@ Naš jezik podpira poleg kubitov tudi računske spremenljivke, za katere pa ne z
 \end{example}
 
 \subsection{Aksiomi}
-%TODO: intro
-% matija: Tu bi dodal še malo uvoda, torej. Kvantno računalništvo bomo opisali z enačbami med dvema izrazoma, ki sta veljavna v istem kontekstu. Mogoče ne bi bilo slabo aksiomov opremiti s kontekstom, da se ga malo navadimo.
-Izkaže se, da je nabor aksiomov, ki jih potrebujemo za polno karakterizacijo kvantnih programov relativno majhen: potrebujemo jih zgolj \(12\) in kot bomo videli nismo žrtvovali preprostosti, da smo prišli do te številke.
+Kvantno računalništvo bomo opisali z enačbami med ekvivalentnimi programi, ki jih bomo dobili iz osnovnih aksiomov.
+Izkaže se, da je nabor aksiomov, ki jih potrebujemo za polno karakterizacijo kvantnih programov, relativno majhen: potrebujemo jih zgolj \(12\), in kot bomo videli, nismo žrtvovali preprostosti, da smo prišli do te številke.
 
 Aksiome za enakost programov~\cite{algeff-lin-qpl} lahko delimo na dva dela: prvih pet je glavnih, ostalih sedem pa bolj \airquotes{administrativnih} oziroma pomožnih.
-Slednji nam povejo zgolj, da se uporaba vrat strinja s strukturo unitarnih matrik,
-ter da operacije komutirajo, kolikor vezava spremenljivk (in vrstni red uporabe matrik) dopušča.
+Slednji nam povejo zgolj, da se uporaba vrat strinja s strukturo unitarnih matrik
+in da operacije komutirajo, če vezava spremenljivk (in vrstni red uporabe matrik) to dopušča.
 
 \begin{axiom}{Kvantna negacija pred meritvijo je negacija po meritvi:}\label{ax:A}
-    \( \apply{X}{a}{\measure{a}{x}{y}} = \measure{a}{y}{x} \).
+    \( \sequent{x:0,y:0}{a}{\apply{X}{a}{\measure{a}{x}{y}} = \measure{a}{y}{x}} \).
 \end{axiom}
 
 \begin{axiom}{Kvantna kontrola je po meritvi kot klasična kontrola:}\label{ax:B}
-    \( \applyd{U, V}{a,b}{\measure{a}{x(b)}{y(b)}}
-       = \measurebr{a}{\apply{U}{b}{x(b)}}{\apply{V}{b}{y(b)}} \).
+    \( \sequent{x:1,y:1}{a,b}{
+            \applyd{U, V}{a,b}{\measure{a}{x(b)}{y(b)}}
+            = \measurebr{a}{\apply{U}{b}{x(b)}}{\apply{V}{b}{y(b)}}} \).
 \end{axiom}
 
 \begin{axiom}{Kvantna vrata uporabljena na zavrženih kubitih so odveč:}\label{ax:C}
-    \( \apply{U}{a}{\discard{a}{t}} = \discard{a}{t} \).
+    \( \sequent{x:0}{\oldvec a}{\apply{U}{\oldvec a}{\discard{\oldvec a}{x}} = \discard{\oldvec a}{x}} \), kjer \(\discard{\oldvec a}{x}\) predstavlja zaporedno zavržene kubite iz \(\oldvec a\).
 \end{axiom}
 
 \begin{axiom}{Novi kubiti so \( \ket{\mb0} \) glede na meritev:}\label{ax:D}
-    \( \new{a}{\measure{a}{x}{y}} = x \).
+    \( \sequent{x:0,y:0}{-}{\new{a}{\measure{a}{x}{y}} = x} \).
 \end{axiom}
 
 \begin{axiom}{Novi kubiti so \( \ket{\mb0} \) glede na kontrolo:}\label{ax:E}
-    \( \new{a}{\applyd{U,V}{a,b}{x{\p{a,b}}}} = \apply{U}{b}{\new{a}{x{\p{a,b}}}} \).
+    \( \sequent{x:2}{b}{
+            \new{a}{\applyd{U,V}{a,b}{x{\p{a,b}}}}
+            = \apply{U}{b}{\new{a}{x{\p{a,b}}}}} \).
 \end{axiom}
 
 \begin{axiom}{Spoštovanje simetrične grupe \( \U[n] \):}\label{ax:F}
-    \( \apply{swap}{a,b}{x{\p{a,b}}} = x{\p{b,a}} \),
+    \( \sequent{x:2}{a,b}{\apply{swap}{a,b}{x{\p{a,b}}} = x{\p{b,a}}} \),
 \end{axiom}
 
 \begin{axiom}{}\label{ax:G}
-    \( \apply{I}{a}{x{\p a}} = x{\p a} \),
+    \( \sequent{x:1}{a}{\apply{I}{a}{x{\p a}} = x{\p a}} \),
 \end{axiom}
 
 \begin{axiom}{}\label{ax:H}
-    \( \apply{UV}{a}{x{\p a}} = \apply{V}{a}{\apply{U}{a}{x{\p a}}} \),
+    \( \sequent{x:1}{a}{\apply{UV}{a}{x{\p a}} = \apply{V}{a}{\apply{U}{a}{x{\p a}}}} \),
 \end{axiom}
 
 \begin{axiom}{}\label{ax:I}
-    \( \apply{(U⊗V)}{a,b}{x{\p{a,b}}} = \apply{U}{a}{\apply{V}{b}{x{\p{a,b}}}} \).
+    \( \sequent{x:2}{a,b}{
+            \apply{(U⊗V)}{a,b}{x{\p{a,b}}}
+            = \apply{U}{a}{\apply{V}{b}{x{\p{a,b}}}}} \).
 \end{axiom}
 
 \begin{axiom}{Komutativnost:}\label{ax:J}
-    \( \measurebr{a}{\measure{b}{u}{v}}{\measure{b}{x}{y}}
-       = \measurebr{b}{\measure{a}{u}{x}}{\measure{a}{v}{y}} \),
+    \( \sequent{x:0,y:0,u:0,v:0}{a,b}{
+            \measurebr{a}{\measure{b}{u}{v}}{\measure{b}{x}{y}}
+            = \measurebr{b}{\measure{a}{u}{x}}{\measure{a}{v}{y}}} \),
 \end{axiom}
 
 \begin{axiom}{}\label{ax:K}
-    \( \new{a}{\new{b}{x{\p{a,b}}}} = \new{b}{\new{a}{x{\p{a,b}}}} \),
+    \( \sequent{x:2}{-}{\new{a}{\new{b}{x{\p{a,b}}}} = \new{b}{\new{a}{x{\p{a,b}}}}} \),
 \end{axiom}
 
 \begin{axiom}{}\label{ax:L}
-    \( \new{a}{\measure{b}{x{\p a}}{y{\p a}}} = \measurebr{b}{\new{a}{x{\p a}}}{\new{a}{y{\p a}}} \).
+    \( \sequent{x:1,y:1}{b}{
+            \new{a}{\measure{b}{x{\p a}}{y{\p a}}}
+            = \measurebr{b}{\new{a}{x{\p a}}}{\new{a}{y{\p a}}}} \).
 \end{axiom}
 
-Uporabimo sedaj zgornje aksiome, da dokažemo, da sta primera \ref{ex:5} in \ref{ex:6} dejansko enaka.
+Uporabimo zdaj zgornje aksiome, da dokažemo, da sta primera \ref{ex:5} in \ref{ex:6} dejansko enaka.
 V dokazu bomo poleg aksiomov uporabili še dve enakosti matrik, \(\ctl{X}⋅\swap⋅\ctl{X} \stackrel{(*)}{=} \swap⋅\ctl{X}⋅\swap\) in \(\swap⋅\ctl{X}⋅\swap \stackrel{(†)}{=} (\had⊗I)⋅\ctl{Z}⋅(\had⊗I)\).
 
 \begin{align*}

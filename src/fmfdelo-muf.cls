@@ -245,5 +245,5 @@ Ljubljana, \@letnica}
 {\bf Ključne besede:} \@kljucnebesede \\[1mm]
 {\bf Keywords:} \@keywords
 \pagebreak
-\setcounter{page}{1}
+\setcounter{page}{0}
 }
